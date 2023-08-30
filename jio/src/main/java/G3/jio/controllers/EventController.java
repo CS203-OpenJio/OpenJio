@@ -44,11 +44,12 @@ public class EventController {
 
         // Need to handle "event not found" error using proper HTTP status code
         // In this case it should be HTTP 404
-        if (event == null)
+        if (event == null) {
             throw new EventNotFoundException(id);
+        }
+
         // return null;
         return eventService.getEvent(id);
-
     }
 
     /**
@@ -73,10 +74,11 @@ public class EventController {
      */
     @PutMapping("/api/v1/events/{id}")
     public Event updateEvent(@PathVariable Long id, @RequestBody Event newEventInfo) {
+
         Event event = eventService.updateEvent(id, newEventInfo);
-        if (event == null)
+        if (event == null) {
             throw new EventNotFoundException(id);
-        return null;
+        }
 
         return event;
     }

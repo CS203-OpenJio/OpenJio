@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.entities.User;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.UserService;
 
 @RestController
@@ -33,6 +34,12 @@ public class UserController {
 
     @GetMapping("/api/v1/users/{userId}")
     public User getUser(@PathVariable Long userId) {
+
+        // throw exception if user now found
+        if (userService.getUser(userId) == null) {
+            throw new UserNotFoundException(userId);
+        }
+
         return userService.getUser(userId);
     }
 
@@ -47,7 +54,7 @@ public class UserController {
 
         // throw exception if user now found
         if (userService.getUser(userId) == null) {
-            return null;
+            throw new UserNotFoundException(userId);
         }
 
         return userService.updateUser(userId, newUser);
