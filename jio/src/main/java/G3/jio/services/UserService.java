@@ -32,4 +32,9 @@ public class UserService implements G3.jio.services.Service{
 
         return null;
     }
+
+    public User addUser(User user) {
+        users.add(user);
+        return user;
+    }
 }
