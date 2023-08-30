@@ -48,6 +48,7 @@ Content-Type: application/json
 }
 
 ###
+
 // post a new event
 POST http://localhost:8080/api/v1/events
 Content-Type: application/json
@@ -62,6 +63,3 @@ Content-Type: application/json
     "eventType":"Workshop",
     "venue":"venue"
 }
-
-
-
