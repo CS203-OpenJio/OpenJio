@@ -37,4 +37,22 @@ public class UserService implements G3.jio.services.Service{
         users.add(user);
         return user;
     }
+
+    public User updateUser(Long userId, User newUser) {
+
+        // find user
+        for (User user : users) {
+            if (user.getUserId() == userId) {
+                user.setDob(newUser.getDob());
+                user.setEmail(newUser.getEmail());
+                user.setName(newUser.getName());
+                user.setPassword(newUser.getPassword());
+                user.setPhone(newUser.getPhone());
+
+                return user;
+            }
+        }
+
+        return null;
+    }
 }
