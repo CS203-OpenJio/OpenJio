@@ -24,7 +24,7 @@ public class Events {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int eventID;
 
-    @Column(name = "Event name")
+    @Column(name = "eventName")
     private String event_name;
 
     @Column(name = "startDate")
@@ -42,7 +42,7 @@ public class Events {
     @Column(name = "isRegistered")
     private boolean isRegistered;
 
-    @Column(name = "algo type")
+    @Column(name = "algoType")
     private int algo;
 
     @Column(name = "description")
