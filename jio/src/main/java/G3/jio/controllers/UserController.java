@@ -1,5 +1,5 @@
 package G3.jio.controllers;
 
-public class AccountController {
+public class UserController {
     
 }

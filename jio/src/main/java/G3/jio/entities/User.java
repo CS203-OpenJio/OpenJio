@@ -1,8 +1,8 @@
 package G3.jio.entities;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Locale.Category;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -52,5 +52,5 @@ public class User {
     private LocalDate dob;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Category> interests;
+    private Set<Category> interests;
 }

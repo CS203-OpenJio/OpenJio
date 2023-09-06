@@ -18,11 +18,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "events")
-
 public class Events {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO);
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int eventID;
 
     @Column(name = "Event name")
@@ -51,7 +50,6 @@ public class Events {
 
     @Column(name = "isVisible")
     private boolean isVisible;
-
 
     private List<User> listOfusers;
 

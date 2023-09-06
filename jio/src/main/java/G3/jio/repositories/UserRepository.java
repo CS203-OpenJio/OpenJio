@@ -1,5 +1,11 @@
 package G3.jio.repositories;
 
-public class UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import G3.jio.entities.User;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
     
 }
