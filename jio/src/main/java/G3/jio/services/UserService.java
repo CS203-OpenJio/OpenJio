@@ -3,7 +3,7 @@ package G3.jio.services;
 import java.util.List;
 
 import G3.jio.entities.User;
-import G3.jio.exceptions.NotExistException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.UserRepository;
 
 public class UserService implements Service {
@@ -15,7 +15,7 @@ public class UserService implements Service {
     }
 
     // list all users
-    public List<User> listUsers() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
@@ -27,7 +27,7 @@ public class UserService implements Service {
     }
 
     // get by name
-    public List<User> getUserByName(String name) {
+    public List<User> getUsersByName(String name) {
         return userRepository.findAllByName();
     }
 
@@ -50,7 +50,7 @@ public class UserService implements Service {
     // delete by id
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new NotExistException("User");
+            throw new UserNotFoundException();
         }
         userRepository.deleteById(id);
     }
