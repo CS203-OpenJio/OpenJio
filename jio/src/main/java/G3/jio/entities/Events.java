@@ -22,7 +22,7 @@ public class Events {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int eventID;
+    private Long id;
 
     @Column(name = "eventName")
     private String event_name;
