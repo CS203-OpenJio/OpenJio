@@ -1,5 +1,6 @@
 package G3.jio.entities;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "userInterests")
-public class UserInterest {
+@Table(name = "eventType")
+public class EventType {
     @Id
     @Column(name = "category")
     private Category category;
 
     @Id
-    @Column(name = "userID")
-    private Long userId;
+    @Column(name = "eventID")
+    private int eventID;
 }

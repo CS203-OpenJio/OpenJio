@@ -1,24 +1,35 @@
 package G3.jio.entities;
 
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "userInterests")
-public class UserInterest {
+@Data
+@Entity
+@Table(name = "registerEvent")
+public class RegisterEvent {
+
     @Id
-    @Column(name = "category")
-    private Category category;
+    @Column(name = "eventID")
+    private int eventID;
 
     @Id
     @Column(name = "userID")
-    private Long userId;
+    private int userID;
+
+    @Column(name = "isDeregistered")
+    private boolean isDeregistered;
+
+
+    @Column(name = "isSuccessful")
+    private boolean isSuccessful;
 }
