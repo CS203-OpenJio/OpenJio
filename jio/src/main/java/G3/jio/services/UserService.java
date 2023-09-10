@@ -2,8 +2,6 @@ package G3.jio.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import G3.jio.entities.User;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.UserRepository;
