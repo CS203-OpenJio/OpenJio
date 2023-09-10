@@ -46,8 +46,9 @@ public class UserController {
         return userService.findAllUsers();
     }
 
+    // not working
     // get all users with name
-    @GetMapping(path = "/{name}")
+    @GetMapping(path = "/name={name}")
     public List<User> getUsersByName(String name) {
         return userService.getUsersByName(name);
     }
