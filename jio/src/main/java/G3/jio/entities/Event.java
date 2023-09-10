@@ -1,4 +1,5 @@
 package G3.jio.entities;
+
 import java.util.List;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "events")
-public class Events {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +35,7 @@ public class Events {
     private LocalDate endDate;
 
     @Column(name = "venue")
-    private String venue ;
+    private String venue;
 
     @Column(name = "capacity")
     private int capacity;

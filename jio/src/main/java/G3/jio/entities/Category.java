@@ -8,14 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
 @Table(name = "category")
 public class Category {
 
     @Id
-    @Column(name ="categoryName")
+    @Column(name = "categoryName")
     private String name;
 }

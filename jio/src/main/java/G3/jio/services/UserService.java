@@ -2,12 +2,14 @@ package G3.jio.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import G3.jio.entities.User;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.UserRepository;
 
 public class UserService implements Service {
-    
+
     private UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -28,7 +30,7 @@ public class UserService implements Service {
 
     // get by name
     public List<User> getUsersByName(String name) {
-        return userRepository.findAllByName();
+        return userRepository.findAllByName(name);
     }
 
     // save a user
@@ -38,7 +40,7 @@ public class UserService implements Service {
 
     // update user
     // not sure what we need to update yet
-    public User updateUser(Long id, User newUserInfo){
+    public User updateUser(Long id, User newUserInfo) {
         return userRepository.findById(id).map(user -> {
             // user.setAccType(newUserInfo.getAccType());
             // user.setDob(newUserInfo.getDob());
@@ -55,4 +57,3 @@ public class UserService implements Service {
         userRepository.deleteById(id);
     }
 }
-

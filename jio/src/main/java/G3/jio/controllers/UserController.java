@@ -2,6 +2,7 @@ package G3.jio.controllers;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,7 +55,7 @@ public class UserController {
     // add a user
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public User addUser(@RequestBody User user){
+    public User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
