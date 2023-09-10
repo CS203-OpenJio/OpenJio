@@ -53,7 +53,7 @@ public class EventController {
     }
 
     @PutMapping(path = "{id}")
-    public Event updateevent(@PathVariable Long id, @RequestBody Event newEventInfo) {
+    public Event updateEvent(@PathVariable Long id, @RequestBody Event newEventInfo) {
         Event event = eventService.updateEvent(id, newEventInfo);
         if (event == null)
             throw new EventNotFoundException(id);

@@ -33,18 +33,19 @@ GET http://localhost:8080/api/v1/events/1
 ###
 
 // update event
-PUT http://localhost:8080/api/v1/events/1
+PUT http://localhost:8080/api/v1/events/2
 Content-Type: application/json
 
 {
-    "eventId":2,
     "name":"CS201",
     "startDate":"2001-02-04",
     "endDate":"2001-08-10",
     "description":"Data Structures and Algorithm",
     "capacity":45,
     "eventType":"Workshop",
-    "venue":"venue"
+    "venue":"venue",
+    "registered": false,
+    "visible": false
 }
 
 ###
@@ -54,12 +55,13 @@ POST http://localhost:8080/api/v1/events
 Content-Type: application/json
 
 {
-    "eventId":3,
     "name":"CS203",
     "startDate":"2001-02-04",
     "endDate":"2001-08-04",
     "description":"Collaborative Software Programming",
     "capacity":45,
     "eventType":"Workshop",
-    "venue":"venue"
+    "venue":"venue",
+    "registered": false,
+    "visible": false
 }

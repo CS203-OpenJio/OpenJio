@@ -1,8 +1,10 @@
 package G3.jio.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
 import G3.jio.entities.Event;
 import G3.jio.exceptions.EventNotFoundException;
@@ -42,10 +44,24 @@ public class EventService {
     // update user
     // not sure what we need to update yet
     public Event updateEvent(Long id, Event newEventInfo) {
-        return eventRepository.findById(id).map(event -> {
+        // return eventRepository.findById(id).map(event -> {
 
-            return eventRepository.save(event);
-        }).orElse(null);
+        // return eventRepository.save(newEventInfo);
+        // }).orElse(null);
+
+        Optional<Event> o = eventRepository.findById(id);
+        if (!o.isPresent()) {
+            throw new EventNotFoundException();
+        }
+        Event event = o.get();
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.map(newEventInfo, event);
+
+        eventRepository.saveAndFlush(event);
+
+        return event;
     }
 
     // delete by id
