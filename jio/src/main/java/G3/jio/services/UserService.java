@@ -43,9 +43,9 @@ public class UserService {
     // not sure what we need to update yet
     public User updateUser(Long id, User newUserInfo) {
         return userRepository.findById(id).map(user -> {
-            // user.setAccType(newUserInfo.getAccType());
-            // user.setDob(newUserInfo.getDob());
-            // user.setEmail(newUserInfo.getEmail());
+            user.setImage(newUserInfo.getImage());
+            user.setPassword(newUserInfo.getPassword());
+            user.setPhone(newUserInfo.getPhone());
             return userRepository.save(user);
         }).orElse(null);
     }

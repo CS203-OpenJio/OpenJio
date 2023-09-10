@@ -16,10 +16,10 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/v1/users/2
+PUT http://localhost:8080/api/v1/users/4
 Content-Type: application/json
 
-{"name":"bi ceps","password":"123","email":"fom.oris@gmail.com","phone":43257412,"dob":"2001-11-04"}
+{"name":"bi ceps","password":"321","email":"fom.oris@gmail.com","dob":"2001-11-04"}
 
 ###
 // get all events
