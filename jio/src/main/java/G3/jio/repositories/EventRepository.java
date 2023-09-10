@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import G3.jio.entities.Event;
 
+@Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    public List<Event> findAllByName(String name);
+    public List<Event> findAllByName(String eventName);
 
 }

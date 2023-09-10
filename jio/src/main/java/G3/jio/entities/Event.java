@@ -26,7 +26,7 @@ public class Event {
     private Long id;
 
     @Column(name = "eventName")
-    private String event_name;
+    private String name;
 
     @Column(name = "startDate")
     private LocalDate startDate;
@@ -51,7 +51,4 @@ public class Event {
 
     @Column(name = "isVisible")
     private boolean isVisible;
-
-    private List<User> listOfusers;
-
 }

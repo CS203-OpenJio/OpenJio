@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "eventType")
 public class EventType {
-    @Id
-    @Column(name = "category")
-    private Category category;
 
     @Id
     @Column(name = "eventID")

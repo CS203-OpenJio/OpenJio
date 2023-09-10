@@ -2,11 +2,14 @@ package G3.jio.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import G3.jio.entities.Event;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.repositories.EventRepository;
 
-public class EventService implements Service {
+@Service
+public class EventService {
 
     private EventRepository eventRepository;
 

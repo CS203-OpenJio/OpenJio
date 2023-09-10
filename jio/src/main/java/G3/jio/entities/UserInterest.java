@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "userInterests")
 public class UserInterest {
-    @Id
-    @Column(name = "category")
-    private Category category;
 
     @Id
     @Column(name = "userID")

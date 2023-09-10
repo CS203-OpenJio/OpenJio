@@ -50,7 +50,4 @@ public class User {
 
     @Column(name = "dob")
     private LocalDate dob;
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Set<Category> interests;
 }
