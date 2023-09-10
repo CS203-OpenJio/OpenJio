@@ -3,6 +3,7 @@ package G3.jio.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -13,6 +14,7 @@ import G3.jio.repositories.EventRepository;
 @Service
 public class EventService {
 
+    @Autowired
     private EventRepository eventRepository;
 
     public EventService(EventRepository eventRepository) {
@@ -44,11 +46,6 @@ public class EventService {
     // update user
     // not sure what we need to update yet
     public Event updateEvent(Long id, Event newEventInfo) {
-        // return eventRepository.findById(id).map(event -> {
-
-        // return eventRepository.save(newEventInfo);
-        // }).orElse(null);
-
         Optional<Event> o = eventRepository.findById(id);
         if (!o.isPresent()) {
             throw new EventNotFoundException();
@@ -58,7 +55,6 @@ public class EventService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.map(newEventInfo, event);
-
         eventRepository.saveAndFlush(event);
 
         return event;

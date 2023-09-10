@@ -1,10 +1,14 @@
 package G3.jio.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import G3.jio.entities.Event;
 import G3.jio.entities.User;
+import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.UserRepository;
 
@@ -42,12 +46,18 @@ public class UserService {
     // update user
     // not sure what we need to update yet
     public User updateUser(Long id, User newUserInfo) {
-        return userRepository.findById(id).map(user -> {
-            user.setImage(newUserInfo.getImage());
-            user.setPassword(newUserInfo.getPassword());
-            user.setPhone(newUserInfo.getPhone());
-            return userRepository.save(user);
-        }).orElse(null);
+        Optional<User> o = userRepository.findById(id);
+        if (!o.isPresent()) {
+            throw new UserNotFoundException();
+        }
+        User user = o.get();
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.map(newUserInfo, user);
+        userRepository.saveAndFlush(user);
+
+        return user;
     }
 
     // delete by id
