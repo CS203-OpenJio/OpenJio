@@ -35,6 +35,16 @@ public class EventController {
         return eventService.findAllEvent();
     }
 
+    //get event by name using %20 in blankspaces
+    @GetMapping(path = "/name/{name}")
+    public List<Event> getEventsbyName(@PathVariable String name){
+        name = name.replaceAll("%20", " ");
+        List<Event> event = eventService.getEventByName(name);
+        if (event == null)
+            throw new EventNotFoundException(name);
+        return eventService.getEventByName(name);
+    }
+
     @GetMapping(path = "/{id}")
     public Event getEvent(@PathVariable Long id) {
         Event event = eventService.getEvent(id);

@@ -21,12 +21,12 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    // list all users
+    // list all event
     public List<Event> findAllEvent() {
         return eventRepository.findAll();
     }
 
-    // get user by id
+    // get event by id
     public Event getEvent(Long eventId) {
         return eventRepository.findById(eventId).map(event -> {
             return event;
@@ -38,12 +38,12 @@ public class EventService {
         return eventRepository.findAllByName(name);
     }
 
-    // save a user
+    // save a ev nt
     public Event addEvent(Event newEvent) {
         return eventRepository.save(newEvent);
     }
 
-    // update user
+    // update event
     // not sure what we need to update yet
     public Event updateEvent(Long id, Event newEventInfo) {
         Optional<Event> o = eventRepository.findById(id);
