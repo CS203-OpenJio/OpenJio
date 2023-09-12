@@ -8,7 +8,7 @@ function Header() {
                 alt="OpenJio Logo"
                 src="/logo.png"
             />
-            <div className="font-medium inline-block text-center text-4xl font-ibm-plex-mono w-1/2 flex flex-row justify-between">
+            <div className="font-medium inline-block text-center text-4xl font-ibm-plex-mono w-1/3 flex flex-row justify-between">
                 <div className="">
                     OpenJio?
                 </div>
