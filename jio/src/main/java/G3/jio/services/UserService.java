@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import G3.jio.entities.Event;
 import G3.jio.entities.User;
-import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.UserRepository;
 
