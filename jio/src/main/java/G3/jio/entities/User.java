@@ -50,4 +50,7 @@ public class User {
 
     @Column(name = "dob")
     private LocalDate dob;
+
+    @OneToMany
+    private List<UserInterest> list;
 }
