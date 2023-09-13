@@ -3,8 +3,13 @@ GET http://localhost:8080/api/v1/users
 
 ###
 
-// get specific user
-GET http://localhost:8080/api/v1/users/4
+// get specific user by id
+GET http://localhost:8080/api/v1/users/id/1
+
+###
+
+// get specific users by name
+GET http://localhost:8080/api/v1/users/name/john%20weak
 
 ###
 
@@ -12,11 +17,20 @@ GET http://localhost:8080/api/v1/users/4
 POST http://localhost:8080/api/v1/users
 Content-Type: application/json
 
-{"name":"chee bhai","password":"123","email":"knn.ccb@gmail.com","matricNo": "6908908785", "phone":25743324,"dob":"2001-02-04"}
+{
+    "name":"chee bhai",
+    "password":"537",
+    "email":"knn.ccb@gmail.com",
+    "matricNo": "6908908785",
+    "phone":"25743324",
+    "dob":"2001-02-04",
+    "accType":"U",
+    "image":"random/path"
+}
 
 ###
 
-PUT http://localhost:8080/api/v1/users/2
+PUT http://localhost:8080/api/v1/users/id/2
 Content-Type: application/json
 
 {"name":"bi ceps","password":"123","email":"fom.oris@gmail.com","matricNo": "564986", "phone":43257412,"dob":"2001-11-04"}
