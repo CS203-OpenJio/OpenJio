@@ -1,10 +1,10 @@
+OpenJio is a powerful and user-friendly events website tailored for university students, designed to enhance the way you discover, create, and participate in events on your campus.
 
-  # Locofy proj
+Features:
+1. Central Hub to Discover New Events
 
-  Note: Please ensure you have installed <code><a href="https://nodejs.org/en/download/">nodejs</a></code>
+2. Seamless Event Registration and Personalised Queue System
 
-  To preview and run the project on your device:
-  1) Open project folder in <a href="https://code.visualstudio.com/download">Visual Studio Code</a>
-  2) In the terminal, run `npm install`
-  3) Run `npm start` to view project in browser
-  
+3. Event Creation for University Clubs and Societies
+
+Done by: Ashley, Ron, Pramit, Ignatius, Darius and Justin
