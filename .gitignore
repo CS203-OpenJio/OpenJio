@@ -1,3 +1,4 @@
 
 .DS_Store
 frontend-locofy/node_modules/.cache
+jio/src/main/resources/application.properties
