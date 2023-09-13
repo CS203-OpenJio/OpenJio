@@ -1,15 +1,15 @@
 import { FunctionComponent } from "react";
-import Header2 from "../components/Header2";
-import Header3 from "../components/Header3";
+import Header2 from "../components/HomeScreen/Header2";
+import Header3 from "../components/HomeScreen/Header3";
 import Header from "../components/HomeScreen/Header";
 
 const HomeScreen: FunctionComponent = () => {
   return (
     <div>
       <Header />
+      <div id="headerspace" className="h-20 w-full b-10"></div>
       <div>
-        <Header2 />
-        <p className="overflow-hidden text-left text-11xl text-black font-ibm-plex-mono m-0">
+      <p className="overflow-hidden text-left text-11xl text-black font-ibm-plex-mono m-0">
           OpenJio is a powerful and user-friendly events website tailored for
           university students, designed to enhance the way you discover, create,
           and participate in events on your campus. We are constantly innovating
@@ -18,6 +18,8 @@ const HomeScreen: FunctionComponent = () => {
           and your suggestions to improve our application and user-experience
           are greatly appreciated. Do stay tuned for more updates!
         </p>
+        <Header2 />
+        
         <Header3 />
       </div>
     </div>
