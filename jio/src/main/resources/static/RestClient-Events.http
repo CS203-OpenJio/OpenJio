@@ -1,53 +1,8 @@
-// get all users
-GET http://localhost:8080/api/v1/users
 
-###
-
-// get specific user by id
-GET http://localhost:8080/api/v1/users/id/1
-
-###
-
-// get specific user by name
-GET http://localhost:8080/api/v1/users/name/john%20weak
-
-###
-
-// post a new user
-POST http://localhost:8080/api/v1/users
-Content-Type: application/json
-
-{   
-    "name":"chee bhai",
-    "password":"543",
-    "email":"knn.ccb@gmail.com",
-    "phone":"25743324",
-    "dob":"2001-02-04",
-    "matricNo": "12345678",
-    "image":"random/image",
-    "accType":"U"
-}
-
-###
-
-// update user
-PUT http://localhost:8080/api/v1/users/2
-Content-Type: application/json
-
-{"name":"bi ceps","password":"321","email":"fom.oris@gmail.com","dob":"2001-11-04"}
-
-###
-
-//delete user
-DELETE http://localhost:8080/api/v1/users/2
-
-
-###
 // get all events
 GET http://localhost:8080/api/v1/events
 
 ###
-
 // get specific event
 GET http://localhost:8080/api/v1/events/1
 
