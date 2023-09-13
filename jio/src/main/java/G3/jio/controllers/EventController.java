@@ -45,7 +45,7 @@ public class EventController {
         return eventService.getEventByName(name);
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/id/{id}")
     public Event getEvent(@PathVariable Long id) {
         Event event = eventService.getEvent(id);
 
@@ -62,7 +62,7 @@ public class EventController {
         return eventService.addEvent(event);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/id/{id}")
     public Event updateEvent(@PathVariable Long id, @RequestBody Event newEventInfo) {
         Event event = eventService.updateEvent(id, newEventInfo);
         if (event == null)
@@ -70,7 +70,7 @@ public class EventController {
         return event;
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/id/{id}")
     public void deleteEvent(@PathVariable Long id) {
         try {
             eventService.deleteEvent(id);

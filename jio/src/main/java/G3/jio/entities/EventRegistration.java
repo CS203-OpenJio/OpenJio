@@ -26,17 +26,17 @@ public class EventRegistration {
     Long id;
     
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "eventId")
+    @JoinColumn(name = "event_id")
     Event event;
 
     @Column(name = "isDeregistered")
-    private boolean isDeregistered;
+    private boolean isDeregistered = false;
 
 
     @Column(name = "isSuccessful")
-    private boolean isSuccessful;
+    private boolean isSuccessful = false;
 }

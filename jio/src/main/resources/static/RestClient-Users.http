@@ -26,11 +26,17 @@ Content-Type: application/json
     "dob":"2001-02-04",
     "accType":"U",
     "image":"random/path"
-},
+}
+
+###
+
+// post a new user
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
 
 {
     "name":"john weak",
-    "password":"123",
+    "password":"538",
     "email":"jonathan.weak@gmail.com",
     "matricNo": "12369323",
     "phone":"62226111",
@@ -41,7 +47,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/v1/users/id/2
+PUT http://localhost:8080/api/v1/users/id/6
 Content-Type: application/json
 
-{"name":"bi ceps","password":"123","email":"fom.oris@gmail.com","matricNo": "564986", "phone":43257412,"dob":"2001-11-04"}
+{"name":"bi ceps", "email":"fom.oris@gmail.com","matricNo": "564986", "phone":"43257412","dob":"2001-11-04"}

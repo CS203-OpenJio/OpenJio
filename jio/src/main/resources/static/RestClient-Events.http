@@ -4,7 +4,7 @@ GET http://localhost:8080/api/v1/events
 
 ###
 // get specific event
-GET http://localhost:8080/api/v1/events/1
+GET http://localhost:8080/api/v1/events/id/1
 
 ###
 // get specific event by name
@@ -14,7 +14,7 @@ GET http://localhost:8080/api/v1/events/name/CS201%2023
 ###
 
 // update event
-PUT http://localhost:8080/api/v1/events/2
+PUT http://localhost:8080/api/v1/events/id/2
 Content-Type: application/json
 
 {

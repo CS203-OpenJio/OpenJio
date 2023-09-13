@@ -1,0 +1,23 @@
+// post a new registration
+POST http://localhost:8080/api/v1/register
+Content-Type: application/json
+
+{
+    "user":1,
+    "event":1,
+    "isDeregistered":false,
+    "isSuccessful":false
+}
+
+###
+
+// get registrations by userid
+GET http://localhost:8080/api/v1/register/user/1
+
+###
+
+//get registrations by eventid
+GET http://localhost:8080/api/v1/register/event/1
+
+###
+
