@@ -39,4 +39,12 @@ public class EventRegistration {
 
     @Column(name = "isSuccessful")
     private boolean isSuccessful = false;
+
+
+    public EventRegistration(User user, Event event, boolean isDeregistered, boolean isSuccessful) {
+        this.user = user;
+        this.event = event;
+        this.isDeregistered = isDeregistered;
+        this.isSuccessful = isSuccessful;
+    }
 }
