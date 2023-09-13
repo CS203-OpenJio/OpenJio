@@ -13,7 +13,7 @@ const Header2: FunctionComponent = () => {
               <img
                 className="absolute top-[48px] left-[0px] rounded-11xl w-[392px] h-[244px] object-cover"
                 alt=""
-                src="/undefined1.png"
+                src="/workshop.png"
               />
             </div>
             <b className="absolute top-[0px] left-[11px] leading-[150%] inline-block w-[461px] h-[83px]">
@@ -23,7 +23,7 @@ const Header2: FunctionComponent = () => {
               <img
                 className="absolute top-[48px] left-[0px] rounded-11xl w-[392px] h-[244px] object-cover"
                 alt=""
-                src="/undefined2.png"
+                src="/orientation.png"
               />
             </div>
             <b className="absolute top-[0px] left-[411px] leading-[150%] inline-block w-[461px] h-[83px]">
@@ -33,7 +33,7 @@ const Header2: FunctionComponent = () => {
               <img
                 className="absolute top-[48px] left-[0px] rounded-11xl w-[392px] h-[244px] object-cover"
                 alt=""
-                src="/undefined3.png"
+                src="/welfaredrive.png"
               />
             </div>
           </div>

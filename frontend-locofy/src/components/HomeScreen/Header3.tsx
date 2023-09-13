@@ -20,17 +20,17 @@ const Header3: FunctionComponent = () => {
           <img
             className="absolute top-[496px] left-[206px] w-[259px] h-[259px] object-cover"
             alt=""
-            src="/undefined5.png"
+            src="./eventcreation.png"
           />
           <img
             className="absolute top-[246px] left-[1218px] w-[265px] h-[265px] object-cover"
             alt=""
-            src="/undefined6.png"
+            src="/registrationandqueue.png"
           />
           <img
             className="absolute top-[0px] left-[297px] w-[283px] h-[283px] object-cover"
             alt=""
-            src="/undefined7.png"
+            src="/centralhub.png"
           />
         </div>
       </div>
