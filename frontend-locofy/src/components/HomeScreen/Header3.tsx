@@ -34,9 +34,6 @@ const Header3: FunctionComponent = () => {
           />
         </div>
       </div>
-      <b className="absolute top-[0px] left-[357px] text-51xl leading-[150%] inline-block font-source-serif-pro text-darkslateblue text-center w-[972px] h-[106px] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]">
-        What can you expect?
-      </b>
     </div>
   );
 };
