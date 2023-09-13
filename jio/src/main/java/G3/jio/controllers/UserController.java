@@ -31,7 +31,7 @@ public class UserController {
     }
 
     // get user given their id
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/id/{id}")
     public User getUserById(@PathVariable("id") Long id) {
         User user = userService.getUser(id);
         if (user == null) {
