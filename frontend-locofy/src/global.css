@@ -8,6 +8,7 @@
 @tailwind utilities;
 body {
   @apply leading-[normal] m-0;
+  background-color: #FBF6EE;
 }
 *,
 ::before,
