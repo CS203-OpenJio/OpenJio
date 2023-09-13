@@ -2,14 +2,20 @@ package G3.jio.entities;
 
 import java.time.LocalDate;
 import java.util.Locale.Category;
+
+import org.hibernate.annotations.ManyToAny;
+
+import java.util.List;
 import java.util.Set;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -50,7 +56,4 @@ public class User {
 
     @Column(name = "dob")
     private LocalDate dob;
-
-    @OneToMany
-    private List<UserInterest> list;
 }

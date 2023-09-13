@@ -49,8 +49,9 @@ public class UserController {
 
     // not working
     // get all users with name
-    @GetMapping(path = "/name={name}")
-    public List<User> getUsersByName(String name) {
+    @GetMapping(path = "/name/{name}")
+    public List<User> getUsersByName(@PathVariable String name) {
+        name = name.replaceAll("%20", " ");
         return userService.getUsersByName(name);
     }
 
@@ -62,13 +63,13 @@ public class UserController {
     }
 
     // delete user
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/id/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 
     // update user with the id
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/id/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
