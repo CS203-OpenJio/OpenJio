@@ -56,4 +56,7 @@ public class User {
 
     @Column(name = "dob")
     private LocalDate dob;
+
+    @OneToMany(mappedBy = "user")
+    Set<EventRegistration> registrations;
 }
