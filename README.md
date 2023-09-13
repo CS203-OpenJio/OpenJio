@@ -1,4 +1,4 @@
-OpenJio is a powerful and user-friendly events website tailored for university students, designed to enhance the way you discover, create, and participate in events on your campus.
+# OpenJio is a powerful and user-friendly events website tailored for university students, designed to enhance the way you discover, create, and participate in events on your campus.
 
 Features:
 1. Central Hub to Discover New Events
