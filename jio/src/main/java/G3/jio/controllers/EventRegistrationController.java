@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.EventRegistration;
-import G3.jio.entities.User;
 import G3.jio.services.EventRegistrationService;
 
 @RestController
@@ -38,7 +38,7 @@ public class EventRegistrationController {
     
     // add
     @PostMapping(path = "")
-    public EventRegistration addEventRegistration(@RequestBody EventRegistration eventRegistration) {
-        return eventRegistrationService.addEventRegistration(eventRegistration);
+    public EventRegistration addEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+        return eventRegistrationService.addEventRegistration(eventRegistrationDTO);
     }
 }

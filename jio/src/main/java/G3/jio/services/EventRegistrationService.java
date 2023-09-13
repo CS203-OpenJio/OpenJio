@@ -5,23 +5,34 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
+import G3.jio.entities.User;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.repositories.EventRegistrationRepository;
+import G3.jio.repositories.EventRepository;
+import G3.jio.repositories.UserRepository;
 
 @Service
 public class EventRegistrationService {
 
     @Autowired
-    private EventRegistrationRepository eventRegistrationRepository;
+    private final EventRegistrationRepository eventRegistrationRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
-    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository) {
+    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository, UserRepository userRepository, EventRepository eventRepository) {
         this.eventRegistrationRepository = eventRegistrationRepository;
+        this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
     }
 
     // add
-    public EventRegistration addEventRegistration(EventRegistration newEventRegistration) {
+    public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) {
+        User user = userRepository.getReferenceById(newEventRegistrationDTO.getUserId());
+        Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
+        EventRegistration newEventRegistration = new EventRegistration(user, event, newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
         return eventRegistrationRepository.save(newEventRegistration);
     }
 
