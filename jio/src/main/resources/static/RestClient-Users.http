@@ -26,6 +26,17 @@ Content-Type: application/json
     "dob":"2001-02-04",
     "accType":"U",
     "image":"random/path"
+},
+
+{
+    "name":"john weak",
+    "password":"123",
+    "email":"jonathan.weak@gmail.com",
+    "matricNo": "12369323",
+    "phone":"62226111",
+    "dob":"2001-02-01",
+    "accType":"U",
+    "image":"random/path"
 }
 
 ###
