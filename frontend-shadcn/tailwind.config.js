@@ -1,9 +1,12 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./src/**/*.{js,jsx,ts,tsx}","./src/**/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
   theme: {
     container: {
       center: true,
@@ -14,12 +17,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        "slate-900": "#0f172a",
-        white: "#fff",
-        floralwhite: "#fbf6ee",
-        darkslateblue: "#153566",
-        black: "#000",
-        gray: "rgba(0, 0, 0, 0.4)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -54,21 +51,9 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      spacing: {},
-      fontFamily: {
-        "body-medium": "Inter",
-        "source-serif-pro": "'Source Serif Pro'",
-        "ibm-plex-mono": "'IBM Plex Mono'",
-        "roboto-serif": "'Roboto Serif'",
-        "figma-hand": "'Figma Hand'",
-        sans: ["var(--font-sans)", ...fontFamily.sans],
-      },
       borderRadius: {
-        "3xs": "10px",
-        "11xl": "30px",
-        "6xs": "7px",
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
@@ -86,20 +71,6 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-    fontSize: {
-      sm: "14px",
-      "51xl": "70px",
-      "21xl": "40px",
-      "11xl": "30px",
-      "6xl": "25px",
-      "31xl": "50px",
-      xl: "20px",
-      "4xl": "23px",
-      inherit: "inherit",
-    },
-  },
-  corePlugins: {
-    preflight: false,
   },
   plugins: [require("tailwindcss-animate")],
-};
+}

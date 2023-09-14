@@ -8,7 +8,7 @@ function NavBarCentralHub() {
   };
 
   return (
-    <div className="flex justify-between items-center fixed w-full bg-white z-50 pt-2 pb-2">
+    <div className="flex top-0 justify-between items-center fixed w-full bg-white z-50 pt-2 pb-2">
       <img
         onClick={() => handleClick("/")}
         className="object-cover h-20 ml-2 cursor-pointer"

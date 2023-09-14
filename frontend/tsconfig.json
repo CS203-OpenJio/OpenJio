@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     },
     "target": "es5",
     "lib": [
@@ -26,5 +26,5 @@
   },
   "include": [
     "src"
-  ] 
+, "components/ui"  ] 
 }
