@@ -7,7 +7,7 @@ const HomeScreen: FunctionComponent = () => {
   return (
     <div>
       <NavBar />
-      <div id="headerspace" className="h-20 w-full b-10"></div>
+      <div className="h-20 w-full b-10"></div>
       <div>
         <p className="overflow-hidden text-left text-11xl text-black font-ibm-plex-mono m-0">
           OpenJio is a powerful and user-friendly events website tailored for

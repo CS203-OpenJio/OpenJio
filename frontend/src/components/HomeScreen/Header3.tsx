@@ -9,7 +9,9 @@ const Header3: FunctionComponent = () => {
           <div className="absolute top-[257px] left-[0px] rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-[1310px] h-[239px]" />
           <div className="absolute top-[516px] left-[269px] rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-[1310px] h-[239px]" />
           <div className="absolute top-[82px] left-[638px] leading-[150%] inline-block w-[718px] h-32">
-            <p className="m-0">Central Hub to Discover New Events</p>
+            <p id="scrollOpenJio" className="m-0">
+              Central Hub to Discover New Events
+            </p>
           </div>
           <div className="absolute top-[320px] left-[275px] leading-[150%] inline-block w-[883px] h-32">
             Seamless Event Registration and Personalised Queue System

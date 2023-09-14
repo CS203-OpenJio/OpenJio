@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeScreen from "./pages/HomeScreen";
 import CentralHub from "./pages/CentralHub";
+import LoginPage from "./pages/LoginPage";
 // import { Route } from "react-router-dom";
 
 // create the configuration for a router by simply passing
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/centralhub",
     element: <CentralHub />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
