@@ -20,7 +20,7 @@ function LoginButton() {
   return (
     <a href="">
       <button
-        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow text-4xl font-ibm-plex-mono"
+        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow text-4xl font-ibm-plex-mono cursor-pointer"
         onClick={handleLogin}
       >
         Login
