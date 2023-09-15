@@ -7,17 +7,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import G3.jio.entities.Event;
-import G3.jio.entities.User;
+import G3.jio.entities.Student;
 import G3.jio.repositories.EventRepository;
-import G3.jio.repositories.UserRepository;
+import G3.jio.repositories.StudentRepository;
 
 @SpringBootApplication
 public class JioApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(JioApplication.class, args);
+        SpringApplication.run(JioApplication.class, args);
 
-        EventRepository eventRepo = ctx.getBean(EventRepository.class);
+        // EventRepository eventRepo = ctx.getBean(EventRepository.class);
         // System.out.println(
         //         eventRepo.save(new Event(1L, "Waikiki", LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 2), "Sentosa",
         //                 200, true, 1, "Beach Day", true)));

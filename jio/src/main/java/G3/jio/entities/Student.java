@@ -26,8 +26,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "students")
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,6 +57,6 @@ public class User {
     @Column(name = "dob")
     private LocalDate dob;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "student")
     Set<EventRegistration> registrations;
 }

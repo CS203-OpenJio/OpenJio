@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EventRegistrationDTO {
-    private long userId;
+    private long studentId;
     private long eventId;
     private boolean isDeregistered;
     private boolean isSuccessful;

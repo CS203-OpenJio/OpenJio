@@ -26,8 +26,8 @@ public class EventRegistration {
     Long id;
     
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    User user;
+    @JoinColumn(name = "student_id")
+    Student student;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -41,8 +41,8 @@ public class EventRegistration {
     private boolean isSuccessful = false;
 
 
-    public EventRegistration(User user, Event event, boolean isDeregistered, boolean isSuccessful) {
-        this.user = user;
+    public EventRegistration(Student student, Event event, boolean isDeregistered, boolean isSuccessful) {
+        this.student = student;
         this.event = event;
         this.isDeregistered = isDeregistered;
         this.isSuccessful = isSuccessful;
