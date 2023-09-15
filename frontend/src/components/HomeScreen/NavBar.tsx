@@ -41,7 +41,7 @@ function NavBar() {
         transition: "background-color 0.2s ease-in-out",
       }}>
       <img
-        className="object-cover h-12 ml-2 cursor-pointer"
+        className="object-cover h-12 ml-5 cursor-pointer"
         alt="OpenJio Logo"
         src="/logo.png"
       />
@@ -50,7 +50,7 @@ function NavBar() {
         <div onClick={() => scrollToElement("scrollAboutUs")} className="hover:bg-black hover:text-white">About Us</div>
         <div className="hover:bg-black hover:text-white">FAQ</div>
       </div>
-      <div onClick={() => handleClick("/login")}>
+      <div className="mr-5" onClick={() => handleClick("/login")}>
         <LoginButton />
       </div>
     </div>
