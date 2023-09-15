@@ -26,9 +26,9 @@ public class EventRegistrationController {
     }
 
     // get by userid or eventid
-    @GetMapping(path = "/user/{userId}")
-    public List<EventRegistration> getEventRegistrationsByUserId(@PathVariable long userId) {
-        return eventRegistrationService.getEventRegistrationsByUserId(userId);
+    @GetMapping(path = "/student/{studentId}")
+    public List<EventRegistration> getEventRegistrationsByUserId(@PathVariable long studentId) {
+        return eventRegistrationService.getEventRegistrationsByStudentId(studentId);
     }
 
     @GetMapping(path = "/event/{eventId}")
