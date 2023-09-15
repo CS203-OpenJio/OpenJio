@@ -1,5 +1,6 @@
 import LoginButton from "./LoginButton";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -16,8 +17,29 @@ function NavBar() {
     }
   };
 
+  //For NavBar transparency effect
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex justify-between items-center fixed w-full bg-white z-50 pt-2 pb-2">
+    <div className={`flex justify-between items-center fixed w-full ${isScrolled ? "bg-white shadow-sm" : ""} z-50 pt-2 pb-2`}
+      style={{
+        transition: "background-color 0.2s ease-in-out",
+      }}>
       <img
         className="object-cover h-12 ml-2 cursor-pointer"
         alt="OpenJio Logo"
