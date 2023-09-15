@@ -30,7 +30,7 @@ const Header3: FunctionComponent = () => {
             src="/registrationandqueue.png"
           />
           <img
-            className="absolute top-[0px] left-[297px] w-[283px] h-[283px] object-cover"
+            className="absolute top-[0px] left-[297px]  object-cover"
             alt=""
             src="/centralhub.png"
           />

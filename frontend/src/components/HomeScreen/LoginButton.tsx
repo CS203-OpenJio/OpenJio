@@ -2,29 +2,12 @@ import axios, { Axios } from "axios";
 //TODO: Implement Login
 
 function LoginButton() {
-  let info;
-
-  const handleLogin = () => {
-    // Implement your login logic here, e.g., show a login modal or navigate to a login page.
-    alert("User clicked login button.");
-    axios
-      .get("http://localhost:8080/api/v1/users")
-      .then((response) => {
-        info = response;
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
 
   return (
     <a href="">
       <button
-        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow text-4xl font-ibm-plex-mono cursor-pointer"
-        onClick={handleLogin}
-      >
+        className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform">
         Login
-        {info}
       </button>
     </a>
   );

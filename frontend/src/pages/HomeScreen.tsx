@@ -22,22 +22,22 @@ const HomeScreen: FunctionComponent = () => {
           </div>
 
           <div className="flex flex-col justify-center">
-          <div className="font-roboto-serif">
-            <b className="text-darkslateblue text-31xl top-[107px] leading-[150%] inline-block w-[100px] h-[60px] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]">
-              3k+
-            </b>
-            <div className="inline-block text-6xl leading-[150%] text-black">
-              events created
+            <div className="font-roboto-serif">
+              <b className="text-darkslateblue text-31xl top-[107px] leading-[150%] inline-block w-[100px] h-[60px] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]">
+                3k+
+              </b>
+              <div className="inline-block text-6xl leading-[150%] text-black">
+                events created
+              </div>
             </div>
-          </div>
-          <div className="font-roboto-serif">
-            <b className="text-darkslateblue text-31xl top-[107px] leading-[150%] inline-block w-[100px] h-[60px] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]">
-              110
-            </b>
-            <div className="inline-block text-6xl leading-[150%] text-black">
-              clubs and societies
+            <div className="font-roboto-serif">
+              <b className="text-darkslateblue text-31xl top-[107px] leading-[150%] inline-block w-[100px] h-[60px] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]">
+                110
+              </b>
+              <div className="inline-block text-6xl leading-[150%] text-black">
+                clubs and societies
+              </div>
             </div>
-          </div>
           </div>
         </div>
 
@@ -69,37 +69,77 @@ const HomeScreen: FunctionComponent = () => {
 
       </div>
 
-        <div className="w-[60%] m-auto">
-        <div id="scrollAboutUs" className="text-center mt-[50px]">
-        <b className="mt-20 inline-block font-source-serif-pro leading-[150%] inline-block text-51xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)] text-darkslateblue">
+      <hr id="scrollAboutUs"/>
+
+      <div className="w-[60%] m-auto">
+        <div>
+          <div className="text-center">
+            <b className="mt-20 inline-block font-source-serif-pro leading-[150%] inline-block text-51xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)] text-darkslateblue">
               About Us
             </b>
-        </div>
-        <div className="rounded-xl bg-white m-auto overflow-hidden text-left text-xl text-black font-ibm-plex-mono border-solid border-[0.5px]">
-        <div className="m-20">
-            OpenJio is a powerful and user-friendly events website tailored for
-            university students, designed to enhance the way you discover, create,
-            and participate in events on your campus. We are constantly innovating
-            and in search of ways to improve our application and to provide our
-            users the most seamless experience.
           </div>
-          <div className="m-20">
-            We welcome constructive feedback
-            and your suggestions to improve our application and user-experience
-            are greatly appreciated. Do stay tuned for more updates!
+          <div className="rounded-xl bg-white m-auto overflow-hidden text-left text-xl font-ibm-plex-mono border-solid border-[0.5px]">
+            <div className="m-10">
+              OpenJio is a powerful and user-friendly events website tailored for
+              university students, designed to enhance the way you discover, create,
+              and participate in events on your campus. We are constantly innovating
+              and in search of ways to improve our application and to provide our
+              users the most seamless experience.
+            </div>
+            <div className="m-10">
+              We welcome constructive feedback
+              and your suggestions to improve our application and user-experience
+              are greatly appreciated. Do stay tuned for more updates!
+            </div>
+
           </div>
-          
         </div>
-        <div className="bg-white text-center mb-[50px]">
-        <b className="inline-block font-source-serif-pro leading-[150%] inline-block text-51xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)] text-darkslateblue">
+
+        <div id="scrollOpenJio">
+          <div className="text-center mt-[5vw]">
+            <b className="inline-block font-source-serif-pro leading-[150%] inline-block text-51xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)] text-darkslateblue">
               What can you expect?
             </b>
-        </div>
-        <div className="h-screen bg-blue-500">
-        </div>  
+          </div>
+          <div className="flex flex-col gap-10 mt-[3vw]">
+            <div className="items-center flex flex-row justify-around rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-full h-[10vw]">
+              <img
+                className="h-[120%]"
+                alt=""
+                src="/centralhub.png"
+              />
+              <div className="text-xl font-ibm-plex-mono text-left">
+                Central Hub to Discover New Events
+              </div>
+            </div>
+            <div className="items-center flex flex-row justify-around rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-full h-[10vw]">
+              <div className="text-xl font-ibm-plex-mono text-left">
+                Seamless Event Registration and Personalised Queue System
+              </div>
+              <img
+                className="h-[120%]"
+                alt=""
+                src="/registrationandqueue.png"
+              />
+            </div>
+            <div className="items-center flex flex-row justify-around rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-full h-[10vw]">
+              <img
+                className="h-[120%]"
+                alt=""
+                src="./eventcreation.png"
+              />
+              <div className="text-xl font-ibm-plex-mono text-left">
+                Event Creation for University Clubs and Societies
+              </div>
+            </div>
+
+          </div>
 
         </div>
-        
+      </div>
+
+      <div className="h-20">
+      </div>
     </div>
   );
 };
