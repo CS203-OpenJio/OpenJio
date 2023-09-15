@@ -8,7 +8,7 @@ function CentralHub() {
       <NavBarCentralHub />
       <Section1 />
       <p></p>
-      <div className="pb-3 ml-10 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">
+      <div className="pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">
         Popular & Trending
       </div>
       <Section2 />

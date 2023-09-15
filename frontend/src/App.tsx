@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createContext } from "react";
-import HomeScreen from "./pages/HomeScreen";
-import CentralHub from "./pages/CentralHub";
-import LoginPage from "./pages/LoginPage";
-import EventPage from "./pages/EventPage";
-import TicketPurchased from "./pages/TicketPurchased";
+import HomeScreen from "src/pages/HomeScreen";
+import CentralHub from "src/pages/CentralHub";
+import LoginPage from "src/pages/LoginPage";
+import EventPage from "src/pages/EventPage";
+import TicketPurchased from "src/pages/TicketPurchased";
 // import { Route } from "react-router-dom";
 
 // create the configuration for a router by simply passing
@@ -35,13 +35,11 @@ const router = createBrowserRouter([
 
 // Contexts allows components to pass information down without explicitly passing props
 // We can pass light/dark mode states through these, and user info as well?
-const ThemeContext = createContext('light');
+const ThemeContext = createContext("light");
 const AuthContext = createContext(null);
 
 const App = () => {
-  return (
-        <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

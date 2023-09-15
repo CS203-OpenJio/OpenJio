@@ -1,11 +1,18 @@
 const EventPost = () => {
   return (
-    <div className="bg-white border border-1 border-black flex flex-col justify-evenly items-center">
+    <div className="bg-white border border-solid border-spacing-[0.5px] flex flex-col justify-around items-center m-5 rounded">
       <img
-        className="w-[100px] h-[200px]"
+        className="w-[360px] h-[200px] pr-3 pl-3 pt-3"
         alt="Welfare Drive Poster"
         src="/ellipsiswelfaredriveposter.png"
       />
+      <div className="font-ibm-plex-mono pt-3 pb-3 pl-3 pr-3 font-medium text-xl">
+        Ellipsis Back2Sku Welfare Drive
+      </div>
+      <div className="flex-row justify-between font-ibm-plex-mono text-xl pb-3">
+        <div className="">16 Sep</div>
+        <div className="">11.00am - 4.00pm</div>
+      </div>
     </div>
   );
 };
