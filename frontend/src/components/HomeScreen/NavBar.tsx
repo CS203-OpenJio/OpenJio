@@ -25,7 +25,7 @@ function NavBar() {
       />
       <div className="font-medium flex flex-row text-center text-4xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
         <div onClick={() => scrollToElement("scrollOpenJio")}>OpenJio?</div>
-        <div>About Us</div>
+        <div onClick={() => scrollToElement("scrollAboutUs")}>About Us</div>
         <div>FAQ</div>
       </div>
       <div onClick={() => handleClick("/login")}>

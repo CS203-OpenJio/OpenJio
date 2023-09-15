@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
-import G3.jio.entities.User;
+import G3.jio.entities.Student;
 
 @Repository
 public interface EventRegistrationRepository extends JpaRepository<EventRegistration, Long> {
 
-    public List<EventRegistration> findAllByUserId(Long userId);
+    public List<EventRegistration> findAllByStudentId(Long studentId);
     public List<EventRegistration> findAllByEventId(Long eventId);
 }
