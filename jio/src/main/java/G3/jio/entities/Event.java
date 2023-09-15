@@ -1,7 +1,11 @@
 package G3.jio.entities;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -21,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "events")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Event {
 
     @Id
@@ -55,5 +60,9 @@ public class Event {
     private boolean isVisible;
 
     @OneToMany(mappedBy = "event")
-    Set<EventRegistration> registrations;
+    Set<EventRegistration> registrations = new HashSet<>();
+
+    public void addEventRegistration(EventRegistration eventRegistration) {
+        this.registrations.add(eventRegistration);
+    }
 }

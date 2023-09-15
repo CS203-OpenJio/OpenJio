@@ -3,6 +3,7 @@ package G3.jio.controllers;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,13 @@ public class EventRegistrationController {
     // add
     @PostMapping(path = "")
     public EventRegistration addEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+
         return eventRegistrationService.addEventRegistration(eventRegistrationDTO);
+    }
+
+    // delete
+    @DeleteMapping(path = "/id/{id}") 
+    public void deleteById(@PathVariable Long id) {
+        eventRegistrationService.deleteEventRegistration(id);
     }
 }

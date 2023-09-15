@@ -5,6 +5,9 @@ import java.util.Locale.Category;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "students")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
 
     @Id
@@ -58,5 +62,9 @@ public class Student {
     private LocalDate dob;
 
     @OneToMany(mappedBy = "student")
-    Set<EventRegistration> registrations;
+    Set<EventRegistration> registrations = new HashSet<>();
+
+    public void addEventRegistration(EventRegistration eventRegistration) {
+        this.registrations.add(eventRegistration);
+    }
 }

@@ -30,9 +30,28 @@ public class EventRegistrationService {
 
     // add
     public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) {
+
+        // testing
+        System.out.println(newEventRegistrationDTO.getEventId());
+        System.out.println(newEventRegistrationDTO.getStudentId());
+        System.out.println(newEventRegistrationDTO.isDeregistered());
+        System.out.println(newEventRegistrationDTO.isSuccessful());
+
+        // find student and event
         Student student = studentRepository.getReferenceById(newEventRegistrationDTO.getStudentId());
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
+
+        // create new entry
         EventRegistration newEventRegistration = new EventRegistration(student, event, newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
+
+        // TODO
+        // save into student and event list
+        // this line causes stack overflow
+        // student.addEventRegistration(newEventRegistration);
+        // event.addEventRegistration(newEventRegistration);
+        // System.out.println(newEventRegistration);
+
+        // save into db
         return eventRegistrationRepository.save(newEventRegistration);
     }
 

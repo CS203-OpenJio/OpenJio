@@ -1,18 +1,6 @@
-// post a new registration
-POST http://localhost:8080/api/v1/register
-Content-Type: application/json
-
-{
-    "user":1,
-    "event":1,
-    "isDeregistered":false,
-    "isSuccessful":false
-}
-
-###
 
 // get registrations by userid
-GET http://localhost:8080/api/v1/register/user/1
+GET http://localhost:8080/api/v1/register/student/1
 
 ###
 
@@ -21,3 +9,18 @@ GET http://localhost:8080/api/v1/register/event/1
 
 ###
 
+// post a new registration
+POST http://localhost:8080/api/v1/register
+Content-Type: application/json
+
+{
+    "studentId":1,
+    "eventId":1,
+    "isDeregistered":false,
+    "isSuccessful":false
+}
+
+###
+
+// delete by id
+DELETE http://localhost:8080/api/v1/register/id/2
