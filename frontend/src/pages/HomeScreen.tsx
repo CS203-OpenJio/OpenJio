@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import NavBar from "../components/HomeScreen/NavBar";
+import { Link } from "react-router-dom";
 
 const HomeScreen: FunctionComponent = () => {
   return (
@@ -7,10 +8,11 @@ const HomeScreen: FunctionComponent = () => {
       <NavBar />
 
       <div className="min-h-screen">
-        <div className="h-20">
-          {/* place components under this line for testing! */}
-
-        </div>
+        <div className="h-20"></div>
+        {/* place components under this line for testing! */}
+        <Link to="/EventPage">
+          <button>EventPage</button>
+        </Link>
         <div className="w-[70%] m-auto mt-[5vw] flex flex-row justify-between flex-wrap">
           <div className="flex flex-col">
             <span className="text-left text-xl text-black font-roboto-serif">
@@ -69,7 +71,7 @@ const HomeScreen: FunctionComponent = () => {
 
       </div>
 
-      <hr id="scrollAboutUs"/>
+      <hr id="scrollAboutUs" />
 
       <div className="w-[60%] m-auto">
         <div>
