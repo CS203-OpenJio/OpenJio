@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "studentId":1,
-    "eventId":1,
+    "eventId":2,
     "isDeregistered":false,
     "isSuccessful":false
 }
