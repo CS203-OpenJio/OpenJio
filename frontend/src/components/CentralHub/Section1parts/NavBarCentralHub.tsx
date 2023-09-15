@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import DropDownSelect from "./Select1";
 
 function NavBarCentralHub() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ function NavBarCentralHub() {
   };
 
   return (
-    <div className="flex top-0 justify-between items-center fixed w-full bg-white z-50 pt-2 pb-2">
+    <div className="top-0 flex justify-between items-center fixed w-full bg-white z-50 pt-2 pb-2 pl-5 pr-5">
       <img
         onClick={() => handleClick("/")}
         className="object-cover h-20 ml-2 cursor-pointer"
@@ -31,7 +32,7 @@ function NavBarCentralHub() {
         </div>
       </div>
       <img
-        className="object-cover mr-3 cursor-pointer"
+        className="object-cover mr-11 cursor-pointer"
         alt="Logout button"
         src="/logout.png"
       />
