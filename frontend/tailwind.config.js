@@ -60,7 +60,7 @@ module.exports = {
         "source-serif-pro": "'Source Serif Pro'",
         "ibm-plex-mono": "'IBM Plex Mono'",
         "roboto-serif": "'Roboto Serif'",
-        "figma-hand": "'Figma Hand'",
+        "pacifico": "'Pacifico'",
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       borderRadius: {
