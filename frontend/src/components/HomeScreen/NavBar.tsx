@@ -1,5 +1,5 @@
 import LoginButton from "./LoginButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function NavBar() {
@@ -40,11 +40,14 @@ function NavBar() {
       style={{
         transition: "background-color 0.2s ease-in-out",
       }}>
-      <img
-        className="object-cover h-12 ml-5 cursor-pointer"
-        alt="OpenJio Logo"
-        src="/logo.png"
-      />
+        <Link to="/">
+          <img
+          className="object-cover h-12 ml-5 cursor-pointer"
+          alt="OpenJio Logo"
+          src="/logo.png"
+        />
+        </Link>
+
       <div className="font-medium flex flex-row text-center text-3xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
         <div onClick={() => scrollToElement("scrollOpenJio")} className="hover:bg-black hover:text-white">OpenJio?</div>
         <div onClick={() => scrollToElement("scrollAboutUs")} className="hover:bg-black hover:text-white">About Us</div>
