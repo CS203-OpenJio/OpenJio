@@ -18,7 +18,10 @@ function CentralHub() {
       </div>
       <Section2 />
       <p></p>
-      <div className="pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">
+      <div
+        id="All Events"
+        className="pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)"
+      >
         All Events
       </div>
       <div className="flex flex-row justify-between ml-30 ml-14 mr-14 mb-5">
