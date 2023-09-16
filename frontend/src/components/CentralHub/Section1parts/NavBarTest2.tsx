@@ -19,6 +19,16 @@ function NavBarTest2() {
   //For NavBar transparency effect
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const [hasHovered, setHasHovered] = useState(false);
+
+  const OpenedDropDown = () => {
+    setHasHovered(true);
+  };
+
+  const ClosedDropDown = () => {
+    setHasHovered(false);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -51,9 +61,20 @@ function NavBarTest2() {
       <div className="font-medium flex flex-row text-center text-3xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
         <div
           onClick={() => handleClick("/events")}
-          className="hover:bg-black hover:text-white"
+          className=" flex justify-center"
+          onMouseOver={OpenedDropDown}
+          onMouseOut={ClosedDropDown}
         >
-          Events
+          <div className="hover:bg-black hover:text-white">Events</div>
+          {hasHovered && (
+            <div className="absolute h-64">
+              <div className="absolute translate-y-[35%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white">
+                <div>View All Events</div>
+                <div>View Your Events</div>
+                <div>Create New Event</div>
+              </div>
+            </div>
+          )}
         </div>
         <div
           onClick={() => handleClick("/schedule")}
