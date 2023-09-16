@@ -10,7 +10,7 @@ const Select1 = () => {
   return (
     <Select>
       <SelectTrigger className="w-[180px] font-ibm-plex-mono bg-white">
-        <SelectValue placeholder="Category 1" />
+        <SelectValue placeholder="Event Type" />
       </SelectTrigger>
       <SelectContent className="font-ibm-plex-mono">
         <SelectItem value="Orientation Camp">Orientation Camp</SelectItem>

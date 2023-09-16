@@ -6,11 +6,11 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-const Select2 = () => {
+const Select3 = () => {
   return (
     <Select>
       <SelectTrigger className="w-[180px] font-ibm-plex-mono bg-white">
-        <SelectValue placeholder="Category 1" />
+        <SelectValue placeholder="Category 2" />
       </SelectTrigger>
       <SelectContent className="font-ibm-plex-mono">
         <SelectItem value="Free">Free</SelectItem>
@@ -24,4 +24,4 @@ const Select2 = () => {
   );
 };
 
-export default Select2;
+export default Select3;

@@ -50,18 +50,23 @@ function NavBarTest2() {
       />
       <div className="font-medium flex flex-row text-center text-3xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
         <div
-          onClick={() => scrollToElement("scrollOpenJio")}
+          onClick={() => handleClick("/events")}
           className="hover:bg-black hover:text-white"
         >
-          OpenJio?
+          Events
         </div>
         <div
-          onClick={() => scrollToElement("scrollAboutUs")}
+          onClick={() => handleClick("/schedule")}
           className="hover:bg-black hover:text-white"
         >
-          About Us
+          Schedule
         </div>
-        <div className="hover:bg-black hover:text-white">FAQ</div>
+        <div
+          className="hover:bg-black hover:text-white"
+          onClick={() => handleClick("/profile")}
+        >
+          Profile
+        </div>
       </div>
       <div className="mr-5" onClick={() => handleClick("/logout")}>
         <img
