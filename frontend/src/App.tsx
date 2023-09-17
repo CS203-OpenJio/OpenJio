@@ -1,4 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigationType,
+  useLocation,
+} from "react-router-dom";
 import { createContext } from "react";
 import HomeScreen from "src/pages/HomeScreen";
 import CentralHub from "src/pages/CentralHub";
@@ -6,6 +12,10 @@ import LoginPage from "src/pages/LoginPage";
 import EventPage from "src/pages/EventPage";
 import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
+import SignUpPage from "./pages/SignUpPage";
+import ForgetPassword from "./pages/ForgetPassword";
+import ForgetPassword1 from "./pages/ForgetPassword1";
+
 // import { Route } from "react-router-dom";
 
 // create the configuration for a router by simply passing
@@ -27,6 +37,14 @@ const router = createBrowserRouter([
     path: "/eventform",
     element: <EventForm />,
   },
+  {
+    path: "/forgetpassword",
+    element: <ForgetPassword />,
+  },
+  {
+    path: "/forgetpassword1",
+    element: <ForgetPassword1 />,
+  },
   // might need to update below as they require data passed through them for them to load
   {
     path: "/eventpage",
@@ -35,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/purchased",
     element: <TicketPurchased />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
   },
 ]);
 
