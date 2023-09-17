@@ -1,5 +1,5 @@
+import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import TicketFooter from "../components/EventPage/TicketFooter";
-import NavBar from "../components/HomeScreen/NavBar";
 import { useState, useEffect } from "react";
 
 export default function EventPage() {
@@ -21,10 +21,10 @@ export default function EventPage() {
 
     return (
         <div>
-            <NavBar />
+            <NavBarTest2 />
             <div className="h-20"></div>
             <TicketFooter />
-            <div>
+            <div className="flex flex-col gap-10">
                 {/* Maps post data! */}
                 {postData.map((post) => {
                     return (

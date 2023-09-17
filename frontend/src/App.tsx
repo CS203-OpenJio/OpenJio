@@ -5,6 +5,7 @@ import CentralHub from "src/pages/CentralHub";
 import LoginPage from "src/pages/LoginPage";
 import EventPage from "src/pages/EventPage";
 import TicketPurchased from "src/pages/TicketPurchased";
+import EventForm from "./pages/EventForm";
 // import { Route } from "react-router-dom";
 
 // create the configuration for a router by simply passing
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/eventform",
+    element: <EventForm />,
   },
   // might need to update below as they require data passed through them for them to load
   {

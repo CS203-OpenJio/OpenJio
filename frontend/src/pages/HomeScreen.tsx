@@ -13,6 +13,9 @@ const HomeScreen: FunctionComponent = () => {
         <Link to="/eventpage">
           <button>EventPage</button>
         </Link>
+        <Link to="/eventform">
+          <button>EventForm</button>
+        </Link>
         {/* place components above this line for testing! */}
         <div className="w-[70%] m-auto mt-[5vw] flex flex-row justify-between flex-wrap">
           <div className="flex flex-col">
