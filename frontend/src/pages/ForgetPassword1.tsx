@@ -10,9 +10,9 @@ const ForgetPassword1: FunctionComponent = () => {
   const navigate = useNavigate();
   const [answer, setAnswer] = useState(""); // 1. Create local state to store the answer
 
-  const onFrameContainerClick = useCallback(() => {
-    navigate("forgetpassword1");
-  }, [navigate]);
+  // const onFrameContainerClick = useCallback(() => {
+  //   navigate("forgetpassword1");
+  // }, [navigate]);
 
   const onPencil71Click = useCallback(() => {
     navigate("/login");
@@ -37,7 +37,7 @@ const ForgetPassword1: FunctionComponent = () => {
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-center text-base text-black font-ibm-plex-mono">
       <div
         className="absolute top-[45px] left-[1300px] w-[121px] h-[892px] overflow-hidden cursor-pointer"
-        onClick={onFrameContainerClick}
+        // onClick={onFrameContainerClick}
       >
         <Link
           className="cursor-pointer [text-decoration:none] absolute top-[0px] left-[0px] rounded-xl bg-white box-border w-[121px] h-[41px] flex flex-col py-2.5 px-3 items-center justify-center text-[inherit] border-[1px] border-solid border-black"
