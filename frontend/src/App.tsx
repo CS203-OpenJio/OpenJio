@@ -15,7 +15,11 @@ import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 
 import ForgetPassword1 from "./pages/ForgetPassword1";
+<<<<<<< Updated upstream
 import ForgetPassword from "./pages/ForgetPassword";
+=======
+import LogoutPage from "./pages/LogoutPage";
+>>>>>>> Stashed changes
 
 // import { Route } from "react-router-dom";
 
@@ -58,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUpPage />,
+  },
+  {
+    path: "/logout",
+    element: <LogoutPage />,
   },
 ]);
 

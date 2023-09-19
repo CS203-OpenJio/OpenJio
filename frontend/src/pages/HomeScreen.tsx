@@ -16,6 +16,9 @@ const HomeScreen: FunctionComponent = () => {
         <Link to="/eventform">
           <button>EventForm</button>
         </Link>
+        <Link to="/centralhub">
+          <button>CentralHub</button>
+        </Link>
         {/* place components above this line for testing! */}
         <div className="w-[70%] m-auto mt-[5vw] flex flex-row justify-between flex-wrap">
           <div className="flex flex-col">
@@ -48,17 +51,18 @@ const HomeScreen: FunctionComponent = () => {
         </div>
 
         <div className="m-auto w-[90%] flex-wrap flex justify-around overflow-hidden text-center text-11xl text-darkslateblue font-roboto-serif mt-[2vw]">
-
           <div className="flex flex-col">
             <b className="min-h-[50px]">Workshops</b>
-            <img className="rounded-11xl min-w-[392px] w-[29vw] object-cover"
+            <img
+              className="rounded-11xl min-w-[392px] w-[29vw] object-cover"
               alt=""
               src="/workshop.png"
             />
           </div>
           <div className="flex flex-col">
             <b className="min-h-[50px]">Orientation Camps</b>
-            <img className="rounded-11xl min-w-[392px] w-[29vw] object-cover"
+            <img
+              className="rounded-11xl min-w-[392px] w-[29vw] object-cover"
               alt=""
               src="/orientation.png"
             />
@@ -72,7 +76,6 @@ const HomeScreen: FunctionComponent = () => {
             />
           </div>
         </div>
-
       </div>
 
       <hr id="scrollAboutUs" />
@@ -86,18 +89,17 @@ const HomeScreen: FunctionComponent = () => {
           </div>
           <div className="rounded-xl bg-white m-auto overflow-hidden text-left text-xl font-ibm-plex-mono border-solid border-[0.5px]">
             <div className="m-10">
-              OpenJio is a powerful and user-friendly events website tailored for
-              university students, designed to enhance the way you discover, create,
-              and participate in events on your campus. We are constantly innovating
-              and in search of ways to improve our application and to provide our
-              users the most seamless experience.
+              OpenJio is a powerful and user-friendly events website tailored
+              for university students, designed to enhance the way you discover,
+              create, and participate in events on your campus. We are
+              constantly innovating and in search of ways to improve our
+              application and to provide our users the most seamless experience.
             </div>
             <div className="m-10">
-              We welcome constructive feedback
-              and your suggestions to improve our application and user-experience
-              are greatly appreciated. Do stay tuned for more updates!
+              We welcome constructive feedback and your suggestions to improve
+              our application and user-experience are greatly appreciated. Do
+              stay tuned for more updates!
             </div>
-
           </div>
         </div>
 
@@ -109,11 +111,7 @@ const HomeScreen: FunctionComponent = () => {
           </div>
           <div className="flex flex-col gap-10 mt-[3vw]">
             <div className="items-center flex flex-row justify-around rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-full h-[10vw]">
-              <img
-                className="h-[120%]"
-                alt=""
-                src="/centralhub.png"
-              />
+              <img className="h-[120%]" alt="" src="/centralhub.png" />
               <div className="text-xl font-ibm-plex-mono text-left">
                 Central Hub to Discover New Events
               </div>
@@ -129,23 +127,16 @@ const HomeScreen: FunctionComponent = () => {
               />
             </div>
             <div className="items-center flex flex-row justify-around rounded-[50%] bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] w-full h-[10vw]">
-              <img
-                className="h-[120%]"
-                alt=""
-                src="./eventcreation.png"
-              />
+              <img className="h-[120%]" alt="" src="./eventcreation.png" />
               <div className="text-xl font-ibm-plex-mono text-left">
                 Event Creation for University Clubs and Societies
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
 
-      <div className="h-20">
-      </div>
+      <div className="h-20"></div>
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import LogoutButton from "./LogoutButton";
 
-function NavBarTest2() {
+function EventFormNavBar() {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
@@ -80,7 +79,7 @@ function NavBarTest2() {
               <div className="absolute translate-y-[35%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white text-black">
                 <div>
                   <div
-                    onClick={() => scrollToElement("All Events")}
+                    onClick={() => handleClick("/centralhub")}
                     className="hover:bg-black hover:text-white mb-2"
                   >
                     View All Events
@@ -92,7 +91,7 @@ function NavBarTest2() {
                     View Your Events
                   </div>
                   <div
-                    onClick={() => handleClick("/eventform")}
+                    onClick={() => handleClick("/createnewevent")}
                     className="hover:bg-black hover:text-white"
                   >
                     Create New Event
@@ -139,14 +138,15 @@ function NavBarTest2() {
           )}
         </div>
       </div>
-      <div
-        className="mr-5 cursor-pointer"
-        onClick={() => handleClick("/logout")}
-      >
-        <LogoutButton />
+      <div className="mr-5" onClick={() => handleClick("/logout")}>
+        <img
+          className="object-cover mr-4 cursor-pointer"
+          alt="Logout button"
+          src="/logout.png"
+        />
       </div>
     </div>
   );
 }
 
-export default NavBarTest2;
+export default EventFormNavBar;

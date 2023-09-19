@@ -2,15 +2,12 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage: FunctionComponent = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-
-const handleSubmit = async () => {
-
-//login logic
-};
-
+  const handleSubmit = async () => {
+    //login logic
+  };
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,17 +52,17 @@ const handleSubmit = async () => {
   return (
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-left text-base text-black font-ibm-plex-mono">
       <div
-  className="absolute top-[45px] right-[50px] w-[121px] h-[892px] overflow-hidden [&.animate]:animate-[1s_ease_0s_1_normal_forwards_fade-in] opacity-[0] cursor-pointer"
-  onClick={onFrameContainerClick}
-  data-animate-on-scroll
->
-  <Link
-    className="cursor-pointer [text-decoration:none] absolute top-[0px] left-[0px] rounded-xl bg-white box-border w-[121px] h-[41px] flex flex-col py-2.5 px-3 items-center justify-center text-[inherit] border-[1px] border-solid border-black"
-    to="/login"
-  >
-    <div className="relative leading-[16px] font-medium">{`Sign up `}</div>
-  </Link>
-</div>
+        className="absolute top-[45px] right-[50px] w-[121px] h-[892px] overflow-hidden [&.animate]:animate-[1s_ease_0s_1_normal_forwards_fade-in] opacity-[0] cursor-pointer"
+        onClick={onFrameContainerClick}
+        data-animate-on-scroll
+      >
+        <Link
+          className="cursor-pointer [text-decoration:none] absolute top-[0px] left-[0px] rounded-xl bg-white box-border w-[121px] h-[41px] flex flex-col py-2.5 px-3 items-center justify-center text-[inherit] border-[1px] border-solid border-black"
+          to="/login"
+        >
+          <div className="relative leading-[16px] font-medium">{`Sign up `}</div>
+        </Link>
+      </div>
       <img
         className="absolute top-[82px] left-[2524px] w-[980px] h-[818px] overflow-hidden object-cover"
         alt=""
@@ -84,7 +81,7 @@ const handleSubmit = async () => {
                 <input
                   className="font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-darkslateblue"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email Address"
                   type="text"
                 />
@@ -93,15 +90,15 @@ const handleSubmit = async () => {
                 <input
                   className="font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-row py-2.5 px-3 items-center justify-center border-[1px] border-solid border-darkslateblue"
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your Password"
-                  type="password" 
+                  type="password"
                 />
               </div>
               <div className="absolute top-[219px] left-[107px] w-[238px] h-[41px] overflow-hidden">
-                <button 
-                className="cursor-pointer py-2.5 px-3 bg-floralwhite absolute top-[0px] left-[26px] rounded-xl box-border w-[166px] h-[41px] overflow-hidden flex flex-col items-center justify-center border-[1px] border-solid border-darkslateblue"
-                onClick={handleSubmit}
+                <button
+                  className="cursor-pointer py-2.5 px-3 bg-floralwhite absolute top-[0px] left-[26px] rounded-xl box-border w-[166px] h-[41px] overflow-hidden flex flex-col items-center justify-center border-[1px] border-solid border-darkslateblue"
+                  onClick={handleSubmit}
                 >
                   <div className="relative text-xs leading-[22px] font-medium font-ibm-plex-mono text-black text-left">
                     Login

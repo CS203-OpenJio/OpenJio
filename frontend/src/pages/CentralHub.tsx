@@ -6,6 +6,7 @@ import Select1 from "../components/CentralHub/Section1parts/Select1";
 import Select2 from "../components/CentralHub/Section1parts/Select2";
 import Select3 from "../components/CentralHub/Section1parts/Select3";
 import SearchBar from "../components/CentralHub/Section1parts/SearchBar";
+import Test from "../components/CentralHub/Section2parts/Test";
 
 function CentralHub() {
   return (

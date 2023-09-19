@@ -14,10 +14,8 @@ const SignUpPage: FunctionComponent = () => {
   const [school, setSchool] = useState("");
   const [matriculationid, setMatriculationid] = useState("");
 
-  const handleSubmit = async () => { 
-
-//sign up logic w backend api
-
+  const handleSubmit = async () => {
+    //sign up logic w backend api
   };
 
   return (
@@ -68,39 +66,32 @@ const SignUpPage: FunctionComponent = () => {
           <div className="self-stretch overflow-hidden flex flex-col py-0 px-3 items-center justify-start gap-[4px]">
             <div className="relative leading-[20px] font-medium inline-block w-[363px]">{`Year of matriculation `}</div>
             <div className="self-stretch flex flex-row items-start justify-between text-sm font-roboto">
-
-              <button 
-                className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+              <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
                 <div className="relative leading-[20px]">2022/2023</div>
-                </button>
-            
-              <button 
-                className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+              </button>
+
+              <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
                 <div className="relative leading-[20px]">2021/2022</div>
               </button>
 
-              <button 
-                className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+              <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
                 <div className="relative leading-[20px]">2019/2020</div>
               </button>
 
-              <button 
-                className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+              <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
                 <div className="relative leading-[20px]">2018/2022</div>
               </button>
-           
             </div>
           </div>
         </div>
 
-
-        <button
-          onClick={handleSubmit}
-        >
+        <button onClick={handleSubmit}>
           <div className="absolute top-[528px] left-[13px] w-[367px] overflow-hidden flex flex-col items-center justify-center text-sm">
             <div className="self-stretch overflow-hidden flex flex-row py-0 px-3 items-start justify-start">
               <div className="cursor-pointer flex-1 rounded-xl bg-floralwhite flex flex-col py-2.5 px-3 items-center justify-center border-[0.5px] border-solid border-black">
-                <div className="relative leading-[22px] font-medium">Sign Up</div>
+                <div className="relative leading-[22px] font-medium">
+                  Sign Up
+                </div>
               </div>
             </div>
           </div>
@@ -113,7 +104,7 @@ const SignUpPage: FunctionComponent = () => {
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
                 <input
-                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+                  className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
                   placeholder="Enter your full name"
@@ -130,8 +121,9 @@ const SignUpPage: FunctionComponent = () => {
             </div>
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
-                <input placeholder="Enter your email address"
-                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+                <input
+                  placeholder="Enter your email address"
+                  className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -147,8 +139,9 @@ const SignUpPage: FunctionComponent = () => {
             </div>
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
-                <input placeholder="Enter your password"
-                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+                <input
+                  placeholder="Enter your password"
+                  className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   type="text"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -164,13 +157,13 @@ const SignUpPage: FunctionComponent = () => {
             </div>
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
-                <input placeholder="Enter your password"
-                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+                <input
+                  placeholder="Enter your password"
+                  className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   type="text"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-
               </div>
             </div>
           </div>
@@ -182,8 +175,9 @@ const SignUpPage: FunctionComponent = () => {
             </div>
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
-                <input placeholder="Enter school's name"
-                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+                <input
+                  placeholder="Enter school's name"
+                  className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   type="text"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
@@ -199,7 +193,8 @@ const SignUpPage: FunctionComponent = () => {
             </div>
             <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
               <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
-                <input placeholder="Enter your id"
+                <input
+                  placeholder="Enter your id"
                   className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                   type="text"
                   value={matriculationid}
@@ -219,7 +214,7 @@ const SignUpPage: FunctionComponent = () => {
                 Sign up now to enjoy exclusive benefits.
               </div>
             </div>
-            
+
             <button className="cursor-pointer rounded box-border flex flex-row py-[3px] pr-1 pl-2 items-center justify-start gap-[0px] w-[55px] [align-self:start] mt-[9px] text-3xs border-[1px] border-solid border-black">
               <div className="relative leading-[16px]">Learn More</div>
               <img
