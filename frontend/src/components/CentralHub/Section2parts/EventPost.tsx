@@ -1,6 +1,6 @@
 const EventPost = () => {
   return (
-    <div className="bg-white border border-solid border-spacing-[0.5px] flex-col justify-around items-center m-5 rounded cursor-pointer">
+    <div className="bg-white border border-solid border-spacing-[0.5px] flex-col justify-around items-center m-5 rounded cursor-pointer hover:-translate-y-0.5 transition ease-out delay-150 hover:shadow-md">
       <img
         className="w-[360px] h-[200px] pr-3 pl-3 pt-3"
         alt="Welfare Drive Poster"
