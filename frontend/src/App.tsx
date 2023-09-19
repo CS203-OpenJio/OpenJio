@@ -13,8 +13,9 @@ import EventPage from "src/pages/EventPage";
 import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
-import ForgetPassword from "./pages/ForgetPassword";
+
 import ForgetPassword1 from "./pages/ForgetPassword1";
+import ForgetPassword from "./pages/ForgetPassword";
 
 // import { Route } from "react-router-dom";
 
