@@ -6,9 +6,10 @@ export default function EventPage() {
   //Sends GET request and updates posts
   const [postData, setPostData] = useState([] as any[]);
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
+    fetch("http://localhost:8080/api/v1/events")
       .then((response) => response.json())
       .then((data) => {
+        console.log("hi");
         console.log(data);
         setPostData(data);
       })
@@ -27,7 +28,7 @@ export default function EventPage() {
         {postData.map((post) => {
           return (
             <div className="post-card" key={post.id}>
-              <h2 className="post-title">{post.title}</h2>
+              <h2 className="post-title">{post.description}</h2>
               <p className="post-body">{post.body}</p>
               <div className="button">
                 <div className="delete-btn">Delete</div>
