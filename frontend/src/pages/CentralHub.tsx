@@ -7,6 +7,7 @@ import Select2 from "../components/CentralHub/Section1parts/Select2";
 import Select3 from "../components/CentralHub/Section1parts/Select3";
 import SearchBar from "../components/CentralHub/Section1parts/SearchBar";
 import Test from "../components/CentralHub/Section2parts/Test";
+import Section3 from "../components/CentralHub/Section3";
 
 function CentralHub() {
   return (
@@ -31,7 +32,7 @@ function CentralHub() {
         <Select2 />
         <Select3 />
       </div>
-      <Section2 />
+      <Section3 />
     </div>
   );
 }

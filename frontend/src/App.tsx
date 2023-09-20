@@ -1,10 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import {
-  Routes,
-  Route,
-  useNavigationType,
-  useLocation,
-} from "react-router-dom";
 import { createContext } from "react";
 import HomeScreen from "src/pages/HomeScreen";
 import CentralHub from "src/pages/CentralHub";
@@ -14,12 +8,9 @@ import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 
-import ForgetPassword1 from "./pages/ForgetPassword1";
-<<<<<<< Updated upstream
-import ForgetPassword from "./pages/ForgetPassword";
-=======
-import LogoutPage from "./pages/LogoutPage";
->>>>>>> Stashed changes
+import ForgetPassword1 from "src/pages/ForgetPassword1";
+import ForgetPassword from "src/pages/ForgetPassword";
+import LogoutPage from "src/pages/LogoutPage";
 
 // import { Route } from "react-router-dom";
 
@@ -44,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forgetpassword",
-    element: <ForgetPassword/>
+    element: <ForgetPassword />,
   },
   {
     path: "/forgetpassword1",
