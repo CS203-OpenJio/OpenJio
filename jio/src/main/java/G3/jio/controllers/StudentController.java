@@ -2,7 +2,6 @@ package G3.jio.controllers;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.entities.Student;
-import G3.jio.services.StudentService;
 import G3.jio.exceptions.UserNotFoundException;
+import G3.jio.services.StudentService;
 
 @RestController
 @Controller
