@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "events")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Event {
 
     @Id
@@ -46,9 +46,6 @@ public class Event {
 
     @Column(name = "capacity")
     private int capacity;
-
-    @Column(name = "isRegistered")
-    private boolean isRegistered;
 
     @Column(name = "algoType")
     private int algo;
