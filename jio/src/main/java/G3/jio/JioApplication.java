@@ -1,21 +1,26 @@
 package G3.jio;
 
-import java.time.LocalDate;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import G3.jio.entities.Event;
+import G3.jio.config.Role;
 import G3.jio.entities.Student;
-import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
 
 @SpringBootApplication
 public class JioApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JioApplication.class, args);
+
+        ApplicationContext ctx = SpringApplication.run(JioApplication.class, args);
+
+        // JPA user repository init
+        StudentRepository studentRepository = ctx.getBean(StudentRepository.class);
+        BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
+        System.out.println("[Add Student]: " + studentRepository.save(
+            new Student("admin", encoder.encode("admin"), Role.ADMIN)).getUsername());
 
         // EventRepository eventRepo = ctx.getBean(EventRepository.class);
         // System.out.println(
