@@ -36,7 +36,7 @@ function LogoutNavBar() {
   }, []);
 
   return (
-    <div>
+    <div className="flex">
       <div
         className={`flex justify-between items-center fixed w-full ${
           isScrolled ? "bg-white shadow-sm" : ""

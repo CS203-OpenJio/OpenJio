@@ -9,7 +9,7 @@ import {
 const Select1 = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px] font-ibm-plex-mono bg-white">
+      <SelectTrigger className="w-[180px] font-ibm-plex-mono bg-white cursor-pointer">
         <SelectValue placeholder="Event Type" />
       </SelectTrigger>
       <SelectContent className="font-ibm-plex-mono">
