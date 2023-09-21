@@ -4,9 +4,20 @@ import { useState, useEffect } from "react";
 
 export default function EventPage() {
   //Sends GET request and updates posts
+  const userName = 'admin';
+  const password = 'admin';
+  
   const [postData, setPostData] = useState([] as any[]);
+  const options = {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Basic ' + btoa(`${userName}:${password}`),
+    },
+  };
+
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/events")
+    fetch("http://localhost:8080/api/v1/events", options)
       .then((response) => response.json())
       .then((data) => {
         console.log("hi");

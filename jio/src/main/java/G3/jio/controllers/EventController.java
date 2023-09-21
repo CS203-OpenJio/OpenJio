@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import G3.jio.services.EventService;
 @RestController
 @Controller
 @RequestMapping(path = "api/v1/events")
+@CrossOrigin(origins = "http://localhost:3006", allowCredentials = "true", exposedHeaders = "Authorization")
 public class EventController {
     private EventService eventService;
 

@@ -50,7 +50,8 @@ public class SecurityConfig {
         .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
         .csrf(csrf -> csrf.disable())
         .formLogin(login -> login.disable())
-        .headers(headers -> headers.disable()); // Disable the security headers, as we do not return HTML in our service
+        .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our service
+        .cors(Customizer.withDefaults());
 
         return http.build();
     }
