@@ -32,7 +32,6 @@ export default function EventPage() {
     fetch("http://localhost:8080/api/v1/events", options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("hi");
         console.log(data);
         setPostData(data);
       })

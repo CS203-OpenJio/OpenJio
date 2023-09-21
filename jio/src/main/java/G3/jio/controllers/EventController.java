@@ -23,7 +23,6 @@ import G3.jio.services.EventService;
 @RestController
 @Controller
 @RequestMapping(path = "api/v1/events")
-@CrossOrigin(origins = "http://localhost:3006", allowCredentials = "true", exposedHeaders = "Authorization")
 public class EventController {
     private EventService eventService;
 
