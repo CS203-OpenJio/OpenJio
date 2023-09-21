@@ -20,21 +20,21 @@ public class UserDetailsService implements org.springframework.security.core.use
     }
 
     public UserDetails loadUserByUsername(String username) {
-        Optional<Student> tempStudent = studentRepository.findByName(username);
+        Optional<Student> tempStudent = studentRepository.findByEmail(username);
 
         Student student = null;
         UserDetails user = null;
 
         if (tempStudent.isEmpty()) {
             throw new UsernameNotFoundException("User '" + username + "' not found");
-        } else if (!tempStudent.isEmpty()){
+        } else if (!tempStudent.isEmpty()) {
             student = tempStudent.get();
         }
 
-        if (student != null){
+        if (student != null) {
             user = User.withUsername(student.getUsername()).password(student.getPassword()).authorities("USER").build();
         }
-        
+
         return user;
     }
 }

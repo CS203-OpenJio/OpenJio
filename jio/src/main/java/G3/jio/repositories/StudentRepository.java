@@ -12,6 +12,10 @@ import G3.jio.entities.Student;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     public List<Student> findAllByName(String name);
+
     Optional<Student> findByName(String name);
+
     Optional<Student> findById(Long id);
+
+    Optional<Student> findByEmail(String email);
 }

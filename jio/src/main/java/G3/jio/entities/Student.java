@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "students")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Student implements UserDetails {
 
     @Id
@@ -67,8 +67,8 @@ public class Student implements UserDetails {
         this.registrations.add(eventRegistration);
     }
 
-    public Student(String username, String password, Role role){
-        this.name = username;
+    public Student(String username, String password, Role role) {
+        this.email = username;
         this.password = password;
         this.role = role;
     }
@@ -85,8 +85,8 @@ public class Student implements UserDetails {
 
     @Override
     public String getUsername() {
-        // name in our case
-        return name;
+        // email in our case
+        return email;
     }
 
     @Override
