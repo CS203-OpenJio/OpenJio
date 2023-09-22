@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "@/components/HomeScreen/NavBar";
+import NavBar from  "/Users/pramitshanmugababu/Documents/GitHub/cs203/frontend/src/components/HomeScreen/NavBar";
 
 const LoginPage: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -52,6 +52,9 @@ const LoginPage: FunctionComponent = () => {
   }, [navigate]);
 
   return (
+    <div>
+      <NavBar />
+    
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-left text-base text-black font-ibm-plex-mono">
       <div
         className="absolute top-[45px] right-[50px] w-[121px] h-[892px] overflow-hidden [&.animate]:animate-[1s_ease_0s_1_normal_forwards_fade-in] opacity-[0] cursor-pointer"
@@ -98,14 +101,35 @@ const LoginPage: FunctionComponent = () => {
                 />
               </div>
               <div className="absolute top-[219px] left-[107px] w-[238px] h-[41px] overflow-hidden">
-                <button
-                  className="cursor-pointer py-2.5 px-3 bg-floralwhite absolute top-[0px] left-[26px] rounded-xl box-border w-[166px] h-[41px] overflow-hidden flex flex-col items-center justify-center border-[1px] border-solid border-darkslateblue"
-                  onClick={handleSubmit}
-                >
-                  <div className="relative text-xs leading-[22px] font-medium font-ibm-plex-mono text-black text-left">
-                    Login
-                  </div>
-                </button>
+
+              <div className="button-container" style={{ display: 'flex', justifyContent: 'center', padding: '0', position: 'relative', top: '0px' }}> {/* Adjusted top property */}
+          
+          
+          {/* Existing Login button */}
+          <button
+            className="cursor-pointer py-2.5 px-3 bg-floralwhite rounded-xl box-border overflow-visible flex flex-col items-center justify-center border-[1px] border-solid border-darkslateblue" 
+            onClick={handleSubmit}
+            style={{ margin: '0' }}
+          >
+            <div className="relative text-xs leading-[22px] font-medium font-ibm-plex-mono text-black text-left">
+              Login
+            </div>
+          </button>
+
+          
+          {/* New Sign up link/button with the same properties, styles, and behavior as the existing one */}
+          <Link
+            className="cursor-pointer [text-decoration:none] rounded-xl bg-white box-border flex flex-col py-2.5 px-3 items-center justify-center text-[inherit] border-[1px] border-solid border-black" 
+            to="/signup"
+            onClick={onFrameContainerClick}
+            style={{ margin: '0' }}
+          >
+            <div className="relative leading-[16px] font-medium">{`Sign up `}</div>
+          </Link>
+          
+        </div>
+          
+
               </div>
               <div className="absolute top-[60px] left-[117px] w-[218px] h-[18px] overflow-hidden">
                 <div className="absolute top-[0px] left-[0px] leading-[20px] font-medium inline-block w-[70px] h-[18px]">
@@ -131,24 +155,11 @@ const LoginPage: FunctionComponent = () => {
                 />
               </Link>
             </div>
-            <div className="absolute top-[0px] left-[0px] w-[457px] h-[52px] overflow-hidden text-center text-4xl text-black font-ibm-plex-mono">
-              <div className="absolute top-[0px] left-[0px] w-[479px] h-[52px] overflow-hidden">
-                <div className="absolute top-[0px] left-[0px] w-[479px] h-[51px] overflow-hidden">
-                  <div className="absolute top-[0px] left-[0px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-                    OpenJio?
-                  </div>
-                  <div className="absolute top-[0px] left-[370px] leading-[150%] font-medium inline-block w-[109px] h-[50px]">
-                    FAQ
-                  </div>
-                  <div className="absolute top-[1px] left-[196px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-                    About Us
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

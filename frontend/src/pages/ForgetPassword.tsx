@@ -1,5 +1,6 @@
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from  "/Users/pramitshanmugababu/Documents/GitHub/cs203/frontend/src/components/HomeScreen/NavBar";
 
 const ForgetPassword: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -22,6 +23,9 @@ const ForgetPassword: FunctionComponent = () => {
     }
   };
   return (
+    <div>
+    <NavBar />
+
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-left text-lg text-black font-ibm-plex-mono">
       <div
         className="absolute top-[45px] left-[1300px] w-[121px] h-[892px] overflow-hidden cursor-pointer"
@@ -34,13 +38,7 @@ const ForgetPassword: FunctionComponent = () => {
           <div className="relative leading-[22px] font-medium">{`Sign up `}</div>
         </Link>
       </div>
-      <div className="absolute top-[-37px] left-[-101px] w-[519px] h-[1056px] overflow-hidden">
-        <img
-          className="absolute top-[37px] left-[101px] w-[519px] h-[205px] object-cover"
-          alt=""
-          src="/undefined.png"
-        />
-      </div>
+     
       <div className="absolute top-[45px] left-[446px] w-[693px] h-[892px] overflow-hidden text-center text-base">
         <div className="absolute top-[0px] left-[0px] w-[693px] h-[758px] overflow-hidden">
           <div className="absolute top-[480px] left-[225px] w-[465px] h-[25px] overflow-hidden text-left">
@@ -71,19 +69,7 @@ const ForgetPassword: FunctionComponent = () => {
               <div className="relative rounded-81xl bg-white w-1 h-1" />
             </div>
           </div>
-          <div className="absolute top-[0px] left-[76px] w-[541px] h-[51px] overflow-hidden text-4xl">
-            <div className="absolute top-[0px] left-[0px] w-[479px] h-[51px] overflow-hidden">
-              <div className="absolute top-[0px] left-[0px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-                OpenJio?
-              </div>
-              <div className="absolute top-[0px] left-[370px] leading-[150%] font-medium inline-block w-[109px] h-[50px]">
-                FAQ
-              </div>
-              <div className="absolute top-[1px] left-[196px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-                About Us
-              </div>
-            </div>
-          </div>
+   
           <div className="absolute top-[243px] left-[0px] w-[693px] h-[235px] overflow-hidden">
             <div className="absolute top-[0px] left-[10px] leading-[24px] font-medium inline-block w-[664px] h-[37px]">
               Reset Your Password
@@ -118,6 +104,9 @@ const ForgetPassword: FunctionComponent = () => {
         </div>
       </div>
     </div>
+  </div>
+
+
   );
 };
 

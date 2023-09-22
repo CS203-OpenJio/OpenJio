@@ -5,6 +5,7 @@ import {
   SetStateAction,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from  "/Users/pramitshanmugababu/Documents/GitHub/cs203/frontend/src/components/HomeScreen/NavBar";
 
 const ForgetPassword1: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -34,6 +35,10 @@ const ForgetPassword1: FunctionComponent = () => {
   };
 
   return (
+
+    <div>
+    <NavBar />
+
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-center text-base text-black font-ibm-plex-mono">
       <div
         className="absolute top-[45px] left-[1300px] w-[121px] h-[892px] overflow-hidden cursor-pointer"
@@ -46,26 +51,10 @@ const ForgetPassword1: FunctionComponent = () => {
           <div className="relative leading-[18px] font-medium inline-block w-[84px]">{`Sign up `}</div>
         </Link>
       </div>
-      <div className="absolute top-[-37px] left-[-101px] w-[519px] h-[1056px] overflow-hidden flex flex-col items-center justify-start">
-        <Link
-          className="cursor-pointer [text-decoration:none] relative w-[519px] h-[205px] bg-[url('/public/undefined.png')] bg-cover bg-no-repeat bg-[top]"
-          to="/login"
-          onClick={onPencil71Click}
-        />
-      </div>
+      
       <div className="absolute top-[45px] left-[445px] w-[621px] h-[892px] overflow-hidden flex flex-col items-center justify-start text-4xl">
         <div className="w-[621px] h-[617px] overflow-hidden shrink-0 flex flex-col items-center justify-center gap-[224px]">
-          <div className="w-[479px] h-[51px] overflow-hidden shrink-0 ml-3">
-            <div className="absolute top-[0px] left-[0px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-              OpenJio?
-            </div>
-            <div className="absolute top-[0px] left-[370px] leading-[150%] font-medium inline-block w-[109px] h-[50px]">
-              FAQ
-            </div>
-            <div className="absolute top-[1px] left-[196px] leading-[150%] font-medium inline-block w-[131px] h-[50px]">
-              About Us
-            </div>
-          </div>
+          
           <div className="relative rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border w-[621px] h-[342px] overflow-hidden shrink-0 text-[20px] font-roboto border-[0.5px] border-solid border-black">
             <div className="absolute top-[85px] left-[22px] w-[579px] flex flex-col py-0 px-3 box-border items-center justify-center">
               <div className="w-[567px] flex flex-row py-3 px-0 box-border items-center justify-center relative gap-[8px]">
@@ -118,6 +107,8 @@ const ForgetPassword1: FunctionComponent = () => {
         </div>
       </div>
     </div>
+  </div>
+  
   );
 };
 
