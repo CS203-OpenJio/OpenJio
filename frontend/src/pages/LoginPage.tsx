@@ -1,5 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from "@/components/HomeScreen/NavBar";
 
 const LoginPage: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const LoginPage: FunctionComponent = () => {
     const scrollAnimElements = document.querySelectorAll(
       "[data-animate-on-scroll]"
     );
+
 
     const observer = new IntersectionObserver(
       (entries) => {
