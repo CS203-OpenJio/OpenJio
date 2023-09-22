@@ -36,23 +36,22 @@ function LogoutNavBar() {
   }, []);
 
   return (
-    <div className="flex">
-      <div
-        className={`flex justify-between items-center fixed w-full ${
-          isScrolled ? "bg-white shadow-sm" : ""
-        } z-50 pt-2 pb-2`}
-        style={{
-          transition: "background-color 0.2s ease-in-out",
-        }}
-      >
-        <Link to="/">
-          <img
-            className="object-cover h-12 ml-5 cursor-pointer"
-            alt="OpenJio Logo"
-            src="/logo.png"
-          />
-        </Link>
-      </div>
+    <div
+      className={`flex justify-between items-center fixed w-full ${
+        isScrolled ? "bg-white shadow-sm" : ""
+      } z-50 pt-2 pb-2`}
+      style={{
+        transition: "background-color 0.2s ease-in-out",
+      }}
+    >
+      <Link to="/">
+        <img
+          className="object-cover h-12 ml-5 cursor-pointer"
+          alt="OpenJio Logo"
+          src="/logo.png"
+        />
+      </Link>
+
       <div className="mr-5" onClick={() => handleClick("/login")}>
         <LoginButton />
       </div>
