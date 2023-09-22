@@ -14,9 +14,13 @@ const SignUpPage: FunctionComponent = () => {
   const [password, setPassword] = useState("");
   const [school, setSchool] = useState("");
   const [matriculationid, setMatriculationid] = useState("");
+  const [securityanswer, setsecurityanswer] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
   const handleSubmit = async () => {
     //sign up logic w backend api
+    // Use the selectedYear state here along with other state variables
+    // to send the data to the backend or perform other sign-up logic.
   };
 
   return (
@@ -24,16 +28,6 @@ const SignUpPage: FunctionComponent = () => {
       <NavBar />
 
       <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-center text-4xl text-black font-ibm-plex-mono">
-        <Link
-          className="cursor-pointer [text-decoration:none] absolute top-[45px] left-[1300px] rounded-xl bg-white box-border w-[121px] h-[41px] flex flex-col py-2.5 px-3 items-center justify-center text-left text-lg text-[inherit] border-[1px] border-solid border-darkslateblue"
-          to="/login"
-          onClick={onSecondayClick}
-        >
-          <div className="relative leading-[22px] font-medium inline-block w-[54px]">
-            Login
-          </div>
-        </Link>
-
         <b className="absolute top-[181px] left-[136px] text-[40px] leading-[150%] inline-block font-source-serif-pro w-[236px] h-[34px]">
           Sign Up
         </b>
@@ -58,20 +52,56 @@ const SignUpPage: FunctionComponent = () => {
             <div className="self-stretch overflow-hidden flex flex-col py-0 px-3 items-center justify-start gap-[4px]">
               <div className="relative leading-[20px] font-medium inline-block w-[363px]">{`Year of matriculation `}</div>
               <div className="self-stretch flex flex-row items-start justify-between text-sm font-roboto">
-                <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+                <button
+                  onClick={() => setSelectedYear("2022/2023")}
+                  className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
+             ${
+               selectedYear === "2022/2023"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
+             transform active:scale-95`}
+                >
                   <div className="relative leading-[20px]">2022/2023</div>
                 </button>
 
-                <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
+                <button
+                  onClick={() => setSelectedYear("2021/2022")}
+                  className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
+             ${
+               selectedYear === "2021/2022"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
+             transform active:scale-95`}
+                >
                   <div className="relative leading-[20px]">2021/2022</div>
                 </button>
 
-                <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
-                  <div className="relative leading-[20px]">2019/2020</div>
+                <button
+                  onClick={() => setSelectedYear("2020/2021")}
+                  className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
+             ${
+               selectedYear === "2020/2021"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
+             transform active:scale-95`}
+                >
+                  <div className="relative leading-[20px]">2020/2021</div>
                 </button>
 
-                <button className="cursor-pointer rounded-md bg-floralwhite flex flex-col p-2 items-center justify-center">
-                  <div className="relative leading-[20px]">2018/2022</div>
+                <button
+                  onClick={() => setSelectedYear("2019/2020")}
+                  className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
+             ${
+               selectedYear === "2019/2020"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
+             transform active:scale-95`}
+                >
+                  <div className="relative leading-[20px]">2019/2020</div>
                 </button>
               </div>
             </div>
@@ -80,7 +110,7 @@ const SignUpPage: FunctionComponent = () => {
           <button onClick={handleSubmit}>
             <div className="absolute top-[528px] left-[13px] w-[367px] overflow-hidden flex flex-col items-center justify-center text-sm">
               <div className="self-stretch overflow-hidden flex flex-row py-0 px-3 items-start justify-start">
-                <div className="cursor-pointer flex-1 rounded-xl bg-floralwhite flex flex-col py-2.5 px-3 items-center justify-center border-[0.5px] border-solid border-black">
+                <div className="cursor-pointer flex-1 rounded-xl bg-floralwhite flex flex-col py-2.5 px-3 items-center justify-center border-[0.5px] border-solid border-black transform active:scale-95">
                   <div className="relative leading-[22px] font-medium">
                     Sign Up
                   </div>
@@ -145,16 +175,16 @@ const SignUpPage: FunctionComponent = () => {
           <div className="absolute top-[235px] left-[13px] w-[367px] overflow-hidden flex flex-col items-start justify-center">
             <div className="self-stretch overflow-hidden flex flex-col py-0 px-3 items-start justify-center gap-[4px]">
               <div className="self-stretch relative leading-[20px] font-medium">
-                Re-Enter Password
+                Security Question (what is your favourite pet)
               </div>
               <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
                 <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
                   <input
-                    placeholder="Enter your password"
+                    placeholder="Enter your answer"
                     className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                     type="text"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={securityanswer}
+                    onChange={(e) => setsecurityanswer(e.target.value)}
                   />
                 </div>
               </div>
@@ -207,7 +237,10 @@ const SignUpPage: FunctionComponent = () => {
                 </div>
               </div>
 
-              <button className="cursor-pointer rounded box-border flex flex-row py-[3px] pr-1 pl-2 items-center justify-start gap-[0px] w-[55px] [align-self:start] mt-[9px] text-3xs border-[1px] border-solid border-black">
+              <button
+                onClick={() => navigate("/")}
+                className="cursor-pointer rounded box-border flex flex-row py-[3px] pr-1 pl-2 items-center justify-start gap-[0px] w-[55px] [align-self:start] mt-[9px] text-3xs border-[1px] border-solid border-black"
+              >
                 <div className="relative leading-[16px]">Learn More</div>
                 <img
                   className="relative w-3 h-3 object-cover"

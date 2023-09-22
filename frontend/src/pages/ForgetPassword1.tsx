@@ -24,7 +24,7 @@ const ForgetPassword1: FunctionComponent = () => {
 
     if (answer == "fluffy") {
       // Here, navigate to the desired page
-      navigate("/forgetpassword"); // <-- EDIT THIS with the route of your next page
+      navigate("/forgetpassword2"); // <-- EDIT THIS with the route of your next page
     }
   };
 
@@ -40,17 +40,7 @@ const ForgetPassword1: FunctionComponent = () => {
     <NavBar />
 
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-center text-base text-black font-ibm-plex-mono">
-      <div
-        className="absolute top-[45px] left-[1300px] w-[121px] h-[892px] overflow-hidden cursor-pointer"
-        // onClick={onFrameContainerClick}
-      >
-        <Link
-          className="cursor-pointer [text-decoration:none] absolute top-[0px] left-[0px] rounded-xl bg-white box-border w-[121px] h-[41px] flex flex-col py-2.5 px-3 items-center justify-center text-[inherit] border-[1px] border-solid border-black"
-          to="/"
-        >
-          <div className="relative leading-[18px] font-medium inline-block w-[84px]">{`Sign up `}</div>
-        </Link>
-      </div>
+      
       
       <div className="absolute top-[45px] left-[445px] w-[621px] h-[892px] overflow-hidden flex flex-col items-center justify-start text-4xl">
         <div className="w-[621px] h-[617px] overflow-hidden shrink-0 flex flex-col items-center justify-center gap-[224px]">

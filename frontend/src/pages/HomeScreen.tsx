@@ -1,8 +1,41 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import NavBar from "../components/HomeScreen/NavBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const HomeScreen: FunctionComponent = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.substring(1); // remove the '#' from the hash
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.hash]);
+
+  const faqs = [
+    {
+      question: "How do I create an event?",
+      answer:
+        'You can create an event by navigating to the "Create Event" page and filling out the necessary information.',
+    },
+    {
+      question: "How do I join an event?",
+      answer:
+        'You can join an event by clicking on the "Join" button next to the event you are interested in.',
+    },
+    {
+      question: "How to contact us?",
+      answer:
+        "You can contact us by sending an email to support@openjio.com or through our Contact Us page.",
+    },
+  ];
+
   return (
     <div>
       <NavBar />
@@ -130,6 +163,71 @@ const HomeScreen: FunctionComponent = () => {
               <img className="h-[120%]" alt="" src="./eventcreation.png" />
               <div className="text-xl font-ibm-plex-mono text-left">
                 Event Creation for University Clubs and Societies
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="scrollFAQ"
+          className="w-[60%] m-auto mt-[5vw]"
+          style={{ width: "70%", margin: "auto", marginTop: "5vw" }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <b
+              style={{
+                marginTop: "20px",
+                display: "inline-block",
+                lineHeight: "150%",
+                fontSize: "51px",
+                textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                color: "darkslateblue",
+              }}
+            >
+              FAQ
+            </b>
+            <div style={{ marginLeft: "-130px" }}>
+              <div
+                style={{
+                  borderRadius: "8px",
+                  backgroundColor: "white",
+                  margin: "auto",
+                  overflow: "hidden",
+                  textAlign: "left",
+                  fontSize: "20px",
+                  fontFamily: "IBM Plex Mono",
+                  border: "solid 0.5px",
+                  marginTop: "3vw",
+                  width: "120%",
+                }}
+              >
+                {faqs.map((faq, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      borderBottom:
+                        index === faqs.length - 1 ? "none" : "1px solid #ccc",
+                      transition: "all 0.3s ease-in-out",
+                    }}
+                  >
+                    <div
+                      style={{ cursor: "pointer", margin: "10px" }}
+                      onClick={() =>
+                        setOpenIndex(openIndex === index ? null : index)
+                      }
+                    >
+                      <b>{faq.question}</b>
+                    </div>
+                    <div
+                      style={{
+                        maxHeight: openIndex === index ? "100px" : "0",
+                        overflow: "hidden",
+                        transition: "max-height 0.3s ease-in-out",
+                      }}
+                    >
+                      <p>{faq.answer}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

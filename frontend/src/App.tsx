@@ -9,7 +9,7 @@ import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 
 import ForgetPassword1 from "src/pages/ForgetPassword1";
-import ForgetPassword from "src/pages/ForgetPassword";
+import ForgetPassword2 from "src/pages/ForgetPassword2";
 import LogoutPage from "src/pages/LogoutPage";
 
 // import { Route } from "react-router-dom";
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
     element: <EventForm />,
   },
   {
-    path: "/forgetpassword",
-    element: <ForgetPassword />,
+    path: "/forgetpassword2",
+    element: <ForgetPassword2 />,
   },
   {
     path: "/forgetpassword1",

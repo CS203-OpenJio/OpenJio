@@ -1,9 +1,15 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  variants: {
+    extend: {
+      transform: ["active"],
+    },
+  },
+
   darkMode: ["class"],
-  content: ["./src/**/*.{js,jsx,ts,tsx}","./src/**/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./src/**/**/*.{js,jsx,ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -61,14 +67,14 @@ module.exports = {
         roboto: "Roboto",
         "ibm-plex-mono": "'IBM Plex Mono'",
         "roboto-serif": "'Roboto Serif'",
-        "pacifico": "'Pacifico'",
+        pacifico: "'Pacifico'",
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       borderRadius: {
         "3xs": "10px",
         "11xl": "30px",
         "6xs": "7px",
-         xl: "20px",
+        xl: "20px",
         "81xl": "100px",
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
