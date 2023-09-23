@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton";
 function NavBarTest2() {
   const navigate = useNavigate();
 
-  const handleClick = (path: string) => {
+  const handleClick1 = (path: string) => {
     navigate(path);
   };
 
@@ -64,6 +64,7 @@ function NavBarTest2() {
       }}
     >
       <img
+        onClick={() => handleClick1("/centralhub")}
         className="object-cover h-12 ml-5 cursor-pointer"
         alt="OpenJio Logo"
         src="/logo.png"
@@ -86,13 +87,13 @@ function NavBarTest2() {
                     View All Events
                   </div>
                   <div
-                    onClick={() => handleClick("/myevents")}
+                    onClick={() => handleClick1("/myevents")}
                     className="hover:bg-black hover:text-white mb-2"
                   >
                     View Your Events
                   </div>
                   <div
-                    onClick={() => handleClick("/eventform")}
+                    onClick={() => handleClick1("/eventform")}
                     className="hover:bg-black hover:text-white"
                   >
                     Create New Event
@@ -104,7 +105,7 @@ function NavBarTest2() {
         </div>
 
         <div
-          onClick={() => handleClick("/schedule")}
+          onClick={() => handleClick1("/schedule")}
           className="hover:bg-black hover:text-white"
         >
           Schedule
@@ -122,13 +123,13 @@ function NavBarTest2() {
               <div className="absolute translate-y-[27%] translate-x-[-29%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white text-black">
                 <div>
                   <div
-                    onClick={() => handleClick("/account")}
+                    onClick={() => handleClick1("/account")}
                     className="hover:bg-black hover:text-white mb-2"
                   >
                     View My Account
                   </div>
                   <div
-                    onClick={() => handleClick("/settings")}
+                    onClick={() => handleClick1("/settings")}
                     className="hover:bg-black hover:text-white"
                   >
                     Settings
@@ -141,7 +142,7 @@ function NavBarTest2() {
       </div>
       <div
         className="mr-5 cursor-pointer"
-        onClick={() => handleClick("/logout")}
+        onClick={() => handleClick1("/logout")}
       >
         <LogoutButton />
       </div>

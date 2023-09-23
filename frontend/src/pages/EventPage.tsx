@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function EventPage() {
   //Sends GET request and updates posts
@@ -73,7 +74,7 @@ export default function EventPage() {
               className="flex flex-col justify-normal items-center font-ibm-plex-mono"
               key={post.id}
             >
-              <h2 className="text-31xl w-[1500px]">{post.name}</h2>
+              <h2 className="text-31xl w-[1350]">{post.name}</h2>
               <div className="bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
                 <div className="">
                   Date: {post.startDate} to {post.endDate}
@@ -81,7 +82,7 @@ export default function EventPage() {
                 <div className="">Venue: {post.venue}</div>
                 <div className="">Max Event Capacity: {post.capacity}</div>
               </div>
-              <div className="text-4xl font-light w-[400px] bg-white border border-solid border-black rounded-lg p-3 m-4">
+              <div className="text-4xl w-auto font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
                 {post.description}
               </div>
 

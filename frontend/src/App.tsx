@@ -7,6 +7,7 @@ import EventPage from "src/pages/EventPage";
 import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
+import Schedule from "./pages/Schedule";
 
 import ForgetPassword1 from "src/pages/ForgetPassword1";
 import ForgetPassword2 from "src/pages/ForgetPassword2";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <LogoutPage />,
+  },
+  {
+    path: "/schedule",
+    element: <Schedule />,
   },
 ]);
 

@@ -33,7 +33,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDTO.getEmail(), loginDTO.getPassword()));
 
@@ -42,10 +42,10 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDTO signUpDTO){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDTO signUpDTO) {
 
         // add check for email exists in a DB
-        if(studentRepository.existsByEmail(signUpDTO.getEmail())){
+        if (studentRepository.existsByEmail(signUpDTO.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
 

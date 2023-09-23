@@ -1,16 +1,45 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "src/components/HomeScreen/NavBar";
+import axios from "axios";
 
 const LoginPage: FunctionComponent = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  const handleSuccess = (path: string) => {
+    navigate(path);
+  };
 
   const handleSubmit = async () => {
     //login logic
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/signin",
+        {
+          username,
+          password,
+        }
+      );
+
+      if (response.status == 200) {
+        handleSuccess("/centralhub");
+      }
+      // Handle the successful login response here
+    } catch (err) {
+      setError("Login failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const navigate = useNavigate();
   useEffect(() => {
     const scrollAnimElements = document.querySelectorAll(
       "[data-animate-on-scroll]"
@@ -72,8 +101,8 @@ const LoginPage: FunctionComponent = () => {
                 <div className="absolute top-[81px] left-[107px] w-[220px] h-[41px] overflow-hidden">
                   <input
                     className="font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-darkslateblue"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your Email Address"
                     type="text"
                   />
