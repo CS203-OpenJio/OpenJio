@@ -55,10 +55,10 @@ Content-Type: application/json
 Authorization: Basic admin admin
 
 {
-    "name":"CS1337",
+    "name":"really long desc tester",
     "startDate":"2001-02-04",
     "endDate":"2001-02-04",
-    "description":"How to dropout and be a elite gamer",
+    "description":"testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestesttesttesttesttesttesttesttesttesttesttest",
     "capacity":69,
     "eventType":"Workshop",
     "venue":"scis1 lv 2 toilet",

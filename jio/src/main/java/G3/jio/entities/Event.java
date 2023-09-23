@@ -47,7 +47,7 @@ public class Event {
     @Column(name = "algoType")
     private int algo;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 65535)
     private String description;
 
     @Column(name = "isVisible")
