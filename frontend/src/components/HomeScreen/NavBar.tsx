@@ -35,6 +35,11 @@ function NavBar() {
     };
   }, []);
 
+  const navigateToSection = (sectionId: string) => {
+    navigate(`/#${sectionId}`);
+  };
+
+
   return (
     <div
       className={`flex justify-between items-center fixed w-full ${
@@ -54,18 +59,23 @@ function NavBar() {
 
       <div className="font-medium flex flex-row text-center text-3xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
         <div
-          onClick={() => scrollToElement("scrollOpenJio")}
+          onClick={() => navigateToSection("scrollOpenJio")}
           className="hover:bg-black hover:text-white"
         >
           OpenJio?
         </div>
         <div
-          onClick={() => scrollToElement("scrollAboutUs")}
+          onClick={() => navigateToSection("scrollAboutUs")}
           className="hover:bg-black hover:text-white"
         >
           About Us
         </div>
-        <div className="hover:bg-black hover:text-white">FAQ</div>
+        <div
+          onClick={() => navigateToSection("scrollFAQ")}
+          className="hover:bg-black hover:text-white"
+        >
+          FAQ
+        </div>
       </div>
       <div className="mr-5" onClick={() => handleClick("/login")}>
         <LoginButton />
