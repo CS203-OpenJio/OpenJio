@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "/Users/pramitshanmugababu/Documents/GitHub/cs203/frontend/src/components/HomeScreen/NavBar";
+import NavBar from "src/components/HomeScreen/NavBar";
 import { useRef } from "react";
 
 const ForgetPassword: FunctionComponent = () => {
