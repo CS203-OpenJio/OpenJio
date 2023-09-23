@@ -32,7 +32,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         }
 
         if (student != null) {
-            user = User.withUsername(student.getUsername()).password(student.getPassword()).authorities("USER").build();
+            user = User.withUsername(student.getUsername()).password(student.getPassword()).authorities(student.getAuthorities()).build();
         }
 
         return user;
