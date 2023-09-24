@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 import HomeScreen from "src/pages/HomeScreen";
 import CentralHub from "src/pages/CentralHub";
 import LoginPage from "src/pages/LoginPage";
@@ -17,6 +17,27 @@ import LogoutPage from "src/pages/LogoutPage";
 
 // create the configuration for a router by simply passing
 // arguments in the form of an array of routes
+type UserType = {
+  username: string;
+  password: string;
+};
+
+const initialUser: UserType = {
+  username: '',
+  password: '',
+};
+
+type AuthContextType = {
+  user: UserType;
+  setUser: Dispatch<SetStateAction<UserType>>;
+};
+
+export const AuthContext = createContext<AuthContextType>({
+  user: initialUser,
+  setUser: () => {},
+});
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -65,13 +86,19 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Contexts allows components to pass information down without explicitly passing props
-// We can pass light/dark mode states through these, and user info as well?
-const ThemeContext = createContext("light");
-const AuthContext = createContext(null);
-
 const App = () => {
-  return <RouterProvider router={router} />;
+  const[user, setUser] = useState({
+    username:"admin",
+    password:"admin"
+  });
+
+  const value = { user, setUser };
+
+  return (<AuthContext.Provider value={value}>
+    <RouterProvider router={router} />
+    </AuthContext.Provider>
+  
+  );
 };
 
 export default App;

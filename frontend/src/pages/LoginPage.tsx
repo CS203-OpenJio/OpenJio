@@ -1,11 +1,13 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "src/components/HomeScreen/NavBar";
 import axios from "axios";
+import { AuthContext } from "../App";
 
 // IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
 
 const LoginPage: FunctionComponent = () => {
+  const {user, setUser} = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,10 @@ const LoginPage: FunctionComponent = () => {
       );
 
       if (response.status == 200) {
+        setUser({
+          username:username,
+          password:password
+        });
         handleSuccess("/centralhub");
       }
       // Handle the successful login response here

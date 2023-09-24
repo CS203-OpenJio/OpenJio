@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
 export default function EventPage() {
   //Sends GET request and updates posts
-  const userName = "admin";
-  const password = "admin";
+  const {user, setUser} = useContext(AuthContext);
+  const userName = user.username;
+  const password = user.username;
+  //need to store id somewhere
   const userID = 1;
 
   const [postData, setPostData] = useState([] as any[]);
