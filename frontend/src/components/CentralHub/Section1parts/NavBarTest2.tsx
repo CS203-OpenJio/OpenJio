@@ -1,9 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import LogoutButton from "./LogoutButton";
+import { AuthContext } from "src/App";
 
 function NavBarTest2() {
   const navigate = useNavigate();
+
+  const {user, setUser} = useContext(AuthContext);
+
+  const handleClick = (path: string) => {
+    setUser({
+      username:"NOT LOGGED IN",
+      password:""
+    });
+    console.log(user)
+    navigate(path);
+  };
 
   const handleClick1 = (path: string) => {
     navigate(path);
@@ -142,7 +154,7 @@ function NavBarTest2() {
       </div>
       <div
         className="mr-5 cursor-pointer"
-        onClick={() => handleClick1("/logout")}
+        onClick={() => handleClick("/logout")}
       >
         <LogoutButton />
       </div>
