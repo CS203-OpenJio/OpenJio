@@ -54,7 +54,7 @@ public class SecurityConfig {
         .httpBasic(Customizer.withDefaults())
         .authorizeHttpRequests((authorizeHttpRequests) -> {
             authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
-            authorizeHttpRequests.requestMatchers("/api/auth/**").permitAll();
+            authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
             authorizeHttpRequests.anyRequest().authenticated();
         }
              )
