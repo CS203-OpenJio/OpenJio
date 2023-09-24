@@ -2,7 +2,6 @@ package G3.jio.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -35,14 +34,12 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder());
-      
+
         return authProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
-                                 AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
@@ -71,7 +68,7 @@ public class SecurityConfig {
      * @Bean annotation is used to declare a PasswordEncoder bean in the Spring application context. 
      * Any calls to encoder() will then be intercepted to return the bean instance.
      */
-    @Bean
+    @Bean     
     public BCryptPasswordEncoder encoder() {
         // auto-generate a random salt internally
         return new BCryptPasswordEncoder();
