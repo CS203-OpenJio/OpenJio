@@ -17,31 +17,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    
     private UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userSvc){
+    public SecurityConfig(UserDetailsService userSvc) {
         this.userDetailsService = userSvc;
     }
 
     /**
      * Exposes a bean of DaoAuthenticationProvider, a type of AuthenticationProvider
-     * Attaches the user details and the password encoder   
+     * Attaches the user details and the password encoder
+     * 
      * @return
      */
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-     
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder());
- 
+      
         return authProvider;
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
                                  AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
@@ -49,20 +49,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-        .sessionManagement(management -> management
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .httpBasic(Customizer.withDefaults())
-        .authorizeHttpRequests((authorizeHttpRequests) -> {
-            authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
-            authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
-            authorizeHttpRequests.anyRequest().authenticated();
-        }
-             )
-        .authenticationProvider(authenticationProvider()) //specifies the authentication provider for HttpSecurity
-        .csrf(csrf -> csrf.disable())
-        .formLogin(login -> login.disable())
-        .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our service
-        .cors(Customizer.withDefaults());
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults())
+                .authorizeHttpRequests((authorizeHttpRequests) -> {
+                    authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
+                    authorizeHttpRequests.anyRequest().authenticated();
+                })
+                .authenticationProvider(authenticationProvider()) // specifies the authentication provider for
+                                                                  // HttpSecurity
+                .csrf(csrf -> csrf.disable())
+                .formLogin(login -> login.disable())
+                .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our
+                                                       // service
+                .cors(Customizer.withDefaults());
 
         return http.build();
     }
@@ -77,4 +77,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
- 
+

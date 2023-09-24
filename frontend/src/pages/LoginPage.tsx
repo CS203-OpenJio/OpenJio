@@ -7,7 +7,9 @@ import { AuthContext } from "../App";
 // IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
 
 const LoginPage: FunctionComponent = () => {
+
   const {user, setUser} = useContext(AuthContext);
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,11 +33,7 @@ const LoginPage: FunctionComponent = () => {
         {
           email:username,
           password:password,
-        }, {
-          headers: {
-            Authorization: "Basic " + btoa(`${username}:${password}`),
-          },
-        }
+        }, 
         
       );
 
@@ -49,7 +47,6 @@ const LoginPage: FunctionComponent = () => {
       // Handle the successful login response here
     } catch (err) {
       setErrorMessage("Login failed. Please check your credentials.");
-      
     } finally {
       setLoading(false);
     }
@@ -204,7 +201,8 @@ const LoginPage: FunctionComponent = () => {
       </div>
     </div>
   );
-  
+
 };
+
 
 export default LoginPage;

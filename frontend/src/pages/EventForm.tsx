@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import axios from "axios";
 
 function DateTimeBox() {
   return (
@@ -44,6 +45,33 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function EventForm() {
   const [preview, setPreview] = useState(false);
+  const userName = "admin";
+  const password = "admin";
+
+  async function handleClick() {
+    const body = {
+      name: `.Hack MERN Stack Series (MESS) 2022`,
+      startDate: "2022-12-29",
+      endDate: "2023-12-30",
+      description:
+        "Interested in developing your own application but don't know how to start? Kickstart your software development journey with .Hack's first-ever winter program: MERN Stack Series (MESS). Fulfill your curiosity by attending our exclusive workshops about the production-ready and widely used technological framework of MongoDB, Express, ReactJS, and NodeJS. Apply the insights gained throughout the workshop to build your own portfolio website ",
+      capacity: 100,
+      eventType: "Workshop",
+      venue: "YPHSL Seminar Room 3-09 & 3-12",
+      registered: false,
+      visible: false,
+    };
+    await axios
+      .post("http://localhost:8080/api/v1/events", body, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    window.location.reload();
+  }
 
   return (
     <div className="">
@@ -157,6 +185,12 @@ export default function EventForm() {
           <div>
             <MapBox />
           </div>
+          <button
+            className="m-auto items-center cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            onClick={handleClick}
+          >
+            Add Event
+          </button>
         </div>
       </div>
     </div>

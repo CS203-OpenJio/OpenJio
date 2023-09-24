@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 
 export default function EventPage() {
@@ -33,6 +34,34 @@ export default function EventPage() {
       });
   }, []);
 
+  //   // called whenever Add Event is clicked, sends POST event with the event data.
+  //   // i removed this and put under Event Form
+  //   async function handleClick() {
+  //     const body = {
+  //       name: `.Hack MERN Stack Series (MESS) 2022`,
+  //       startDate: "2022-12-29",
+  //       endDate: "2023-12-30",
+  //       description:
+  //         "Interested in developing your own application but don't know how to start? Kickstart your software development journey with .Hack's first-ever winter program: MERN Stack Series (MESS). Fulfill your curiosity by attending our exclusive workshops about the production-ready and widely used technological framework of MongoDB, Express, ReactJS, and NodeJS. Apply the insights gained throughout the workshop to build your own portfolio website ",
+  //       capacity: 100,
+  //       eventType: "Workshop",
+  //       venue: "YPHSL Seminar Room 3-09 & 3-12",
+  //       registered: false,
+  //       visible: false,
+  //     };
+  //     await axios
+  //       .post("http://localhost:8080/api/v1/events", body, {
+  //         headers: {
+  //           Authorization: "Basic " + btoa(`${userName}:${password}`),
+  //         },
+  //       })
+  //       .catch((err) => {
+  //         console.log(err.message);
+  //       });
+  //     window.location.reload();
+  //   }
+
+  // i removed the Add Event Button and put it into EventForm too
   // called whenever Add Event is clicked, sends POST event with the event data
   async function handleClick() {
     const body = {
@@ -63,35 +92,27 @@ export default function EventPage() {
     <div>
       <NavBarTest2 />
       <div className="h-20"></div>
-      <div className="gap-10 w-[60%] m-auto">
-        <div className="font-ibm-plex-mono mb-5">
-          Welcome <span className="text-xl font-bold">{user.username}</span>!
-        </div>
-        <button
-          className="m-auto items-center cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={handleClick}
-        >
-          Add Event
-        </button>
+      <div className="gap-10 w-auto m-4">
         {/* Maps post data! */}
         {postData.map((post) => {
           return (
-            <div
-              className="flex flex-col justify-normal items-center font-ibm-plex-mono"
-              key={post.id}
-            >
-              <h2 className="text-31xl w-[1350]">{post.name}</h2>
-              <div className="bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
-                <div className="">
-                  Date: {post.startDate} to {post.endDate}
+            <div className="" key={post.id}>
+              <div className="flex flex-col justify-normal items-center font-ibm-plex-mono ml-14 mr-14">
+                <h2 className="text-31xl">{post.name}</h2>
+                <div className="flex grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
+                  <div className="">
+                    Date: {post.startDate} to {post.endDate}
+                  </div>
+
+                  <div className=""> Venue: {post.venue} </div>
+                  <div className=""> Max Event Capacity: {post.capacity} </div>
                 </div>
-                <div className="">Venue: {post.venue}</div>
-                <div className="">Max Event Capacity: {post.capacity}</div>
+                <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
+                  {post.description}
+                </div>
+
+                <TicketFooter id={post.id} />
               </div>
-              <div className="text-4xl w-auto font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
-                {post.description}
-              </div>
-              <TicketFooter id={post.id} />
             </div>
           );
         })}
@@ -120,14 +141,13 @@ export default function EventPage() {
 
     return (
       <div>
-        <Link
-          to='/purchased' state={{ TID: id }}>
+        <Link to="/purchased" state={{ TID: id }}>
           <div className="button">
             <button
               onClick={handleClick}
-              className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform"
+              className="mt-3 bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform"
             >
-              Sign Up!{id}
+              Sign Up!
             </button>
           </div>
         </Link>
