@@ -4,10 +4,22 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog"
+import { Input } from "../components/ui/input"
+import { Label } from "../components/ui/label"
+import { Button } from "../components/ui/button"
 
 export default function EventPage() {
 
-  const {user, setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const userName = user.username;
   const password = user.username;
   //need to store id somewhere
@@ -121,37 +133,44 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     const body = {
-        studentId:userID,
-        eventId:id,
-        isDeregistered:false,
-        isSuccessful:false
+      studentId: userID,
+      eventId: id,
+      isDeregistered: false,
+      isSuccessful: false
     };
 
     async function handleClick() {
       await axios
-      .post("http://localhost:8080/api/v1/register", body, {
-        headers: {
-          Authorization: "Basic " + btoa(`${userName}:${password}`),
-        },
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+        .post("http://localhost:8080/api/v1/register", body, {
+          headers: {
+            Authorization: "Basic " + btoa(`${userName}:${password}`),
+          },
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+
     }
 
     return (
       <div>
-        <Link to="/purchased" state={{ TID: id }}>
-          <div className="button">
-            <button
-              onClick={handleClick}
-              className="mt-3 bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform"
-            >
-              Sign Up!
-            </button>
-          </div>
-        </Link>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="hover:cursor-pointer font-ibm-plex-mono">Register</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="font-ibm-plex-mono">Confirm Registration?</DialogTitle>
+            </DialogHeader>
+            <DialogFooter>
+              <Link to="/purchased" state={{ TID: id }}>
+                <Button onClick={handleClick} className="hover:cursor-pointer font-ibm-plex-mono" >Confirm</Button>
+              </Link>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
 }
+
