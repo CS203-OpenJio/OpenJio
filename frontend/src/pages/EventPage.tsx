@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 
 export default function EventPage() {
-  //Sends GET request and updates posts
+
   const {user, setUser} = useContext(AuthContext);
   const userName = user.username;
   const password = user.username;
@@ -65,6 +64,9 @@ export default function EventPage() {
       <NavBarTest2 />
       <div className="h-20"></div>
       <div className="gap-10 w-[60%] m-auto">
+        <div className="font-ibm-plex-mono mb-5">
+          Welcome <span className="text-xl font-bold">{user.username}</span>!
+        </div>
         <button
           className="m-auto items-center cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
           onClick={handleClick}
