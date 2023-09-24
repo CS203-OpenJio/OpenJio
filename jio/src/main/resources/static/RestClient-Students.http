@@ -1,29 +1,29 @@
 // get all users
 GET http://localhost:8080/api/v1/students
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 ###
 
 // get specific user by id
 GET http://localhost:8080/api/v1/students/id/1
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 ###
 
 // get specific users by name
 GET http://localhost:8080/api/v1/students/name/john%20weak
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 ###
 
-// post a new user
+// post a new user fail due to not meeting validation constraints
 POST http://localhost:8080/api/v1/students
 Content-Type: application/json
-Authorization: Basic admin:admin
+Authorization: Basic admin@admin.com admin
 
 {
     "name":"chee bhai",
-    "password":"537",
+    "password":"5378967867",
     "email":"knn.ccb@gmail.com",
     "matricNo": "6908908785",
     "phone":"25743324",
@@ -35,14 +35,14 @@ Authorization: Basic admin:admin
 
 ###
 
-// post a new user
+// post a new user successfully
 POST http://localhost:8080/api/v1/students
 Content-Type: application/json
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 {
     "name":"john weak",
-    "password":"538",
+    "password":"78967967",
     "email":"jonathan.weak@gmail.com",
     "matricNo": "12369323",
     "phone":"62226111",
@@ -56,7 +56,7 @@ Authorization: Basic admin admin
 
 PUT http://localhost:8080/api/v1/students/id/2
 Content-Type: application/json
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 {"name":"bi ceps", "email":"fom.oris@gmail.com","matricNo": "564986", "phone":"43257412","dob":"2001-11-04"}
 

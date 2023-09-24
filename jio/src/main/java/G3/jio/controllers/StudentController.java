@@ -2,7 +2,9 @@ package G3.jio.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
+import G3.jio.repositories.StudentRepository;
 import G3.jio.services.StudentService;
+import jakarta.validation.Valid;
 
 @RestController
 @Controller
@@ -24,6 +28,16 @@ import G3.jio.services.StudentService;
 public class StudentController {
 
     private final StudentService studentService;
+    private StudentRepository studentRepository;
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    public StudentController(StudentService studentService, StudentRepository studentRepository,
+            BCryptPasswordEncoder encoder) {
+        this.studentService = studentService;
+        this.studentRepository = studentRepository;
+        this.encoder = encoder;
+    }
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -57,7 +71,8 @@ public class StudentController {
     // add a student
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Student addStudent(@RequestBody Student student) {
+    public Student addStudent(@Valid @RequestBody Student student) {
+        student.setPassword(encoder.encode(student.getPassword()));
         return studentService.addStudent(student);
     }
 
