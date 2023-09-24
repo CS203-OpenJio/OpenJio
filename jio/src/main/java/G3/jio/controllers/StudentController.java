@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 public class StudentController {
 
     private final StudentService studentService;
-    private StudentRepository studentRepository;
+    private StudentRepository studentRepository; // TODO: may need to remove
     private BCryptPasswordEncoder encoder;
 
     @Autowired

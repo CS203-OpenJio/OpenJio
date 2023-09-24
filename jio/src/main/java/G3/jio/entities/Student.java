@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,7 +70,7 @@ public class Student implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
-    @NotNull
+    // @NotNull
     @Column(name = "dob")
     private LocalDate dob;
 
