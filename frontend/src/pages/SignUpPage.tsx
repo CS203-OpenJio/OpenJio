@@ -1,26 +1,70 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "src/components/HomeScreen/NavBar";
+import axios, { AxiosError } from "axios";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "src/components/ui/alert-dialog";
 
 const SignUpPage: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onSecondayClick = useCallback(() => {
-    navigate("/login");
-  }, [navigate]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSuccess = (input: string) => {
+    navigate(input);
+  };
 
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [school, setSchool] = useState("");
   const [matriculationid, setMatriculationid] = useState("");
-  const [securityanswer, setsecurityanswer] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     //sign up logic w backend api
     // Use the selectedYear state here along with other state variables
     // to send the data to the backend or perform other sign-up logic.
+    try {
+      console.log(phonenumber, matriculationid);
+
+      setLoading(true);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/signup",
+
+        {
+          name: fullname,
+          email: email,
+          password: password,
+          matricNo: matriculationid,
+          phone: phonenumber,
+        }
+      );
+
+      if (response.status == 200) {
+        handleSuccess("/");
+      }
+      // Handle the successful login response here
+    } catch (err) {
+      setOpen(true);
+      let error = err as AxiosError;
+      setErrorMessage(error.response?.data as string);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,7 +150,24 @@ const SignUpPage: FunctionComponent = () => {
               </div>
             </div>
           </div>
-
+          <AlertDialog open={open}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>You have an error</AlertDialogTitle>
+                <AlertDialogDescription>{errorMessage}</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel
+                  onClick={() => {
+                    setOpen(false);
+                    setErrorMessage("");
+                  }}
+                >
+                  Close
+                </AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <button onClick={handleSubmit}>
             <div className="absolute top-[528px] left-[13px] w-[367px] overflow-hidden flex flex-col items-center justify-center text-sm">
               <div className="self-stretch overflow-hidden flex flex-row py-0 px-3 items-start justify-start">
@@ -183,8 +244,6 @@ const SignUpPage: FunctionComponent = () => {
                     placeholder="Enter your answer"
                     className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                     type="text"
-                    value={securityanswer}
-                    onChange={(e) => setsecurityanswer(e.target.value)}
                   />
                 </div>
               </div>
@@ -193,16 +252,15 @@ const SignUpPage: FunctionComponent = () => {
           <div className="absolute top-[302px] left-[13px] w-[367px] overflow-hidden flex flex-col items-start justify-center">
             <div className="self-stretch overflow-hidden flex flex-col py-0 px-3 items-start justify-center gap-[4px]">
               <div className="self-stretch relative leading-[20px] font-medium">
-                School
+                Phone Number
               </div>
               <div className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black">
                 <div className="flex-1 relative leading-[20px] inline-block overflow-hidden text-ellipsis whitespace-nowrap h-5">
                   <input
-                    placeholder="Enter school's name"
+                    placeholder="Enter your phone number"
                     className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                     type="text"
-                    value={school}
-                    onChange={(e) => setSchool(e.target.value)}
+                    onChange={(e) => setPhonenumber(e.target.value)}
                   />
                 </div>
               </div>

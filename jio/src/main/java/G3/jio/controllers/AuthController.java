@@ -42,18 +42,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDTO signUpDTO) {
-
-        // add check for email exists in a DB
-        if (studentRepository.existsByEmail(signUpDTO.getEmail())) {
+    public ResponseEntity<?> registerUser(@RequestBody Student student) {
+        if (studentRepository.existsByEmail(student.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
 
         // create user object
-        Student student = new Student();
-        student.setName(signUpDTO.getName());
-        student.setEmail(signUpDTO.getEmail());
-        student.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         student.setRole(Role.USER);
 
         studentRepository.save(student);

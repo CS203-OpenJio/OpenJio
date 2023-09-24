@@ -1,4 +1,10 @@
-import { FunctionComponent, useCallback, useContext, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "src/components/HomeScreen/NavBar";
 import axios from "axios";
@@ -7,9 +13,8 @@ import { AuthContext } from "../App";
 // IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
 
 const LoginPage: FunctionComponent = () => {
+  const { user, setUser } = useContext(AuthContext);
 
-  const {user, setUser} = useContext(AuthContext);
-  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,18 +34,17 @@ const LoginPage: FunctionComponent = () => {
 
       const response = await axios.post(
         "http://localhost:8080/api/v1/auth/signin",
-        
+
         {
-          email:username,
-          password:password,
-        }, 
-        
+          email: username,
+          password: password,
+        }
       );
 
       if (response.status == 200) {
         setUser({
-          username:username,
-          password:password
+          username: username,
+          password: password,
         });
         handleSuccess("/centralhub");
       }
@@ -110,13 +114,17 @@ const LoginPage: FunctionComponent = () => {
             />
             <div className="absolute top-[0px] left-[0px] w-[457px] h-[775px] overflow-hidden">
               <div className="absolute top-[433px] left-[12px] rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border w-[434px] h-[342px] overflow-hidden border-[0.5px] border-solid border-black">
-              {/* ERROR MESSAGE IS CREATED FROM LINE BELOW */}
-              <div className="absolute top-[30px] left-[87px] w-[300px] h-[41px]"> {errorMessage}</div>
-              
+                {/* ERROR MESSAGE IS CREATED FROM LINE BELOW */}
+                <div className="absolute top-[30px] left-[87px] w-[300px] h-[41px]">
+                  {" "}
+                  {errorMessage}
+                </div>
+
                 <div className="absolute top-[81px] left-[107px] w-[220px] h-[41px] overflow-hidden">
-                
                   <input
-                    className={`font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid ${errorMessage ? "border-red-500":"border-darkslateblue"}`}
+                    className={`font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid ${
+                      errorMessage ? "border-red-500" : "border-darkslateblue"
+                    }`}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your Email Address"
@@ -125,7 +133,9 @@ const LoginPage: FunctionComponent = () => {
                 </div>
                 <div className="absolute top-[150px] left-[107px] w-[220px] h-[41px] overflow-hidden">
                   <input
-                    className={`font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-row py-2.5 px-3 items-center justify-center border-[1px] border-solid ${errorMessage ? "border-red-500":"border-darkslateblue"} `}
+                    className={`font-medium font-ibm-plex-mono text-xs bg-white absolute top-[0px] left-[0px] rounded-xl box-border w-[220px] h-[41px] overflow-hidden flex flex-row py-2.5 px-3 items-center justify-center border-[1px] border-solid ${
+                      errorMessage ? "border-red-500" : "border-darkslateblue"
+                    } `}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your Password"
@@ -201,8 +211,6 @@ const LoginPage: FunctionComponent = () => {
       </div>
     </div>
   );
-
 };
-
 
 export default LoginPage;
