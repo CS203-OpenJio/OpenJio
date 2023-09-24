@@ -2,7 +2,6 @@ package G3.jio.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -35,9 +34,9 @@ public class EventController {
         return eventService.findAllEvent();
     }
 
-    //get event by name using %20 in blankspaces
+    // get event by name using %20 in blankspaces
     @GetMapping(path = "/name/{name}")
-    public List<Event> getEventsbyName(@PathVariable String name){
+    public List<Event> getEventsbyName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
         List<Event> event = eventService.getEventByName(name);
         if (event == null)

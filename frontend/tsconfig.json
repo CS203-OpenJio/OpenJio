@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "target": "es5",
     "lib": [
       "dom",
@@ -22,5 +26,5 @@
   },
   "include": [
     "src"
-  ]
+, "components/ui", "../pramit- Frontend/src/pages/ForgetPassword1.tsx", "src/pages/ForgetPassword2.tsx"  ] 
 }

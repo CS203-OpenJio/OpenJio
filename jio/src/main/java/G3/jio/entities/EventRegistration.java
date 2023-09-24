@@ -4,6 +4,7 @@ package G3.jio.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,11 +26,11 @@ public class EventRegistration {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id")
+    Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
     Event event;
 
@@ -41,10 +42,17 @@ public class EventRegistration {
     private boolean isSuccessful = false;
 
 
-    public EventRegistration(User user, Event event, boolean isDeregistered, boolean isSuccessful) {
-        this.user = user;
+    public EventRegistration(Student student, Event event, boolean isDeregistered, boolean isSuccessful) {
+        this.student = student;
         this.event = event;
         this.isDeregistered = isDeregistered;
         this.isSuccessful = isSuccessful;
+    }
+
+
+    @Override
+    public String toString() {
+        return "EventRegistration [id=" + id + ", student=" + student.getId() + ", event=" + event.getId() + ", isDeregistered="
+                + isDeregistered + ", isSuccessful=" + isSuccessful + "]";
     }
 }

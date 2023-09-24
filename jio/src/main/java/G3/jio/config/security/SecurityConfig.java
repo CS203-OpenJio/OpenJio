@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-
     private UserDetailsService userDetailsService;
 
     public SecurityConfig(UserDetailsService userSvc) {
@@ -34,16 +33,16 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder());
-
+      
         return authProvider;
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
+                                 AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
@@ -69,10 +68,8 @@ public class SecurityConfig {
     }
 
     /**
-     * @Bean annotation is used to declare a PasswordEncoder bean in the Spring
-     *       application context.
-     *       Any calls to encoder() will then be intercepted to return the bean
-     *       instance.
+     * @Bean annotation is used to declare a PasswordEncoder bean in the Spring application context. 
+     * Any calls to encoder() will then be intercepted to return the bean instance.
      */
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -80,3 +77,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

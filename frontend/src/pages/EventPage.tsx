@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
 export default function EventPage() {
-  //Sends GET request and updates posts
-  const userName = "admin";
-  const password = "admin";
+
+  const {user, setUser} = useContext(AuthContext);
+  const userName = user.username;
+  const password = user.username;
+  //need to store id somewhere
   const userID = 1;
 
   const [postData, setPostData] = useState([] as any[]);
@@ -59,6 +62,31 @@ export default function EventPage() {
   //   }
 
   // i removed the Add Event Button and put it into EventForm too
+  // called whenever Add Event is clicked, sends POST event with the event data
+  async function handleClick() {
+    const body = {
+      name: `Ellipsis Back2Sku Welfare Drive`,
+      startDate: "2023-08-16",
+      endDate: "2023-08-16",
+      description:
+        "Got the back-to-school blues? 🎒💔 Well, you don’t have to dwell on it – because Ellipsis is ready to banish them with our upcoming Back2Sku Welfare Drive!",
+      capacity: 100,
+      eventType: "Welfare Drive",
+      venue: "SCIS1 Basement",
+      registered: false,
+      visible: false,
+    };
+    await axios
+      .post("http://localhost:8080/api/v1/events", body, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -93,22 +121,22 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     const body = {
-      studentId: userID,
-      eventId: id,
-      isDeregistered: false,
-      isSuccessful: false,
+        studentId:userID,
+        eventId:id,
+        isDeregistered:false,
+        isSuccessful:false
     };
 
     async function handleClick() {
       await axios
-        .post("http://localhost:8080/api/v1/register", body, {
-          headers: {
-            Authorization: "Basic " + btoa(`${userName}:${password}`),
-          },
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .post("http://localhost:8080/api/v1/register", body, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
     }
 
     return (
