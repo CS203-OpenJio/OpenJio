@@ -24,4 +24,5 @@ Authorization: Basic admin admin
 ###
 
 // delete by id
-DELETE http://localhost:8080/api/v1/register/id/2
+DELETE http://localhost:8080/api/v1/register/id/1
+Authorization: Basic admin admin

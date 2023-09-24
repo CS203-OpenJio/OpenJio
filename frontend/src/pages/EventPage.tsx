@@ -8,6 +8,7 @@ export default function EventPage() {
   //Sends GET request and updates posts
   const userName = "admin";
   const password = "admin";
+  const userID = 1;
 
   const [postData, setPostData] = useState([] as any[]);
   const options = {
@@ -85,21 +86,43 @@ export default function EventPage() {
               <div className="text-4xl w-auto font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
                 {post.description}
               </div>
-
-              <TicketFooter />
+              <TicketFooter id={post.id} />
             </div>
           );
         })}
       </div>
     </div>
   );
-  function TicketFooter() {
+  function TicketFooter({ id }: { id: number }) {
+    const body = {
+        studentId:userID,
+        eventId:id,
+        isDeregistered:false,
+        isSuccessful:false
+    };
+
+    async function handleClick() {
+      await axios
+      .post("http://localhost:8080/api/v1/register", body, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    }
+
     return (
       <div>
-        <Link to="/purchased">
+        <Link
+          to='/purchased' state={{ TID: id }}>
           <div className="button">
-            <button className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform">
-              Sign Up!
+            <button
+              onClick={handleClick}
+              className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-3xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform"
+            >
+              Sign Up!{id}
             </button>
           </div>
         </Link>

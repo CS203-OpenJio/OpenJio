@@ -1,9 +1,11 @@
 import { useState } from "react";
 import NavBar from "../components/HomeScreen/NavBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function TicketPurchased() {
-  const [TID, setTID] = useState("error");
+  const location = useLocation()
+  const {TID} =location.state;
+
   return (
     <div>
       <NavBar />
@@ -30,8 +32,8 @@ export default function TicketPurchased() {
               <path
                 d="M54.3312 233.4L19.9429 213.699"
                 stroke="#ADC2EB"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84.4889 216.4L56.4513 207.8L74.162 185.474L84.4889 216.4Z"
@@ -84,8 +86,8 @@ export default function TicketPurchased() {
               <path
                 d="M327.696 348.768C337.612 345.827 338.357 342.025 329.931 337.362C321.376 331.586 321.976 327.009 331.729 323.631C341.61 321.365 342.273 317.345 333.719 311.569C326.277 305.666 326.94 301.645 335.709 299.507"
                 stroke="#FFDBB8"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M337.349 195.702L370.329 188.519L373.92 205.009L340.941 212.191L337.349 195.702Z"
@@ -94,8 +96,8 @@ export default function TicketPurchased() {
               <path
                 d="M375.208 157.53L332.931 113.383"
                 stroke="#99FF99"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
               <path
                 d="M363.183 118.626L371.403 116.228L379.755 121.338L378.845 112.341L385.51 106.965L376.447 104.121L374.048 95.9011L368.938 104.253L359.164 103.675L364.539 110.34L363.183 118.626Z"
@@ -104,8 +106,8 @@ export default function TicketPurchased() {
               <path
                 d="M379.528 335.031C389.905 339.994 396.184 337.279 398.367 326.885C401.661 316.363 408.142 313.925 417.808 319.572C428.458 323.979 434.875 320.986 437.057 310.592C440.352 300.07 446.833 297.632 456.499 303.279"
                 stroke="#ADC2EB"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M443.294 222.205C438.401 219.556 432.644 220.715 430.437 224.793C428.23 228.871 430.407 234.324 435.301 236.973C440.195 239.622 445.951 238.463 448.159 234.385C450.366 230.307 448.188 224.854 443.294 222.205Z"
@@ -114,8 +116,8 @@ export default function TicketPurchased() {
               <path
                 d="M464.129 225.036L445.322 296.51"
                 stroke="#FFC2C2"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
               <path
                 d="M453.873 143.841L460.72 142.813L464.85 148.371L466.017 142.43L472.219 139.851L467.184 136.489L466.156 129.642L460.598 133.771L454.657 132.604L457.236 138.806L453.873 143.841Z"
@@ -132,8 +134,8 @@ export default function TicketPurchased() {
               <path
                 d="M527.621 246.462C523.667 255.178 526.011 257.911 534.652 254.661C544.533 252.395 547.142 255.475 542.478 263.901C537.943 273.439 540.552 276.519 550.305 273.141C559.074 271.003 561.127 274.147 556.464 282.573"
                 stroke="#FFFFCC"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
               <path
                 d="M533.114 113.728L542.157 113.763L548.986 121.898L552.145 111.62L559.952 108.532L552.18 102.577L551.598 91.9721L543.464 98.8004L533.803 97.2033L537.508 106.573L533.114 113.728Z"
@@ -154,14 +156,14 @@ export default function TicketPurchased() {
               <path
                 d="M622.684 90.1213L642.828 118.226"
                 stroke="#CCF2FF"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M690.487 300.701C680.076 303.254 678.163 308.658 684.75 316.914C691.336 325.17 689.689 330.432 679.808 332.698C670.055 336.076 668.472 341.893 675.058 350.149C681.516 357.293 679.869 362.554 670.116 365.932"
                 stroke="#FFC2C2"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
               <path
                 d="M703.99 171.397L690.807 168.313L688.584 154.958L679.234 164.749L667.01 164.884L673.582 175.192L668.888 188.854L681.764 185.021L692.686 192.283L692.551 180.058L703.99 171.397Z"
@@ -170,8 +172,8 @@ export default function TicketPurchased() {
               <path
                 d="M688.149 257.686C693.35 265.656 697.662 264.936 701.084 255.526C704.507 246.116 708.956 245.603 714.43 253.988C719.904 262.372 724.353 261.859 727.776 252.449C731.199 243.039 735.647 242.526 741.121 250.911"
                 stroke="#FFFFCC"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M732.472 221.324C733.206 226.84 738.272 230.717 743.788 229.983C749.304 229.249 753.181 224.183 752.448 218.667C751.714 213.151 746.648 209.274 741.132 210.008C735.616 210.741 731.739 215.808 732.472 221.324Z"
@@ -180,14 +182,14 @@ export default function TicketPurchased() {
               <path
                 d="M712.096 112.766C717.639 120.771 722.678 120.005 727.213 110.467C730.636 101.057 735.085 100.544 740.559 108.928C747.145 117.184 752.15 116.607 755.573 107.197C760.108 97.6591 765.112 97.0821 770.587 105.466"
                 stroke="#ADC2EB"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
               <path
                 d="M764.2 320.602L806.742 293.723"
                 stroke="#FFFFCC"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M815.02 277.555L796.544 249.258L825.034 232.451L841.841 260.94L815.02 277.555Z"
@@ -196,14 +198,14 @@ export default function TicketPurchased() {
               <path
                 d="M837.243 45.1019L759.481 30.4012"
                 stroke="#FFFFCC"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M851.751 171.681C854.894 162.775 851.589 160.012 841.836 163.39C833.195 166.64 830.586 163.56 834.009 154.15C836.32 144.868 832.599 141.916 822.846 145.295C814.334 149.657 811.789 147.133 815.212 137.723"
                 stroke="#FFC2C2"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M879.224 315.762C874.219 321.239 872.381 327.707 875.119 330.21C877.858 332.713 884.135 330.302 889.14 324.825C894.146 319.348 895.983 312.879 893.245 310.377C890.506 307.874 884.229 310.285 879.224 315.762Z"
@@ -219,7 +221,7 @@ export default function TicketPurchased() {
           <div className="text-black text-3xl font-medium font-ibm-plex-mono leading-9">
             Transaction ID:{TID}
           </div>
-          <Link to="/">
+          <Link to="/centralhub">
             <button className="mt-5 bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-4xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform">
               Return to Home
             </button>
