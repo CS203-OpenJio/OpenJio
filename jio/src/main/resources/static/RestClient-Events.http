@@ -25,6 +25,7 @@ Content-Type: application/json
     "capacity":45,
     "eventType":"Workshop",
     "venue":"venue",
+    "image":"/events/cs201.jpg",
     "registered": false,
     "visible": false
 }
@@ -44,6 +45,7 @@ Authorization: Basic admin admin
     "capacity":45,
     "eventType":"Workshop",
     "venue":"venue",
+    "image":"/events/cs203.jpg",
     "registered": false,
     "visible": false
 }
@@ -62,6 +64,7 @@ Authorization: Basic admin admin
     "capacity":69,
     "eventType":"Workshop",
     "venue":"scis1 lv 2 toilet",
+    "image":"/events/test.jpg",
     "registered": false,
     "visible": false
 }

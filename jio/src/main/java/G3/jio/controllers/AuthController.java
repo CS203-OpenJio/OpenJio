@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.DTO.LoginDTO;
 import G3.jio.DTO.SignUpDTO;
-import G3.jio.config.Role;
-import G3.jio.entities.Student;
-import G3.jio.repositories.StudentRepository;
+import G3.jio.services.AuthService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -27,10 +28,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthService authService;
 
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
@@ -41,19 +39,32 @@ public class AuthController {
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Account Successfully Created"),
+        @ApiResponse(responseCode = "400", description = "Input fields invalid")
+    })
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody Student student) {
-        if (studentRepository.existsByEmail(student.getEmail())) {
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpDTO signUpDTO) {
+        // if (studentRepository.existsByEmail(signUpDTO.getEmail())) {
+        //     return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+        // }
 
-        // create user object
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
-        student.setRole(Role.USER);
 
-        studentRepository.save(student);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        // // create user object
+        // Student student = new Student(
+        //     signUpDTO.getName(),
+        //     signUpDTO.getEmail(),
+        //     passwordEncoder.encode(signUpDTO.getPassword()),
+        //     signUpDTO.getMatricNo(),
+        //     signUpDTO.getPhone()
+        // );
+        // student.setRole(Role.USER);
+        // studentRepository.save(student);
+        
+        Object responseObject = authService.registerUser(signUpDTO);
+
+        return new ResponseEntity<>(responseObject, HttpStatus.CREATED);
 
     }
 }

@@ -43,23 +43,24 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .httpBasic(Customizer.withDefaults())
+                
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
                 })
-                .authenticationProvider(authenticationProvider()) // specifies the authentication provider for
-                                                                  // HttpSecurity
+                .authenticationProvider(authenticationProvider()) // specifies the authentication provider for HttpSecurity
+
                 .csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.disable())
-                .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our
-                                                       // service
+                .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our service
+
                 .cors(Customizer.withDefaults());
 
         return http.build();
@@ -71,10 +72,9 @@ public class SecurityConfig {
      *       Any calls to encoder() will then be intercepted to return the bean
      *       instance.
      */
-    @Bean     
+    @Bean
     public BCryptPasswordEncoder encoder() {
         // auto-generate a random salt internally
         return new BCryptPasswordEncoder();
     }
 }
-    
