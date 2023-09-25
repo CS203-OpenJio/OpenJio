@@ -2,12 +2,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface EventPostProps {
+  imgPath: string;
   title: string;
   date: string;
   time: string;
+  eventNumber: number;
 }
 
-const EventPost: React.FC<EventPostProps> = ({ title, date, time }) => {
+const EventPost: React.FC<EventPostProps> = ({
+  imgPath,
+  title,
+  date,
+  time,
+  eventNumber,
+}) => {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
@@ -16,13 +24,13 @@ const EventPost: React.FC<EventPostProps> = ({ title, date, time }) => {
 
   return (
     <div
-      onClick={() => handleClick("/eventpage")}
-      className="w-[300px] h-[450px] bg-white border border-solid rounded-lg border-spacing-[0.5px] flex flex-col justify-around items-center m-5 cursor-pointer hover:-translate-y-0.5 transition ease-out delay-150 hover:shadow-md"
+      onClick={() => handleClick("/eventpage?id=" + eventNumber)}
+      className="w-[300px] h-[500px] bg-white border border-solid rounded-lg border-spacing-[0.5px] flex flex-col justify-around items-center m-5 cursor-pointer hover:-translate-y-0.5 transition ease-out delay-150 hover:shadow-md"
     >
       <img
-        className="w-[270px] h-[300px] pt-3"
-        alt="Welfare Drive Poster"
-        src="/ellipsiswelfaredriveposter.png"
+        className="rounded-3xl w-[270px] h-[350px] pt-3"
+        alt="Poster"
+        src={imgPath}
       />
       <div className="overflow-hidden text-left text-ellipsis font-ibm-plex-mono pt-3 pb-3 pl-3 pr-3 font-medium text-[22px]">
         {title}

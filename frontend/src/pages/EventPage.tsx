@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
@@ -12,20 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/dialog"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { Button } from "../components/ui/button"
+} from "../components/ui/dialog";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Button } from "../components/ui/button";
 
 export default function EventPage() {
-
   const { user, setUser } = useContext(AuthContext);
   const userName = user.username;
   const password = user.username;
   //need to store id somewhere
   const userID = 1;
 
-  const [postData, setPostData] = useState([] as any[]);
   const options = {
     method: "GET",
     headers: {
@@ -34,20 +32,36 @@ export default function EventPage() {
   };
 
   // does a GET request, sets it in PostData variable
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [event, setEvent] = useState({} as any);
+
+  // to search for id based on url so we can GET request specific event
+  const [searchParams] = useSearchParams();
+  const eventId = searchParams.get("id");
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/events", options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setPostData(data);
+    // Make the Axios GET request when the component mounts
+    axios
+      .get(`http://localhost:8080/api/v1/events/id/${eventId}`, {
+        headers: {
+          Authorization: "Basic " + btoa(`admin@admin.com:admin`),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setEvent(response.data); // Store the data in the "data" state variable
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err.message);
+        setError(err);
+        setLoading(false);
       });
   }, []);
 
   //   // called whenever Add Event is clicked, sends POST event with the event data.
   //   // i removed this and put under Event Form
+  //
   //   async function handleClick() {
   //     const body = {
   //       name: `.Hack MERN Stack Series (MESS) 2022`,
@@ -75,62 +89,37 @@ export default function EventPage() {
 
   // i removed the Add Event Button and put it into EventForm too
   // called whenever Add Event is clicked, sends POST event with the event data
-  async function handleClick() {
-    const body = {
-      name: `Ellipsis Back2Sku Welfare Drive`,
-      startDate: "2023-08-16",
-      endDate: "2023-08-16",
-      description:
-        "Got the back-to-school blues? 🎒💔 Well, you don’t have to dwell on it – because Ellipsis is ready to banish them with our upcoming Back2Sku Welfare Drive!",
-      capacity: 100,
-      eventType: "Welfare Drive",
-      venue: "SCIS1 Basement",
-      registered: false,
-      visible: false,
-    };
-    await axios
-      .post("http://localhost:8080/api/v1/events", body, {
-        headers: {
-          Authorization: "Basic " + btoa(`${userName}:${password}`),
-        },
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-    window.location.reload();
-  }
 
   return (
     <div>
       <NavBarTest2 />
-      <div className="h-20"></div>
+      <div className="h-[35px]"></div>
       <div className="gap-10 w-auto m-4">
-      <div className="font-ibm-plex-mono mb-5">
+        {/* <div className="font-ibm-plex-mono mb-5">
           Welcome <span className="text-xl font-bold">{user.username}</span>!
-        </div>
-        {/* Maps post data! */}
-        {postData.map((post) => {
-          return (
-            <div className="" key={post.id}>
-              <div className="flex flex-col justify-normal items-center font-ibm-plex-mono ml-14 mr-14">
-                <h2 className="text-31xl">{post.name}</h2>
-                <div className="flex grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
-                  <div className="">
-                    Date: {post.startDate} to {post.endDate}
-                  </div>
-
-                  <div className=""> Venue: {post.venue} </div>
-                  <div className=""> Max Event Capacity: {post.capacity} </div>
-                </div>
-                <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
-                  {post.description}
-                </div>
-
-                <TicketFooter id={post.id} />
+        </div> */}
+        <div className="" key={event?.id}>
+          <div className="flex flex-col justify-normal items-center font-ibm-plex-mono ml-14 mr-14">
+            <h2 className="text-31xl">{event?.name}</h2>
+            <img
+              src={event?.image}
+              className="h-[400px] w-[300px] rounded-3xl mb-5"
+            ></img>
+            <div className="flex grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
+              <div className="">
+                Date: {event?.startDate} to {event?.endDate}
               </div>
+
+              <div className=""> Venue: {event?.venue} </div>
+              <div className=""> Max Event Capacity: {event?.capacity} </div>
             </div>
-          );
-        })}
+            <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
+              {event?.description}
+            </div>
+
+            <TicketFooter id={event?.id} />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -139,7 +128,7 @@ export default function EventPage() {
       studentId: userID,
       eventId: id,
       isDeregistered: false,
-      isSuccessful: false
+      isSuccessful: false,
     };
 
     async function handleClick() {
@@ -152,22 +141,33 @@ export default function EventPage() {
         .catch((err) => {
           console.log(err.message);
         });
-
     }
 
     return (
       <div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="hover:cursor-pointer font-ibm-plex-mono">Register</Button>
+            <Button
+              variant="outline"
+              className="hover:cursor-pointer font-ibm-plex-mono"
+            >
+              Register
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="font-ibm-plex-mono">Confirm Registration?</DialogTitle>
+              <DialogTitle className="font-ibm-plex-mono">
+                Confirm Registration?
+              </DialogTitle>
             </DialogHeader>
             <DialogFooter>
               <Link to="/purchased" state={{ TID: id }}>
-                <Button onClick={handleClick} className="hover:cursor-pointer font-ibm-plex-mono" >Confirm</Button>
+                <Button
+                  onClick={handleClick}
+                  className="hover:cursor-pointer font-ibm-plex-mono"
+                >
+                  Confirm
+                </Button>
               </Link>
             </DialogFooter>
           </DialogContent>
@@ -176,4 +176,3 @@ export default function EventPage() {
     );
   }
 }
-

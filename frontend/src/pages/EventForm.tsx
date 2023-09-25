@@ -50,14 +50,15 @@ export default function EventForm() {
 
   async function handleClick() {
     const body = {
-      name: `.Hack Social Night`,
-      startDate: "2023-02-10",
-      endDate: "2023-02-10",
+      name: `.Hack Certification Programme (DHCP)`,
+      startDate: "2023-03-17",
+      endDate: "2023-03-17",
       description:
-        "Hi All! It is with great pleasure that we invite you to .Hack’s inaugural Social Night 2023!🥳 Social Night will serve as a networking platform for you to gain insightful knowledge through the distinguished speakers from companies such as Credit Suisse. You will also get the chance to interact with the speakers and other .Hack members during the event itself. .Hack hopes to provide you with the best experiences, to better prepare you for the technology industry in the workforce. As such, we sincerely hope that you will consider attending Social Night 2023 with us!",
-      capacity: 55,
+        "Thinking of picking up a new tech-related skill? Or looking for something that will boost your portfolio? Look no further, .Hack’s much-anticipated DHCP is back this year! By participating in the DHCP, you will be able to take the coveted AWS’s Cloud Practitioner Certification, under the guidance of our experienced .Hack mentors!",
+      capacity: 90,
       eventType: "Workshop",
-      venue: "SCIS1 B1 Alcove",
+      venue: "SCIS2 Computing Lab B1-1",
+      image: "/dhcpworkshop.jpg",
       registered: false,
       visible: false,
     };

@@ -10,7 +10,7 @@ const EventBox: React.FC = () => {
   useEffect(() => {
     // Make the Axios GET request when the component mounts
     axios
-      .get("http://localhost:8080/api/v1/events", {
+      .get(`http://localhost:8080/api/v1/events`, {
         headers: {
           Authorization: "Basic " + btoa(`admin@admin.com:admin`),
         },
@@ -31,6 +31,8 @@ const EventBox: React.FC = () => {
       {events.map((event: any) => (
         <EventPost
           key={event?.id}
+          eventNumber={event?.id}
+          imgPath={event?.image}
           title={event?.name}
           date={event?.startDate}
           time="5.00pm - 6.30pm"

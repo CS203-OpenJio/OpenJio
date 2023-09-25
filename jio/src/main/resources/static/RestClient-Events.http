@@ -32,7 +32,7 @@ Content-Type: application/json
 
 ###
 
-// post a new event
+// post a new event (test)
 POST http://localhost:8080/api/v1/events
 Content-Type: application/json
 Authorization: Basic admin admin
@@ -46,6 +46,86 @@ Authorization: Basic admin admin
     "eventType":"Workshop",
     "venue":"venue",
     "image":"/events/cs203.jpg",
+    "registered": false,
+    "visible": false
+}
+
+// post Event 1
+POST http://localhost:8080/api/v1/events
+Content-Type: application/json
+Authorization: Basic admin admin
+
+{
+    "name":"Ellipsis Back2Sku Welfare Drive",
+    "startDate":"2023-08-16",
+    "endDate":"2001-08-16",
+    "description":"Got the back-to-school blues? 🎒💔 Well, you don’t have to dwell on it – because Ellipsis is ready to banish them with our upcoming Back2Sku Welfare Drive! We have packaged snacks 🧸 and drinks 🧃for you, as well as chocolate ice cream 🍨 and customised Taiwanese dessert bowls 🥣, so make sure you don’t miss out!",
+    "capacity":150,
+    "eventType":"Welfare Drive",
+    "venue":"SCIS1 Basement (near Big Steps)",
+    "registered": false,
+    "visible": false
+}
+
+// post Event 2
+POST http://localhost:8080/api/v1/events
+Content-Type: application/json
+Authorization: Basic admin admin
+
+{
+    "name":".Hack WAD2 Workshop 2023",
+    "startDate":"2023-10-20",
+    "endDate":"2023-10-20",
+    "description":"Are you taking WAD2 (Web App Development 2)  this year? Need a crash course on how to deploy your project?😉
+
+Don't sweat it! .Hack have put together a WAD2 Workshop masterclass! It aims to help students get a better understanding of AWS services and how to make use of them for your project. We will be going through AWS using S3 and EC2, CI/CD tools and demonstrating a realistic project deployed onto a live website.",
+    "capacity":80,
+    "eventType":"Workshop",
+    "venue":"SCIS1 Seminar Room B1-1",
+    "registered": false,
+    "visible": false
+}
+
+// post Event 3
+POST http://localhost:8080/api/v1/events
+Content-Type: application/json
+Authorization: Basic admin admin
+
+{
+    "name":".Hack Certification Programme (DHCP)",
+    "startDate":"2023-03-17",
+    "endDate":"2023-03-17",
+    "description":"Thinking of picking up a new tech-related skill? Or looking for something that will boost your portfolio? 
+
+Look no further, .Hack’s much-anticipated DHCP is back this year! 
+
+By participating in the DHCP, you will be able to take the coveted AWS’s Cloud Practitioner Certification, under the guidance of our experienced .Hack mentors!",
+    "capacity":90,
+    "eventType":"Workshop",
+    "venue":"SCIS2 Computing Lab B1-1",
+    "registered": false,
+    "visible": false
+}
+
+// post Event 4
+POST http://localhost:8080/api/v1/events
+Content-Type: application/json
+Authorization: Basic admin admin
+
+{
+    "name":".Hack Social Night",
+    "startDate":"2023-02-10",
+    "endDate":"2023-02-10",
+    "description":"Hi All!
+
+It is with great pleasure that we invite you to .Hack’s inaugural Social Night 2023!🥳
+
+Social Night will serve as a networking platform for you to gain insightful knowledge through the distinguished speakers from companies such as Credit Suisse. You will also get the chance to interact with the speakers and other .Hack members during the event itself.
+
+.Hack hopes to provide you with the best experiences, to better prepare you for the technology industry in the workforce. As such, we sincerely hope that you will consider attending Social Night 2023 with us!",
+    "capacity":55,
+    "eventType":"Workshop",
+    "venue":"SCIS1 B1 Alcove",
     "registered": false,
     "visible": false
 }
