@@ -41,6 +41,9 @@ public class Event {
     @Column(name = "venue")
     private String venue;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "capacity")
     private int capacity;
 
