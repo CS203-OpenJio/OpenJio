@@ -105,6 +105,9 @@ export default function EventPage() {
       <NavBarTest2 />
       <div className="h-20"></div>
       <div className="gap-10 w-auto m-4">
+      <div className="font-ibm-plex-mono mb-5">
+          Welcome <span className="text-xl font-bold">{user.username}</span>!
+        </div>
         {/* Maps post data! */}
         {postData.map((post) => {
           return (
