@@ -45,19 +45,19 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function EventForm() {
   const [preview, setPreview] = useState(false);
-  const userName = "admin";
+  const userName = "admin@admin.com";
   const password = "admin";
 
   async function handleClick() {
     const body = {
-      name: `.Hack MERN Stack Series (MESS) 2022`,
-      startDate: "2022-12-29",
-      endDate: "2023-12-30",
+      name: `.Hack Social Night`,
+      startDate: "2023-02-10",
+      endDate: "2023-02-10",
       description:
-        "Interested in developing your own application but don't know how to start? Kickstart your software development journey with .Hack's first-ever winter program: MERN Stack Series (MESS). Fulfill your curiosity by attending our exclusive workshops about the production-ready and widely used technological framework of MongoDB, Express, ReactJS, and NodeJS. Apply the insights gained throughout the workshop to build your own portfolio website ",
-      capacity: 100,
+        "Hi All! It is with great pleasure that we invite you to .Hack’s inaugural Social Night 2023!🥳 Social Night will serve as a networking platform for you to gain insightful knowledge through the distinguished speakers from companies such as Credit Suisse. You will also get the chance to interact with the speakers and other .Hack members during the event itself. .Hack hopes to provide you with the best experiences, to better prepare you for the technology industry in the workforce. As such, we sincerely hope that you will consider attending Social Night 2023 with us!",
+      capacity: 55,
       eventType: "Workshop",
-      venue: "YPHSL Seminar Room 3-09 & 3-12",
+      venue: "SCIS1 B1 Alcove",
       registered: false,
       visible: false,
     };

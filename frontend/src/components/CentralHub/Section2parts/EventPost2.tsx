@@ -7,7 +7,7 @@ interface EventPostProps {
   time: string;
 }
 
-const EventPost: React.FC<EventPostProps> = ({ title, date, time }) => {
+const EventPost2: React.FC<EventPostProps> = ({ title, date, time }) => {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
@@ -40,4 +40,4 @@ const EventPost: React.FC<EventPostProps> = ({ title, date, time }) => {
   );
 };
 
-export default EventPost;
+export default EventPost2;
