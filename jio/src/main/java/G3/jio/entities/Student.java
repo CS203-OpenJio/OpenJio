@@ -39,18 +39,18 @@ public class Student implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    // @NotNull
+    // @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Email(message = "Email should be valid")
+    // @NotNull
+    // @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
 
-    @NotNull
-    @Size(min = 8, message = "Password must be between 8 and 50 characters")
+    // @NotNull
+    // @Size(min = 8, message = "Password must be between 8 and 50 characters")
     @Column(name = "password")
     private String password;
 
@@ -60,13 +60,13 @@ public class Student implements UserDetails {
     @Column(name = "accType")
     private char accType;
 
-    @NotNull
-    @Size(min = 8, max = 8, message = "Matriculation number must be valid")
+    // @NotNull
+    // @Size(min = 8, max = 8, message = "Matriculation number must be valid")
     @Column(name = "matricNo")
     private String matricNo;
 
-    @NotNull
-    @Size(min = 8, max = 8, message = "Phone number must be valid")
+    // @NotNull
+    // @Size(min = 8, max = 8, message = "Phone number must be valid")
     @Column(name = "phone")
     private String phone;
 
@@ -127,4 +127,13 @@ public class Student implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public Student(String name, String email, String password, String matricNo, String phone) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.matricNo = matricNo;
+        this.phone = phone;
+    }
+
 }
