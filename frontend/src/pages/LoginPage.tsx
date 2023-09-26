@@ -45,6 +45,7 @@ const LoginPage: FunctionComponent = () => {
         setUser({
           username: username,
           password: password,
+          userId: 2,
         });
         handleSuccess("/centralhub");
       }

@@ -22,6 +22,7 @@ export default function EventPage() {
   const userName = user.username;
   const password = user.password;
   //need to store id somewhere
+  const userID = user.userId;
 
   const options = {
     method: "GET",
@@ -40,7 +41,7 @@ export default function EventPage() {
   const eventId = searchParams.get("id");
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
     // Make the Axios GET request when the component mounts
     axios
       .get(`http://localhost:8080/api/v1/events/id/${eventId}`, {
@@ -105,12 +106,11 @@ export default function EventPage() {
               src={event?.image}
               className="h-[400px] w-[300px] rounded-3xl mb-5"
             ></img>
-            <div className="flex grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
+            <div className="flex grow whitespace-break-spaces bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
               <div className="">
-                Date: {event?.startDate} to {event?.endDate}
+                Date: {event?.startDate} to {event?.endDate} |
               </div>
-
-              <div className=""> Venue: {event?.venue} </div>
+              <div className=""> Venue: {event?.venue} | </div>
               <div className=""> Max Event Capacity: {event?.capacity} </div>
             </div>
             <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
@@ -125,45 +125,26 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     let body = {
-      studentId: 0,
+      studentId: userID,
       eventId: id,
       isDeregistered: false,
       isSuccessful: false,
     };
 
     async function handleClick() {
-      axios
-      .get(`http://localhost:8080/api/v1/students/email/${userName}`, {
-        headers: {
-          Authorization: "Basic " + btoa(`${userName}:${password}`),
-        },
-      })
-      .then((response) => {
-        console.log(userName);
-        console.log(response.data);
-        post(response.data.id);
-      })
+      console.log(body);
+      console.log(userName);
+      console.log(password);
 
-    }
-
-    function post(sId:number) {
-      console.log(sId);
-      body = {
-        studentId: sId,
-        eventId: id,
-        isDeregistered: false,
-        isSuccessful: false,
-      };
-      axios
-      .post("http://localhost:8080/api/v1/register", body, {
-        headers: {
-          Authorization: "Basic " + btoa(`${userName}:${password}`),
-        },
-      })
-      .catch((err) => {
-        console.log(err.message);
-
-      });
+      await axios
+        .post("http://localhost:8080/api/v1/register", body, {
+          headers: {
+            Authorization: "Basic " + btoa(`${user.username}:${user.password}`),
+          },
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
 
     return (

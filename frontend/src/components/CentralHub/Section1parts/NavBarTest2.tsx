@@ -6,14 +6,15 @@ import { AuthContext } from "src/App";
 function NavBarTest2() {
   const navigate = useNavigate();
 
-  const {user, setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const handleClick = (path: string) => {
     setUser({
-      username:"NOT LOGGED IN",
-      password:""
+      username: "NOT LOGGED IN",
+      password: "",
+      userId: 0,
     });
-    console.log(user)
+    console.log(user);
     navigate(path);
   };
 

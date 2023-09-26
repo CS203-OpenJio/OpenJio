@@ -1,25 +1,40 @@
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "src/App";
 
 const Schedule = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState([]);
+  const [registeredEvents, setRegisteredEvents] = useState([]);
+
+  const { user, setUser } = useContext(AuthContext);
+  const username = user.username;
+  const password = user.password;
+  //need to store id somewhere
+  const userID = user.userId;
 
   useEffect(() => {
+    console.log(username, password, userID);
     // Make the Axios GET request when the component mounts
     axios
-      .get("http://localhost:8080/api/v1/events")
+      .get(`http://localhost:8080/api/v1/register/student/${userID}`, {
+        headers: {
+          Authorization: "Basic " + btoa(`${user.username}:${user.password}`),
+        },
+      })
       .then((response) => {
-        setEvents(response.data); // Store the data in the "data" state variable
+        setRegisteredEvents(response.data); // Store the data in the "data" state variable
         setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => {
         setError(null);
         setLoading(false);
       });
   }, []);
+
+  const findEvent = () => {};
 
   return (
     <div>
@@ -37,9 +52,8 @@ const Schedule = () => {
 
           <h2>Items:</h2>
           <ul>
-            {events.map((event) => (
-              //   <li key={event.id}>{event.event_name}</li>
-              <div></div>
+            {registeredEvents.map((registeredEvent: any) => (
+              <div>{registeredEvent?.name}</div>
             ))}
           </ul>
         </div>
