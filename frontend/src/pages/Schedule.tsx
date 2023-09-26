@@ -48,14 +48,17 @@ const Schedule = () => {
           <div className="mt-[80px] pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">
             My Schedule
           </div>
-          <div className="flex flex-col bg-white mt-100 ml-14 mr-14 border border-solid border-spacing-[0.5px] rounded-lg cursor-default"></div>
-
-          <h2>Items:</h2>
-          <ul>
-            {registeredEvents.map((registeredEvent: any) => (
-              <div>{registeredEvent?.name}</div>
-            ))}
-          </ul>
+          <div className="flex flex-col bg-white mt-100 ml-14 mr-14 border border-solid border-spacing-[0.5px] rounded-lg cursor-default">
+            {" "}
+            <div className="font-ibm-plex-mono text-4xl">
+              {registeredEvents.map((registeredEvent: any) => (
+                <div>
+                  <div>{registeredEvent?.name}</div>
+                  <div>{registeredEvent?.start_date}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
