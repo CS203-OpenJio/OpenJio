@@ -31,6 +31,13 @@ public class StudentService {
         }).orElse(null);
     }
 
+    // get student by email
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email).map(student -> {
+            return student;
+        }).orElse(null);
+    }
+
     // get by name
     public List<Student> getStudentsByName(String name) {
         return studentRepository.findAllByName(name);

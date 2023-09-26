@@ -54,6 +54,17 @@ public class StudentController {
         return student;
     }
 
+    // get student given their email
+    @GetMapping(path = "/email/{email}")
+    public Student getStudentByEmail(@PathVariable("email") String email) {
+        Student student = studentService.getStudentByEmail(email);
+        if (student == null) {
+            throw new UserNotFoundException(" " + email);
+        }
+
+        return student;
+    }
+
     // get all students
     @GetMapping
     public List<Student> getAllStudents() {

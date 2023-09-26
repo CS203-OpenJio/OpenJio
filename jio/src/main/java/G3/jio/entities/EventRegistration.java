@@ -2,6 +2,9 @@ package G3.jio.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +17,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString.Exclude;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,10 +32,14 @@ public class EventRegistration {
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
+    @JsonIgnore
+    @Exclude
     Student student;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
+    @JsonIgnore
+    @Exclude
     Event event;
 
     @Column(name = "isDeregistered")
@@ -49,10 +57,13 @@ public class EventRegistration {
         this.isSuccessful = isSuccessful;
     }
 
-
-    @Override
-    public String toString() {
-        return "EventRegistration [id=" + id + ", student=" + student.getId() + ", event=" + event.getId() + ", isDeregistered="
-                + isDeregistered + ", isSuccessful=" + isSuccessful + "]";
+    @JsonView
+    public Long getSid() {
+        return student.getId();
+    }
+    
+    @JsonView
+    public Long getEid() {
+        return event.getId();
     }
 }
