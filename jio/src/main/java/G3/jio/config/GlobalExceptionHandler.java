@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * {@code null} when the response is already committed
 	 */
     @Override
-	// @Nullable
+	@Nullable
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FailedRegistrationException.class)
-    private ResponseEntity<ErrorModel> handleEntityNotFound(FailedRegistrationException ex) {
+    private ResponseEntity<ErrorModel> handleFailedRegistration(FailedRegistrationException ex) {
         ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Registration failed.", ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

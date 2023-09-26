@@ -33,11 +33,11 @@ public class EventRegistrationService {
     // add
     public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
 
-        // testing
-        System.out.println(newEventRegistrationDTO.getEventId());
-        System.out.println(newEventRegistrationDTO.getStudentId());
-        System.out.println(newEventRegistrationDTO.isDeregistered());
-        System.out.println(newEventRegistrationDTO.isSuccessful());
+        // // testing
+        // System.out.println(newEventRegistrationDTO.getEventId());
+        // System.out.println(newEventRegistrationDTO.getStudentId());
+        // System.out.println(newEventRegistrationDTO.isDeregistered());
+        // System.out.println(newEventRegistrationDTO.isSuccessful());
 
         // find student and event
         if (!studentRepository.existsById(newEventRegistrationDTO.getStudentId())) {
@@ -52,9 +52,7 @@ public class EventRegistrationService {
         // create new entry
         EventRegistration newEventRegistration = new EventRegistration(student, event, newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
 
-        // TODO
         // save into student and event list
-        // this line causes stack overflow
         student.addEventRegistration(newEventRegistration);
         event.addEventRegistration(newEventRegistration);
         // System.out.println(newEventRegistration);
