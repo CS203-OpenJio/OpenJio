@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -59,7 +60,7 @@ public class Event {
     @JsonIgnore
     private boolean isVisible;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
