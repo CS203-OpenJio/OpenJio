@@ -8,6 +8,7 @@ import Select3 from "../components/CentralHub/Section1parts/Select3";
 import SearchBar from "../components/CentralHub/Section1parts/SearchBar";
 import Test from "../components/CentralHub/Section2parts/Test";
 import Section3 from "../components/CentralHub/Section3";
+import { useEffect } from "react";
 
 function CentralHub() {
   return (
