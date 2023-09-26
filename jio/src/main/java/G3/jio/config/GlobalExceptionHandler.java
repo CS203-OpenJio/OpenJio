@@ -30,18 +30,7 @@ import G3.jio.exceptions.UserNotFoundException;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Ensure all inputs are valid and follows set constraints
-    // @Override
-    // protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-    //     String defaultErrorMsg = ex.getAllErrors().get(0).getDefaultMessage();
-
-    //     ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error: " + defaultErrorMsg,
-    //             ex.getBindingResult().toString());
-    //     return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-    // }
-
-
-
-    	/**
+    /**
 	 * Customize the handling of {@link MethodArgumentNotValidException}.
 	 * <p>This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception to handle
@@ -56,17 +45,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-                logger.info(ex.getClass().getName());
-                //
-                final List<String> errors = new ArrayList<String>();
-                for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
-                    errors.add(error.getField() + ": " + error.getDefaultMessage());
-                }
-                for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-                    errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-                }
-                final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
-                return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+        String defaultErrorMsg = ex.getAllErrors().get(0).getDefaultMessage();
+
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error: " + defaultErrorMsg,
+                ex.getBindingResult().toString());
+        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
 	}
 
     @ExceptionHandler(AuthenticationException.class)
