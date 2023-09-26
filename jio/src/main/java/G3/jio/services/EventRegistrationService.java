@@ -1,5 +1,6 @@
 package G3.jio.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class EventRegistrationService {
     private final StudentRepository studentRepository;
     private final EventRepository eventRepository;
 
-    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository, StudentRepository studentRepository, EventRepository eventRepository) {
+    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository,
+            StudentRepository studentRepository, EventRepository eventRepository) {
         this.eventRegistrationRepository = eventRegistrationRepository;
         this.studentRepository = studentRepository;
         this.eventRepository = eventRepository;
@@ -42,7 +44,8 @@ public class EventRegistrationService {
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
 
         // create new entry
-        EventRegistration newEventRegistration = new EventRegistration(student, event, newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
+        EventRegistration newEventRegistration = new EventRegistration(student, event,
+                newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
 
         // TODO
         // save into student and event list
@@ -56,8 +59,16 @@ public class EventRegistrationService {
     }
 
     // get registrations by studentId
-    public List<EventRegistration> getEventRegistrationsByStudentId(long studentId) {
-        return eventRegistrationRepository.findAllByStudentId(studentId);
+    public List<Event> getEventRegistrationsByStudentId(long studentId) {
+        List<EventRegistration> table = new ArrayList<>(eventRegistrationRepository.findAllByStudentId(studentId));
+        List<Event> eventsTable = new ArrayList<>();
+
+        for (EventRegistration registeredEvent : table) {
+            eventsTable.add(registeredEvent.getEvent());
+
+        }
+
+        return eventsTable;
     }
 
     // get registrations by eventId
@@ -65,7 +76,7 @@ public class EventRegistrationService {
         return eventRegistrationRepository.findAllByEventId(eventId);
     }
 
-    //delete
+    // delete
     public void deleteEventRegistration(Long id) {
         if (!eventRegistrationRepository.existsById(id)) {
             throw new NotExistException("Registration");
