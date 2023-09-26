@@ -9,7 +9,9 @@ import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
+import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.NotExistException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
@@ -29,7 +31,7 @@ public class EventRegistrationService {
     }
 
     // add
-    public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) {
+    public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
 
         // testing
         System.out.println(newEventRegistrationDTO.getEventId());
@@ -38,6 +40,12 @@ public class EventRegistrationService {
         System.out.println(newEventRegistrationDTO.isSuccessful());
 
         // find student and event
+        if (!studentRepository.existsById(newEventRegistrationDTO.getStudentId())) {
+            throw new NotExistException("Student");
+        } else if (!eventRepository.existsById(newEventRegistrationDTO.getEventId())) {
+            throw new NotExistException("Event");
+        }
+
         Student student = studentRepository.getReferenceById(newEventRegistrationDTO.getStudentId());
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
 
@@ -47,8 +55,8 @@ public class EventRegistrationService {
         // TODO
         // save into student and event list
         // this line causes stack overflow
-        // student.addEventRegistration(newEventRegistration);
-        // event.addEventRegistration(newEventRegistration);
+        student.addEventRegistration(newEventRegistration);
+        event.addEventRegistration(newEventRegistration);
         // System.out.println(newEventRegistration);
 
         // save into db

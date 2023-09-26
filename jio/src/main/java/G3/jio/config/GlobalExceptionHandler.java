@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import G3.jio.exceptions.ErrorModel;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.FailedRegistrationException;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -59,5 +60,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Registration failed.", ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotExistException.class)
+    private ResponseEntity<ErrorModel> handleNotExist(NotExistException ex) {
+        ErrorModel error = new ErrorModel(HttpStatus.NOT_FOUND, "Not Found.", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }

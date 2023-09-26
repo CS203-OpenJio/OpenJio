@@ -22,7 +22,7 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "name":"chee bhai",
+    "name":"jhee bhai",
     "password":"5378967867",
     "email":"knn.ccb@gmail.com",
     "matricNo": "6908908785",
