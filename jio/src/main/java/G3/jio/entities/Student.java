@@ -76,6 +76,7 @@ public class Student implements UserDetails {
     private LocalDate dob;
 
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
@@ -94,7 +95,6 @@ public class Student implements UserDetails {
     }
 
     // security
-
     @Column(name = "role")
     private Role role;
 

@@ -64,17 +64,9 @@ public class EventRegistrationService {
         return eventRegistrationRepository.save(newEventRegistration);
     }
 
-    // get registrations by studentId
-    public List<Event> getEventRegistrationsByStudentId(long studentId) {
-        List<EventRegistration> table = new ArrayList<>(eventRegistrationRepository.findAllByStudentId(studentId));
-        List<Event> eventsTable = new ArrayList<>();
-
-        for (EventRegistration registeredEvent : table) {
-            eventsTable.add(registeredEvent.getEvent());
-
-        }
-
-        return eventsTable;
+    // get registrations by student id
+    public List<EventRegistration> getEventRegistrationsByStudentId(long studentId) {
+        return eventRegistrationRepository.findAllByStudentId(studentId);
     }
 
     // get registrations by eventId

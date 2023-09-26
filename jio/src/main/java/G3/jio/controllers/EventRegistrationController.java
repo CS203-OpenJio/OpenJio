@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.EventRegistration;
 import G3.jio.services.EventRegistrationService;
-import G3.jio.entities.Event;
 
 @RestController
 @Controller
@@ -29,7 +28,7 @@ public class EventRegistrationController {
 
     // get by userid or eventid
     @GetMapping(path = "/student/{studentId}")
-    public List<Event> getEventRegistrationsByUserId(@PathVariable long studentId) {
+    public List<EventRegistration> getEventRegistrationsByUserId(@PathVariable long studentId) {
         return eventRegistrationService.getEventRegistrationsByStudentId(studentId);
     }
     // get array of events based on studentId

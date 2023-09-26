@@ -1,5 +1,5 @@
 
-// get registrations by userid
+// get registrations by studentid
 GET http://localhost:8080/api/v1/register/student/1
 Authorization: Basic admin@admin.com admin
 ###
@@ -17,7 +17,7 @@ Authorization: Basic admin@admin.com admin
 
 {
     "studentId":1,
-    "eventId":1,
+    "eventId":2,
     "isDeregistered":false,
     "isSuccessful":false
 }

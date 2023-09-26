@@ -61,6 +61,7 @@ public class Event {
     private boolean isVisible;
 
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {

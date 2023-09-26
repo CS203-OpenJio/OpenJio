@@ -1,12 +1,17 @@
 package G3.jio.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import G3.jio.entities.Event;
+import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.StudentRepository;
 
@@ -33,9 +38,15 @@ public class StudentService {
 
     // get student by email
     public Student getStudentByEmail(String email) {
-        return studentRepository.findByEmail(email).map(student -> {
+        Student s = studentRepository.findByEmail(email).map(student -> {
             return student;
         }).orElse(null);
+
+        if (s == null) {
+            throw new NotExistException("Student");
+        } else {
+            return s;
+        }
     }
 
     // get by name
@@ -70,5 +81,21 @@ public class StudentService {
             throw new UserNotFoundException();
         }
         studentRepository.deleteById(id);
+    }
+
+    // get events by student email
+    // TODO
+    public List<Event> getEventByStudentEmail(String email) {
+        
+        Student student = getStudentByEmail(email);
+
+        Set<EventRegistration> registrations = student.getRegistrations();
+        List<Event> events = new ArrayList<>();
+
+        for (EventRegistration registeredEvent : registrations) {
+            events.add(registeredEvent.getEvent());
+        }
+
+        return events;
     }
 }
