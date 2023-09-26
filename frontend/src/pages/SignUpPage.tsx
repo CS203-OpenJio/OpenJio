@@ -54,15 +54,21 @@ const SignUpPage: FunctionComponent = () => {
         }
       );
 
-      if (response.status == 200) {
-        handleSuccess("/");
+      if (response.status == 201 || response.status == 200) {
+        handleSuccess("/login");
       }
       // Handle the successful login response here
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err)
       setOpen(true);
-      let error = err as AxiosError;
-      setErrorMessage(error.response?.data as string);
-    } finally {
+      const responseData: any = err.response.data; 
+    
+      if (responseData?.message) {   // checking if message property exists on responseData
+        setErrorMessage(responseData.message);
+      } else {
+        setErrorMessage('An expected error occurred.');  // default error message 
+      }
+     } finally {
       setLoading(false);
     }
   };
@@ -99,11 +105,10 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2022/2023")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${
-               selectedYear === "2022/2023"
-                 ? "bg-blue-500 text-white"
-                 : "bg-floralwhite text-black"
-             } 
+             ${selectedYear === "2022/2023"
+                      ? "bg-blue-500 text-white"
+                      : "bg-floralwhite text-black"
+                    } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2022/2023</div>
@@ -112,11 +117,10 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2021/2022")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${
-               selectedYear === "2021/2022"
-                 ? "bg-blue-500 text-white"
-                 : "bg-floralwhite text-black"
-             } 
+             ${selectedYear === "2021/2022"
+                      ? "bg-blue-500 text-white"
+                      : "bg-floralwhite text-black"
+                    } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2021/2022</div>
@@ -125,11 +129,10 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2020/2021")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${
-               selectedYear === "2020/2021"
-                 ? "bg-blue-500 text-white"
-                 : "bg-floralwhite text-black"
-             } 
+             ${selectedYear === "2020/2021"
+                      ? "bg-blue-500 text-white"
+                      : "bg-floralwhite text-black"
+                    } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2020/2021</div>
@@ -138,11 +141,10 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2019/2020")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${
-               selectedYear === "2019/2020"
-                 ? "bg-blue-500 text-white"
-                 : "bg-floralwhite text-black"
-             } 
+             ${selectedYear === "2019/2020"
+                      ? "bg-blue-500 text-white"
+                      : "bg-floralwhite text-black"
+                    } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2019/2020</div>
@@ -151,7 +153,7 @@ const SignUpPage: FunctionComponent = () => {
             </div>
           </div>
           <AlertDialog open={open}>
-            <AlertDialogContent>
+            <AlertDialogContent className="font-ibm-plex-mono">
               <AlertDialogHeader>
                 <AlertDialogTitle>You have an error</AlertDialogTitle>
                 <AlertDialogDescription>{errorMessage}</AlertDialogDescription>
@@ -162,6 +164,7 @@ const SignUpPage: FunctionComponent = () => {
                     setOpen(false);
                     setErrorMessage("");
                   }}
+                  className="hover:cursor-pointer font-ibm-plex-mono"
                 >
                   Close
                 </AlertDialogCancel>

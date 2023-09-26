@@ -1,11 +1,12 @@
 
 // get registrations by userid
 GET http://localhost:8080/api/v1/register/student/1
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 ###
 
 //get registrations by eventid
 GET http://localhost:8080/api/v1/register/event/1
+Authorization: Basic admin@admin.com admin
 
 ###
 

@@ -20,7 +20,7 @@ import { Button } from "../components/ui/button";
 export default function EventPage() {
   const { user, setUser } = useContext(AuthContext);
   const userName = user.username;
-  const password = user.username;
+  const password = user.password;
   //need to store id somewhere
   const userID = 1;
 
@@ -41,6 +41,7 @@ export default function EventPage() {
   const eventId = searchParams.get("id");
 
   useEffect(() => {
+    console.log(user)
     // Make the Axios GET request when the component mounts
     axios
       .get(`http://localhost:8080/api/v1/events/id/${eventId}`, {
@@ -132,6 +133,9 @@ export default function EventPage() {
     };
 
     async function handleClick() {
+      console.log(body);
+      console.log(userName);
+      console.log(password);
       await axios
         .post("http://localhost:8080/api/v1/register", body, {
           headers: {
@@ -140,6 +144,7 @@ export default function EventPage() {
         })
         .catch((err) => {
           console.log(err.message);
+
         });
     }
 

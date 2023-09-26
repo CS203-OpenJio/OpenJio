@@ -42,17 +42,6 @@ const HomeScreen: FunctionComponent = () => {
 
       <div className="min-h-screen">
         <div className="h-20"></div>
-        {/* place components under this line for testing! */}
-        <Link to="/eventpage">
-          <button>EventPage</button>
-        </Link>
-        <Link to="/eventform">
-          <button>EventForm</button>
-        </Link>
-        <Link to="/centralhub">
-          <button>CentralHub</button>
-        </Link>
-        {/* place components above this line for testing! */}
         <div className="w-[70%] m-auto mt-[5vw] flex flex-row justify-between flex-wrap">
           <div className="flex flex-col">
             <span className="text-left text-xl text-black font-roboto-serif">
