@@ -10,6 +10,12 @@ Authorization: Basic admin@admin.com admin
 
 ###
 
+// get specific user by email
+GET http://localhost:8080/api/v1/students/email/admin@admin.com
+Authorization: Basic admin@admin.com admin
+
+###
+
 // get specific users by name
 GET http://localhost:8080/api/v1/students/name/john%20weak
 Authorization: Basic admin@admin.com admin
