@@ -34,7 +34,6 @@ public class Event {
     private String name;
 
     @Column(name = "startDate")
-    @JsonIgnore
     private LocalDate startDate;
 
     @Column(name = "endDate")
@@ -45,7 +44,6 @@ public class Event {
     private String venue;
 
     @Column(name = "image")
-    @JsonIgnore
     private String image;
 
     @Column(name = "capacity")
@@ -138,5 +136,4 @@ public class Event {
         return result;
     }
 
-    
 }

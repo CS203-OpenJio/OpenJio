@@ -20,11 +20,13 @@ import LogoutPage from "src/pages/LogoutPage";
 type UserType = {
   username: string;
   password: string;
+  userId: number;
 };
 
 const initialUser: UserType = {
-  username: '',
-  password: '',
+  username: "",
+  password: "",
+  userId: 0,
 };
 
 type AuthContextType = {
@@ -36,7 +38,6 @@ export const AuthContext = createContext<AuthContextType>({
   user: initialUser,
   setUser: () => {},
 });
-
 
 const router = createBrowserRouter([
   {
@@ -87,17 +88,18 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const[user, setUser] = useState({
-    username:"admin",
-    password:"admin"
+  const [user, setUser] = useState({
+    username: "admin",
+    password: "admin",
+    userId: 1,
   });
 
   const value = { user, setUser };
 
-  return (<AuthContext.Provider value={value}>
-    <RouterProvider router={router} />
+  return (
+    <AuthContext.Provider value={value}>
+      <RouterProvider router={router} />
     </AuthContext.Provider>
-  
   );
 };
 
