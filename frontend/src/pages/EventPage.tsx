@@ -22,7 +22,6 @@ export default function EventPage() {
   const userName = user.username;
   const password = user.password;
   //need to store id somewhere
-  const userID = 1;
 
   const options = {
     method: "GET",
@@ -46,7 +45,7 @@ export default function EventPage() {
     axios
       .get(`http://localhost:8080/api/v1/events/id/${eventId}`, {
         headers: {
-          Authorization: "Basic " + btoa(`admin@admin.com:admin`),
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
         },
       })
       .then((response) => {
@@ -125,27 +124,46 @@ export default function EventPage() {
     </div>
   );
   function TicketFooter({ id }: { id: number }) {
-    const body = {
-      studentId: userID,
+    let body = {
+      studentId: 0,
       eventId: id,
       isDeregistered: false,
       isSuccessful: false,
     };
 
     async function handleClick() {
-      console.log(body);
-      console.log(userName);
-      console.log(password);
-      await axios
-        .post("http://localhost:8080/api/v1/register", body, {
-          headers: {
-            Authorization: "Basic " + btoa(`${userName}:${password}`),
-          },
-        })
-        .catch((err) => {
-          console.log(err.message);
+      axios
+      .get(`http://localhost:8080/api/v1/students/email/${userName}`, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .then((response) => {
+        console.log(userName);
+        console.log(response.data);
+        post(response.data.id);
+      })
 
-        });
+    }
+
+    function post(sId:number) {
+      console.log(sId);
+      body = {
+        studentId: sId,
+        eventId: id,
+        isDeregistered: false,
+        isSuccessful: false,
+      };
+      axios
+      .post("http://localhost:8080/api/v1/register", body, {
+        headers: {
+          Authorization: "Basic " + btoa(`${userName}:${password}`),
+        },
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+      });
     }
 
     return (
