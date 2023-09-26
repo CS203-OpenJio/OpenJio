@@ -2,6 +2,16 @@ import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "src/App";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "src/components/ui/table"
+ 
 
 const Schedule = () => {
   const [error, setError] = useState(null);
@@ -34,7 +44,7 @@ const Schedule = () => {
       });
   }, []);
 
-  const findEvent = () => {};
+  const findEvent = () => { };
 
   return (
     <div>
@@ -51,12 +61,28 @@ const Schedule = () => {
           <div className="flex flex-col bg-white mt-100 ml-14 mr-14 border border-solid border-spacing-[0.5px] rounded-lg cursor-default">
             {" "}
             <div className="font-ibm-plex-mono text-4xl">
-              {registeredEvents.map((registeredEvent: any) => (
                 <div>
-                  <div>{registeredEvent?.name}</div>
-                  <div>{registeredEvent?.start_date}</div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[100px]">Event Id</TableHead>
+                        <TableHead>Event Name</TableHead>
+                        <TableHead>Venue</TableHead>
+                        <TableHead className="text-right">Date</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {registeredEvents.map((registeredEvent:any) => (
+                        <TableRow key={registeredEvent.name}>
+                          <TableCell className="font-medium">{registeredEvent.id}</TableCell>
+                          <TableCell>{registeredEvent.name}</TableCell>
+                          <TableCell>{registeredEvent.venue}</TableCell>
+                          <TableCell className="text-right">{registeredEvent.startDate}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
-              ))}
             </div>
           </div>
         </div>
