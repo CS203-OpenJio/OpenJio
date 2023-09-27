@@ -10,26 +10,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.DTO.LoginDTO;
 import G3.jio.DTO.RegistrationDTO;
+import G3.jio.entities.AuthenticationResponse;
 import G3.jio.services.AuthService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account Logged in Successfully"),
             @ApiResponse(responseCode = "400", description = "Incorrect Username or Password")
     })
     @PostMapping(path = "/login")
-    public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
-        ResponseEntity<String> response = authService.authenticateUser(loginDTO);
-        return response;
+    public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
+
+        return ResponseEntity.ok(authService.authenticateUser(loginDTO));
     }
 
     @ApiResponses(value = {
@@ -37,11 +40,9 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Input fields invalid")
     })
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationDTO registrationDTO) {
+    public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody RegistrationDTO registrationDTO) {
 
-        Object responseObject = authService.registerUser(registrationDTO);
-
-        return new ResponseEntity<>(responseObject, HttpStatus.CREATED);
+        return ResponseEntity.ok(authService.registerUser(registrationDTO));
     }
 
 }

@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import G3.jio.config.Role;
 import G3.jio.entities.Event;
+import G3.jio.entities.Role;
 import G3.jio.entities.Student;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;

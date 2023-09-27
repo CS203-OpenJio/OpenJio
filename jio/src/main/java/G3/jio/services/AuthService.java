@@ -14,30 +14,25 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.LoginDTO;
 import G3.jio.DTO.RegistrationDTO;
-import G3.jio.config.Role;
+import G3.jio.config.jwt.JwtService;
+import G3.jio.entities.AuthenticationResponse;
 import G3.jio.entities.Organiser;
+import G3.jio.entities.Role;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.FailedRegistrationException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    private StudentRepository studentRepository;
-    private OrganiserRepository organiserRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private AuthenticationManager authenticationManager;
-    // private JwtProvider jwtProvider;
-
-    @Autowired
-    public AuthService(StudentRepository studentRepository, OrganiserRepository organiserRepository,
-            BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager) {
-        this.studentRepository = studentRepository;
-        this.organiserRepository = organiserRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.authenticationManager = authenticationManager;
-    }
+    private final StudentRepository studentRepository;
+    private final OrganiserRepository organiserRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     /**
      * Authenticates user. If loginDTO is valid.
@@ -45,12 +40,29 @@ public class AuthService {
      * @param loginDTO
      * @return
      */
-    public ResponseEntity<String> authenticateUser(LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getEmail(), loginDTO.getPassword()));
+    public AuthenticationResponse authenticateUser(LoginDTO loginDTO) {
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())    
+        );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        if (studentRepository.existsByEmail(loginDTO.getEmail())) {
+            var user = studentRepository.findByEmail(loginDTO.getEmail()).map(student -> {
+                return student;
+            }).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+
+        } else {
+            var user = organiserRepository.findByEmail(loginDTO.getEmail()).map(organiser -> {
+                return organiser;
+            }).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+        }
     }
 
     /**
@@ -60,7 +72,7 @@ public class AuthService {
      * @return
      * 
      */
-    public Object registerUser(RegistrationDTO registrationDTO) {
+    public AuthenticationResponse registerUser(RegistrationDTO registrationDTO) {
         if (registrationDTO.getUserType() == 'S') {
             return this.registerStudent(registrationDTO);
         } else if (registrationDTO.getUserType() == 'O') {
@@ -75,7 +87,7 @@ public class AuthService {
      * @param registrationDTO
      * @return
      */
-    private Organiser registerOrganiser(RegistrationDTO registrationDTO) {
+    private AuthenticationResponse registerOrganiser(RegistrationDTO registrationDTO) {
 
         // Check if email is already in use
         if (studentRepository.existsByEmail(registrationDTO.getEmail())
@@ -86,8 +98,10 @@ public class AuthService {
         Organiser organiser = this.organiserMapToEntity(registrationDTO);
 
         organiserRepository.save(organiser);
-
-        return organiser;
+        var jwtToken = jwtService.generateToken(organiser);
+        return AuthenticationResponse.builder()
+            .token(jwtToken)
+            .build();
     }
 
     private Organiser organiserMapToEntity(RegistrationDTO registrationDTO) {
@@ -105,7 +119,7 @@ public class AuthService {
      * @param registrationDTO
      * @return
      */
-    private Student registerStudent(RegistrationDTO registrationDTO) {
+    private AuthenticationResponse registerStudent(RegistrationDTO registrationDTO) {
 
         // Check if email is already in use
         if (studentRepository.existsByEmail(registrationDTO.getEmail())
@@ -116,8 +130,10 @@ public class AuthService {
         Student student = this.studentMapToEntity(registrationDTO);
 
         studentRepository.save(student);
-
-        return student;
+        var jwtToken = jwtService.generateToken(student);
+        return AuthenticationResponse.builder()
+            .token(jwtToken)
+            .build();
     }
 
     private Student studentMapToEntity(RegistrationDTO registrationDTO) {

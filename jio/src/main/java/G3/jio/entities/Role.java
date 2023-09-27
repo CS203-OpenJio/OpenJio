@@ -1,4 +1,4 @@
-package G3.jio.config;
+package G3.jio.entities;
 
 public enum Role {
     USER,

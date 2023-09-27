@@ -3,6 +3,7 @@ package G3.jio.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -12,15 +13,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import G3.jio.config.jwt.JwtAuthenticationFilter;
+import jakarta.servlet.Filter;
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    private UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userSvc) {
-        this.userDetailsService = userSvc;
-    }
+    private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthFilter;
 
     /**
      * Exposes a bean of DaoAuthenticationProvider, a type of AuthenticationProvider
@@ -30,12 +35,18 @@ public class SecurityConfig {
      */
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder());
 
         return authProvider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        // auto-generate a random salt internally
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -55,7 +66,9 @@ public class SecurityConfig {
                     authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
                 })
+
                 .authenticationProvider(authenticationProvider()) // specifies the authentication provider for HttpSecurity
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.disable())
@@ -64,17 +77,5 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults());
 
         return http.build();
-    }
-
-    /**
-     * @Bean annotation is used to declare a PasswordEncoder bean in the Spring
-     *       application context.
-     *       Any calls to encoder() will then be intercepted to return the bean
-     *       instance.
-     */
-    @Bean
-    public BCryptPasswordEncoder encoder() {
-        // auto-generate a random salt internally
-        return new BCryptPasswordEncoder();
     }
 }

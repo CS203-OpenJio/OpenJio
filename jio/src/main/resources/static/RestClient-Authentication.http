@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name":"thanos gay",
-    "email":"thanos.y@gmail.com",
+    "email":"thanos.gay@gmail.com",
     "password":"13473433",
     "matricNo":"23324269",
     "phone":"43563789",
@@ -18,7 +18,7 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"thanos.y@gmail.com",
+    "email":"thanos.gay@gmail.com",
     "password":"13473433"
 }
 
@@ -28,10 +28,23 @@ POST http://localhost:8080/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "name":"thanos gay",
-    "email":"thanos.ga@gmail.com",
+    "name":"jimin's bulge",
+    "email":"bul.ge@gmail.com",
     "password":"13473433",
     "matricNo":"23324269",
     "phone":"43563789",
     "userType": "O"
 }
+
+###
+
+// sign in
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email":"thanos.gay@gmail.com",
+    "password":"13473433"
+}
+
+###

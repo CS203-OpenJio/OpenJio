@@ -13,10 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import G3.jio.config.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -79,25 +80,12 @@ public class Student implements UserDetails {
     @Column(name = "dob")
     private LocalDate dob;
 
-    @Column(name = "role")
-    public Role role;
-
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
         this.registrations.add(eventRegistration);
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     // TODO: temporary constructor to create admin
@@ -113,6 +101,20 @@ public class Student implements UserDetails {
     }
 
     // **************** SECURITY ****************
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    public Role role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(role.name()));
