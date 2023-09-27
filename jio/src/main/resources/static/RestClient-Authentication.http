@@ -1,24 +1,37 @@
 // register
-POST http://localhost:8080/api/v1/auth/signup
+POST http://localhost:8080/api/v1/auth/register
 Content-Type: application/json
 
 {
     "name":"thanos gay",
-    "email":"thanos.gay@gmail.com",
+    "email":"thanos.y@gmail.com",
     "password":"13473433",
     "matricNo":"23324269",
-    "phone":"43563789"
+    "phone":"43563789",
+    "userType": "S"
 }
 
 ###
 
 // sign in
-POST http://localhost:8080/api/v1/auth/signin
+POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"thanos.gay@gmail.com",
-    "password":"123"
+    "email":"thanos.y@gmail.com",
+    "password":"13473433"
 }
 
 ###
+
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "name":"thanos gay",
+    "email":"thanos.ga@gmail.com",
+    "password":"13473433",
+    "matricNo":"23324269",
+    "phone":"43563789",
+    "userType": "O"
+}

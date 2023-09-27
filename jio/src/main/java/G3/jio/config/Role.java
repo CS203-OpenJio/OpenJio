@@ -2,5 +2,7 @@ package G3.jio.config;
 
 public enum Role {
     USER,
-    ADMIN
+    ADMIN,
+    ORGANISER,
+    STUDENT
 }

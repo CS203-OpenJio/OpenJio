@@ -59,7 +59,7 @@ Authorization: Basic admin@admin.com admin
     "matricNo": "12369323",
     "phone":"62226111",
     "dob":"2001-02-01",
-    "accType":"U",
+    "accType":"S",
     "image":"random/path",
     "role":"USER"
 }

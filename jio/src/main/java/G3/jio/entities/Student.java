@@ -1,12 +1,11 @@
 package G3.jio.entities;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +22,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -36,21 +39,22 @@ import lombok.NoArgsConstructor;
 public class Student implements UserDetails {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // @NotNull
-    // @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    @Size(min = 5, max = 15, message = "Name must be between 5 and 15 characters long")
+    @NotBlank(message = "Name cannot be null")
     @Column(name = "name")
     private String name;
 
-    // @NotNull
-    // @Email(message = "Email should be valid")
+    @Email(message = "Must be a valid email")
+    @NotBlank(message = "Email cannot be null")
     @Column(name = "email")
     private String email;
 
-    // @NotNull
-    // @Size(min = 8, message = "Password must be between 8 and 50 characters")
+    @NotBlank(message = "Password cannot be blank")
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -75,6 +79,9 @@ public class Student implements UserDetails {
     @Column(name = "dob")
     private LocalDate dob;
 
+    @Column(name = "role")
+    public Role role;
+
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
@@ -83,6 +90,17 @@ public class Student implements UserDetails {
         this.registrations.add(eventRegistration);
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    // TODO: temporary constructor to create admin
     public Student(String name, String username, String password, String matricNo, String phone, LocalDate dob,
             Role role) {
         this.name = name;
@@ -94,19 +112,10 @@ public class Student implements UserDetails {
         this.role = role;
     }
 
-    // security
-    @Column(name = "role")
-    private Role role;
-
+    // **************** SECURITY ****************
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        // email in our case
-        return email;
+        return Arrays.asList(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -127,14 +136,6 @@ public class Student implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public Student(String name, String email, String password, String matricNo, String phone) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.matricNo = matricNo;
-        this.phone = phone;
     }
 
     @Override
