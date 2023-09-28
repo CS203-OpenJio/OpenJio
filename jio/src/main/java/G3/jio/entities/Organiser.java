@@ -51,6 +51,11 @@ public class Organiser implements UserDetails {
 
     private String description;
 
+    @JsonIgnore
+    @Size(min = 16, max = 16)
+    @Column(name = "resetPasswordToken")
+    private String resetPasswordToken;
+
     // ****************** Relationship with EVENT ******************
 
     @OneToMany(mappedBy = "organiser", orphanRemoval = true, cascade = CascadeType.ALL)
