@@ -1,6 +1,5 @@
 package G3.jio.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
-import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.NotExistException;
-import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
@@ -33,7 +30,8 @@ public class EventRegistrationService {
     }
 
     // add
-    public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
+    public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO)
+            throws NotExistException {
 
         // // testing
         // System.out.println(newEventRegistrationDTO.getEventId());

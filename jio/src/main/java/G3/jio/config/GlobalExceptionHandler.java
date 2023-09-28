@@ -1,8 +1,5 @@
 package G3.jio.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -11,8 +8,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,26 +26,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Ensure all inputs are valid and follows set constraints
     /**
-	 * Customize the handling of {@link MethodArgumentNotValidException}.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
-	 * @param ex the exception to handle
-	 * @param headers the headers to be written to the response
-	 * @param status the selected response status
-	 * @param request the current request
-	 * @return a {@code ResponseEntity} for the response to use, possibly
-	 * {@code null} when the response is already committed
-	 */
+     * Customize the handling of {@link MethodArgumentNotValidException}.
+     * <p>
+     * This method delegates to {@link #handleExceptionInternal}.
+     * 
+     * @param ex      the exception to handle
+     * @param headers the headers to be written to the response
+     * @param status  the selected response status
+     * @param request the current request
+     * @return a {@code ResponseEntity} for the response to use, possibly
+     *         {@code null} when the response is already committed
+     */
     @Override
-	@Nullable
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(
-			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    @Nullable
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String defaultErrorMsg = ex.getAllErrors().get(0).getDefaultMessage();
 
         ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error: " + defaultErrorMsg,
                 ex.getBindingResult().toString());
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-	}
+    }
 
     @ExceptionHandler(AuthenticationException.class)
     private ResponseEntity<ErrorModel> handleAuthentication(AuthenticationException ex) {
