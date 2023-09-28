@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import G3.jio.DTO.EventDTO;
 import G3.jio.entities.Event;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
@@ -55,20 +56,23 @@ public class EventController {
         return eventService.getEvent(id);
     }
 
+    // Post event
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Event addEvent(@RequestBody Event event) {
-        return eventService.addEvent(event);
+    public Event addEvent(@RequestBody EventDTO eventDTO) {
+        return eventService.addEvent(eventDTO);
     }
 
+    // update event
     @PutMapping(path = "/id/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event newEventInfo) {
-        Event event = eventService.updateEvent(id, newEventInfo);
+    public Event updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
+        Event event = eventService.updateEvent(id, eventDTO);
         if (event == null)
             throw new EventNotFoundException(id);
         return event;
     }
 
+    // delete event
     @DeleteMapping(path = "/id/{id}")
     public void deleteEvent(@PathVariable Long id) {
         try {

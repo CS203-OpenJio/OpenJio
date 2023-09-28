@@ -10,8 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -81,7 +83,8 @@ public class Student implements UserDetails {
     private LocalDate dob;
 
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
+    // @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {

@@ -3,10 +3,11 @@ package G3.jio.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
 
+import G3.jio.DTO.EventDTO;
 import G3.jio.entities.Event;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.repositories.EventRepository;
@@ -38,14 +39,17 @@ public class EventService {
         return eventRepository.findAllByName(name);
     }
 
-    // save a ev nt
-    public Event addEvent(Event newEvent) {
-        return eventRepository.save(newEvent);
+    // save a event
+    public Event addEvent(EventDTO eventDTO) {
+
+        Event event = eventMapToEntity(eventDTO);
+        
+        return eventRepository.save(event);
     }
 
     // update event
     // not sure what we need to update yet
-    public Event updateEvent(Long id, Event newEventInfo) {
+    public Event updateEvent(Long id, EventDTO eventDTO) {
         Optional<Event> o = eventRepository.findById(id);
         if (!o.isPresent()) {
             throw new EventNotFoundException();
@@ -54,7 +58,7 @@ public class EventService {
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
-        mapper.map(newEventInfo, event);
+        mapper.map(eventDTO, event);
         eventRepository.saveAndFlush(event);
 
         return event;
@@ -66,5 +70,12 @@ public class EventService {
             throw new EventNotFoundException();
         }
         eventRepository.deleteById(id);
+    }
+
+    private Event eventMapToEntity(EventDTO eventDTO) {
+        ModelMapper mapper = new ModelMapper();
+
+        Event event = mapper.map(eventDTO, Event.class);
+        return event;
     }
 }

@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,7 +15,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,14 +65,24 @@ public class Event {
     @JsonIgnore
     private boolean isVisible;
 
+    // ******************* Relationships *******************
+
+    // with student
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
+    // @JsonIgnore
     Set<EventRegistration> registrations = new HashSet<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
         this.registrations.add(eventRegistration);
     }
 
+    // with organiser
+    @ManyToOne
+    @JoinColumn(name = "organiser_id")
+    private Organiser organiser;
+
+    // **************** Equals and hashcode *********************
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

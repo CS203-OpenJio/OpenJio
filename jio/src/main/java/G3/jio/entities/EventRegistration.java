@@ -2,7 +2,9 @@ package G3.jio.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.Column;
@@ -32,28 +34,28 @@ public class EventRegistration {
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
-    @JsonIgnore
-    @Exclude
+    @JsonBackReference
+    // @Exclude
     Student student;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
-    @JsonIgnore
-    @Exclude
+    @JsonBackReference
+    // @Exclude
     Event event;
 
-    @Column(name = "isDeregistered")
-    private boolean isDeregistered = false;
+    @Column(name = "isAccepted")
+    private boolean isAccepted = false;
 
 
     @Column(name = "isSuccessful")
     private boolean isSuccessful = false;
 
 
-    public EventRegistration(Student student, Event event, boolean isDeregistered, boolean isSuccessful) {
+    public EventRegistration(Student student, Event event, boolean isAccepted, boolean isSuccessful) {
         this.student = student;
         this.event = event;
-        this.isDeregistered = isDeregistered;
+        this.isAccepted = isAccepted;
         this.isSuccessful = isSuccessful;
     }
 

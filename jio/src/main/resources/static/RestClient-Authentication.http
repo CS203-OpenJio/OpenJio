@@ -43,7 +43,7 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"thanos.gay@gmail.com",
+    "email":"bul.ge@gmail.com",
     "password":"13473433"
 }
 

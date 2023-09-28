@@ -5,7 +5,8 @@ Authorization: Basic admin@admin.com admin
 ###
 // get specific event
 GET http://localhost:8080/api/v1/events/id/1
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
+
 ###
 // get specific event by name
 GET http://localhost:8080/api/v1/events/name/CS201%2023
@@ -134,7 +135,7 @@ Social Night will serve as a networking platform for you to gain insightful know
 
 POST http://localhost:8080/api/v1/events
 Content-Type: application/json
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
 
 {
     "name":"really long desc tester",
@@ -145,8 +146,8 @@ Authorization: Basic admin admin
     "eventType":"Workshop",
     "venue":"scis1 lv 2 toilet",
     "image":"/events/test.jpg",
-    "registered": false,
-    "visible": false
+    "visible": false,
+    "organiser": 1
 }
 
 ###
