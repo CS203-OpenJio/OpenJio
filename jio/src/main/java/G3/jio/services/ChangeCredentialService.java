@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
+import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
@@ -53,7 +54,7 @@ public class ChangeCredentialService {
         return new ResponseEntity<>("Successfully changed password", HttpStatus.OK);
     }
 
-    // ******* WILL NOT ALLOW CHANGE OF EMAIL FOR NOW ********
+    // ******* WILL NOT ALLOW CHANGE OF EMAIL ********
     // public void validateNewEmail(String newEmail, Character userType) {
 
     // if (!userType.equals('S') && !userType.equals('O')) {
