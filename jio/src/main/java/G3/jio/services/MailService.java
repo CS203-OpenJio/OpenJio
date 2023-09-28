@@ -17,7 +17,7 @@ public class MailService {
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("projectopenjio@gmail.com");
+        message.setFrom("projectopenjio@outlook.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(String.format(
