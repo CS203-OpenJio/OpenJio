@@ -82,6 +82,11 @@ public class Student implements UserDetails {
     @Column(name = "dob")
     private LocalDate dob;
 
+    @JsonIgnore
+    @Size(min = 16, max = 16)
+    @Column(name = "resetPasswordToken")
+    private String resetPasswordToken;
+
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
     // @JsonIgnore

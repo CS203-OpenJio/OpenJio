@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.entities.Event;
-import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.StudentRepository;
