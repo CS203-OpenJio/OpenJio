@@ -79,6 +79,12 @@ public class EventRegistrationService {
         if (!eventRegistrationRepository.existsById(id)) {
             throw new NotExistException("Registration");
         }
+
+        EventRegistration eventRegistration = eventRegistrationRepository.getReferenceById(id);
+        Student student = eventRegistration.getStudent();
+        Event event = eventRegistration.getEvent();
+        student.getRegistrations().remove(eventRegistration);
+        event.getRegistrations().remove(eventRegistration);
         eventRegistrationRepository.deleteById(id);
     }
 }

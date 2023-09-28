@@ -28,6 +28,5 @@ public class EventDTO {
     private int algo;
     private String description;
     private boolean isVisible;
-
     private Long organiserId;
 }

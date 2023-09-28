@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,6 +32,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "organisers")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Organiser implements UserDetails {
 
     @Id
@@ -58,7 +61,8 @@ public class Organiser implements UserDetails {
 
     // ****************** Relationship with EVENT ******************
 
-    @OneToMany(mappedBy = "organiser", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "organiser", orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Event> events;
 
     // ****************** SECURITY ******************

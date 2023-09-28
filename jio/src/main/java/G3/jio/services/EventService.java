@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.entities.Event;
+import G3.jio.entities.Organiser;
 import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.repositories.EventRepository;
+import G3.jio.repositories.OrganiserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
-    @Autowired
-    private EventRepository eventRepository;
-
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
+    private final EventRepository eventRepository;
 
     // list all event
     public List<Event> findAllEvent() {
@@ -42,8 +42,9 @@ public class EventService {
     // save a event
     public Event addEvent(EventDTO eventDTO) {
 
+        System.out.println(eventDTO.getName());
         Event event = eventMapToEntity(eventDTO);
-        
+
         return eventRepository.save(event);
     }
 
@@ -69,6 +70,13 @@ public class EventService {
         if (!eventRepository.existsById(id)) {
             throw new EventNotFoundException();
         }
+
+        Event event = eventRepository.getReferenceById(id);
+        Organiser organiser = event.getOrganiser();
+        if (organiser != null) {
+            organiser.getEvents().remove(event);
+        }
+        
         eventRepository.deleteById(id);
     }
 
