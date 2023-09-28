@@ -51,6 +51,10 @@ public class Organiser implements UserDetails {
     @Column(name = "role")
     public Role role;
 
+    @JsonIgnore
+    @Size(min = 16, max = 16)
+    private String resetPasswordToken;
+
     // ****************** SECURITY ******************
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
