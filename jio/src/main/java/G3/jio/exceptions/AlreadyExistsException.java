@@ -5,7 +5,7 @@ public class AlreadyExistsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public AlreadyExistsException() {
-        super("User already exists!");
+        super("already exists!");
     }
 
     public AlreadyExistsException(String item) {

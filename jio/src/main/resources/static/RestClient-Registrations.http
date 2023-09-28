@@ -16,7 +16,7 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "studentId":2,
+    "studentId":1,
     "eventId":2,
     "isDeregistered":false,
     "isSuccessful":false

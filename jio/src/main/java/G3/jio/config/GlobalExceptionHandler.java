@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.ErrorModel;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.FailedRegistrationException;
@@ -85,5 +86,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorModel error = new ErrorModel(HttpStatus.NOT_FOUND, "Not Found.", ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    private ResponseEntity<ErrorModel> handleNotExist(AlreadyExistsException ex) {
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Already Exists.", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

@@ -10,6 +10,7 @@ import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
+import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
@@ -42,10 +43,16 @@ public class EventRegistrationService {
         // System.out.println(newEventRegistrationDTO.isSuccessful());
 
         // find student and event
-        if (!studentRepository.existsById(newEventRegistrationDTO.getStudentId())) {
+        Long studentId = newEventRegistrationDTO.getStudentId();
+        Long eventId = newEventRegistrationDTO.getEventId();
+        if (!studentRepository.existsById(studentId)) {
             throw new NotExistException("Student");
-        } else if (!eventRepository.existsById(newEventRegistrationDTO.getEventId())) {
+        } else if (!eventRepository.existsById(eventId)) {
             throw new NotExistException("Event");
+        }
+
+        if (eventRegistrationRepository.existsByStudentIdAndEventId(studentId, eventId)) {
+            throw new AlreadyExistsException("Event Registration");
         }
 
         Student student = studentRepository.getReferenceById(newEventRegistrationDTO.getStudentId());
