@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
 import HomeScreen from "src/pages/HomeScreen";
 import CentralHub from "src/pages/CentralHub";
 import LoginPage from "src/pages/LoginPage";
@@ -17,27 +16,6 @@ import LogoutPage from "src/pages/LogoutPage";
 
 // create the configuration for a router by simply passing
 // arguments in the form of an array of routes
-type UserType = {
-  username: string;
-  password: string;
-  userId: number;
-};
-
-const initialUser: UserType = {
-  username: "",
-  password: "",
-  userId: 0,
-};
-
-type AuthContextType = {
-  user: UserType;
-  setUser: Dispatch<SetStateAction<UserType>>;
-};
-
-export const AuthContext = createContext<AuthContextType>({
-  user: initialUser,
-  setUser: () => {},
-});
 
 const router = createBrowserRouter([
   {
@@ -88,19 +66,7 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const [user, setUser] = useState({
-    username: "admin",
-    password: "admin",
-    userId: 1,
-  });
-
-  const value = { user, setUser };
-
-  return (
-    <AuthContext.Provider value={value}>
-      <RouterProvider router={router} />
-    </AuthContext.Provider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -17,19 +17,6 @@ import { Button } from "../components/ui/button";
 import JWT from "../utils/JWT";
 
 export default function EventPage() {
-  const user = { username: "", password: "", userId: 0 };
-  const userName = user.username;
-  const password = user.password;
-  //need to store id somewhere
-  const userID = user.userId;
-
-  const options = {
-    method: "GET",
-    headers: {
-      Authorization: "Basic " + btoa(`${userName}:${password}`),
-    },
-  };
-
   // does a GET request, sets it in PostData variable
 
   const [event, setEvent] = useState({} as any);
