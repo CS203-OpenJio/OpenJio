@@ -29,4 +29,5 @@ public class EventDTO {
     private String description;
     private boolean isVisible;
     private Long organiserId;
+    private int minScore;
 }

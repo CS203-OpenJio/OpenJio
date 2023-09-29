@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,6 +24,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -93,6 +95,33 @@ public class Student implements UserDetails {
 
     public void addEventRegistration(EventRegistration eventRegistration) {
         this.registrations.add(eventRegistration);
+    }
+
+    @JsonView
+    public int getSmuCreditScore() {
+        if (registrations == null || registrations.isEmpty()) {
+            return 100;
+        }
+        
+        int accepted = 1;
+        int present = 3;
+        for (EventRegistration er : registrations) {
+            if (er.getStatus() == Status.ACCEPTED) {
+                accepted++;
+            }
+
+            if (er.isPresentForEvent() == true) {
+                present++;
+            }
+        }
+
+        double result = (double) present / accepted * 100;
+        
+        if (result > 100) {
+            return 100;
+        } else {
+            return (int) result;
+        }
     }
 
     // TODO: temporary constructor to create admin
