@@ -2,6 +2,8 @@ package G3.jio.entities;
 
 
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -50,6 +52,9 @@ public class EventRegistration {
 
     @Column(name = "attended_event")
     private boolean isPresentForEvent = true;
+
+    @Column(name = "time")
+    private final LocalDateTime time = LocalDateTime.now();
 
     @JsonView
     public Long getSid() {
