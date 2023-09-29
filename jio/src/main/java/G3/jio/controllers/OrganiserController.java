@@ -57,7 +57,7 @@ public class OrganiserController {
 
     // view events based on organiser email
     @GetMapping(path = "/email/{email}/events")
-    public List<EventRegistration> getEventsByOrganiserEmail(@PathVariable("email") String email) {
+    public List<Event> getEventsByOrganiserEmail(@PathVariable("email") String email) {
         return organiserService.getEventsByOrganiserEmail(email);
     }
 }

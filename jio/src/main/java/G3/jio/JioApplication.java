@@ -48,6 +48,7 @@ public class JioApplication {
                 "Thinking of picking up a new tech-related skill? Or looking for something that will boost your portfolio? Look no further, .Hack’s much-anticipated DHCP is back this year! By participating in the DHCP, you will be able to take the coveted AWS’s Cloud Practitioner Certification, under the guidance of our experienced .Hack mentors!",
                 true, null, null));
 
+
         // UserRepository userRepo = ctx.getBean(UserRepository.class);
         // System.out.println(userRepo
         // .save(new User(1L, "john weak", "john.weak@gmail.com", "123", "random/image",

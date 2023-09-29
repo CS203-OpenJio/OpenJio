@@ -96,8 +96,8 @@ public class OrganiserService {
         }
     }
 
-    public List<EventRegistration> getEventsByOrganiserEmail(String email) {
-        
+    public List<Event> getEventsByOrganiserEmail(String email) {
+
         Organiser organiser = getOrganiserByEmail(email);
         return eventRepository.findAllByOrganiserId(organiser.getId());
     }

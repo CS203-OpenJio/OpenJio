@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import G3.jio.entities.Event;
-import G3.jio.entities.EventRegistration;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
@@ -15,5 +14,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     boolean existsById(Long id);
 
-    public List<EventRegistration> findAllByOrganiserId(Long id);
+    public List<Event> findAllByOrganiserId(Long id);
 }

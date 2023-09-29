@@ -3,6 +3,19 @@ GET http://localhost:8080/api/v1/organisers
 Authorization: Basic admin@admin.com admin
 
 ###
+
+// get organiser by email
+GET http://localhost:8080/api/v1/organisers/email/bul.ge@gmail.com
+Authorization: Basic admin@admin.com admin
+
+###
+
+// get events by Organiser email
+GET http://localhost:8080/api/v1/organisers/email/bul.ge@gmail.com/events
+Authorization: Basic admin@admin.com admin
+
+###
+
 POST http://localhost:8080/api/v1/organisers/create-event
 Content-Type: application/json
 Authorization: Basic admin@admin.com admin
@@ -17,4 +30,3 @@ Authorization: Basic admin@admin.com admin
 DELETE  http://localhost:8080/api/v1/organisers/id/1
 Content-Type: application/json
 Authorization: Basic admin@admin.com admin
-
