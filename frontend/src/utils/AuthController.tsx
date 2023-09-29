@@ -1,7 +1,6 @@
 import JWT from "./JWT";
 
 const handleLogin = async (username: string, password: string) => {
-  try {
     console.log(username, password);
     const response = await JWT.post("/api/v1/auth/login", {
       email: username,
@@ -13,9 +12,6 @@ const handleLogin = async (username: string, password: string) => {
       await localStorage.setItem("token", token);
       console.log("new", token);
     }
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const handleSignUp = async (

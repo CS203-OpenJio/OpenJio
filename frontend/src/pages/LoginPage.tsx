@@ -7,15 +7,11 @@ import {
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "src/components/HomeScreen/NavBar";
-import axios from "axios";
-import { AuthContext } from "../App";
 import { handleLogin } from "../utils/AuthController";
 
 // IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
 
 const LoginPage: FunctionComponent = () => {
-  const { user, setUser } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const handleSuccess = (path: string) => {
@@ -32,8 +28,13 @@ const LoginPage: FunctionComponent = () => {
       await handleLogin(username, password);
       handleSuccess("/centralhub");
       // Handle the successful login response here
-    } catch (err) {
-      setErrorMessage("Login failed. Please check your credentials.");
+    } catch (err:any) {
+      console.log(err)
+      if (err.response.data.message) {
+        setErrorMessage(err.response.data.message);
+      } else {
+        setErrorMessage("Invalid account details!");
+      }
     }
   };
 
