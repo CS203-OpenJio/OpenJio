@@ -1,9 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
 import {
   Dialog,
   DialogContent,
@@ -13,27 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../components/ui/dialog";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
+import JWT from "../utils/JWT";
 
 export default function EventPage() {
-  const { user, setUser } = useContext(AuthContext);
-  const userName = user.username;
-  const password = user.password;
-  //need to store id somewhere
-  const userID = user.userId;
-
-  const options = {
-    method: "GET",
-    headers: {
-      Authorization: "Basic " + btoa(`${userName}:${password}`),
-    },
-  };
-
   // does a GET request, sets it in PostData variable
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+
   const [event, setEvent] = useState({} as any);
 
   // to search for id based on url so we can GET request specific event
@@ -41,55 +24,16 @@ export default function EventPage() {
   const eventId = searchParams.get("id");
 
   useEffect(() => {
-    console.log(user);
     // Make the Axios GET request when the component mounts
-    axios
-      .get(`http://localhost:8080/api/v1/events/id/${eventId}`, {
-        headers: {
-          Authorization: "Basic " + btoa(`${userName}:${password}`),
-        },
-      })
+    JWT
+      .get(`http://localhost:8080/api/v1/events/id/${eventId}`)
       .then((response) => {
-        console.log(response.data);
         setEvent(response.data); // Store the data in the "data" state variable
-        setLoading(false);
       })
       .catch((err) => {
-        setError(err);
-        setLoading(false);
+        console.log(err);
       });
   }, []);
-
-  //   // called whenever Add Event is clicked, sends POST event with the event data.
-  //   // i removed this and put under Event Form
-  //
-  //   async function handleClick() {
-  //     const body = {
-  //       name: `.Hack MERN Stack Series (MESS) 2022`,
-  //       startDate: "2022-12-29",
-  //       endDate: "2023-12-30",
-  //       description:
-  //         "Interested in developing your own application but don't know how to start? Kickstart your software development journey with .Hack's first-ever winter program: MERN Stack Series (MESS). Fulfill your curiosity by attending our exclusive workshops about the production-ready and widely used technological framework of MongoDB, Express, ReactJS, and NodeJS. Apply the insights gained throughout the workshop to build your own portfolio website ",
-  //       capacity: 100,
-  //       eventType: "Workshop",
-  //       venue: "YPHSL Seminar Room 3-09 & 3-12",
-  //       registered: false,
-  //       visible: false,
-  //     };
-  //     await axios
-  //       .post("http://localhost:8080/api/v1/events", body, {
-  //         headers: {
-  //           Authorization: "Basic " + btoa(`${userName}:${password}`),
-  //         },
-  //       })
-  //       .catch((err) => {
-  //         console.log(err.message);
-  //       });
-  //     window.location.reload();
-  //   }
-
-  // i removed the Add Event Button and put it into EventForm too
-  // called whenever Add Event is clicked, sends POST event with the event data
 
   return (
     <div>
@@ -125,23 +69,16 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     let body = {
-      studentId: userID,
+      // this is hardcoded right now, waiting for backend followup
+      studentId: 1,
       eventId: id,
-      isDeregistered: false,
-      isSuccessful: false,
     };
 
     async function handleClick() {
       console.log(body);
-      console.log(userName);
-      console.log(password);
 
-      await axios
-        .post("http://localhost:8080/api/v1/register", body, {
-          headers: {
-            Authorization: "Basic " + btoa(`${user.username}:${user.password}`),
-          },
-        })
+      await JWT
+        .post("http://localhost:8080/api/v1/register-event", body)
         .catch((err) => {
           console.log(err.message);
         });

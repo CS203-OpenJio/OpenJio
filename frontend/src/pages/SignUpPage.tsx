@@ -42,21 +42,17 @@ const SignUpPage: FunctionComponent = () => {
       console.log(phonenumber, matriculationid);
 
       setLoading(true);
-
-      handleSignUp(fullname, email, password, matriculationid, phonenumber);
+      await handleSignUp(fullname, email, password, matriculationid, phonenumber);
 
       handleSuccess("/login");
       // Handle the successful login response here
     } catch (err: any) {
       console.log(err);
       setOpen(true);
-      const responseData: any = err.response.data;
-
-      if (responseData?.message) {
-        // checking if message property exists on responseData
-        setErrorMessage(responseData.message);
+      if (err.response.data.message) {
+        setErrorMessage(err.response.data.message);
       } else {
-        setErrorMessage("An expected error occurred."); // default error message
+        setErrorMessage("An expected error occured!");
       }
     } finally {
       setLoading(false);
