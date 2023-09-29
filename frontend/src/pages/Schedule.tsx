@@ -1,7 +1,6 @@
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { AuthContext } from "src/App";
 import {
   Table,
   TableBody,
@@ -11,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "src/components/ui/table"
+import JWT from "../utils/JWT";
  
 
 const Schedule = () => {
@@ -18,21 +18,11 @@ const Schedule = () => {
   const [loading, setLoading] = useState(true);
   const [registeredEvents, setRegisteredEvents] = useState([]);
 
-  const { user, setUser } = useContext(AuthContext);
-  const username = user.username;
-  const password = user.password;
-  //need to store id somewhere
-  const userID = user.userId;
 
   useEffect(() => {
-    console.log(username, password, userID);
     // Make the Axios GET request when the component mounts
-    axios
-      .get(`http://localhost:8080/api/v1/register/student/${userID}`, {
-        headers: {
-          Authorization: "Basic " + btoa(`${user.username}:${user.password}`),
-        },
-      })
+    JWT
+      .get(`http://localhost:8080/api/v1/register-event/student/${1}`) // CURRENTLY HARD CODED UPDATE SOON!
       .then((response) => {
         setRegisteredEvents(response.data); // Store the data in the "data" state variable
         setLoading(false);
