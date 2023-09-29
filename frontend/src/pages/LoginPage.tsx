@@ -28,13 +28,8 @@ const LoginPage: FunctionComponent = () => {
       await handleLogin(username, password);
       handleSuccess("/centralhub");
       // Handle the successful login response here
-    } catch (err:any) {
-      console.log(err)
-      if (err.response.data.message) {
-        setErrorMessage(err.response.data.message);
-      } else {
-        setErrorMessage("Invalid account details!");
-      }
+    } catch (err) {
+      setErrorMessage("Login failed. Please check your credentials.");
     }
   };
 

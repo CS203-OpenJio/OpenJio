@@ -20,7 +20,6 @@ JWT.interceptors.request.use(
       return config;
 
     const token = localStorage.getItem("token");
-    // console.log("old", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

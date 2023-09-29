@@ -61,18 +61,19 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .httpBasic(Customizer.withDefaults())
-                
+
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
                 })
-
-                .authenticationProvider(authenticationProvider()) // specifies the authentication provider for HttpSecurity
+                .authenticationProvider(authenticationProvider()) // specifies the authentication provider for
+                                                                  // HttpSecurity
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.disable())
-                .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our service
+                .headers(headers -> headers.disable()) // Disable the security headers, as we do not return HTML in our
+                                                       // service
 
                 .cors(Customizer.withDefaults());
 
