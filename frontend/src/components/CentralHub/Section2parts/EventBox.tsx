@@ -11,24 +11,7 @@ const EventBox: React.FC = () => {
     };
     getEvents();
   }, []);
-  // useEffect(() => {
-  //   // Make the Axios GET request when the component mounts
-  //   axios
-  //     .get(`http://localhost:8080/api/v1/events`, {
-  //       headers: {
-  //         Authorization: "Basic " + btoa(`admin@admin.com:admin`),
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setEvents(response.data); // Store the data in the "data" state variable
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       setError(err);
-  //       setLoading(false);
-  //     });
-  // }, []);
+
 
   return (
     <div className="bg-white border border-1 round border-black flex flex-column justify-center items-center">
