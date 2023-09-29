@@ -5,6 +5,8 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventRegistrationDTO;
@@ -17,39 +19,47 @@ import G3.jio.exceptions.NotExistException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class EventRegistrationService {
 
     @Autowired
     private final EventRegistrationRepository eventRegistrationRepository;
     private final StudentRepository studentRepository;
     private final EventRepository eventRepository;
-
-    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository,
-            StudentRepository studentRepository, EventRepository eventRepository) {
-        this.eventRegistrationRepository = eventRegistrationRepository;
-        this.studentRepository = studentRepository;
-        this.eventRepository = eventRepository;
-    }
+    private final StudentService studentService;
 
     // add
     public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
 
-        // find student and event
+
+        Student student = null;
         Long studentId = newEventRegistrationDTO.getStudentId();
-        Long eventId = newEventRegistrationDTO.getEventId();
-        if (!studentRepository.existsById(studentId)) {
+        if (studentId == null) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String studentEmail = userDetails.getUsername();
+            student = studentService.getStudentByEmail(studentEmail);
+
+        } else if (!studentRepository.existsById(studentId)) {
             throw new NotExistException("Student");
-        } else if (!eventRepository.existsById(eventId)) {
+
+        } else {
+            student = studentRepository.getReferenceById(studentId);
+        }
+
+        // find event
+        Long eventId = newEventRegistrationDTO.getEventId();
+        if (!eventRepository.existsById(eventId)) {
             throw new NotExistException("Event");
         }
 
-        if (eventRegistrationRepository.existsByStudentIdAndEventId(studentId, eventId)) {
+        // check if exists
+        if (eventRegistrationRepository.existsByStudentIdAndEventId(student.getId(), eventId)) {
             throw new AlreadyExistsException("Event Registration");
         }
 
-        Student student = studentRepository.getReferenceById(newEventRegistrationDTO.getStudentId());
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
 
         // check if student score is > min score of event

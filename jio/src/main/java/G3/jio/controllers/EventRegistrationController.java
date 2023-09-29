@@ -2,6 +2,8 @@ package G3.jio.controllers;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,7 @@ public class EventRegistrationController {
     // get specific event registration using studentId and eventid
     @GetMapping(path = "/event/{eventId}/student/{studentId}")
     public EventRegistration getEventRegistrationsByEventIdAndStudentId(@PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
+
         return eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId);
     }
 
