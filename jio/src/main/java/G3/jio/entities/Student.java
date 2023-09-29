@@ -1,16 +1,15 @@
 package G3.jio.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -90,7 +89,7 @@ public class Student implements UserDetails {
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
     // @JsonIgnore
-    Set<EventRegistration> registrations = new HashSet<>();
+    List<EventRegistration> registrations = new ArrayList<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
         this.registrations.add(eventRegistration);

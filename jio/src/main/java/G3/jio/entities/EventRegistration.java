@@ -49,7 +49,6 @@ public class EventRegistration {
     @Column(name = "Status")
     private Status status = Status.PENDING;
 
-
     @Column(name = "attended_event")
     private boolean isPresentForEvent = true;
 

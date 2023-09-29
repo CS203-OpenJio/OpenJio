@@ -1,6 +1,5 @@
 package G3.jio.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.entities.Event;
-import G3.jio.entities.EventRegistration;
+import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.StudentRepository;
@@ -73,6 +72,13 @@ public class StudentController {
     public List<Event> getRegisteredEventsByStudentId(@PathVariable String email) {
 
         return studentService.getEventByStudentEmail(email);
+    }
+
+    // get events registered by student and status
+    @GetMapping(path = "/email/{email}/registered/{status}")
+    public List<Event> getRegisteredEventsByStudentId(@PathVariable("email") String email, @PathVariable("status") Status status) {
+
+        return studentService.getEventByStudentEmailAndEventRegistrationStatus(email, status);
     }
 
     // get all students

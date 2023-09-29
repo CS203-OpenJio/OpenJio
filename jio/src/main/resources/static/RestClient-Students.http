@@ -29,6 +29,12 @@ Authorization: Basic admin@admin.com admin
 
 ###
 
+// get registered events by email and status
+GET http://localhost:8080/api/v1/students/email/admin@admin.com/registered/ACCEPTED
+Authorization: Basic admin@admin.com admin
+
+###
+
 // post a new user fail due to not meeting validation constraints
 POST http://localhost:8080/api/v1/students
 Content-Type: application/json

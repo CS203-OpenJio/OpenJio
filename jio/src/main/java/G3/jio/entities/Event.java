@@ -1,8 +1,8 @@
 package G3.jio.entities;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -72,7 +71,7 @@ public class Event {
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
     // @JsonIgnore
-    Set<EventRegistration> registrations = new HashSet<>();
+    List<EventRegistration> registrations = new ArrayList<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
         this.registrations.add(eventRegistration);

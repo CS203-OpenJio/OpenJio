@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
+import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
@@ -89,11 +90,27 @@ public class StudentService {
         
         Student student = getStudentByEmail(email);
 
-        Set<EventRegistration> registrations = student.getRegistrations();
+        List<EventRegistration> registrations = student.getRegistrations();
         List<Event> events = new ArrayList<>();
 
         for (EventRegistration registeredEvent : registrations) {
             events.add(registeredEvent.getEvent());
+        }
+
+        return events;
+    }
+
+    public List<Event> getEventByStudentEmailAndEventRegistrationStatus(String email, Status status) {
+        Student student = getStudentByEmail(email);
+
+        List<EventRegistration> registrations = student.getRegistrations();
+        List<Event> events = new ArrayList<>();
+
+        for (EventRegistration registeredEvent : registrations) {
+
+            if (registeredEvent.getStatus() == status) {
+                events.add(registeredEvent.getEvent());
+            }
         }
 
         return events;
