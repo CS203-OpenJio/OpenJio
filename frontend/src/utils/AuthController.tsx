@@ -18,4 +18,25 @@ const handleLogin = async (username: string, password: string) => {
   }
 };
 
-export { handleLogin };
+const handleSignUp = async (
+  name: string,
+  email: string,
+  password: string,
+  matricNo: string,
+  phone: string
+) => {
+  const body = {
+    name: name,
+    email: email,
+    password: password,
+    matricNo: matricNo,
+    phone: phone,
+    userType: "S",
+  };
+
+  const response = await JWT.post("/api/v1/auth/register", body);
+
+  console.log(response.data);
+};
+
+export { handleLogin, handleSignUp };

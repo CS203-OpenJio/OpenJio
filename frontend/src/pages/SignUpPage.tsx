@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "src/components/ui/alert-dialog";
+import { handleSignUp } from "../utils/AuthController";
 
 const SignUpPage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -42,33 +43,22 @@ const SignUpPage: FunctionComponent = () => {
 
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/auth/signup",
+      handleSignUp(fullname, email, password, matriculationid, phonenumber);
 
-        {
-          name: fullname,
-          email: email,
-          password: password,
-          matricNo: matriculationid,
-          phone: phonenumber,
-        }
-      );
-
-      if (response.status == 201 || response.status == 200) {
-        handleSuccess("/login");
-      }
+      handleSuccess("/login");
       // Handle the successful login response here
     } catch (err: any) {
-      console.log(err)
+      console.log(err);
       setOpen(true);
-      const responseData: any = err.response.data; 
-    
-      if (responseData?.message) {   // checking if message property exists on responseData
+      const responseData: any = err.response.data;
+
+      if (responseData?.message) {
+        // checking if message property exists on responseData
         setErrorMessage(responseData.message);
       } else {
-        setErrorMessage('An expected error occurred.');  // default error message 
+        setErrorMessage("An expected error occurred."); // default error message
       }
-     } finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -105,10 +95,11 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2022/2023")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${selectedYear === "2022/2023"
-                      ? "bg-blue-500 text-white"
-                      : "bg-floralwhite text-black"
-                    } 
+             ${
+               selectedYear === "2022/2023"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2022/2023</div>
@@ -117,10 +108,11 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2021/2022")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${selectedYear === "2021/2022"
-                      ? "bg-blue-500 text-white"
-                      : "bg-floralwhite text-black"
-                    } 
+             ${
+               selectedYear === "2021/2022"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2021/2022</div>
@@ -129,10 +121,11 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2020/2021")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${selectedYear === "2020/2021"
-                      ? "bg-blue-500 text-white"
-                      : "bg-floralwhite text-black"
-                    } 
+             ${
+               selectedYear === "2020/2021"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2020/2021</div>
@@ -141,10 +134,11 @@ const SignUpPage: FunctionComponent = () => {
                 <button
                   onClick={() => setSelectedYear("2019/2020")}
                   className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-             ${selectedYear === "2019/2020"
-                      ? "bg-blue-500 text-white"
-                      : "bg-floralwhite text-black"
-                    } 
+             ${
+               selectedYear === "2019/2020"
+                 ? "bg-blue-500 text-white"
+                 : "bg-floralwhite text-black"
+             } 
              transform active:scale-95`}
                 >
                   <div className="relative leading-[20px]">2019/2020</div>
