@@ -65,6 +65,9 @@ public class Event {
     @JsonIgnore
     private boolean isVisible;
 
+    @Column(name = "minScore")
+    private int minScore;
+
     // ******************* Relationships *******************
 
     // with student

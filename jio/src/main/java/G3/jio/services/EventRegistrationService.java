@@ -1,6 +1,5 @@
 package G3.jio.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -13,9 +12,8 @@ import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.AlreadyExistsException;
-import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.FailedRegistrationException;
 import G3.jio.exceptions.NotExistException;
-import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
@@ -53,6 +51,11 @@ public class EventRegistrationService {
 
         Student student = studentRepository.getReferenceById(newEventRegistrationDTO.getStudentId());
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
+
+        // check if student score is > min score of event
+        if (student.getSmuCreditScore() < event.getMinScore()) {
+            throw new FailedRegistrationException("Student's score is too low");
+        }
 
         // create new entry
         EventRegistration newEventRegistration = new EventRegistration();
