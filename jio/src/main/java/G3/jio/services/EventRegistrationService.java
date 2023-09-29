@@ -3,6 +3,8 @@ package G3.jio.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +38,6 @@ public class EventRegistrationService {
     // add
     public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
 
-        // // testing
-        // System.out.println(newEventRegistrationDTO.getEventId());
-        // System.out.println(newEventRegistrationDTO.getStudentId());
-        // System.out.println(newEventRegistrationDTO.isDeregistered());
-        // System.out.println(newEventRegistrationDTO.isSuccessful());
-
         // find student and event
         Long studentId = newEventRegistrationDTO.getStudentId();
         Long eventId = newEventRegistrationDTO.getEventId();
@@ -59,8 +55,9 @@ public class EventRegistrationService {
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
 
         // create new entry
-        EventRegistration newEventRegistration = new EventRegistration(student, event,
-                newEventRegistrationDTO.isDeregistered(), newEventRegistrationDTO.isSuccessful());
+        EventRegistration newEventRegistration = new EventRegistration();
+        newEventRegistration.setStudent(student);
+        newEventRegistration.setEvent(event);
 
         // save into student and event list
         student.addEventRegistration(newEventRegistration);
@@ -93,5 +90,24 @@ public class EventRegistrationService {
         student.getRegistrations().remove(eventRegistration);
         event.getRegistrations().remove(eventRegistration);
         eventRegistrationRepository.deleteById(id);
+    }
+
+    public EventRegistration getEventRegistrationsByEventIdAndStudentId(Long eventId, Long studentId) {
+        EventRegistration eventRegistration = eventRegistrationRepository.getReferenceByEventIdAndStudentId(eventId, studentId);
+        if (eventRegistration == null) {
+            throw new NotExistException("Event Registration");
+        }
+
+        return eventRegistration;
+    }
+
+    // update registration status and attendance
+    public EventRegistration updateEventRegistration(EventRegistrationDTO eventRegistrationDTO) {
+        EventRegistration eventRegistration = getEventRegistrationsByEventIdAndStudentId(eventRegistrationDTO.getEventId(), eventRegistrationDTO.getStudentId());
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT).setSkipNullEnabled(true);
+        mapper.map(eventRegistrationDTO, eventRegistration);
+        return eventRegistrationRepository.saveAndFlush(eventRegistration);
     }
 }

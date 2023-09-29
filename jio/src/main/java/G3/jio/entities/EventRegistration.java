@@ -44,20 +44,12 @@ public class EventRegistration {
     // @Exclude
     Event event;
 
-    @Column(name = "isAccepted")
-    private boolean isAccepted = false;
+    @Column(name = "Status")
+    private Status status = Status.PENDING;
 
 
-    @Column(name = "isSuccessful")
-    private boolean isSuccessful = false;
-
-
-    public EventRegistration(Student student, Event event, boolean isAccepted, boolean isSuccessful) {
-        this.student = student;
-        this.event = event;
-        this.isAccepted = isAccepted;
-        this.isSuccessful = isSuccessful;
-    }
+    @Column(name = "attended_event")
+    private boolean isPresentForEvent = true;
 
     @JsonView
     public Long getSid() {

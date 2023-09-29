@@ -10,20 +10,63 @@ Authorization: Basic admin@admin.com admin
 
 ###
 
-// post a new registration
+// get registration by studentId and eventId
+GET http://localhost:8080/api/v1/register-event/event/2/student/1
+Authorization: Basic admin@admin.com admin
+
+###
+
+// updates status of application
+PUT http://localhost:8080/api/v1/register-event/update
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+    "studentId":1,
+    "eventId":1,
+    "status":"ACCEPTED"
+}
+
+###
+
+// updates attendance 
+PUT http://localhost:8080/api/v1/register-event/update
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+    "studentId":1,
+    "eventId":1,
+    "presentForEvent":false
+}
+
+###
+
+// updates event registration 
+PUT http://localhost:8080/api/v1/register-event/update
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+    "studentId":1,
+    "eventId":1,
+    "status":"ACCEPTED",
+    "presentForEvent":true
+}
+
+###
+// post a new registration (only need studentId and eventId)
 POST http://localhost:8080/api/v1/register-event
 Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
     "studentId":1,
-    "eventId":2,
-    "isDeregistered":false,
-    "isSuccessful":false
+    "eventId":1
 }
 
 ###
 
 // delete by id
 DELETE http://localhost:8080/api/v1/register-event/id/1
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com admin
