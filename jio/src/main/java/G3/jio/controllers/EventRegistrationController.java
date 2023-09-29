@@ -17,7 +17,7 @@ import G3.jio.services.EventRegistrationService;
 
 @RestController
 @Controller
-@RequestMapping(path = "api/v1/register")
+@RequestMapping(path = "api/v1/register-event")
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
@@ -31,13 +31,11 @@ public class EventRegistrationController {
     public List<EventRegistration> getEventRegistrationsByUserId(@PathVariable long studentId) {
         return eventRegistrationService.getEventRegistrationsByStudentId(studentId);
     }
-    // get array of events based on studentId
 
     @GetMapping(path = "/event/{eventId}")
     public List<EventRegistration> getEventRegistrationsByEventId(@PathVariable long eventId) {
         return eventRegistrationService.getEventRegistrationsByEventId(eventId);
     }
-    // get array of students based on eventId
 
     // add
     @PostMapping(path = "")

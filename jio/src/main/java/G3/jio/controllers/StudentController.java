@@ -81,7 +81,6 @@ public class StudentController {
         return studentService.findAllStudents();
     }
 
-    // not working
     // get all students with name
     @GetMapping(path = "/name/{name}")
     public List<Student> getStudentsByName(@PathVariable String name) {
