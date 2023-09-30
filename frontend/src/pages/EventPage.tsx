@@ -2,6 +2,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import {
   Dialog,
   DialogContent,
@@ -25,8 +27,7 @@ export default function EventPage() {
 
   useEffect(() => {
     // Make the Axios GET request when the component mounts
-    JWT
-      .get(`http://localhost:8080/api/v1/events/id/${eventId}`)
+    JWT.get(`http://localhost:8080/api/v1/events/id/${eventId}`)
       .then((response) => {
         setEvent(response.data); // Store the data in the "data" state variable
       })
@@ -77,11 +78,11 @@ export default function EventPage() {
     async function handleClick() {
       console.log(body);
 
-      await JWT
-        .post("http://localhost:8080/api/v1/register-event", body)
-        .catch((err) => {
+      await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
+        (err) => {
           console.log(err.message);
-        });
+        }
+      );
     }
 
     return (

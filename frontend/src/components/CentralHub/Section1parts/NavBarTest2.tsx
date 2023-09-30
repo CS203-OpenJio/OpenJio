@@ -1,23 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import LogoutButton from "./LogoutButton";
-import { AuthContext } from "src/App";
 
 function NavBarTest2() {
   const navigate = useNavigate();
 
-  const { user, setUser } = useContext(AuthContext);
-
+  // handleClick for logout
   const handleClick = (path: string) => {
-    setUser({
-      username: "NOT LOGGED IN",
-      password: "",
-      userId: 0,
-    });
-    console.log(user);
+    localStorage.removeItem("token");
+
     navigate(path);
   };
 
+  // handleClick for other parts of NavBar
   const handleClick1 = (path: string) => {
     navigate(path);
   };

@@ -25,12 +25,13 @@ public class JioApplication {
                 StudentRepository studentRepository = ctx.getBean(StudentRepository.class);
                 BCryptPasswordEncoder encoder = ctx.getBean(BCryptPasswordEncoder.class);
                 // removes this so it doesnt add student everytime you save the db
-                // System.out.println("[Add Student]: "
-                // + studentRepository.save(
-                // new Student("admin", "admin@admin.com", encoder.encode("admin"), "12345678",
-                // "87654321",
-                // LocalDate.of(2023, 1, 2), Role.ADMIN))
-                // .getUsername());
+                System.out.println("[Add Student]: "
+                                + studentRepository.save(
+                                                new Student("admin", "admin@admin.com", encoder.encode("admin"),
+                                                                "12345678",
+                                                                "87654321",
+                                                                LocalDate.of(2023, 1, 2), Role.ADMIN))
+                                                .getUsername());
                 EventRepository eventRepo = ctx.getBean(EventRepository.class);
 
                 eventRepo.save(new Event(null, ".Hack Social Night", LocalDate.of(2023, 2, 10),

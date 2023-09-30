@@ -1,17 +1,16 @@
 import JWT from "./JWT";
 
 const handleLogin = async (username: string, password: string) => {
-    console.log(username, password);
-    const response = await JWT.post("/api/v1/auth/login", {
-      email: username,
-      password: password,
-    });
-    console.log(response);
-    if (response.status == 200) {
-      const token = response.data.token;
-      await localStorage.setItem("token", token);
-      console.log("new", token);
-    }
+  console.log(username, password);
+  const response = await JWT.post("/api/v1/auth/login", {
+    email: username,
+    password: password,
+  });
+  console.log(response);
+  if (response.status == 200) {
+    const token = response.data.token;
+    await localStorage.setItem("token", token);
+  }
 };
 
 const handleSignUp = async (
@@ -32,7 +31,10 @@ const handleSignUp = async (
 
   const response = await JWT.post("/api/v1/auth/register", body);
 
-  console.log(response.data);
+  if (response.status == 201) {
+    const token = response.data.token;
+    await localStorage.setItem("token", token);
+  }
 };
 
 export { handleLogin, handleSignUp };
