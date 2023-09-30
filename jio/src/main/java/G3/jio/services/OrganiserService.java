@@ -21,38 +21,23 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class OrganiserService {
-
+    
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
 
-    /**
-     * Get Organiser with id
-     * 
-     * @param organiserId
-     * @return
-     */
+    // get
     public Organiser getOrganiser(Long organiserId) {
         return organiserRepository.findById(organiserId).map(organiser -> {
             return organiser;
         }).orElse(null);
     }
 
-    /**
-     * Get all Organiser
-     * 
-     * @return
-     */
+    // list all Organiser
     public List<Organiser> getAllOrganisers() {
         return organiserRepository.findAll();
     }
 
-    /**
-     * Update organiser of given id with details from organiserDTO
-     * 
-     * @param id
-     * @param organiserDTO
-     * @return
-     */
+    // update organiser
     public Organiser updateOrganiser(Long id, OrganiserDTO organiserDTO) {
         Optional<Organiser> o = organiserRepository.findById(id);
         if (!o.isPresent()) {
@@ -68,11 +53,7 @@ public class OrganiserService {
         return organiser;
     }
 
-    /**
-     * Delete organiser of given id
-     * 
-     * @param id
-     */
+    // delete by id
     public void deleteOrganiser(Long id) {
         if (!organiserRepository.existsById(id)) {
             throw new NotExistException("Organiser");
@@ -80,12 +61,7 @@ public class OrganiserService {
         organiserRepository.deleteById(id);
     }
 
-    /**
-     * Create new event by organiser with details from eventDTO
-     * 
-     * @param eventDTO
-     * @return
-     */
+    // organiser post event
     public Event postEvent(EventDTO eventDTO) {
 
         // find organiser
@@ -101,13 +77,6 @@ public class OrganiserService {
         return eventRepository.save(event);
     }
 
-    /**
-     * Update existing Event of given id with details from eventDTO
-     * 
-     * @param id
-     * @param eventDTO
-     * @return
-     */
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();
 
@@ -115,12 +84,6 @@ public class OrganiserService {
         return event;
     }
 
-    /**
-     * Get organiser by email
-     * 
-     * @param email
-     * @return
-     */
     public Organiser getOrganiserByEmail(String email) {
         Organiser organiser = organiserRepository.findByEmail(email).map(o -> {
             return o;
@@ -133,12 +96,6 @@ public class OrganiserService {
         }
     }
 
-    /**
-     * Get all events by organiser with email
-     * 
-     * @param email
-     * @return
-     */
     public List<Event> getEventsByOrganiserEmail(String email) {
 
         Organiser organiser = getOrganiserByEmail(email);

@@ -15,13 +15,6 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    /**
-     * Sends a simple message to the specified email address
-     * 
-     * @param to
-     * @param subject
-     * @param text
-     */
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("projectopenjio@outlook.com");

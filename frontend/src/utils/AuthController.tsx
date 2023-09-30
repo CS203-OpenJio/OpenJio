@@ -31,10 +31,7 @@ const handleSignUp = async (
 
   const response = await JWT.post("/api/v1/auth/register", body);
 
-  if (response.status == 201) {
-    const token = response.data.token;
-    await localStorage.setItem("token", token);
-  }
+  console.log(response.data);
 };
 
 export { handleLogin, handleSignUp };

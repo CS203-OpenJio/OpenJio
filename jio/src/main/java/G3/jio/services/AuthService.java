@@ -42,7 +42,8 @@ public class AuthService {
      */
     public AuthenticationResponse authenticateUser(LoginDTO loginDTO) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())    
+        );
 
         if (studentRepository.existsByEmail(loginDTO.getEmail())) {
             var user = studentRepository.findByEmail(loginDTO.getEmail()).map(student -> {
@@ -50,8 +51,8 @@ public class AuthService {
             }).orElseThrow();
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .build();
+                .token(jwtToken)
+                .build();
 
         } else {
             var user = organiserRepository.findByEmail(loginDTO.getEmail()).map(organiser -> {
@@ -59,8 +60,8 @@ public class AuthService {
             }).orElseThrow();
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .build();
+                .token(jwtToken)
+                .build();
         }
     }
 
@@ -99,16 +100,10 @@ public class AuthService {
         organiserRepository.save(organiser);
         var jwtToken = jwtService.generateToken(organiser);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+            .token(jwtToken)
+            .build();
     }
 
-    /**
-     * Mapping registrationDTO to organiser entity using ModelMapper
-     * 
-     * @param registrationDTO
-     * @return
-     */
     private Organiser organiserMapToEntity(RegistrationDTO registrationDTO) {
         registrationDTO.setPassword(bCryptPasswordEncoder.encode(registrationDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
@@ -137,16 +132,10 @@ public class AuthService {
         studentRepository.save(student);
         var jwtToken = jwtService.generateToken(student);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+            .token(jwtToken)
+            .build();
     }
 
-    /**
-     * Mapping registrationDTO to student entity using ModelMapper
-     * 
-     * @param registrationDTO
-     * @return
-     */
     private Student studentMapToEntity(RegistrationDTO registrationDTO) {
         registrationDTO.setPassword(bCryptPasswordEncoder.encode(registrationDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();

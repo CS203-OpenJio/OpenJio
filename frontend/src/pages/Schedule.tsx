@@ -11,25 +11,24 @@ import {
   TableRow,
 } from "src/components/ui/table";
 import JWT from "../utils/JWT";
-import { getSchedule } from "../utils/ScheduleController";
 
 const Schedule = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [registeredEvents, setRegisteredEvents] = useState([]);
-  const [email, setEmail] = useState(null);
 
   useEffect(() => {
     // Make the Axios GET request when the component mounts
-    getSchedule().then((response: any) => {
-      console.log(response)
-      setRegisteredEvents(response); // Store the data in the "data" state variable
-      setLoading(false);
-    })
-    .catch((error: any) => {
-      setError(null);
-      setLoading(false);
-    });
+    JWT.get(`http://localhost:8080/api/v1/register-event/student/${1}`) // CURRENTLY HARD CODED UPDATE SOON!
+      .then((response: any) => {
+        setRegisteredEvents(response.data); // Store the data in the "data" state variable
+        setLoading(false);
+        console.log(response.data);
+      })
+      .catch((error: any) => {
+        setError(null);
+        setLoading(false);
+      });
   }, []);
 
   const findEvent = () => {};
@@ -53,11 +52,10 @@ const Schedule = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[70px]">Event Id</TableHead>
+                      <TableHead className="w-[100px]">Event Id</TableHead>
                       <TableHead>Event Name</TableHead>
                       <TableHead>Venue</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -68,12 +66,8 @@ const Schedule = () => {
                         </TableCell>
                         <TableCell>{registeredEvent.name}</TableCell>
                         <TableCell>{registeredEvent.venue}</TableCell>
-                        <TableCell>
+                        <TableCell className="text-right">
                           {registeredEvent.startDate}
-                        </TableCell>
-                        <TableCell>
-                          {/* Not sure why registrations for an event is an array? */}
-                          {registeredEvent.registrations[0].status} 
                         </TableCell>
                       </TableRow>
                     ))}
