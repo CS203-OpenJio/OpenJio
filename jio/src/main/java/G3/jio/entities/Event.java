@@ -1,11 +1,10 @@
 package G3.jio.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -40,11 +39,10 @@ public class Event {
     private String name;
 
     @Column(name = "startDate")
-    private LocalDate startDate;
+    private LocalDateTime startDateTime;
 
     @Column(name = "endDate")
-    @JsonIgnore
-    private LocalDate endDate;
+    private LocalDateTime endDateTime;
 
     @Column(name = "venue")
     private String venue;
@@ -62,8 +60,10 @@ public class Event {
     private String description;
 
     @Column(name = "isVisible")
-    @JsonIgnore
     private boolean isVisible;
+
+    @Column(name = "isCompleted")
+    private boolean isCompleted;
 
     @Column(name = "minScore")
     private int minScore;
@@ -73,7 +73,6 @@ public class Event {
     // with student
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
-    // @JsonIgnore
     List<EventRegistration> registrations = new ArrayList<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
@@ -106,36 +105,22 @@ public class Event {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (startDate == null) {
-            if (other.startDate != null)
+        if (startDateTime == null) {
+            if (other.startDateTime != null)
                 return false;
-        } else if (!startDate.equals(other.startDate))
+        } else if (!startDateTime.equals(other.startDateTime))
             return false;
-        if (endDate == null) {
-            if (other.endDate != null)
+        if (endDateTime == null) {
+            if (other.endDateTime != null)
                 return false;
-        } else if (!endDate.equals(other.endDate))
+        } else if (!endDateTime.equals(other.endDateTime))
             return false;
         if (venue == null) {
             if (other.venue != null)
                 return false;
         } else if (!venue.equals(other.venue))
             return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
-        if (capacity != other.capacity)
-            return false;
-        if (algo != other.algo)
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (isVisible != other.isVisible)
+        if (minScore != other.minScore)
             return false;
         return true;
     }
@@ -146,15 +131,10 @@ public class Event {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + ((startDateTime == null) ? 0 : startDateTime.hashCode());
+        result = prime * result + ((endDateTime == null) ? 0 : endDateTime.hashCode());
         result = prime * result + ((venue == null) ? 0 : venue.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-        result = prime * result + capacity;
-        result = prime * result + algo;
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + (isVisible ? 1231 : 1237);
+        result = prime * result + minScore;
         return result;
     }
-
 }

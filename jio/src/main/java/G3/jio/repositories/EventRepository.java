@@ -1,5 +1,6 @@
 package G3.jio.repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     boolean existsById(Long id);
 
     public List<Event> findAllByOrganiserId(Long id);
+
+    public Event findByNameAndStartDateTime(String name, LocalDateTime startDateTime);
 }

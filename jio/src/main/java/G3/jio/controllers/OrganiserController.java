@@ -6,15 +6,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.entities.Event;
-import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
-import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.OrganiserService;
 import lombok.RequiredArgsConstructor;

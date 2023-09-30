@@ -4,16 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.EventNotFoundException;
-import G3.jio.exceptions.NotExistException;
 import G3.jio.repositories.EventRepository;
-import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
