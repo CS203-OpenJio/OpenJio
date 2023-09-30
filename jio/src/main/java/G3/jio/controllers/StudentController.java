@@ -2,7 +2,6 @@ package G3.jio.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,30 +19,19 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
-import G3.jio.repositories.StudentRepository;
 import G3.jio.services.StudentService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(path = "api/v1/students")
 public class StudentController {
 
     private final StudentService studentService;
-    private StudentRepository studentRepository; // TODO: may need to remove
-    private BCryptPasswordEncoder encoder;
 
-    @Autowired
-    public StudentController(StudentService studentService, StudentRepository studentRepository,
-            BCryptPasswordEncoder encoder) {
-        this.studentService = studentService;
-        this.studentRepository = studentRepository;
-        this.encoder = encoder;
-    }
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
+    private final BCryptPasswordEncoder encoder;
 
     // get student given their id
     @GetMapping(path = "/id/{id}")

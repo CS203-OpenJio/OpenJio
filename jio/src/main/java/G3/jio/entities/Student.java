@@ -24,7 +24,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -66,8 +65,8 @@ public class Student implements UserDetails {
     @JsonIgnore
     private String image;
 
-    @Column(name = "accType")
-    private char accType;
+    // @Column(name = "accType")
+    // private char accType;
 
     // @NotNull
     // @Size(min = 8, max = 8, message = "Matriculation number must be valid")
@@ -127,18 +126,6 @@ public class Student implements UserDetails {
         } else {
             return (int) result;
         }
-    }
-
-    // TODO: temporary constructor to create admin
-    public Student(String name, String username, String password, String matricNo, String phone, LocalDate dob,
-            Role role) {
-        this.name = name;
-        this.email = username;
-        this.password = password;
-        this.matricNo = matricNo;
-        this.phone = phone;
-        this.dob = dob;
-        this.role = role;
     }
 
     // **************** SECURITY ****************
@@ -210,29 +197,15 @@ public class Student implements UserDetails {
                 return false;
         } else if (!password.equals(other.password))
             return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
-        if (accType != other.accType)
-            return false;
         if (matricNo == null) {
             if (other.matricNo != null)
                 return false;
         } else if (!matricNo.equals(other.matricNo))
             return false;
-        if (phone == null) {
-            if (other.phone != null)
-                return false;
-        } else if (!phone.equals(other.phone))
-            return false;
         if (dob == null) {
             if (other.dob != null)
                 return false;
         } else if (!dob.equals(other.dob))
-            return false;
-        if (role != other.role)
             return false;
         return true;
     }
@@ -245,12 +218,8 @@ public class Student implements UserDetails {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-        result = prime * result + accType;
         result = prime * result + ((matricNo == null) ? 0 : matricNo.hashCode());
-        result = prime * result + ((phone == null) ? 0 : phone.hashCode());
         result = prime * result + ((dob == null) ? 0 : dob.hashCode());
-        result = prime * result + ((role == null) ? 0 : role.hashCode());
         return result;
     }
 
