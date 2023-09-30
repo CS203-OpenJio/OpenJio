@@ -25,19 +25,33 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    // list all students
+    /**
+     * Get all students
+     * 
+     * @return
+     */
     public List<Student> findAllStudents() {
         return studentRepository.findAll();
     }
 
-    // get student by id
+    /**
+     * Get student by id
+     * 
+     * @param studentId
+     * @return
+     */
     public Student getStudent(Long studentId) {
         return studentRepository.findById(studentId).map(student -> {
             return student;
         }).orElse(null);
     }
 
-    // get student by email
+    /**
+     * Get student by email
+     * 
+     * @param email
+     * @return
+     */
     public Student getStudentByEmail(String email) {
         Student s = studentRepository.findByEmail(email).map(student -> {
             return student;
@@ -50,17 +64,32 @@ public class StudentService {
         }
     }
 
-    // get by name
+    /**
+     * Get student by name
+     * 
+     * @param name
+     * @return
+     */
     public List<Student> getStudentsByName(String name) {
         return studentRepository.findAllByName(name);
     }
 
-    // save a student
+    /**
+     * Add student
+     * 
+     * @param newStudent
+     */
     public Student addStudent(Student newStudent) {
         return studentRepository.save(newStudent);
     }
 
-    // update student
+    /**
+     * Update existing student of given id with details from newStudentInfo
+     * 
+     * @param id
+     * @param newStudentInfo
+     * @return
+     */
     public Student updateStudent(Long id, Student newStudentInfo) {
         Optional<Student> o = studentRepository.findById(id);
         if (!o.isPresent()) {
@@ -76,7 +105,11 @@ public class StudentService {
         return student;
     }
 
-    // delete by id
+    /**
+     * Delete student of given id
+     * 
+     * @param id
+     */
     public void deleteStudent(Long id) {
         if (!studentRepository.existsById(id)) {
             throw new UserNotFoundException();
@@ -84,10 +117,14 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    // get events by student email
-    // TODO
+    /**
+     * Get all events registered by student
+     * 
+     * @param email
+     * @return
+     */
     public List<Event> getEventByStudentEmail(String email) {
-        
+
         Student student = getStudentByEmail(email);
 
         List<EventRegistration> registrations = student.getRegistrations();
@@ -100,6 +137,13 @@ public class StudentService {
         return events;
     }
 
+    /**
+     * Get all events registered by student with given status
+     * 
+     * @param email
+     * @param status
+     * @return
+     */
     public List<Event> getEventByStudentEmailAndEventRegistrationStatus(String email, Status status) {
         Student student = getStudentByEmail(email);
 
