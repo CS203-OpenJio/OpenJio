@@ -10,5 +10,6 @@ public class EventRegistrationDTO {
     private Long studentId;
     private Long eventId;
     private Status status;
-    private boolean isPresentForEvent = true;
+    private boolean isPresentForEvent;
+    private boolean isCompleted;
 }

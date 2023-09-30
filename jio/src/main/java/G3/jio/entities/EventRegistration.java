@@ -52,6 +52,9 @@ public class EventRegistration {
     @Column(name = "attended_event")
     private boolean isPresentForEvent = true;
 
+    @Column(name = "completed")
+    private boolean isCompleted = false;
+
     @Column(name = "time")
     private final LocalDateTime time = LocalDateTime.now();
 

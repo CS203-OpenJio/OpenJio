@@ -106,6 +106,11 @@ public class Student implements UserDetails {
         int accepted = 1;
         int present = 3;
         for (EventRegistration er : registrations) {
+
+            if (!er.isCompleted()) {
+                continue;
+            }
+
             if (er.getStatus() == Status.ACCEPTED) {
                 accepted++;
             }
