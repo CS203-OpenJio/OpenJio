@@ -1,5 +1,4 @@
 import axios from "axios";
-
 // this is to set the JWT token
 
 // import this file whenever you want to use the JWT token
