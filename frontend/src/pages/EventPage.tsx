@@ -70,8 +70,6 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     let body = {
-      // this is hardcoded right now, waiting for backend followup
-      studentId: 1,
       eventId: id,
     };
 

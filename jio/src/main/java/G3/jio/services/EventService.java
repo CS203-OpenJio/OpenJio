@@ -27,19 +27,34 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    // get event by id
+    /**
+     * Gets Event by id
+     * 
+     * @param eventId
+     * @return
+     */
     public Event getEvent(Long eventId) {
         return eventRepository.findById(eventId).map(event -> {
             return event;
         }).orElse(null);
     }
 
-    // get by name
+    /**
+     * Gets Event by name
+     * 
+     * @param name
+     * @return
+     */
     public List<Event> getEventByName(String name) {
         return eventRepository.findAllByName(name);
     }
 
-    // save a event
+    /**
+     * Add Event
+     * 
+     * @param eventDTO
+     * @return
+     */
     public Event addEvent(EventDTO eventDTO) {
 
         System.out.println(eventDTO.getName());
@@ -48,8 +63,13 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    // update event
-    // not sure what we need to update yet
+    /**
+     * Update existing Event of given id with details from eventDTO
+     * 
+     * @param id
+     * @param eventDTO
+     * @return
+     */
     public Event updateEvent(Long id, EventDTO eventDTO) {
         Optional<Event> o = eventRepository.findById(id);
         if (!o.isPresent()) {
@@ -65,7 +85,11 @@ public class EventService {
         return event;
     }
 
-    // delete by id
+    /**
+     * Delete Event of given id
+     * 
+     * @param id
+     */
     public void deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
             throw new EventNotFoundException();
@@ -76,10 +100,16 @@ public class EventService {
         if (organiser != null) {
             organiser.getEvents().remove(event);
         }
-        
+
         eventRepository.deleteById(id);
     }
 
+    /**
+     * Mapping eventDTO to event entity using ModelMapper
+     * 
+     * @param eventDTO
+     * @return
+     */
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();
 
