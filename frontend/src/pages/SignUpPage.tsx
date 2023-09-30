@@ -50,7 +50,7 @@ const SignUpPage: FunctionComponent = () => {
         phonenumber
       );
 
-      handleSuccess("/login");
+      handleSuccess("/centralhub");
       // Handle the successful login response here
     } catch (err: any) {
       console.log(err);
@@ -77,7 +77,7 @@ const SignUpPage: FunctionComponent = () => {
               Sign Up
             </b>
             <div className="flex flex-col items-center bg-white rounded-11xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border-[1px] border-solid border-gray-200 p-[24px] max-h-[80vh] w-full space-y-4 ml-[160px] overflow-auto">
-              <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4 overflow-auto overflow-hidden">
+              <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4 overflow-hidden">
                 {" "}
                 {/* Adjusted to flex column, added spacing, and overflow hidden */}
                 <div className="flex flex-col items-start w-[100%] space-y-4 mb-4 overflow-hidden">
