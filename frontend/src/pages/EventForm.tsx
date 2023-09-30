@@ -1,4 +1,3 @@
-import EventFormNavBar from "../components/EventForm/EventFormNavBar";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -27,73 +26,78 @@ import {
 } from "../components/ui/popover"
 import React from "react";
 import { DateRange } from "react-day-picker"
+import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
 
 
 
 export default function EventForm() {
   const [preview, setPreview] = useState(false);
+  const [currentStep, setStep] = useState(1);
+  const [eventForm1, setForm1] = useState(null);
 
   return (
     <div>
-      <EventFormNavBar />
+      <NavBarTest2 />
       <div className="h-20"></div>
       <center>
         <div className="w-[80vw]">
           <h3 className="text-left font-ibm-plex-mono border-solid border-b-[1px] border-black leading-[0.1em] " >
-            <span className="bg-[#FBF6EE] p-4 ml-28">Create an event</span>
+            <span className="bg-[#FBF6EE] p-[1vw] ml-[6vw]">Create an event</span>
           </h3>
-          <p className="text-left font-ibm-plex-mono ml-32 text-[#484848] mt-[-5px]">Share your event with others!</p>
+          <p className="text-left font-ibm-plex-mono ml-[7vw] text-[#484848] mt-[-5px]">Share your event with others!</p>
         </div>
       </center>
 
-      <div className="flex flex-row justify-center">
-        <div className="flex flex-column h-[82vh] items-center overflow-hidden">
-          <div className="w-60 h-64 relative font-ibm-plex-mono overflow-hidden">
-            <svg width="75" height="195" viewBox="0 0 75 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="left-10 top-9 absolute">
-              <g filter="url(#filter0_d_408_3807)">
-                <path d="M48.1957 1.126C65.7067 33.9347 91.4984 50.2887 37.219 92.2674C-3.46438 127.906 -3.35016 148.446 25.9548 185.791" stroke="black" />
-              </g>
-              <defs>
-                <filter id="filter0_d_408_3807" x="0.673828" y="0.890564" width="73.731" height="193.21" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                  <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                  <feOffset dy="4" />
-                  <feGaussianBlur stdDeviation="2" />
-                  <feComposite in2="hardAlpha" operator="out" />
-                  <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                  <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_408_3807" />
-                  <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_408_3807" result="shape" />
-                </filter>
-              </defs>
-            </svg>
+      <div className="flex flex-row justify-center overflow-hidden items-center w-[80vw] m-auto">
+        <div className="w-60 min-w-60 h-64 relative font-ibm-plex-mono overflow-hidden cursor-default">
+          <svg width="75" height="195" viewBox="0 0 75 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="left-10 top-9 absolute">
+            <g filter="url(#filter0_d_408_3807)">
+              <path d="M48.1957 1.126C65.7067 33.9347 91.4984 50.2887 37.219 92.2674C-3.46438 127.906 -3.35016 148.446 25.9548 185.791" stroke="black" />
+            </g>
+            <defs>
+              <filter id="filter0_d_408_3807" x="0.673828" y="0.890564" width="73.731" height="193.21" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                <feOffset dy="4" />
+                <feGaussianBlur stdDeviation="2" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_408_3807" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_408_3807" result="shape" />
+              </filter>
+            </defs>
+          </svg>
 
-            <div className="w-44 h-6 left-0 top-0 absolute">
-              <div className="w-6 h-6 left-0 top-0 absolute">
-                <div className="w-6 h-6 left-0 top-0 absolute bg-white rounded-full border-solid border-black border-2" />
-                <div className="w-2 h-5 left-[9.75px] top-[4.5px] absolute text-black text-sm font-medium leading-tight">1</div>
-              </div>
-              <div className="left-[32px] top-1 absolute text-black text-sm font-medium font-['IBM Plex Mono'] leading-tight">Event Details</div>
+          <div className="w-44 h-6 left-0 top-0 absolute">
+            <div className="w-6 h-6 left-0 top-0 absolute">
+              <div className={`w-6 h-6 left-0 top-0 absolute rounded-full border-solid border-black border-2 ${currentStep == 1 ? "bg-black hover:bg-slate-700" : "bg-white"}`} />
+              <div className={`w-2 h-5 left-[9.75px] top-[4.5px] absolute text-sm font-medium leading-tight cursor-default ${currentStep == 1 ? "text-white" : "text-black"}`} >1</div>
             </div>
-            <div className="w-48 h-6 left-0 top-[228px] absolute">
-              <div className="w-6 h-6 left-0 top-0 absolute">
-                <div className="w-6 h-6 left-0 top-0 absolute bg-white rounded-full border-solid border-black border-2" />
-                <div className="w-2 h-5 left-[9.75px] top-[4.5px] absolute text-black text-sm font-medium leading-tight">3</div>
-              </div>
-              <div className="left-[32px] top-1 absolute text-black text-sm font-medium leading-tight">Attendee Options</div>
+            <div className="left-[32px] top-1 absolute text-black text-sm font-medium font-['IBM Plex Mono'] leading-tight">Event Details</div>
+          </div>
+          <div className="w-48 h-6 left-0 top-[228px] absolute">
+            <div className="w-6 h-6 left-0 top-0 absolute">
+              <div className={`w-6 h-6 left-0 top-0 absolute rounded-full border-solid border-black border-2 ${currentStep == 3 ? "bg-black hover:bg-slate-700" : "bg-white"}`} />
+              <div className={`w-2 h-5 left-[9.75px] top-[4.5px] absolute text-sm font-medium leading-tight cursor-default ${currentStep == 3 ? "text-white" : "text-black"}`}>3</div>
             </div>
-            <div className="w-40 h-6 left-[92px] top-[118px] absolute">
-              <div className="w-6 h-6 left-0 top-0 absolute">
-                <div className="w-6 h-6 left-0 top-0 absolute bg-white rounded-full border-solid border-black border-2" />
-                <div className="w-2 h-5 left-[9.75px] top-[4.5px] absolute text-black text-sm font-medium leading-tight">2</div>
-              </div>
-              <div className="left-[32px] top-1 absolute text-black text-sm font-medium font-['IBM Plex Mono'] leading-tight">Event Display</div>
+            <div className="left-[32px] top-1 absolute text-black text-sm font-medium leading-tight">Attendee Options</div>
+          </div>
+          <div className="w-40 h-6 left-[92px] top-[118px] absolute">
+            <div className="w-6 h-6 left-0 top-0 absolute">
+              <div className={`w-6 h-6 left-0 top-0 absolute rounded-full border-solid border-black border-2 ${currentStep == 2 ? "bg-black hover:bg-slate-700" : "bg-white"}`} />
+              <div className={`w-2 h-5 left-[9.75px] top-[4.5px] absolute text-sm font-medium leading-tight cursor-default ${currentStep == 2 ? "text-white" : "text-black"}`}>2</div>
             </div>
+            <div className="left-[32px] top-1 absolute text-black text-sm font-medium font-['IBM Plex Mono'] leading-tight">Event Display</div>
           </div>
         </div>
-        <div className="p-10">
-          <InputForm />
+
+        <div className="p-10 grow">
+          {currentStep == 1 && <InputForm setForm1={setForm1} setStep={setStep} formData={eventForm1} />}
         </div>
 
+      </div>
+      <div className="bg-white w-1/2 text-xl text-center h-10 m-auto hover:cursor-pointer" onClick={() => setStep(1)}>
+        back
       </div>
     </div>
   );
@@ -128,17 +132,25 @@ const FormSchema = z.object({
   }),
 })
 
-function InputForm() {
+function InputForm({ setForm1, setStep, formData }: { setForm1: (data: any) => void; setStep: (step: number) => void; formData: any; }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2023, 0, 20, 0, 0, 0, 0), // Year, Month, Day, Hours, Minutes, Seconds, Milliseconds
     to: addDays(new Date(2023, 0, 20, 0, 0, 0, 0), 20),
   });
-  
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: formData,
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (data) {
+      setForm1(data);
+      setStep(2);
+    } else {
+      toast("error");
+    }
+
     toast(JSON.stringify(data, null, 2));
   }
 
@@ -152,7 +164,7 @@ function InputForm() {
             <FormItem>
               <FormLabel className="font-ibm-plex-mono">Event Name</FormLabel>
               <FormControl>
-                <Input placeholder="Event Name" {...field} />
+                <Input className="bg-white" placeholder="Event Name" {...field} />
               </FormControl>
               <FormDescription className="font-ibm-plex-mono">
                 This is your event’s name, you can edit this in the future
@@ -168,7 +180,7 @@ function InputForm() {
             <FormItem>
               <FormLabel className="font-ibm-plex-mono">Event Capacity</FormLabel>
               <FormControl>
-                <Input placeholder="Event Capacity" {...field} />
+                <Input className="bg-white" placeholder="Event Capacity" {...field} />
               </FormControl>
               <FormDescription className="font-ibm-plex-mono">
                 This is your event’s capacity, you can edit this in the future
@@ -184,7 +196,7 @@ function InputForm() {
             <FormItem>
               <FormLabel className="font-ibm-plex-mono">Event Location</FormLabel>
               <FormControl>
-                <Input placeholder="Event Location" {...field} />
+                <Input className="bg-white" placeholder="Event Location" {...field} />
               </FormControl>
               <FormDescription className="font-ibm-plex-mono">
                 This is your event’s location, you can edit this in the future
@@ -206,7 +218,7 @@ function InputForm() {
                       id="date"
                       variant={"outline"}
                       className={cn(
-                        "w-[300px] justify-start text-left font-normal hover:cursor-pointer",
+                        "w-[300px] justify-start text-left font-normal hover:cursor-pointer bg-white",
                         !date && "text-muted-foreground"
                       )}
                     >
