@@ -76,8 +76,9 @@ const SignUpPage: FunctionComponent = () => {
             <b className="text-[40px] leading-[150%] font-source-serif-pro w-[200px] h-[34px] mt-[50px] mb-[30px] ml-[210px]">
               Sign Up
             </b>
-            <div className="flex flex-col items-center bg-white rounded-11xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border-[1px] border-solid border-gray-200 p-[24px] max-h-[80vh] w-full space-y-4 ml-[160px] overflow-auto">
-              <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4 overflow-auto overflow-hidden">
+            <div className="flex flex-col items-center bg-white rounded-11xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border-[1px] border-solid border-gray-200 p-[24px] w-full space-y-4 ml-[160px]">
+         
+            <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4" style={{ overflowY: 'auto'}}>
                 {" "}
                 {/* Adjusted to flex column, added spacing, and overflow hidden */}
                 <div className="flex flex-col items-start w-[100%] space-y-4 mb-4 overflow-hidden">
@@ -160,7 +161,7 @@ const SignUpPage: FunctionComponent = () => {
                 <div className="font-medium w-full text-center mb-2">
                   Year of matriculation
                 </div>
-                <div className="flex flex-row items-center justify-between w-full px-3">
+                <div className="flex flex-row items-center space-x-2 mx-auto"> 
                   {/* Flex container in row orientation with equally spaced items */}
                   <button
                     onClick={() => setSelectedYear("2022/2023")}
