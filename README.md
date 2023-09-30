@@ -18,6 +18,10 @@ This repository contains the source code for the OpenJio web application. OpenJi
 
 - **Database:** The database will employ MySQL.
 
+## Database Entity-Related Diagram
+
+<img width="295" alt="Screenshot 2023-09-30 at 6 05 05 PM" src="https://github.com/whatron/OpenJio/assets/110993317/4bcd26da-90e8-43c7-9ba6-b4f424290ee7">
+
 ## Getting Started
 
 To set up the application locally, follow these steps:
