@@ -21,8 +21,8 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "name":"ur mother",
-    "description":" peepeepoopoo huhahehea",
+    "name":"helo",
+    "description":" weewoo wee woo huhahehea",
     "organiserId":1
 }
 
