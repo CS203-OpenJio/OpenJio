@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventDTO;
@@ -64,11 +66,19 @@ public class OrganiserService {
     // organiser post event
     public Event postEvent(EventDTO eventDTO) {
 
-        // find organiser
-        if (!organiserRepository.existsById(eventDTO.getOrganiserId())) {
+        Organiser organiser = null;
+        Long organiserId = eventDTO.getOrganiserId();
+        if (organiserId == null) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = userDetails.getUsername();
+            organiser = this.getOrganiserByEmail(email);
+
+        } else if (!organiserRepository.existsById(organiserId)) {
             throw new NotExistException("Organiser");
+
+        } else {
+            organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
         }
-        Organiser organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
 
         Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
