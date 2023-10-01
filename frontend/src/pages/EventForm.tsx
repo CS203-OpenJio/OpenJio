@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -17,6 +17,7 @@ import {
 } from "../components/ui/form"
 import { addDays, format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
+import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "../lib/utils"
 import { Calendar } from "../components/ui/calendar"
 import {
@@ -27,13 +28,59 @@ import {
 import React from "react";
 import { DateRange } from "react-day-picker"
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import { Textarea } from "../components/ui/textarea";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "../components/ui/command"
+import { Switch } from "../components/ui/switch"
+import { Slider } from "../components/ui/slider";
+import { createEvent } from "../utils/EventRegistrationController";
 
 
 
 export default function EventForm() {
   const [preview, setPreview] = useState(false);
   const [currentStep, setStep] = useState(1);
-  const [eventForm1, setForm1] = useState(null);
+  const [eventForm1, setForm1] = useState({
+    username: "",
+    capacity: "",
+    location: "",
+    date: {
+      from: new Date(),
+      to: new Date(),
+    },
+    // Add other properties as needed
+  });
+  const [eventForm2, setForm2] = useState({
+    desc: "",
+    image: null, // You can initialize it with null or an initial value
+    // Add other properties as needed
+  });
+  const [eventForm3, setForm3] = useState({
+    algo: 0,
+    isVisible: false,
+    minScore: 0
+  });
+  const [data, setData] = useState({});
+
+  function logger() {
+    setData({
+      ...eventForm1,
+      ...eventForm2,
+      ...eventForm3,
+    })
+  }
+  
+  useEffect(() => {
+    if (Object.keys(data).length > 0) {
+      toast(JSON.stringify(data, null, 2));
+      createEvent(data);
+    }
+  }, [data]);
 
   return (
     <div>
@@ -48,7 +95,7 @@ export default function EventForm() {
         </div>
       </center>
 
-      <div className="flex flex-row justify-center overflow-hidden items-center w-[80vw] m-auto">
+      <div className="flex flex-row justify-center overflow-hidden items-center w-[80vw] m-auto h-[70vh] gap-20">
         <div className="w-60 min-w-60 h-64 relative font-ibm-plex-mono overflow-hidden cursor-default">
           <svg width="75" height="195" viewBox="0 0 75 195" fill="none" xmlns="http://www.w3.org/2000/svg" className="left-10 top-9 absolute">
             <g filter="url(#filter0_d_408_3807)">
@@ -80,7 +127,7 @@ export default function EventForm() {
               <div className={`w-6 h-6 left-0 top-0 absolute rounded-full border-solid border-black border-2 ${currentStep == 3 ? "bg-black hover:bg-slate-700" : "bg-white"}`} />
               <div className={`w-2 h-5 left-[9.75px] top-[4.5px] absolute text-sm font-medium leading-tight cursor-default ${currentStep == 3 ? "text-white" : "text-black"}`}>3</div>
             </div>
-            <div className="left-[32px] top-1 absolute text-black text-sm font-medium leading-tight">Attendee Options</div>
+            <div className="left-[32px] top-2 absolute text-black text-sm font-medium leading-tight">Attendee Options</div>
           </div>
           <div className="w-40 h-6 left-[92px] top-[118px] absolute">
             <div className="w-6 h-6 left-0 top-0 absolute">
@@ -91,22 +138,26 @@ export default function EventForm() {
           </div>
         </div>
 
-        <div className="p-10 grow">
-          {currentStep == 1 && <InputForm setForm1={setForm1} setStep={setStep} formData={eventForm1} />}
-        </div>
+
+        {currentStep == 1 && <div className="grow"><InputForm1 setForm1={setForm1} setStep={setStep} formData={eventForm1} /></div>}
+
+
+        {currentStep == 2 && <div className="grow"><InputForm2 setForm2={setForm2} setStep={setStep} formData={eventForm2} /></div>}
+
+
+        {currentStep == 3 && <div className="grow"><InputForm3 setForm3={setForm3} setStep={setStep} formData={eventForm3} submitData={() => logger()} /></div>}
+
 
       </div>
-      <div className="bg-white w-1/2 text-xl text-center h-10 m-auto hover:cursor-pointer" onClick={() => setStep(1)}>
-        back
-      </div>
+      <ToastContainer />
     </div>
   );
 
 }
 
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+const FormSchema1 = z.object({
+  name: z.string().min(3, {
+    message: "Event Name must be at least 3 characters.",
   }),
   capacity: z.string().refine((value) => {
     // Ensure it's a numeric string
@@ -119,8 +170,8 @@ const FormSchema = z.object({
   }, {
     message: "Capacity must be a number between 1 and 1000.",
   }),
-  location: z.string().min(4, {
-    message: "Location must be at least 4 characters.",
+  venue: z.string().min(4, {
+    message: "Venue must be at least 4 characters.",
   }),
   date: z.custom((value) => {
     // Perform your custom validation for DateRange here
@@ -128,30 +179,28 @@ const FormSchema = z.object({
     // Return true if it's valid, or false if it's not
     return value != null;
   }, {
-    message: "Please set a date range.", // Customize the error message as needed
+    message: "Please set a date range.",
   }),
 })
 
-function InputForm({ setForm1, setStep, formData }: { setForm1: (data: any) => void; setStep: (step: number) => void; formData: any; }) {
+function InputForm1({ setForm1, setStep, formData }: { setForm1: (data: any) => void; setStep: (step: number) => void; formData: any; }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, 0, 20, 0, 0, 0, 0), // Year, Month, Day, Hours, Minutes, Seconds, Milliseconds
-    to: addDays(new Date(2023, 0, 20, 0, 0, 0, 0), 20),
+    from: new Date(), // Year, Month, Day, Hours, Minutes, Seconds, Milliseconds
+    to: addDays(new Date(), 20),
   });
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof FormSchema1>>({
+    resolver: zodResolver(FormSchema1),
     defaultValues: formData,
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof FormSchema1>) {
     if (data) {
       setForm1(data);
       setStep(2);
     } else {
       toast("error");
     }
-
-    toast(JSON.stringify(data, null, 2));
   }
 
   return (
@@ -159,7 +208,7 @@ function InputForm({ setForm1, setStep, formData }: { setForm1: (data: any) => v
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-ibm-plex-mono">Event Name</FormLabel>
@@ -191,12 +240,12 @@ function InputForm({ setForm1, setStep, formData }: { setForm1: (data: any) => v
         />
         <FormField
           control={form.control}
-          name="location"
+          name="venue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-ibm-plex-mono">Event Location</FormLabel>
+              <FormLabel className="font-ibm-plex-mono">Event Venue</FormLabel>
               <FormControl>
-                <Input className="bg-white" placeholder="Event Location" {...field} />
+                <Input className="bg-white" placeholder="Event Venue" {...field} />
               </FormControl>
               <FormDescription className="font-ibm-plex-mono">
                 This is your event’s location, you can edit this in the future
@@ -259,9 +308,276 @@ function InputForm({ setForm1, setStep, formData }: { setForm1: (data: any) => v
             </FormItem>
           )}
         />
-        <Button type="submit" className="hover:cursor-pointer">Next</Button>
+        <div className="flex flex-row justify-between w-[100%]">
+          <div></div>
+          <Button type="submit" className="hover:cursor-pointer">Next</Button>
+        </div>
+
       </form>
-      <ToastContainer />
     </Form>
   )
 }
+const FormSchema2 = z.object({
+  description: z.string().refine((value) => {
+    // Split the description into words and filter out empty strings
+    const words = value.trim().split(/\s+/).filter(Boolean);
+    // Check if the number of words is at least 10
+    return words.length >= 10;
+  }, {
+    message: "Description must have at least 10 words.",
+  }),
+  image: z.custom((value) => {
+    if (!(value instanceof File)) {
+      return false;
+    }
+    // validation here
+    const maxSize = 5 * 1024 * 1024;
+    if (value.size > maxSize) {
+      return false;
+    }
+
+    const allowedMimeTypes = ["image/jpeg", "image/png"];
+    if (!allowedMimeTypes.includes(value.type)) {
+      return false;
+    }
+
+    return true;
+  }, {
+    message: "Please choose an Image! Supprted file formats : JPEG, PNG (Max. size 5Mb)",
+  }),
+})
+
+function InputForm2({ setForm2, setStep, formData }: { setForm2: (data: any) => void; setStep: (step: number) => void; formData: any; }) {
+
+  const form = useForm<z.infer<typeof FormSchema2>>({
+    resolver: zodResolver(FormSchema2),
+    defaultValues: formData,
+  })
+
+  function onSubmit(data: z.infer<typeof FormSchema2>) {
+    if (data) {
+      setForm2(data);
+      console.log(data.image.name);
+      setStep(3);
+    } else {
+      toast("error");
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          name="image"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="font-ibm-plex-mono">Event Image</FormLabel>
+              <Input
+                id="picture"
+                className="bg-white w-96"
+                type="file"
+                onChange={(e) => {
+                  e.target.files && field.onChange(e.target.files[0]);
+                }}
+              />
+              <FormDescription className="font-ibm-plex-mono">
+                This is your event’s image, you can change or delete this in the future (optional)
+              </FormDescription>
+              <FormMessage className="font-ibm-plex-mono" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
+              <FormControl>
+                <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+              </FormControl>
+              <FormMessage className="font-ibm-plex-mono" />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-row justify-between w-[100%]">
+          <Button onClick={() => { setStep(1) }} className="hover:cursor-pointer">Back</Button>
+          <Button type="submit" className="hover:cursor-pointer">Next</Button>
+        </div>
+
+      </form>
+    </Form>
+  );
+}
+
+const FormSchema3 = z.object({
+  algo: z.string({
+    required_error: "Please select an algorithm.",
+  }),
+  isVisible: z.boolean().default(false),
+  minScore: z
+    .number()
+    .min(0, {
+      message: "Minimum score must be greater than or equal to 0.",
+    })
+    .max(100, {
+      message: "Maximum score must be less than or equal to 100.",
+    }),
+
+})
+
+const languages = [
+  { label: "First-In-First-Out", value: "0" },
+  { label: "French", value: "1" },
+  { label: "German", value: "2" },
+  { label: "Spanish", value: "3" },
+] as const
+
+function InputForm3({ setForm3, setStep, formData, submitData }: { setForm3: (data: any) => void; setStep: (step: number) => void; formData: any; submitData: () => void; }) {
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState("")
+
+  const form = useForm<z.infer<typeof FormSchema3>>({
+    resolver: zodResolver(FormSchema3),
+    defaultValues: formData,
+  })
+
+  function onSubmit(data: z.infer<typeof FormSchema3>) {
+    if (data) {
+      setForm3(data);
+      submitData();
+      // SUBMIT FUNCTION HERE
+    } else {
+      toast("error");
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+        <FormField
+          control={form.control}
+          name="algo"
+          render={({ field }) => (
+            <FormItem className="flex flex-col font-ibm-plex-mono">
+              <FormLabel>Event Algorithm</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between hover:cursor-pointer bg-white",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? languages.find(
+                          (language) => language.value === field.value
+                        )?.label
+                        : "Select Algorithm"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0 mt-[-4px]">
+                  <Command>
+                    <CommandGroup>
+                      {languages.map((language) => (
+                        <CommandItem
+                          value={language.label}
+                          className="font-ibm-plex-mono"
+                          key={language.value}
+                          onSelect={() => {
+                            form.setValue("algo", language.value)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              language.value === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {language.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                This chooses the way your slots are distributed, you can change this in the future.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="isVisible"
+          render={({ field }) => (
+            <FormItem className="flex flex-col rounded-lg font-ibm-plex-mono">
+              <FormLabel className="text-base">
+                Event Visibility
+              </FormLabel>
+              <FormControl>
+                <div className="flex flex-row">
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <div className="ml-6">
+                    {field.value ? "Event is visible!" : "Event is not visible."}
+                  </div>
+                </div>
+              </FormControl>
+              <FormDescription>
+                Let your event be visible immediately?
+              </FormDescription>
+
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="minScore"
+          render={({ field }) => (
+            <FormItem className="flex flex-col rounded-lg font-ibm-plex-mono">
+              <FormLabel className="text-base">
+                Attendee Minimum Score
+              </FormLabel>
+              <FormControl>
+                <div className="flex flex-row">
+                  <Slider max={100} step={1}
+                    value={[field.value] || 80}
+                    onValueChange={(newValue) => {
+                      field.onChange(newValue[0]); // Update the form field value
+                    }} />
+                  <div className="ml-6">
+                    {[field.value]}
+                  </div>
+                </div>
+              </FormControl>
+              <FormDescription>
+                Minimum event participation score for attendees signing up.
+              </FormDescription>
+
+            </FormItem>
+          )}
+        />
+
+        <div className="flex flex-row justify-between w-[100%]">
+          <Button onClick={() => { setStep(2) }} className="hover:cursor-pointer">Back</Button>
+          <Button type="submit" className="hover:cursor-pointer">Submit</Button>
+        </div>
+
+      </form>
+    </Form>
+  );
+}
+
