@@ -84,7 +84,7 @@ public class EventService {
         Event event = mapper.map(eventDTO, Event.class);
         
         // settle datetime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
         LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
         event.setStartDateTime(startDateTime);

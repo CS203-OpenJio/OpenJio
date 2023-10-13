@@ -1,5 +1,7 @@
 package G3.jio.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +80,16 @@ public class OrganiserService {
             organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
         }
 
-        Event event = eventMapToEntity(eventDTO);
+        Event event = new Event();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.map(eventDTO, event);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
+        event.setStartDateTime(startDateTime);
+        event.setEndDateTime(endDateTime);
+
         event.setOrganiser(organiser);
         organiser.getEvents().add(event);
 
@@ -89,6 +100,14 @@ public class OrganiserService {
         ModelMapper mapper = new ModelMapper();
 
         Event event = mapper.map(eventDTO, Event.class);
+        
+        // settle datetime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
+        event.setStartDateTime(startDateTime);
+        event.setEndDateTime(endDateTime);
+
         return event;
     }
 

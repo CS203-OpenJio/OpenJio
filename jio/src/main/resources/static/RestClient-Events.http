@@ -43,12 +43,12 @@ Authorization: Basic admin@admin.com admin
     "algo": "2",
     "capacity": "213",
     "description": "sda a a a a  aa a a a a a a a ",
-    "endDateTime": "2018-02-05 12:59",
+    "endDateTime": "2018-02-05T12:59",
     "image": "Hello lol",
     "isVisible": true,
     "minScore": 72,
     "name": "asdasda",
-    "startDateTime": "2018-02-05 12:59",
+    "startDateTime": "2018-02-05T12:59",
     "venue": "adadda"
 }
 

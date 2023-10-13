@@ -3,6 +3,7 @@ package G3.jio.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import G3.jio.DTO.QueryDTO;
+import G3.jio.entities.AuthenticationResponse;
 import G3.jio.entities.Event;
 import G3.jio.entities.Status;
 import G3.jio.entities.Student;
@@ -45,28 +48,17 @@ public class StudentController {
     }
 
     // get student given their email
-    @GetMapping(path = "/email/{email}")
-    public Student getStudentByEmail(@PathVariable("email") String email) {
-        Student student = studentService.getStudentByEmail(email);
-        if (student == null) {
-            throw new UserNotFoundException(" " + email);
-        }
+    @PostMapping(path = "/email")
+    public ResponseEntity<Student> getStudentByEmail(@RequestBody QueryDTO queryDTO) {
 
-        return student;
+        return ResponseEntity.ok(studentService.getStudentByEmail(queryDTO.getEmail()));
     }
 
-    // get events registered for by student email
-    @GetMapping(path = "/email/{email}/registered")
-    public List<Event> getRegisteredEventsByStudentId(@PathVariable String email) {
+    // get events registered for by student email and status
+    @PostMapping(path = "/email/events")
+    public ResponseEntity<List<Event>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
 
-        return studentService.getEventByStudentEmail(email);
-    }
-
-    // get events registered by student and status
-    @GetMapping(path = "/email/{email}/registered/{status}")
-    public List<Event> getRegisteredEventsByStudentId(@PathVariable("email") String email, @PathVariable("status") Status status) {
-
-        return studentService.getEventByStudentEmailAndEventRegistrationStatus(email, status);
+        return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }
 
     // get all students
