@@ -56,12 +56,12 @@ public class EventController {
         return eventService.getEvent(id);
     }
 
-    // Post event
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Event addEvent(@RequestBody EventDTO eventDTO) {
-        return eventService.addEvent(eventDTO);
-    }
+    // // Post event
+    // @ResponseStatus(HttpStatus.CREATED)
+    // @PostMapping
+    // public Event addEvent(@RequestBody EventDTO eventDTO) {
+    //     return eventService.addEvent(eventDTO);
+    // }
 
     // update event
     @PutMapping(path = "/id/{id}")
