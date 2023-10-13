@@ -80,16 +80,7 @@ public class OrganiserService {
             organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
         }
 
-        Event event = new Event();
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setSkipNullEnabled(true);
-        mapper.map(eventDTO, event);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
-        event.setStartDateTime(startDateTime);
-        event.setEndDateTime(endDateTime);
-
+        Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
         organiser.getEvents().add(event);
 

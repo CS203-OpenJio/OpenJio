@@ -34,11 +34,11 @@ public class OrganiserController {
     }
 
     // get organiser given their email
-    @GetMapping(path = "/email/{email}")
-    public Organiser getOrganiserByEmail(@PathVariable("email") String email) {
-        Organiser organiser = organiserService.getOrganiserByEmail(email);
+    @PostMapping(path = "/email")
+    public Organiser getOrganiserByEmail(@RequestBody QueryDTO queryDTO) {
+        Organiser organiser = organiserService.getOrganiserByEmail(queryDTO.getEmail());
         if (organiser == null) {
-            throw new UserNotFoundException(" " + email);
+            throw new UserNotFoundException(" " + queryDTO.getEmail());
         }
 
         return organiser;
