@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class EventDTO {
 
     private String name;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDateTime;
+    private String endDateTime;
     private String venue;
     private String image;
     private int capacity;

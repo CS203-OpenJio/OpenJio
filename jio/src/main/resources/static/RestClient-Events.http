@@ -40,16 +40,16 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "name":"CS203",
-    "startDate":"2001-02-04",
-    "endDate":"2001-08-04",
-    "description":"Collaborative Software Programming",
-    "capacity":45,
-    "eventType":"Workshop",
-    "venue":"venue",
-    "image":"/events/cs203.jpg",
-    "registered": false,
-    "visible": false
+    "algo": "2",
+    "capacity": "213",
+    "description": "sda a a a a  aa a a a a a a a ",
+    "endDateTime": "2018-02-05 12:59",
+    "image": "Hello lol",
+    "isVisible": true,
+    "minScore": 72,
+    "name": "asdasda",
+    "startDateTime": "2018-02-05 12:59",
+    "venue": "adadda"
 }
 
 // post Event 1

@@ -38,10 +38,10 @@ public class Event {
     @Column(name = "eventName")
     private String name;
 
-    @Column(name = "startDate")
+    @Column(name = "startDateTime")
     private LocalDateTime startDateTime;
 
-    @Column(name = "endDate")
+    @Column(name = "endDateTime")
     private LocalDateTime endDateTime;
 
     @Column(name = "venue")
