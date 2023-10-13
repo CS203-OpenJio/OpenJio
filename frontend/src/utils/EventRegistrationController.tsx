@@ -1,4 +1,4 @@
-// use this file for API requests relating to event
+// use this file for API requests relating to event registration
 import JWT from "./JWT";
 
 const createEvent = async (body: {}) => {
@@ -13,8 +13,9 @@ const createEvent = async (body: {}) => {
             if ("date" in body) {
                 let date = body["date"] as { from?: string, to?: string };
                 delete body["date"];
-                let dateTo = new Date(date?.to ?? "").toISOString();
-                let dateFrom = new Date(date?.from ?? "").toISOString();
+                //format date below
+                let dateTo = new Date(date?.to ?? "");
+                let dateFrom = new Date(date?.from ?? "");
                 body = {
                     ...body,
                     startDateTime: dateFrom,
