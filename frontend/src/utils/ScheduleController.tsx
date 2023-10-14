@@ -13,7 +13,7 @@ const getSchedule = async () => {
         const objToken:JwtPayload = jwt_decode(token);
         const userEmail:string = objToken.sub;
 
-         const response = await JWT.get(`http://localhost:8080/api/v1/students/email/${userEmail}/registered`)
+        const response = await JWT.post(`http://localhost:8080/api/v1/students/email/events`, {email: userEmail});
         return response.data;
       
     } catch(err) {

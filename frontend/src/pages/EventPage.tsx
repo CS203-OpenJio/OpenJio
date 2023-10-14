@@ -53,7 +53,7 @@ export default function EventPage() {
             ></img>
             <div className="flex grow whitespace-break-spaces bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
               <div className="">
-                Date: {event?.startDate} to {event?.endDate} |
+                Date: {new Date(event?.startDateTime).toLocaleString()} to {new Date(event?.endDateTime).toLocaleString()} |
               </div>
               <div className=""> Venue: {event?.venue} | </div>
               <div className=""> Max Event Capacity: {event?.capacity} </div>

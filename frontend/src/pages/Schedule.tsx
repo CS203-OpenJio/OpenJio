@@ -26,13 +26,13 @@ const Schedule = () => {
       setRegisteredEvents(response); // Store the data in the "data" state variable
       setLoading(false);
     })
-    .catch((error: any) => {
-      setError(null);
-      setLoading(false);
-    });
+      .catch((error: any) => {
+        setError(null);
+        setLoading(false);
+      });
   }, []);
 
-  const findEvent = () => {};
+  const findEvent = () => { };
 
   return (
     <div>
@@ -69,13 +69,12 @@ const Schedule = () => {
                         <TableCell>{registeredEvent.name}</TableCell>
                         <TableCell>{registeredEvent.venue}</TableCell>
                         <TableCell>
-                          {registeredEvent.startDate}
+                          {new Date(registeredEvent.startDateTime).toLocaleString()}
                         </TableCell>
                         <TableCell>
                           {/* Not sure why registrations for an event is an array? */}
-                          {registeredEvent.registrations[0].status} 
-                        </TableCell>
-                      </TableRow>
+                          {registeredEvent.registrations[0].status}
+                        </TableCell>                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>

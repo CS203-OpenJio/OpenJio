@@ -40,16 +40,16 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "name":"CS203",
-    "startDate":"2001-02-04",
-    "endDate":"2001-08-04",
-    "description":"Collaborative Software Programming",
-    "capacity":45,
-    "eventType":"Workshop",
-    "venue":"venue",
-    "image":"/events/cs203.jpg",
-    "registered": false,
-    "visible": false
+    "algo": "2",
+    "capacity": "213",
+    "description": "sda a a a a  aa a a a a a a a ",
+    "endDateTime": "2018-02-05T12:59",
+    "image": "Hello lol",
+    "isVisible": true,
+    "minScore": 72,
+    "name": "asdasda",
+    "startDateTime": "2018-02-05T12:59",
+    "venue": "adadda"
 }
 
 // post Event 1
@@ -139,16 +139,31 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "name":"really long desc tester",
-    "startDate":"2001-02-04",
-    "endDate":"2001-02-04",
-    "description":"testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestesttesttesttesttesttesttesttesttesttesttest",
-    "capacity":69,
-    "eventType":"Workshop",
-    "venue":"scis1 lv 2 toilet",
-    "image":"/events/test.jpg",
-    "visible": false,
-    "organiser": 1
+    "name":"ur mother1",
+    "description":" peepeepoopoo huhahehea",
+    "capacity":50,
+    "endDateTime":"2001-11-11T11:11:11.111Z",
+    "startDateTime":"2001-11-11T11:11:11.111Z"
+}
+
+###
+
+POST http://localhost:8080/api/v1/events
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+"algo": "2",
+"capacity": "213",
+"description": "sda a a a a  aa a a a a a a a ",
+"endDateTime": "2023-10-19T16:00:00.000Z",
+"image": "Hello lol",
+"isVisible": true,
+"minScore": 72,
+"name": "asdasda",
+"startDateTime": "2023-10-13T10:03:05.753Z",
+"venue": "adadda",
+"organiserId":1
 }
 
 ###

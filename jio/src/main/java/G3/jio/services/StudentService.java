@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
-import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
@@ -99,15 +99,15 @@ public class StudentService {
         return events;
     }
 
-    public List<Event> getEventByStudentEmailAndEventRegistrationStatus(String email, Status status) {
-        Student student = getStudentByEmail(email);
+    public List<Event> getEventByStudentEmailAndEventRegistrationStatus(QueryDTO queryDTO) {
+        Student student = getStudentByEmail(queryDTO.getEmail());
 
         List<EventRegistration> registrations = student.getRegistrations();
         List<Event> events = new ArrayList<>();
 
         for (EventRegistration registeredEvent : registrations) {
 
-            if (registeredEvent.getStatus() == status) {
+            if (registeredEvent.getStatus() == queryDTO.getStatus() || queryDTO.getStatus() == null) {
                 events.add(registeredEvent.getEvent());
             }
         }
