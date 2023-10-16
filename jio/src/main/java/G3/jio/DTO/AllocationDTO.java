@@ -1,6 +1,5 @@
 package G3.jio.DTO;
 
-import G3.jio.entities.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryDTO {
-    String name;
-    Long studentId;
+public class AllocationDTO {
     Long eventId;
-    String email;
     String algo;
-    Status status;
 }

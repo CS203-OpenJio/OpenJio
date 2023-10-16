@@ -14,6 +14,8 @@ import G3.jio.entities.Organiser;
 import G3.jio.entities.Role;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.FailedRegistrationException;
+import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +50,7 @@ public class AuthService {
                 .token(jwtToken)
                 .build();
 
-        } else {
+        } else if (organiserRepository.existsByEmail(loginDTO.getEmail())){
             var user = organiserRepository.findByEmail(loginDTO.getEmail()).map(organiser -> {
                 return organiser;
             }).orElseThrow();
@@ -56,6 +58,8 @@ public class AuthService {
             return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+        } else {
+            throw new UserNotFoundException("No Such User");
         }
     }
 
@@ -72,7 +76,7 @@ public class AuthService {
         } else if (registrationDTO.getUserType() == 'O') {
             return this.registerOrganiser(registrationDTO);
         }
-        throw new FailedRegistrationException();
+        throw new InvalidUserTypeException();
     }
 
     /**
@@ -95,7 +99,7 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(organiser);
         return AuthenticationResponse.builder()
             .token(jwtToken)
-            .build();
+            .build();   
     }
 
     private Organiser organiserMapToEntity(RegistrationDTO registrationDTO) {

@@ -18,6 +18,7 @@ import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.ErrorModel;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.FailedRegistrationException;
+import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 
@@ -51,6 +52,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     private ResponseEntity<ErrorModel> handleAuthentication(AuthenticationException ex) {
         ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Invalid username or password.", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidUserTypeException.class)
+    private ResponseEntity<ErrorModel> handleInvalidUserType(InvalidUserTypeException ex) {
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Invalid User Type.", ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
