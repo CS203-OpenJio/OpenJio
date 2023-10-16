@@ -169,3 +169,12 @@ Authorization: Basic admin@admin.com admin
 
 //delete event
 DELETE http://localhost:8080/api/v1/events/id/1
+
+###
+POST http://localhost:8080/api/v1/events/registrations
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+    "eventId": 5
+}

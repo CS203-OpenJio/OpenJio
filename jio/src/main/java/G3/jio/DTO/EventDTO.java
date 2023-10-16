@@ -28,6 +28,7 @@ public class EventDTO {
 
     @Builder.Default
     private boolean isVisible = true;
+    
     private Long organiserId;
     private int minScore;
 }
