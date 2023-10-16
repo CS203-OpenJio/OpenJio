@@ -16,7 +16,7 @@ const ChangeProfile: FunctionComponent = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: name,
+                Name: name,
                 matricNo: matricNo,
                 phone: phone,
                 image: null
