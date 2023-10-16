@@ -54,7 +54,7 @@ public class Event {
     private int capacity;
 
     @Column(name = "algoType")
-    private String algo;
+    private int algo;
 
     @Column(name = "description", length = 65535)
     private String description;

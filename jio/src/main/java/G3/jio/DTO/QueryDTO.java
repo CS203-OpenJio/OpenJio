@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QueryDTO {
     String name;
-    Long studentId;
-    Long eventId;
+    Long id;
     String email;
     String algo;
     Status status;

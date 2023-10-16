@@ -3,7 +3,7 @@ package G3.jio.controllers;
 import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.DTO.EventDTO;
-import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
-import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
 
@@ -83,9 +82,4 @@ public class EventController {
         }
     }
 
-    // get students signed up for events based on eventId and status
-    @PostMapping(path = "/registrations")
-    public ResponseEntity<List<Student>> getStudentByEventIdandEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
-        return ResponseEntity.ok(eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO));
-    }
 }

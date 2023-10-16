@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import G3.jio.DTO.AllocationDTO;
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
-import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.OrganiserService;
@@ -49,7 +47,7 @@ public class OrganiserController {
     @PostMapping(path = "/create-event")
     public Event postEvent(@Valid @RequestBody EventDTO eventDTO) {
 
-        // System.out.println(eventDTO.getOrganiserId());
+        System.out.println(eventDTO.getOrganiserId());
         return organiserService.postEvent(eventDTO);
     }
 
@@ -62,11 +60,5 @@ public class OrganiserController {
     @PostMapping(path = "/email/events")
     public ResponseEntity<List<Event>> getEventsByOrganiserEmail(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(organiserService.getEventsByOrganiserEmail(queryDTO.getEmail()));
-    }
-
-    // allocate slots in event
-    @PostMapping(path = "/events/allocation")
-    public ResponseEntity<List<EventRegistration>> allocateSlotsForEvent(@RequestBody AllocationDTO allocationDTO) {
-        return ResponseEntity.ok(organiserService.allocateSlotsForEvent(allocationDTO));
     }
 }

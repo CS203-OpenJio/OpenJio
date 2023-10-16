@@ -11,13 +11,8 @@ Authorization: Basic admin@admin.com admin
 ###
 
 // get events by Organiser email
-POST http://localhost:8080/api/v1/organisers/email/events
-Content-Type: application/json
+GET http://localhost:8080/api/v1/organisers/email/bul.ge@gmail.com/events
 Authorization: Basic admin@admin.com admin
-
-{
-    "email": "org@org.com"
-}
 
 ###
 
@@ -37,10 +32,12 @@ Content-Type: application/json
 Authorization: Basic org@org.com organiser
 
 {
-"capacity": 2,
+"algo": "2",
+"capacity": "213",
 "description": "sda a a a a  aa a a a a a a a ",
 "endDateTime": "2023-10-19T16:00:00.000Z",
 "image": "Hello lol",
+"isVisible": true,
 "minScore": 72,
 "name": "asdasda",
 "startDateTime": "2023-10-13T10:03:05.753Z",
@@ -51,15 +48,3 @@ Authorization: Basic org@org.com organiser
 DELETE  http://localhost:8080/api/v1/organisers/id/1
 Content-Type: application/json
 Authorization: Basic admin@admin.com admin
-
-###
-
-// allocate slots
-POST http://localhost:8080/api/v1/organisers/events/allocation
-Content-Type: application/json
-Authorization: Basic org@org.com organiser
-
-{
-    "eventId":5,
-    "algo":"FCFS"
-}
