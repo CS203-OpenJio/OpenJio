@@ -2,10 +2,8 @@ package G3.jio.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +29,7 @@ import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
+
 
 class AuthServiceTest {
 
