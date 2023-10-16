@@ -66,6 +66,18 @@ Authorization: Basic bul.ge@gmail.com 13473433
 
 ###
 
+// post a new registration (only need eventId, and signed in as student)
+POST http://localhost:8080/api/v1/register-event
+Content-Type: application/json
+Authorization: Basic admin@admin.com admin
+
+{
+    "studentId":6,
+    "eventId":5
+}
+
+###
+
 // delete by id
 DELETE http://localhost:8080/api/v1/register-event/id/1
 Authorization: Basic admin@admin.com admin

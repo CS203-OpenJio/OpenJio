@@ -2,6 +2,7 @@ package G3.jio.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +10,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
+import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
+import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -91,5 +95,21 @@ public class EventService {
         event.setEndDateTime(endDateTime);
 
         return event;
+    }
+
+    public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO queryDTO) {
+
+        Event event = getEvent(queryDTO.getEventId());
+        List<EventRegistration> registrations = event.getRegistrations();
+        List<Student> students = new ArrayList<>();
+
+        for (EventRegistration registration : registrations) {
+
+            if (registration.getStatus() == queryDTO.getStatus() || queryDTO.getStatus() == null) {
+                students.add(registration.getStudent());
+            }
+        }
+
+        return students;
     }
 }
