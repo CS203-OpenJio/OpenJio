@@ -21,9 +21,32 @@ const ForgetPassword: FunctionComponent = () => {
 
   const handleSendResetLink = async () => {
     if (isEmailsMatch) {
-      //use backend stuff hereeeee
+        const response = await fetch('http://localhost:8080/api/v1/forgot-password/token', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic ' + btoa('admin@admin.com:admin'), // Assuming the provided Basic auth credentials
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+            }),
+        });
+
+        const data = await response.json();
+
+        // Handle the response data here. For instance, notify the user if the token was sent successfully or show an error.
+        if (response.ok) {
+            // Token sent successfully
+            alert('Token sent! Please check your email.');
+        } else {
+            // Handle any errors here
+            alert(data.message || 'Error sending token.');
+        }
+    } else {
+        alert('Emails do not match.');
     }
-  };
+};
+
   return (
     <div>
       <NavBar />
