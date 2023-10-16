@@ -51,6 +51,26 @@ const ForgetPassword: FunctionComponent = () => {
     <div>
       <NavBar />
 
+      <button
+    className="cursor-pointer absolute top-[650px] left-[150px] rounded-xl bg-green-500 text-white box-border w-[438px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[2px] border-solid border-black transition-transform duration-100 ease-in-out z-50"
+    onClick={() => navigate('/forgetpassword3')}
+    style={{ transform: "scale(1)" }}
+    onMouseDown={() =>
+        buttonRef.current &&
+        (buttonRef.current.style.transform = "scale(0.95)")
+    }
+    onMouseUp={() =>
+        buttonRef.current &&
+        (buttonRef.current.style.transform = "scale(1)")
+    }
+    onMouseLeave={() =>
+        buttonRef.current &&
+        (buttonRef.current.style.transform = "scale(1)")
+    }
+>
+    Go to Reset Password Page
+</button>
+
       <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-left text-lg text-black font-ibm-plex-mono">
         <div className="absolute top-[45px] left-[446px] w-[693px] h-[892px] overflow-hidden text-center text-base">
           <div className="absolute top-[0px] left-[0px] w-[693px] h-[758px] overflow-hidden">
