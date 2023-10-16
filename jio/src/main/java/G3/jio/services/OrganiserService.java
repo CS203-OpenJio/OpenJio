@@ -2,6 +2,7 @@ package G3.jio.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,12 +11,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import G3.jio.DTO.AllocationDTO;
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.OrganiserDTO;
 import G3.jio.entities.Event;
+import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
+import G3.jio.entities.Status;
+import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
+import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +32,7 @@ public class OrganiserService {
     
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
+    private final EventRegistrationRepository eventRegistrationRepository;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -118,5 +125,51 @@ public class OrganiserService {
 
         Organiser organiser = getOrganiserByEmail(email);
         return eventRepository.findAllByOrganiserId(organiser.getId());
+    }
+
+    // redirects based on algo type
+    public List<EventRegistration> allocateSlotsForEvent(AllocationDTO allocationDTO) {
+
+        Long eventId = allocationDTO.getEventId();
+        String algo = allocationDTO.getAlgo();
+
+        if (algo.equals("FCFS")) {
+            return allocateSlotsForEventFCFS(eventId);
+        }
+
+        return null;
+    }
+
+    // FCFS
+    private List<EventRegistration> allocateSlotsForEventFCFS(Long eventId) {
+
+        Optional<Event> o = eventRepository.findById(eventId);
+        if (!o.isPresent()) {
+            throw new EventNotFoundException();
+        }
+        Event event = o.get();
+
+        event.setAlgo("FCFS");
+        List<EventRegistration> result = new ArrayList<>();
+        List<EventRegistration> applications = event.getRegistrations();
+        applications.sort((o1, o2) -> o1.getTime().compareTo(o2.getTime()));
+
+
+        for (int i = 0; i < applications.size(); i++) {
+
+            EventRegistration registration = applications.get(i);
+
+            if (i < event.getCapacity()) {
+                registration.setStatus(Status.ACCEPTED);
+                result.add(registration);
+
+            } else {
+                registration.setStatus(Status.REJECTED);
+            }
+
+            eventRegistrationRepository.saveAndFlush(registration);
+        }
+
+        return result;
     }
 }

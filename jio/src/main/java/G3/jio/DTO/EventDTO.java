@@ -23,9 +23,11 @@ public class EventDTO {
     private String venue;
     private String image;
     private int capacity;
-    private int algo;
+    private String algo;
     private String description;
-    private boolean isVisible;
+
+    @Builder.Default
+    private boolean isVisible = true;
     private Long organiserId;
     private int minScore;
 }
