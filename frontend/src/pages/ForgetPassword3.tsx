@@ -9,29 +9,38 @@ const ResetPassword: FunctionComponent = () => {
   const [resetToken, setResetToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const handleResetPassword = async () => {
     if (newPassword === confirmPassword) {
-      const response = await fetch('http://localhost:8080/api/v1/forgot-password/', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Basic ' + btoa('admin@admin.com:admin'),
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          resetPasswordToken: resetToken,
-          newPassword: newPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Password reset successfully!');
-        navigate('/login');
-      } else {
-        alert(data.message || 'Error resetting password.');
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/forgot-password/', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa('admin@admin.com:admin'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            resetPasswordToken: resetToken,
+            newPassword: newPassword,
+          }),
+        });
+  
+        let data;
+        if (response.headers.get('content-type')?.includes('application/json')) {
+          data = await response.json();
+        } else {
+          data = await response.text();
+        }
+  
+        if (response.ok) {
+          alert('Password reset successfully!');
+          navigate('/login');
+        } else {
+          alert(data.message || data || 'Error resetting password.');
+        }
+      } catch (error) {
+        console.error("Error fetching or parsing data:", error);
+        alert("An error occurred while resetting the password. Please try again.");
       }
     } else {
       alert('Passwords do not match.');
