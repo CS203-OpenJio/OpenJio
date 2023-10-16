@@ -14,6 +14,8 @@ import {
   AlertDialogTrigger,
 } from "src/components/ui/alert-dialog";
 import { handleSignUp } from "../utils/AuthController";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 
 const SignUpPage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -39,56 +41,73 @@ const SignUpPage: FunctionComponent = () => {
   const [matriculationidError, setMatriculationidError] = useState("");
   const [open, setOpen] = useState(false);
 
+  const EMAIL_TOAST_ID = "email_validation_toast";
+  const PHONE_TOAST_ID = "phone_validation_toast";
+  const MATRICULATION_TOAST_ID = "matriculation_validation_toast";
+  const NAME_TOAST_ID = "name_validation_toast";
+  const PASSWORD_TOAST_ID = "password_validation_toast";
+
   const validatePassword = (pwd: string) => {
     if (pwd.length < 8 || pwd.length > 20) {
-        setPasswordError("Password entered must be between 8 and 20 characters");
+        if (!toast.isActive(PASSWORD_TOAST_ID)) {
+            toast.error("Password must be between 8 and 20 characters long.", { toastId: PASSWORD_TOAST_ID });
+        }
         return false;
     } else {
-        setPasswordError("");
-        return true;
+        toast.dismiss(PASSWORD_TOAST_ID);
     }
+    return true;
 }
 
-const validatePhoneNumber = (number: string) => {
+const validatePhoneNumber = (phoneNumber: string) => {
   const pattern = /^\d{8}$/;
-  if (!pattern.test(number)) {
-      setPhonenumberError("Phone number must be 8 integers long.");
+  if (!pattern.test(phoneNumber)) {
+      if (!toast.isActive(PHONE_TOAST_ID)) {
+          toast.error("Phone number must be 8 integers only.", { toastId: PHONE_TOAST_ID });
+      }
       return false;
   } else {
-      setPhonenumberError("");
-      return true;
+      toast.dismiss(PHONE_TOAST_ID);
   }
+  return true;
 }
 
-const validateMatriculationId = (id: string) => {
+const validateMatriculationId = (matriculationId: string) => {
   const pattern = /^\d{8}$/;
-  if (!pattern.test(id)) {
-    setMatriculationidError("Matriculation ID must be 8 integers long.");
+  if (!pattern.test(matriculationId)) {
+      if (!toast.isActive(MATRICULATION_TOAST_ID)) {
+          toast.error("Matriculation ID must be 8 integers only.", { toastId: MATRICULATION_TOAST_ID });
+      }
       return false;
   } else {
-    setMatriculationidError("");
-      return true;
+      toast.dismiss(MATRICULATION_TOAST_ID);
   }
+  return true;
 }
 
 const validateName = (name: string) => {
   if (name.length < 5 || name.length > 15) {
-      setFullnameError("Name must be between 5 and 15 characters long.");
+      if (!toast.isActive(NAME_TOAST_ID)) {
+          toast.error("Name must be between 5 and 15 characters long.", { toastId: NAME_TOAST_ID });
+      }
       return false;
   } else {
-      setFullnameError("");
-      return true;
+      toast.dismiss(NAME_TOAST_ID);
   }
+  return true;
 }
-const validateEmail = (email: string) => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address.");
-      return false;
-  } else {
-      setEmailError("");
-      return true;
-  }
+
+  const validateEmail = (email: string) => {
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!pattern.test(email)) {
+        if (!toast.isActive(EMAIL_TOAST_ID)) {
+            toast.error("Invalid email format.", { toastId: EMAIL_TOAST_ID });
+        }
+        return false;
+    } else {
+        toast.dismiss(EMAIL_TOAST_ID);
+    }
+    return true;
 }
 
   const handleSubmit = async () => {
@@ -162,7 +181,7 @@ const validateEmail = (email: string) => {
                       }}
                       />
                     </div>
-                    {fullnameError && <div className="text-black-500 text-sm">{fullnameError}</div>}
+                   
                   </div>
                   <div className="flex flex-col w-full px-3 space-y-4">
                     <div className="text-left font-medium leading-[20px]">
@@ -180,7 +199,7 @@ const validateEmail = (email: string) => {
                       }}
                       />
                     </div>
-                    {emailError && <div className="text-black-500 text-sm">{emailError}</div>}
+                   
                   </div>
                   {/* Password */}
                   <div className="flex flex-col w-full px-3 space-y-4">
@@ -199,7 +218,7 @@ const validateEmail = (email: string) => {
                       }}
                       />
                     </div>
-                    {passwordError && <div className="text-black-500 text-sm">{passwordError}</div>}
+                    
                   </div>
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Phone Number */}
@@ -218,7 +237,7 @@ const validateEmail = (email: string) => {
                       }}
                       />
                     </div>
-                    {phonenumberError && <div className="text-black-500 text-sm">{phonenumberError}</div>}
+                 
                   </div>{" "}
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Matriculation Id */}
@@ -238,7 +257,7 @@ const validateEmail = (email: string) => {
                       }}
                       />
                     </div>
-                    {matriculationidError && <div className="text-black-500 text-sm">{matriculationidError}</div>}
+                   
                   </div>
                 </div>
                 <div className="font-medium w-full text-center mb-2">

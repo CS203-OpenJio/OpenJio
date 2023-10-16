@@ -12,6 +12,8 @@ import ForgetPassword2 from "src/pages/ForgetPassword2";
 import ForgetPassword3 from "src/pages/ForgetPassword3";
 import Profilepage from "src/pages/ProfilePage";
 import LogoutPage from "src/pages/LogoutPage";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 // import { Route } from "react-router-dom";
 
@@ -75,7 +77,12 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
-};
+  return (
+  <>
+  <ToastContainer />
+  <RouterProvider router={router} />;
+  </>
+  );
+}
 
 export default App;
