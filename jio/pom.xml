@@ -113,9 +113,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-</build>
-
+	</build>
 
 </project>
 
