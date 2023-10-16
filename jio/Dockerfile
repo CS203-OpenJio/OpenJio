@@ -1,14 +1,20 @@
 # Use an official OpenJDK runtime as a parent image
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM maven:3.8.3-openjdk-17 AS maven
 
 # Set the working directory in the container
 WORKDIR /openjio/jio
 
-# Copy the packaged JAR file into the container at /app
-COPY target/myapp.jar /app/app.jar
+# Copy the folder into the container
+COPY . /openjio/jio
 
-# Expose the port your app will run on (default Spring Boot port is 8080)
-EXPOSE 8080
+RUN mvn clean package -DskipTests
 
-# Define the command to run your application
-CMD ["java", "-jar", "app.jar"]
+# Using java 17
+FROM openjdk:17-oracle
+
+ARG JAR_FILE=/openjio/jio/target/*.jar
+
+# Copying JAR file
+COPY --from=maven ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar","dev.env"]

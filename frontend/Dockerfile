@@ -1,11 +1,8 @@
 # Using an official Node.js runtime as a parent image
-FROM node:14-alpine
+FROM node
 
 # Setting the working directory to /openjio/frontend
 WORKDIR /openjio/frontend
-
-# Copy the current directory contents into the container at /app
-COPY . /openjio/frontend
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -17,14 +14,16 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
+EXPOSE 3006
+
 # Build the React app for production
-RUN npm start
+CMD npm start
 
-# Serve the React app using a lightweight HTTP server
-RUN npm install -g serve
+# # Serve the React app using a lightweight HTTP server
+# RUN npm install -g serve
 
-# Expose the port that the app will run on
-EXPOSE 80
+# # Expose the port that the app will run on
+# EXPOSE 80
 
-# Define the command to run the application
-CMD ["serve", "-s", "build", "-l", "80"]
+# # Define the command to run the application
+# CMD ["serve", "-s", "build", "-l", "80"]
