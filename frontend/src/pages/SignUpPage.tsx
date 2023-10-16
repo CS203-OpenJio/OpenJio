@@ -32,12 +32,75 @@ const SignUpPage: FunctionComponent = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
 
+  const [fullnameError, setFullnameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [phonenumberError, setPhonenumberError] = useState("");
+  const [matriculationidError, setMatriculationidError] = useState("");
   const [open, setOpen] = useState(false);
+
+  const validatePassword = (pwd: string) => {
+    if (pwd.length < 8 || pwd.length > 20) {
+        setPasswordError("Password entered must be between 8 and 20 characters");
+        return false;
+    } else {
+        setPasswordError("");
+        return true;
+    }
+}
+
+const validatePhoneNumber = (number: string) => {
+  const pattern = /^\d{8}$/;
+  if (!pattern.test(number)) {
+      setPhonenumberError("Phone number must be 8 integers long.");
+      return false;
+  } else {
+      setPhonenumberError("");
+      return true;
+  }
+}
+
+const validateMatriculationId = (id: string) => {
+  const pattern = /^\d{8}$/;
+  if (!pattern.test(id)) {
+    setMatriculationidError("Matriculation ID must be 8 integers long.");
+      return false;
+  } else {
+    setMatriculationidError("");
+      return true;
+  }
+}
+
+const validateName = (name: string) => {
+  if (name.length < 5 || name.length > 15) {
+      setFullnameError("Name must be between 5 and 15 characters long.");
+      return false;
+  } else {
+      setFullnameError("");
+      return true;
+  }
+}
+const validateEmail = (email: string) => {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      return false;
+  } else {
+      setEmailError("");
+      return true;
+  }
+}
 
   const handleSubmit = async () => {
     //sign up logic w backend api
     // Use the selectedYear state here along with other state variables
     // to send the data to the backend or perform other sign-up logic.
+
+    if (!validatePassword(password) || !validateEmail(email) || !validateName(fullname) || !validatePhoneNumber(phonenumber) || !validateMatriculationId(matriculationid)) {
+      return; // Don't proceed if validation fails
+  }
+
+
     try {
       console.log(phonenumber, matriculationid);
 
@@ -93,9 +156,13 @@ const SignUpPage: FunctionComponent = () => {
                         className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                         type="text"
                         value={fullname}
-                        onChange={(e) => setFullname(e.target.value)}
+                        onChange={(e) => {
+                          setFullname(e.target.value);
+                          validateName(e.target.value);
+                      }}
                       />
                     </div>
+                    {fullnameError && <div className="text-black-500 text-sm">{fullnameError}</div>}
                   </div>
                   <div className="flex flex-col w-full px-3 space-y-4">
                     <div className="text-left font-medium leading-[20px]">
@@ -107,9 +174,13 @@ const SignUpPage: FunctionComponent = () => {
                         className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                         type="text"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          validateEmail(e.target.value);
+                      }}
                       />
                     </div>
+                    {emailError && <div className="text-black-500 text-sm">{emailError}</div>}
                   </div>
                   {/* Password */}
                   <div className="flex flex-col w-full px-3 space-y-4">
@@ -122,9 +193,13 @@ const SignUpPage: FunctionComponent = () => {
                         className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                         type="text"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          validatePassword(e.target.value);
+                      }}
                       />
                     </div>
+                    {passwordError && <div className="text-black-500 text-sm">{passwordError}</div>}
                   </div>
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Phone Number */}
@@ -137,9 +212,13 @@ const SignUpPage: FunctionComponent = () => {
                         placeholder="Enter your phone number"
                         className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                         type="text"
-                        onChange={(e) => setPhonenumber(e.target.value)}
+                        onChange={(e) => {
+                          setPhonenumber(e.target.value);
+                          validatePhoneNumber(e.target.value);
+                      }}
                       />
                     </div>
+                    {phonenumberError && <div className="text-black-500 text-sm">{phonenumberError}</div>}
                   </div>{" "}
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Matriculation Id */}
@@ -153,9 +232,13 @@ const SignUpPage: FunctionComponent = () => {
                         className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
                         type="text"
                         value={matriculationid}
-                        onChange={(e) => setMatriculationid(e.target.value)}
+                        onChange={(e) => {
+                          setMatriculationid(e.target.value);
+                          validateMatriculationId(e.target.value);
+                      }}
                       />
                     </div>
+                    {matriculationidError && <div className="text-black-500 text-sm">{matriculationidError}</div>}
                   </div>
                 </div>
                 <div className="font-medium w-full text-center mb-2">
