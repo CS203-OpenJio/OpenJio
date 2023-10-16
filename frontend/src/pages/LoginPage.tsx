@@ -69,7 +69,7 @@ const LoginPage: FunctionComponent = () => {
   }, [navigate]);
 
   const onButtonClick = useCallback(() => {
-    navigate("/forgetpassword2");
+    navigate("/forgetpassword1");
   }, [navigate]);
 
   return (
@@ -155,7 +155,7 @@ const LoginPage: FunctionComponent = () => {
 
               <Link
                 className="cursor-pointer [text-decoration:none] rounded flex flex-row py-[3px] pr-1 pl-2 items-center justify-start gap-[2px] text-3xs text-black font-ibm-plex-mono border-[1px] border-solid border-black"
-                to="/forgetpassword2"
+                to="/forgetpassword1"
                 onClick={onButtonClick}
               >
                 Forgot Password?
