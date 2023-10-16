@@ -118,14 +118,21 @@ function NavBarTest2() {
         >
           Schedule
         </div>
-        <div className="hover:bg-black hover:text-white">
+         <div className="hover:bg-black hover:text-white">
           <div
-            className=" flex justify-center"
-            onMouseOver={OpenedDropDown2}
-            onMouseOut={ClosedDropDown2}
+            // className=" flex justify-center"
+            // onMouseOver={OpenedDropDown2}
+            // onMouseOut={ClosedDropDown2}
+           
           >
-            Profile
-          </div>
+            {/* Profile */}
+          </div> 
+          <div
+          onClick={() => handleClick1("/profilepage")}
+          className="hover:bg-black hover:text-white"
+        >
+          Profile
+        </div>
           {hasHovered2 && (
             <div className="absolute h-32 w-[200px]">
               <div className="absolute translate-y-[27%] translate-x-[-29%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white text-black">
