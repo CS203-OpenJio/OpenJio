@@ -50,16 +50,16 @@ class StudentServiceTest {
         student3.setEmail("student3@test.com");
         Student student4 = new Student();
         student4.setEmail("student4@test.com");
-        List<Student> studentStudentList = List.of(student1, student2, student3, student4);
+        List<Student> studentList = List.of(student1, student2, student3, student4);
 
-        when(studentRepository.findAll()).thenReturn(studentStudentList);
+        when(studentRepository.findAll()).thenReturn(studentList);
 
         // act 
         List<Student> responseList = studentService.findAllStudents();
         
         //assert
         verify(studentRepository, times(1)).findAll();
-        assertEquals(studentStudentList, responseList);
+        assertEquals(studentList, responseList);
         
     }
 
