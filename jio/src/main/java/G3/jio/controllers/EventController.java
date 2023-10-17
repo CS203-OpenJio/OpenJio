@@ -47,12 +47,7 @@ public class EventController {
 
     @GetMapping(path = "/id/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-        Event event = eventService.getEvent(id);
-
-        // Need to handle "Event not found" error using proper HTTP status code
-        // In this case it should be HTTP 404
-        if (event == null)
-            throw new EventNotFoundException(id);
+   
         return ResponseEntity.ok(eventService.getEvent(id));
     }
 

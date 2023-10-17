@@ -96,10 +96,12 @@ public class Student implements UserDetails {
         this.registrations.add(eventRegistration);
     }
 
-    @JsonView
-    public int getSmuCreditScore() {
+    // smu credit score
+    private int smuCreditScore = 100;
+
+    public void updateSmuCreditScore() {
         if (registrations == null || registrations.isEmpty()) {
-            return 100;
+            setSmuCreditScore(100);
         }
         
         int accepted = 1;
@@ -122,9 +124,9 @@ public class Student implements UserDetails {
         double result = (double) present / accepted * 100;
         
         if (result > 100) {
-            return 100;
+            setSmuCreditScore(100);
         } else {
-            return (int) result;
+            setSmuCreditScore((int) result);
         }
     }
 

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.QueryDTO;
+import G3.jio.DTO.StudentDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
@@ -54,13 +55,13 @@ public class StudentService {
         return studentRepository.findAllByName(name);
     }
 
-    // save a student
-    public Student addStudent(Student newStudent) {
-        return studentRepository.save(newStudent);
-    }
+    // // save a student
+    // public Student addStudent(Student newStudent) {
+    //     return studentRepository.save(newStudent);
+    // }
 
     // update student
-    public Student updateStudent(Long id, Student newStudentInfo) {
+    public Student updateStudent(Long id, StudentDTO studentDTO) {
         Optional<Student> o = studentRepository.findById(id);
         if (!o.isPresent()) {
             throw new UserNotFoundException();
@@ -69,7 +70,7 @@ public class StudentService {
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
-        mapper.map(newStudentInfo, student);
+        mapper.map(studentDTO, student);
         studentRepository.saveAndFlush(student);
 
         return student;

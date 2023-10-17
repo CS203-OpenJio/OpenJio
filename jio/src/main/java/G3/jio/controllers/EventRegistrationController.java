@@ -41,7 +41,6 @@ public class EventRegistrationController {
     // get specific event registration using studentId and eventid
     @GetMapping(path = "/event/{eventId}/student/{studentId}")
     public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(@PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
-
         return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
     }
 

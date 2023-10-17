@@ -13,6 +13,11 @@ import lombok.NoArgsConstructor;
 public class EventDTO {
 
     private String name;
+    private Long organiserId;
+    private String venue;
+    private String image;
+    private String algo;
+    private String description;
 
     @NotBlank(message = "startDate cannot be blank")
     private String startDateTime;
@@ -20,15 +25,10 @@ public class EventDTO {
     @NotBlank(message = "endDate cannot be blank")
     private String endDateTime;
 
-    private String venue;
-    private String image;
-    private int capacity;
-    private String algo;
-    private String description;
-
     @Builder.Default
     private boolean isVisible = true;
     
-    private Long organiserId;
-    private int minScore;
+    // important to be Integer
+    private Integer capacity;
+    private Integer minScore;
 }
