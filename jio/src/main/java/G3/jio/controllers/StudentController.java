@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import G3.jio.DTO.QueryDTO;
-import G3.jio.entities.AuthenticationResponse;
 import G3.jio.entities.Event;
-import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.StudentService;
@@ -38,13 +35,13 @@ public class StudentController {
 
     // get student given their id
     @GetMapping(path = "/id/{id}")
-    public Student getStudentById(@PathVariable("id") Long id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable("id") Long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
             throw new UserNotFoundException(" " + id);
         }
 
-        return student;
+        return ResponseEntity.ok(student);
     }
 
     // get student given their email
@@ -63,34 +60,34 @@ public class StudentController {
 
     // get all students
     @GetMapping
-    public List<Student> getAllStudents() {
-        return studentService.findAllStudents();
+    public ResponseEntity<List<Student>> getAllStudents() {
+        return ResponseEntity.ok(studentService.findAllStudents());
     }
 
     // get all students with name
     @GetMapping(path = "/name/{name}")
-    public List<Student> getStudentsByName(@PathVariable String name) {
+    public ResponseEntity<List<Student>> getStudentsByName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
-        return studentService.getStudentsByName(name);
+        return ResponseEntity.ok(studentService.getStudentsByName(name));
     }
 
     // add a student
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Student addStudent(@Valid @RequestBody Student student) {
+    public ResponseEntity<Student> addStudent(@Valid @RequestBody Student student) {
         student.setPassword(encoder.encode(student.getPassword()));
-        return studentService.addStudent(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(student));
     }
 
     // delete student
     @DeleteMapping(path = "/id/{id}")
-    public void deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student deleted");
     }
 
     // update student with the id
     @PutMapping(path = "/id/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        return studentService.updateStudent(id, student);
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        return ResponseEntity.ok(studentService.updateStudent(id, student));
     }
 }

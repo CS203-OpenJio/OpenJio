@@ -2,6 +2,7 @@ package G3.jio.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,31 +32,32 @@ public class OrganiserController {
 
     // get all organisers
     @GetMapping
-    public List<Organiser> getAllOrganisers() {
-        return organiserService.getAllOrganisers();
+    public ResponseEntity<List<Organiser>> getAllOrganisers() {
+        return ResponseEntity.ok(organiserService.getAllOrganisers());
     }
 
     // get organiser given their email
     @PostMapping(path = "/email")
-    public Organiser getOrganiserByEmail(@RequestBody QueryDTO queryDTO) {
+    public ResponseEntity<Organiser> getOrganiserByEmail(@RequestBody QueryDTO queryDTO) {
         Organiser organiser = organiserService.getOrganiserByEmail(queryDTO.getEmail());
         if (organiser == null) {
             throw new UserNotFoundException(" " + queryDTO.getEmail());
         }
 
-        return organiser;
+        return ResponseEntity.ok(organiser);
     }
 
     @PostMapping(path = "/create-event")
-    public Event postEvent(@Valid @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Event> postEvent(@Valid @RequestBody EventDTO eventDTO) {
 
         // System.out.println(eventDTO.getOrganiserId());
-        return organiserService.postEvent(eventDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(organiserService.postEvent(eventDTO));
     }
 
     @DeleteMapping(path = "/id/{id}")
-    public void deleteOrganiserById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteOrganiserById(@PathVariable("id") Long id) {
         organiserService.deleteOrganiser(id);
+        return ResponseEntity.ok("Organiser deleted");
     }
 
     // view events based on organiser email

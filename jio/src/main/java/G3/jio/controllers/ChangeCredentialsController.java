@@ -1,6 +1,5 @@
 package G3.jio.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,19 +11,15 @@ import G3.jio.DTO.LoginDTO;
 import G3.jio.services.AuthService;
 import G3.jio.services.ChangeCredentialService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "api/v1/edit-profile")
+@RequiredArgsConstructor
 public class ChangeCredentialsController {
-    private ChangeCredentialService changeCredentialService;
-    private AuthService authService;
-
-    @Autowired
-    public ChangeCredentialsController(ChangeCredentialService changeCredentialService,
-            AuthService authService) {
-        this.changeCredentialService = changeCredentialService;
-        this.authService = authService;
-    }
+    
+    final private ChangeCredentialService changeCredentialService;
+    final private AuthService authService;
 
     // @ApiOperation(value = "Updates password of a Customer or a Merchant", notes =
     // "New username must not already be used")

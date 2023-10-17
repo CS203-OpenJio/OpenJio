@@ -2,6 +2,8 @@ package G3.jio.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,52 +17,52 @@ import org.springframework.web.bind.annotation.RestController;
 import G3.jio.DTO.EventRegistrationDTO;
 import G3.jio.entities.EventRegistration;
 import G3.jio.services.EventRegistrationService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @Controller
 @RequestMapping(path = "api/v1/register-event")
+@RequiredArgsConstructor
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
 
-    public EventRegistrationController(EventRegistrationService eventRegistrationService) {
-        this.eventRegistrationService = eventRegistrationService;
-    }
-
     // get by student or eventid
     @GetMapping(path = "/student/{studentId}")
-    public List<EventRegistration> getEventRegistrationsByUserId(@PathVariable long studentId) {
-        return eventRegistrationService.getEventRegistrationsByStudentId(studentId);
+    public ResponseEntity<List<EventRegistration>> getEventRegistrationsByUserId(@PathVariable long studentId) {
+        return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByStudentId(studentId));
     }
 
     @GetMapping(path = "/event/{eventId}")
-    public List<EventRegistration> getEventRegistrationsByEventId(@PathVariable long eventId) {
-        return eventRegistrationService.getEventRegistrationsByEventId(eventId);
+    public ResponseEntity<List<EventRegistration>> getEventRegistrationsByEventId(@PathVariable long eventId) {
+        return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventId(eventId));
     }
 
     // get specific event registration using studentId and eventid
     @GetMapping(path = "/event/{eventId}/student/{studentId}")
-    public EventRegistration getEventRegistrationsByEventIdAndStudentId(@PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
+    public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(@PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
 
-        return eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId);
+        return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
     }
 
     // add
     @PostMapping(path = "")
-    public EventRegistration addEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+    public ResponseEntity<EventRegistration> addEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
 
-        return eventRegistrationService.addEventRegistration(eventRegistrationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
     }
 
     // delete
     @DeleteMapping(path = "/id/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
         eventRegistrationService.deleteEventRegistration(id);
+
+        return ResponseEntity.ok("Registration deleted");
     }
 
     // update student registration details
     @PutMapping(path = "/update")
-    public EventRegistration updateEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
-        return eventRegistrationService.updateEventRegistration(eventRegistrationDTO);
+    public ResponseEntity<EventRegistration> updateEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+        return ResponseEntity.ok(eventRegistrationService.updateEventRegistration(eventRegistrationDTO));
     }
 }

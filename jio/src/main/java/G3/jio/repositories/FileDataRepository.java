@@ -1,11 +1,10 @@
 package G3.jio.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import G3.jio.entities.FileData;
-import G3.jio.entities.ImageData;
-
-import java.util.Optional;
 
 
 public interface FileDataRepository extends JpaRepository<FileData,Integer>{

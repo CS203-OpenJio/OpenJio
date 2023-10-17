@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.modelmapper.internal.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,26 +15,16 @@ import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ResetPasswordService {
 
-    private StudentRepository studentRepository;
-
-    private OrganiserRepository organiserRepository;
-
-    private ChangeCredentialService changeCredentialService;
-
-    private MailService mailService;
-
-    @Autowired
-    public ResetPasswordService(StudentRepository studentRepository, OrganiserRepository organiserRepository,
-            ChangeCredentialService changeCredentialService, MailService mailService) {
-        this.studentRepository = studentRepository;
-        this.organiserRepository = organiserRepository;
-        this.changeCredentialService = changeCredentialService;
-        this.mailService = mailService;
-    }
+    final private StudentRepository studentRepository;
+    final private OrganiserRepository organiserRepository;
+    final private ChangeCredentialService changeCredentialService;
+    final private MailService mailService;
 
     public ResponseEntity<String> setResetPasswordTokenAndSendEmail(String email) {
         Student student = null;

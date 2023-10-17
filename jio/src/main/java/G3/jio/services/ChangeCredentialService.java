@@ -1,6 +1,5 @@
 package G3.jio.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,26 +7,18 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
-import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ChangeCredentialService {
 
-    StudentRepository studentRepository;
-    OrganiserRepository organiserRepository;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public ChangeCredentialService(StudentRepository studentRepository,
-            OrganiserRepository organiserRepository,
-            BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.studentRepository = studentRepository;
-        this.organiserRepository = organiserRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    final private StudentRepository studentRepository;
+    final private OrganiserRepository organiserRepository;
+    final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ResponseEntity<String> replacePassword(String email, String newPassword, Character userType) {
         if (userType == 'S') {

@@ -56,6 +56,7 @@ public class EventRegistrationService {
         }
 
         // check if exists
+        // to ensure only 1 sign up
         if (eventRegistrationRepository.existsByStudentIdAndEventId(student.getId(), eventId)) {
             throw new AlreadyExistsException("Event Registration");
         }

@@ -20,41 +20,40 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @Controller
 @RequestMapping(path = "api/v1/events")
+@RequiredArgsConstructor
 public class EventController {
-    private EventService eventService;
 
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
+    final private EventService eventService;
 
     @GetMapping
-    public List<Event> getAllEvents() {
-        return eventService.findAllEvent();
+    public ResponseEntity<List<Event>> getAllEvents() {
+        return ResponseEntity.ok(eventService.findAllEvent());
     }
 
     // get event by name using %20 in blankspaces
     @GetMapping(path = "/name/{name}")
-    public List<Event> getEventsbyName(@PathVariable String name) {
+    public ResponseEntity<List<Event>> getEventsbyName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
         List<Event> event = eventService.getEventByName(name);
         if (event == null)
             throw new EventNotFoundException(name);
-        return eventService.getEventByName(name);
+        return ResponseEntity.ok(eventService.getEventByName(name));
     }
 
     @GetMapping(path = "/id/{id}")
-    public Event getEvent(@PathVariable Long id) {
+    public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         Event event = eventService.getEvent(id);
 
         // Need to handle "Event not found" error using proper HTTP status code
         // In this case it should be HTTP 404
         if (event == null)
             throw new EventNotFoundException(id);
-        return eventService.getEvent(id);
+        return ResponseEntity.ok(eventService.getEvent(id));
     }
 
     // // Post event
@@ -66,21 +65,24 @@ public class EventController {
 
     // update event
     @PutMapping(path = "/id/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
         Event event = eventService.updateEvent(id, eventDTO);
         if (event == null)
             throw new EventNotFoundException(id);
-        return event;
+
+        return ResponseEntity.ok(event);
     }
 
     // delete event
     @DeleteMapping(path = "/id/{id}")
-    public void deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
         try {
             eventService.deleteEvent(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EventNotFoundException(id);
         }
+
+        return ResponseEntity.ok("Event deleted");
     }
 
     // get students signed up for events based on eventId and status
