@@ -3,8 +3,11 @@ package G3.jio.services;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -135,19 +138,68 @@ public class OrganiserService {
 
         if (algo.equals("FCFS")) {
             return allocateSlotsForEventFCFS(eventId);
+
+        } else if (algo.equals("Random")) {
+            return allocateSlotsForEventRandom(eventId);
         }
 
         return null;
     }
 
+    private List<EventRegistration> allocateSlotsForEventRandom(Long eventId) {
+
+        // get event
+        Event event = getEvent(eventId);
+
+        // get applications
+        event.setAlgo("Random");
+        List<EventRegistration> result = new ArrayList<>();
+        List<EventRegistration> applications = event.getRegistrations();
+
+        // initialise stuff
+        Set<Integer> randomInt = new HashSet<>();
+        Random rand = new Random();
+        int capacity = event.getCapacity();
+
+        // if applicants < capacity, accept all
+        if (applications.size() < capacity) {
+            for (EventRegistration er : applications) {
+                er.setStatus(Status.ACCEPTED);
+                result.add(er);
+                eventRegistrationRepository.saveAndFlush(er);
+            }
+
+            return result;
+        }
+
+        // get random number of random indexes
+        while (randomInt.size() != capacity) {
+            randomInt.add(rand.nextInt(applications.size()));
+        }
+
+        // set statuses to accept the selected index and reject the rest
+        for (int i = 0; i < applications.size(); i++) {
+
+            EventRegistration registration = applications.get(i);
+
+            if (randomInt.contains(i)) {
+                registration.setStatus(Status.ACCEPTED);
+                result.add(registration);
+
+            } else {
+                registration.setStatus(Status.REJECTED);
+            }
+
+            eventRegistrationRepository.saveAndFlush(registration);
+        }
+
+        return result;
+    }
+
     // FCFS
     private List<EventRegistration> allocateSlotsForEventFCFS(Long eventId) {
 
-        Optional<Event> o = eventRepository.findById(eventId);
-        if (!o.isPresent()) {
-            throw new EventNotFoundException();
-        }
-        Event event = o.get();
+        Event event = getEvent(eventId);
 
         event.setAlgo("FCFS");
         List<EventRegistration> result = new ArrayList<>();
@@ -171,5 +223,14 @@ public class OrganiserService {
         }
 
         return result;
+    }
+
+    public Event getEvent(Long eventId) {
+        Optional<Event> o = eventRepository.findById(eventId);
+        if (!o.isPresent()) {
+            throw new EventNotFoundException();
+        }
+        Event event = o.get();
+        return event;
     }
 }

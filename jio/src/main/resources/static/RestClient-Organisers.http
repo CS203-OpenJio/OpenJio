@@ -61,5 +61,5 @@ Authorization: Basic org@org.com organiser
 
 {
     "eventId":5,
-    "algo":"FCFS"
+    "algo":"Random"
 }
