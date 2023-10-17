@@ -32,7 +32,7 @@ public class EventService {
     public Event getEvent(Long eventId) {
         Optional<Event> o = eventRepository.findById(eventId);
         if (!o.isPresent()) {
-            throw new EventNotFoundException();
+            throw new EventNotFoundException("Event does not exist!");
         }
         Event event = o.get();
         return event;
@@ -102,8 +102,6 @@ public class EventService {
 
         eventRepository.deleteById(id);
     }
-
-    <<<<<<<HEAD
 
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();
