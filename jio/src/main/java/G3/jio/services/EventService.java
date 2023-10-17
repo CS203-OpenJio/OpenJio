@@ -1,7 +1,5 @@
 package G3.jio.services;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +30,12 @@ public class EventService {
 
     // get event by id
     public Event getEvent(Long eventId) {
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-        if (!optionalEvent.isPresent()) {
-            throw new EventNotFoundException("Event does not exist!");
-
+        Optional<Event> o = eventRepository.findById(eventId);
+        if (!o.isPresent()) {
+            throw new EventNotFoundException();
         }
-        return optionalEvent.get();
+        Event event = o.get();
+        return event;
     }
 
     // get by name
@@ -52,20 +49,36 @@ public class EventService {
         return events;
     }
 
-    // save a event
-    public Event addEvent(EventDTO eventDTO) {
-        Event event = eventMapToEntity(eventDTO);
-        return eventRepository.save(event);
-    }
+    // // save a event
+    // public Event addEvent(EventDTO eventDTO) {
+
+    // System.out.println(eventDTO.getName());
+    // Event event = eventMapToEntity(eventDTO);
+    // return eventRepository.save(event);
+    // }
+
+    // private Event eventMapToEntity(EventDTO eventDTO) {
+    // ModelMapper mapper = new ModelMapper();
+
+    // Event event = mapper.map(eventDTO, Event.class);
+
+    // // settle datetime
+    // DateTimeFormatter formatter =
+    // DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    // LocalDateTime startDateTime =
+    // LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
+    // LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(),
+    // formatter);
+    // event.setStartDateTime(startDateTime);
+    // event.setEndDateTime(endDateTime);
+
+    // return event;
+    // }
 
     // update event
-    // not sure what we need to update yet
     public Event updateEvent(Long id, EventDTO eventDTO) {
-        Optional<Event> o = eventRepository.findById(id);
-        if (!o.isPresent()) {
-            throw new EventNotFoundException("Event does not exist!");
-        }
-        Event event = o.get();
+
+        Event event = getEvent(id);
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
@@ -89,6 +102,8 @@ public class EventService {
 
         eventRepository.deleteById(id);
     }
+
+    <<<<<<<HEAD
 
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();

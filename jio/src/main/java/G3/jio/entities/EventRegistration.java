@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,13 +32,13 @@ public class EventRegistration {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "student_id")
     @JsonBackReference
     // @Exclude
     Student student;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "event_id")
     @JsonBackReference
     // @Exclude
@@ -63,5 +64,9 @@ public class EventRegistration {
     @JsonView
     public Long getEid() {
         return event.getId();
+    }
+
+    public int getStudentScore() {
+        return student.getSmuCreditScore();
     }
 }

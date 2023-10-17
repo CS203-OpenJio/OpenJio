@@ -44,9 +44,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
 
         // == create initial users
-        createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN);
+        createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN, 100);
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
-        createStudentIfNotFound("student", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student", "student@student.com", "student", Role.STUDENT, 50);
 
         // == create events
         createEventIfNotFound(".Hack Social Night", LocalDateTime.of(2023, 10, 1, 7, 0),
@@ -75,7 +75,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public Student createStudentIfNotFound(String name, String email, String password, Role role) {
+    public Student createStudentIfNotFound(String name, String email, String password, Role role, int smuCreditScore) {
 
         Student student = studentRepository.findByEmail(email).map(s -> {
             return s;
@@ -87,6 +87,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
             student.setRole(role);
+            student.setSmuCreditScore(smuCreditScore);
         }
 
         student = studentRepository.save(student);

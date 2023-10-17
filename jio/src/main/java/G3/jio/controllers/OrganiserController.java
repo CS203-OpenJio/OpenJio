@@ -47,6 +47,7 @@ public class OrganiserController {
         return ResponseEntity.ok(organiser);
     }
 
+    // post event
     @PostMapping(path = "/create-event")
     public ResponseEntity<Event> postEvent(@Valid @RequestBody EventDTO eventDTO) {
 
@@ -54,6 +55,7 @@ public class OrganiserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(organiserService.postEvent(eventDTO));
     }
 
+    // delete
     @DeleteMapping(path = "/id/{id}")
     public ResponseEntity<String> deleteOrganiserById(@PathVariable("id") Long id) {
         organiserService.deleteOrganiser(id);

@@ -72,7 +72,7 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com admin
 
 {
-    "studentId":1,
+    "studentId":2,
     "eventId":5
 }
 

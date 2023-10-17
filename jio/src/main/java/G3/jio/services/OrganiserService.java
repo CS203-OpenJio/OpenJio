@@ -2,12 +2,8 @@ package G3.jio.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,11 +16,9 @@ import G3.jio.DTO.OrganiserDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
-import G3.jio.entities.Status;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
-import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +29,7 @@ public class OrganiserService {
 
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
-    private final EventRegistrationRepository eventRegistrationRepository;
+    private final AlgoService algoService;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -134,95 +128,20 @@ public class OrganiserService {
     // redirects based on algo type
     public List<EventRegistration> allocateSlotsForEvent(AllocationDTO allocationDTO) {
 
-        Long eventId = allocationDTO.getEventId();
         String algo = allocationDTO.getAlgo();
+        Event event = getEvent(allocationDTO.getEventId());
 
         if (algo.equals("FCFS")) {
-            return allocateSlotsForEventFCFS(eventId);
+            return algoService.allocateSlotsForEventFCFS(event);
 
         } else if (algo.equals("Random")) {
-            return allocateSlotsForEventRandom(eventId);
+            return algoService.allocateSlotsForEventRandom(event);
+
+        } else if (algo.equals("Weighted Random")) {
+            return algoService.allocateSlotsForEventWeightedRandom(event);
         }
 
         return null;
-    }
-
-    private List<EventRegistration> allocateSlotsForEventRandom(Long eventId) {
-
-        // get event
-        Event event = getEvent(eventId);
-
-        // get applications
-        event.setAlgo("Random");
-        List<EventRegistration> result = new ArrayList<>();
-        List<EventRegistration> applications = event.getRegistrations();
-
-        // initialise stuff
-        Set<Integer> randomInt = new HashSet<>();
-        Random rand = new Random();
-        int capacity = event.getCapacity();
-
-        // if applicants < capacity, accept all
-        if (applications.size() < capacity) {
-            for (EventRegistration er : applications) {
-                er.setStatus(Status.ACCEPTED);
-                result.add(er);
-                eventRegistrationRepository.saveAndFlush(er);
-            }
-
-            return result;
-        }
-
-        // get random number of random indexes
-        while (randomInt.size() != capacity) {
-            randomInt.add(rand.nextInt(applications.size()));
-        }
-
-        // set statuses to accept the selected index and reject the rest
-        for (int i = 0; i < applications.size(); i++) {
-
-            EventRegistration registration = applications.get(i);
-
-            if (randomInt.contains(i)) {
-                registration.setStatus(Status.ACCEPTED);
-                result.add(registration);
-
-            } else {
-                registration.setStatus(Status.REJECTED);
-            }
-
-            eventRegistrationRepository.saveAndFlush(registration);
-        }
-
-        return result;
-    }
-
-    // FCFS
-    private List<EventRegistration> allocateSlotsForEventFCFS(Long eventId) {
-
-        Event event = getEvent(eventId);
-
-        event.setAlgo("FCFS");
-        List<EventRegistration> result = new ArrayList<>();
-        List<EventRegistration> applications = event.getRegistrations();
-        applications.sort((o1, o2) -> o1.getTime().compareTo(o2.getTime()));
-
-        for (int i = 0; i < applications.size(); i++) {
-
-            EventRegistration registration = applications.get(i);
-
-            if (i < event.getCapacity()) {
-                registration.setStatus(Status.ACCEPTED);
-                result.add(registration);
-
-            } else {
-                registration.setStatus(Status.REJECTED);
-            }
-
-            eventRegistrationRepository.saveAndFlush(registration);
-        }
-
-        return result;
     }
 
     public Event getEvent(Long eventId) {
