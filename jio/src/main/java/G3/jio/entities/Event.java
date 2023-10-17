@@ -41,6 +41,10 @@ public class Event {
     @Column(name = "startDateTime")
     private LocalDateTime startDateTime;
 
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
     @Column(name = "endDateTime")
     private LocalDateTime endDateTime;
 

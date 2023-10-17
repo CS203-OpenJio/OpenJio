@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class OrganiserService {
-    
+
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
     private final EventRegistrationRepository eventRegistrationRepository;
@@ -53,7 +53,7 @@ public class OrganiserService {
     public Organiser updateOrganiser(Long id, OrganiserDTO organiserDTO) {
         Optional<Organiser> o = organiserRepository.findById(id);
         if (!o.isPresent()) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Organiser does not exist!");
         }
         Organiser organiser = o.get();
 
@@ -68,7 +68,7 @@ public class OrganiserService {
     // delete by id
     public void deleteOrganiser(Long id) {
         if (!organiserRepository.existsById(id)) {
-            throw new NotExistException("Organiser");
+            throw new UserNotFoundException("Organiser does not exist!");
         }
         organiserRepository.deleteById(id);
     }
@@ -79,12 +79,13 @@ public class OrganiserService {
         Organiser organiser = null;
         Long organiserId = eventDTO.getOrganiserId();
         if (organiserId == null) {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
             String email = userDetails.getUsername();
             organiser = this.getOrganiserByEmail(email);
 
         } else if (!organiserRepository.existsById(organiserId)) {
-            throw new NotExistException("Organiser");
+            throw new UserNotFoundException("Organiser does not exist!");
 
         } else {
             organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
@@ -101,7 +102,7 @@ public class OrganiserService {
         ModelMapper mapper = new ModelMapper();
 
         Event event = mapper.map(eventDTO, Event.class);
-        
+
         // settle datetime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
@@ -118,7 +119,7 @@ public class OrganiserService {
         }).orElse(null);
 
         if (organiser == null) {
-            throw new NotExistException("organsiser");
+            throw new UserNotFoundException("Organiser does not exist!");
         } else {
             return organiser;
         }
@@ -205,7 +206,6 @@ public class OrganiserService {
         List<EventRegistration> result = new ArrayList<>();
         List<EventRegistration> applications = event.getRegistrations();
         applications.sort((o1, o2) -> o1.getTime().compareTo(o2.getTime()));
-
 
         for (int i = 0; i < applications.size(); i++) {
 

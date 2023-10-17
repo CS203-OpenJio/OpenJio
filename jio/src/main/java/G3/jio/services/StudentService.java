@@ -31,22 +31,24 @@ public class StudentService {
 
     // get student by id
     public Student getStudent(Long studentId) {
-        return studentRepository.findById(studentId).map(student -> {
-            return student;
-        }).orElse(null);
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+
+        if (!optionalStudent.isPresent()) {
+            throw new UserNotFoundException("Student does not exist!");
+        }
+
+        return optionalStudent.get();
     }
 
     // get student by email
     public Student getStudentByEmail(String email) {
-        Student s = studentRepository.findByEmail(email).map(student -> {
-            return student;
-        }).orElse(null);
+        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
 
-        if (s == null) {
-            throw new NotExistException("Student");
-        } else {
-            return s;
+        if (!optionalStudent.isPresent()) {
+            throw new UserNotFoundException("Student does not exist!");
         }
+
+        return optionalStudent.get();
     }
 
     // get by name
@@ -63,7 +65,7 @@ public class StudentService {
     public Student updateStudent(Long id, Student newStudentInfo) {
         Optional<Student> o = studentRepository.findById(id);
         if (!o.isPresent()) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Student does not exist!");
         }
         Student student = o.get();
 
@@ -78,7 +80,7 @@ public class StudentService {
     // delete by id
     public void deleteStudent(Long id) {
         if (!studentRepository.existsById(id)) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Student does not exist!");
         }
         studentRepository.deleteById(id);
     }
@@ -86,7 +88,7 @@ public class StudentService {
     // get events by student email
     // TODO
     public List<Event> getEventByStudentEmail(String email) {
-        
+
         Student student = getStudentByEmail(email);
 
         List<EventRegistration> registrations = student.getRegistrations();

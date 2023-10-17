@@ -39,7 +39,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void testFindAll_AllStudents_ReturnAllStudents(){
+    void findAll_AllStudents_Success_ReturnAllStudents() {
 
         // arrange
         Student student1 = new Student();
@@ -54,17 +54,17 @@ class StudentServiceTest {
 
         when(studentRepository.findAll()).thenReturn(studentList);
 
-        // act 
+        // act
         List<Student> responseList = studentService.findAllStudents();
-        
-        //assert
+
+        // assert
         verify(studentRepository, times(1)).findAll();
         assertEquals(studentList, responseList);
-        
+
     }
 
     @Test
-    void testFindAll_NoStudents_ReturnEmptyList(){
+    void findAll_NoStudents_Success_ReturnEmptyList(){
 
         // arrange
         when(studentRepository.findAll()).thenReturn(new ArrayList<Student>());
@@ -77,49 +77,90 @@ class StudentServiceTest {
         assertEquals(responseList, new ArrayList<Student>());
         
     }
-    
+
     @Test
-    void testGetStudentByEmail_Exist_ReturnStudent(){
+    void getStudentById_Exist_Success() {
+
+        // Arrange
+        Student student = new Student();
+        student.setId(1L);
+        student.setEmail("test@test.com");
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
+
+        // Act
+        Student responseStudent = studentService.getStudent(student.getId());
+
+        // Assert
+        assertEquals(student, responseStudent);
+        verify(studentRepository, times(1)).findById(student.getId());
+    }
+
+    @Test
+    void getStudentById_NotFound_Failure_ThrowsUserNotFound() {
+        String exceptionMsg = "";
+        // arrange
+        Student student = new Student();
+        student.setId(1L);
+
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+
+        // act and assert
+        try {
+            studentService.getStudent(student.getId());
+        } catch (UserNotFoundException e) {
+            exceptionMsg = e.getMessage();
+        }
+
+        // assert
+        verify(studentRepository, times(1)).findById(any(Long.class));
+        assertEquals(exceptionMsg, "User Not Found: Student does not exist!");
+    }
+
+    @Test
+    void getStudentByEmail_Exist_Success_ReturnStudent() {
 
         // arrange
-        Student studentStudent = new Student();
-        studentStudent.setEmail("john.doe@example.com");;
+        Student student = new Student();
+        student.setEmail("test@test.com");
+        ;
 
-        Optional<Student> optionalStudent = Optional.of(studentStudent);
+        Optional<Student> optionalStudent = Optional.of(student);
         when(studentRepository.findByEmail(any(String.class))).thenReturn(optionalStudent);
 
-        // act 
-        Student responseStudent = studentService.getStudentByEmail(studentStudent.getEmail());
+        // act
+        Student responseStudent = studentService.getStudentByEmail(student.getEmail());
 
-        //assert
-        assertEquals(responseStudent, studentStudent);
-        verify(studentRepository, times(1)).findByEmail(studentStudent.getEmail());
+        // assert
+        assertEquals(responseStudent, student);
+        verify(studentRepository, times(1)).findByEmail(student.getEmail());
 
     }
 
     @Test
-    void testGetStudentByEmail_NotFound_ThrowUserNotFound(){
+    void getStudentByEmail_NotFound_Failure_ThrowUserNotFound() {
 
+        String exceptionMsg = "";
         // arrange
-        Student studentStudent = new Student();
-        studentStudent.setEmail("john.doe@example.com");
-        String studentStudentEmailToSearch = "mary.jane@example.com";
-        
+        Student student = new Student();
+        student.setEmail("test@test.com");
+
         when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
 
         // act and assert
-        Exception exception = assertThrows(UserNotFoundException.class, () -> studentService.getStudentByEmail(studentStudentEmailToSearch));
+        try {
+            studentService.getStudentByEmail(student.getEmail());
+        } catch (UserNotFoundException e) {
+            exceptionMsg = e.getMessage();
+        }
 
-        //assert
-        verify(studentRepository, times(1)).findByEmail(studentStudentEmailToSearch);
-        assertEquals(exception.getMessage(), "User Not Found: Email not found");
-        
+        // assert
+        verify(studentRepository, times(1)).findByEmail(any(String.class));
+        assertEquals(exceptionMsg, "User Not Found: Student does not exist!");
+
     }
 
-
-
     @Test
-    void testDeleteStudent_StudentExists_ReturnSuccess() {
+    void deleteStudent_StudentExists_Success() {
 
         // Arrange
         String name = "Daniel";
@@ -141,7 +182,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void testDeleteStudent_StudentNotExist_ThrowNotExistException() {
+    void deleteStudent_StudentNotExist_Failure_ThrowUserNotFound() {
 
         // Arrange
         String exceptionMsg = "";
@@ -167,65 +208,74 @@ class StudentServiceTest {
         verify(studentRepository, times(1)).existsById(id);
     }
 
-    /********************* (WIP) We currently do not allow changes to email and name *********************/
+    /*********************
+     * (WIP) We currently do not allow changes to email and name
+     *********************/
 
     // @Test
     // void testUpdateStudent_StudentExists_ReturnStudent() {
 
-    //     // Arrange
-    //     //UpdateStudentDetailsDTO updateStudentDetailsDTO = new UpdateStudentDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    //     Student newStudent = new Student();
-    //     newStudent.setName("Daniel");
-    //     newStudent.setEmail("newemail@test.com");
-    //     Student originalStudent = new Student();
-    //     originalStudent.setId(1L);
-    //     originalStudent.setName(newStudent.getEmail());
-    //     originalStudent.setEmail(newStudent.getEmail());
+    // // Arrange
+    // //UpdateStudentDetailsDTO updateStudentDetailsDTO = new
+    // UpdateStudentDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+    // Student newStudent = new Student();
+    // newStudent.setName("Daniel");
+    // newStudent.setEmail("newemail@test.com");
+    // Student originalStudent = new Student();
+    // originalStudent.setId(1L);
+    // originalStudent.setName(newStudent.getEmail());
+    // originalStudent.setEmail(newStudent.getEmail());
 
-    //     when(studentRepository.existsByEmail(any(String.class)))
-    //         .thenReturn(false);
-    //     when(studentRepository.findById(any(Long.class)))
-    //         .thenReturn(Optional.of(originalStudent));
-    //     when(studentRepository.findByEmail(anyString()))
-    //         .thenReturn(Optional.of(newStudent));
-    //     when(studentRepository.saveAndFlush(any(Student.class)))
-    //         .thenReturn(newStudent);
+    // when(studentRepository.existsByEmail(any(String.class)))
+    // .thenReturn(false);
+    // when(studentRepository.findById(any(Long.class)))
+    // .thenReturn(Optional.of(originalStudent));
+    // when(studentRepository.findByEmail(anyString()))
+    // .thenReturn(Optional.of(newStudent));
+    // when(studentRepository.saveAndFlush(any(Student.class)))
+    // .thenReturn(newStudent);
 
-    //     // Act
-    //     Student responseStudent = studentService.updateStudent(originalStudent.getId(), newStudent);
+    // // Act
+    // Student responseStudent =
+    // studentService.updateStudent(originalStudent.getId(), newStudent);
 
-    //     // Assert
-    //     assertEquals(originalStudent, responseStudent);
-    //     verify(studentRepository, times(1)).existsByEmail(newStudent.getEmail());
-    //     verify(studentRepository, times(1)).findByEmail("newemail@test.com");
-    //     verify(studentRepository, times(1)).findById(originalStudent.getId());
-    //     verify(studentRepository, times(1)).saveAndFlush(originalStudent);
-        
+    // // Assert
+    // assertEquals(originalStudent, responseStudent);
+    // verify(studentRepository, times(1)).existsByEmail(newStudent.getEmail());
+    // verify(studentRepository, times(1)).findByEmail("newemail@test.com");
+    // verify(studentRepository, times(1)).findById(originalStudent.getId());
+    // verify(studentRepository, times(1)).saveAndFlush(originalStudent);
+
     // }
 
     // @Test
-    // void testUpdateStudent_EmailAlreadyExistsInStudent_ThrowAlreadyExistsException() {
+    // void
+    // testUpdateStudent_EmailAlreadyExistsInStudent_ThrowAlreadyExistsException() {
 
-    //     // Arrange
-    //     String email = "Daniel";
-    //     UpdateStudentDetailsDTO updateStudentDetailsDTO = new UpdateStudentDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    //     String exceptionMsg = "";
+    // // Arrange
+    // String email = "Daniel";
+    // UpdateStudentDetailsDTO updateStudentDetailsDTO = new
+    // UpdateStudentDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+    // String exceptionMsg = "";
 
-    //     when(organiserRepository.existsByEmail(anyString()))
-    //         .thenReturn(false);
-    //     when(studentRepository.existsByEmail(anyString()))
-    //         .thenReturn(true);
+    // when(organiserRepository.existsByEmail(anyString()))
+    // .thenReturn(false);
+    // when(studentRepository.existsByEmail(anyString()))
+    // .thenReturn(true);
 
-    //     // Act
-    //     try {
-    //         Student responseStudent = studentService.updateStudent(email, updateStudentDetailsDTO);
-    //     } catch (AlreadyExistsException e) {
-    //         exceptionMsg = e.getMessage();
-    //     }
+    // // Act
+    // try {
+    // Student responseStudent = studentService.updateStudent(email,
+    // updateStudentDetailsDTO);
+    // } catch (AlreadyExistsException e) {
+    // exceptionMsg = e.getMessage();
+    // }
 
-    //     // Assert
-    //     assertEquals("Email already exists!", exceptionMsg);
-    //     verify(organiserRepository, times(1)).existsByEmail(updateStudentDetailsDTO.getEmail());
-    //     verify(studentRepository, times(1)).existsByEmail(updateStudentDetailsDTO.getEmail());
+    // // Assert
+    // assertEquals("Email already exists!", exceptionMsg);
+    // verify(organiserRepository,
+    // times(1)).existsByEmail(updateStudentDetailsDTO.getEmail());
+    // verify(studentRepository,
+    // times(1)).existsByEmail(updateStudentDetailsDTO.getEmail());
     // }
 }

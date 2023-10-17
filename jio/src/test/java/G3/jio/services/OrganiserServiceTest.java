@@ -45,7 +45,7 @@ class OrganiserServiceTest {
     }
 
     @Test
-    void testGetAll_AllOrganisers_ReturnAllOrganisers(){
+    void getAll_AllOrganisers_Success() {
 
         // arrange
         Organiser organiser1 = new Organiser();
@@ -60,17 +60,17 @@ class OrganiserServiceTest {
 
         when(organiserRepository.findAll()).thenReturn(organiserOrganiserList);
 
-        // act 
+        // act
         List<Organiser> responseList = organiserService.getAllOrganisers();
-        
-        //assert
+
+        // assert
         verify(organiserRepository, times(1)).findAll();
         assertEquals(organiserOrganiserList, responseList);
-        
+
     }
 
     @Test
-    void testGetAll_NoOrganisers_ReturnEmptyList(){
+    void getAll_NoOrganisers_Success(){
 
         // arrange
         when(organiserRepository.findAll()).thenReturn(new ArrayList<Organiser>());
@@ -83,49 +83,53 @@ class OrganiserServiceTest {
         assertEquals(responseList, new ArrayList<Organiser>());
         
     }
-    
+
     @Test
-    void testGetOrganiserByEmail_Exist_ReturnOrganiser(){
+    void getOrganiserByEmail_Exist_Success() {
 
         // arrange
         Organiser organiserOrganiser = new Organiser();
-        organiserOrganiser.setEmail("john.doe@example.com");;
+        organiserOrganiser.setEmail("test@test.com");
+        ;
 
         Optional<Organiser> optionalOrganiser = Optional.of(organiserOrganiser);
         when(organiserRepository.findByEmail(any(String.class))).thenReturn(optionalOrganiser);
 
-        // act 
+        // act
+
         Organiser responseOrganiser = organiserService.getOrganiserByEmail(organiserOrganiser.getEmail());
 
-        //assert
+        // assert
         assertEquals(responseOrganiser, organiserOrganiser);
         verify(organiserRepository, times(1)).findByEmail(organiserOrganiser.getEmail());
 
     }
 
     @Test
-    void testGetOrganiserByEmail_NotFound_ThrowUserNotFound(){
+    void getOrganiserByEmail_NotFound_Failure_ThrowUserNotFound() {
 
+        String exceptionMsg = "";
         // arrange
         Organiser organiserOrganiser = new Organiser();
-        organiserOrganiser.setEmail("john.doe@example.com");
-        String organiserOrganiserEmailToSearch = "mary.jane@example.com";
-        
+        organiserOrganiser.setEmail("test@test.com");
+        String organiserOrganiserEmailToSearch = "test2@test2.com";
+
         when(organiserRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
 
-        // act and assert
-        Exception exception = assertThrows(UserNotFoundException.class, () -> organiserService.getOrganiserByEmail(organiserOrganiserEmailToSearch));
+        try {
+            organiserService.getOrganiserByEmail(organiserOrganiserEmailToSearch);
+        } catch (UserNotFoundException e) {
+            exceptionMsg = e.getMessage();
+        }
 
-        //assert
+        // assert
         verify(organiserRepository, times(1)).findByEmail(organiserOrganiserEmailToSearch);
-        assertEquals(exception.getMessage(), "User Not Found: Email not found");
-        
+        assertEquals(exceptionMsg, "User Not Found: Organiser does not exist!");
+
     }
 
-
-
     @Test
-    void testDeleteOrganiser_OrganiserExists_ReturnSuccess() {
+    void deleteOrganiser_OrganiserExists_Success() {
 
         // Arrange
         String name = "Daniel";
@@ -147,7 +151,7 @@ class OrganiserServiceTest {
     }
 
     @Test
-    void testDeleteOrganiser_OrganiserNotExist_ThrowsUserNotFoundException() {
+    void deleteOrganiser_OrganiserNotExist__Failure_ThrowsUserNotFound() {
 
         // Arrange
         String exceptionMsg = "";
@@ -174,7 +178,7 @@ class OrganiserServiceTest {
     }
 
     @Test
-    void testGetAllEventsByOrganiser_OrganiserNotExist_ThrowsUserNotFoundException() {
+    void getAllEventsByOrganiser_OrganiserNotExist_Failure_ThrowsUserNotFound() {
         // Arrange
         Event event1 = new Event();
         event1.setId(1L);
@@ -203,65 +207,75 @@ class OrganiserServiceTest {
         verify(eventRepository, times(1)).findAllByOrganiserId(any(Long.class));
     }
 
-    /********************* (WIP) We currently do not allow changes to email and name *********************/
+    /*********************
+     * (WIP) We currently do not allow changes to email and name
+     *********************/
 
     // @Test
     // void testUpdateOrganiser_OrganiserExists_ReturnOrganiser() {
 
-    //     // Arrange
-    //     //UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    //     Organiser newOrganiser = new Organiser();
-    //     newOrganiser.setName("Daniel");
-    //     newOrganiser.setEmail("newemail@test.com");
-    //     Organiser originalOrganiser = new Organiser();
-    //     originalOrganiser.setId(1L);
-    //     originalOrganiser.setName(newOrganiser.getEmail());
-    //     originalOrganiser.setEmail(newOrganiser.getEmail());
+    // // Arrange
+    // //UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
+    // UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+    // Organiser newOrganiser = new Organiser();
+    // newOrganiser.setName("Daniel");
+    // newOrganiser.setEmail("newemail@test.com");
+    // Organiser originalOrganiser = new Organiser();
+    // originalOrganiser.setId(1L);
+    // originalOrganiser.setName(newOrganiser.getEmail());
+    // originalOrganiser.setEmail(newOrganiser.getEmail());
 
-    //     when(organiserRepository.existsByEmail(any(String.class)))
-    //         .thenReturn(false);
-    //     when(organiserRepository.getById(any(Long.class)))
-    //         .thenReturn(Optional.of(originalOrganiser));
-    //     when(organiserRepository.getByEmail(anyString()))
-    //         .thenReturn(Optional.of(newOrganiser));
-    //     when(organiserRepository.saveAndFlush(any(Organiser.class)))
-    //         .thenReturn(newOrganiser);
+    // when(organiserRepository.existsByEmail(any(String.class)))
+    // .thenReturn(false);
+    // when(organiserRepository.getById(any(Long.class)))
+    // .thenReturn(Optional.of(originalOrganiser));
+    // when(organiserRepository.getByEmail(anyString()))
+    // .thenReturn(Optional.of(newOrganiser));
+    // when(organiserRepository.saveAndFlush(any(Organiser.class)))
+    // .thenReturn(newOrganiser);
 
-    //     // Act
-    //     Organiser responseOrganiser = organiserService.updateOrganiser(originalOrganiser.getId(), newOrganiser);
+    // // Act
+    // Organiser responseOrganiser =
+    // organiserService.updateOrganiser(originalOrganiser.getId(), newOrganiser);
 
-    //     // Assert
-    //     assertEquals(originalOrganiser, responseOrganiser);
-    //     verify(organiserRepository, times(1)).existsByEmail(newOrganiser.getEmail());
-    //     verify(organiserRepository, times(1)).getByEmail("newemail@test.com");
-    //     verify(organiserRepository, times(1)).getById(originalOrganiser.getId());
-    //     verify(organiserRepository, times(1)).saveAndFlush(originalOrganiser);
-        
+    // // Assert
+    // assertEquals(originalOrganiser, responseOrganiser);
+    // verify(organiserRepository, times(1)).existsByEmail(newOrganiser.getEmail());
+    // verify(organiserRepository, times(1)).getByEmail("newemail@test.com");
+    // verify(organiserRepository, times(1)).getById(originalOrganiser.getId());
+    // verify(organiserRepository, times(1)).saveAndFlush(originalOrganiser);
+
     // }
 
     // @Test
-    // void testUpdateOrganiser_EmailAlreadyExistsInOrganiser_ThrowAlreadyExistsException() {
+    // void
+    // testUpdateOrganiser_EmailAlreadyExistsInOrganiser_ThrowAlreadyExistsException()
+    // {
 
-    //     // Arrange
-    //     String email = "Daniel";
-    //     UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    //     String exceptionMsg = "";
+    // // Arrange
+    // String email = "Daniel";
+    // UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
+    // UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+    // String exceptionMsg = "";
 
-    //     when(organiserRepository.existsByEmail(anyString()))
-    //         .thenReturn(false);
-    //     when(organiserRepository.existsByEmail(anyString()))
-    //         .thenReturn(true);
+    // when(organiserRepository.existsByEmail(anyString()))
+    // .thenReturn(false);
+    // when(organiserRepository.existsByEmail(anyString()))
+    // .thenReturn(true);
 
-    //     // Act
-    //     try {
-    //         Organiser responseOrganiser = organiserService.updateOrganiser(email, updateOrganiserDetailsDTO);
-    //     } catch (AlreadyExistsException e) {
-    //         exceptionMsg = e.getMessage();
-    //     }
+    // // Act
+    // try {
+    // Organiser responseOrganiser = organiserService.updateOrganiser(email,
+    // updateOrganiserDetailsDTO);
+    // } catch (AlreadyExistsException e) {
+    // exceptionMsg = e.getMessage();
+    // }
 
-    //     // Assert
-    //     assertEquals("Email already exists!", exceptionMsg);
-    //     verify(organiserRepository, times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
-    //     verify(organiserRepository, times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
+    // // Assert
+    // assertEquals("Email already exists!", exceptionMsg);
+    // verify(organiserRepository,
+    // times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
+    // verify(organiserRepository,
+    // times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
     // }
 }

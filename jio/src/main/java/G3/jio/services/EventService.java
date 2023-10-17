@@ -32,20 +32,28 @@ public class EventService {
 
     // get event by id
     public Event getEvent(Long eventId) {
-        return eventRepository.findById(eventId).map(event -> {
-            return event;
-        }).orElse(null);
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+
+        if (!optionalEvent.isPresent()) {
+            throw new EventNotFoundException("Event does not exist!");
+
+        }
+        return optionalEvent.get();
     }
 
     // get by name
     public List<Event> getEventByName(String name) {
-        return eventRepository.findAllByName(name);
+        List<Event> events = eventRepository.findAllByName(name);
+
+        if (events.isEmpty()) {
+            throw new EventNotFoundException("Event does not exist!");
+        }
+
+        return events;
     }
 
     // save a event
     public Event addEvent(EventDTO eventDTO) {
-
-        System.out.println(eventDTO.getName());
         Event event = eventMapToEntity(eventDTO);
         return eventRepository.save(event);
     }
@@ -55,7 +63,7 @@ public class EventService {
     public Event updateEvent(Long id, EventDTO eventDTO) {
         Optional<Event> o = eventRepository.findById(id);
         if (!o.isPresent()) {
-            throw new EventNotFoundException();
+            throw new EventNotFoundException("Event does not exist!");
         }
         Event event = o.get();
 
@@ -70,7 +78,7 @@ public class EventService {
     // delete by id
     public void deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
-            throw new EventNotFoundException();
+            throw new EventNotFoundException("Event does not exist!");
         }
 
         Event event = eventRepository.getReferenceById(id);
@@ -78,7 +86,7 @@ public class EventService {
         if (organiser != null) {
             organiser.getEvents().remove(event);
         }
-        
+
         eventRepository.deleteById(id);
     }
 
@@ -86,7 +94,7 @@ public class EventService {
         ModelMapper mapper = new ModelMapper();
 
         Event event = mapper.map(eventDTO, Event.class);
-        
+
         // settle datetime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);

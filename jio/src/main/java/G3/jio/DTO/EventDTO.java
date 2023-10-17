@@ -1,5 +1,7 @@
 package G3.jio.DTO;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +30,7 @@ public class EventDTO {
 
     @Builder.Default
     private boolean isVisible = true;
-    
+
     private Long organiserId;
     private int minScore;
 }
