@@ -28,3 +28,4 @@ dist-ssr
 *.sln
 *.sw?
 jio/src/main/resources/application.properties
+jio/src/main/resources/.env
