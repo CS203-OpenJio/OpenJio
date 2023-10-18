@@ -13,6 +13,7 @@ import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.AlreadyExistsException;
 import G3.jio.exceptions.NotExistException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +33,15 @@ public class ResetPasswordService {
         boolean isStudent;
 
         Optional<Student> optionalStudent = studentRepository.findByEmail(email);
-        try {
-            if (optionalStudent.isPresent()) {
-                student = optionalStudent.get();
-                isStudent = true;
-            } else {
-                organiser = organiserRepository.findByEmail(email)
-                        .orElseThrow(() -> new NotExistException("Account"));
-                isStudent = false;
-            }
-        } catch (NoSuchElementException e) {
-            throw new NotExistException("Account");
+        Optional<Organiser> optionalOrganiser = organiserRepository.findByEmail(email);
+        if (optionalStudent.isPresent()) {
+            student = optionalStudent.get();
+            isStudent = true;
+        } else if (optionalOrganiser.isPresent()) {
+            organiser = optionalOrganiser.get();
+            isStudent = false;
+        } else {
+            throw new UserNotFoundException("No such user");
         }
 
         if (isStudent) {
