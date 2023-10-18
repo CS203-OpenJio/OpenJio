@@ -1,37 +1,55 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+
 import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import { Link, useSearchParams } from "react-router-dom";
+
+import { useEffect } from "react";
+import axios from "axios";
+
+import JWT from "../utils/JWT";
 
 const ChangeProfile: FunctionComponent = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const studentId = searchParams.get("studentId");
+
     const [name, setName] = useState("");
     const [matricNo, setMatricNo] = useState("");
     const [phone, setPhone] = useState("");
+    const dob = null;
+    const image = null;
+    const smuCreditScore = null;
+
+
+  
 
     const handleChangeDetails = async () => {
-        const response = await fetch('http://localhost:8080/api/v1/students/id/2', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Name: name,
+        if (!studentId) {
+            alert("Student ID is missing!");
+            return;
+        }
+
+        try {
+            const response = await JWT.put(`http://localhost:8080/api/v1/students/id/${studentId}`, {
                 matricNo: matricNo,
                 phone: phone,
-                image: null
-            }),
-        });
+                image: image,
+                dob: dob,
+                smuCreditScore: smuCreditScore
+            });
 
-        if (response.ok) {
-            alert('Profile details updated successfully!');
-            // Optionally, navigate to another page after updating
-            // navigate('/some-page');
-        } else {
-            const data = await response.json();
-            alert(data.message || 'Error updating profile details.');
+            if (response.status === 200) {
+                alert('Profile details updated successfully!');
+            } else {
+                alert(response.data.message || 'Error updating profile details.');
+            }
+        } catch (error) {
+            console.error("Error handling the response:", error);
+            alert('Error updating profile details.');
         }
     };
+
 
     return (
         <div>
