@@ -1,7 +1,6 @@
 package G3.jio.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -55,7 +54,7 @@ class StudentServiceTest {
         when(studentRepository.findAll()).thenReturn(studentList);
 
         // act
-        List<Student> responseList = studentService.findAllStudents();
+        List<Student> responseList = studentService.getAllStudents();
 
         // assert
         verify(studentRepository, times(1)).findAll();
@@ -70,7 +69,7 @@ class StudentServiceTest {
         when(studentRepository.findAll()).thenReturn(new ArrayList<Student>());
 
         // act 
-        List<Student> responseList = studentService.findAllStudents();
+        List<Student> responseList = studentService.getAllStudents();
         
         //assert
         verify(studentRepository, times(1)).findAll();

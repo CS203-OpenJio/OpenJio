@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
+import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
@@ -23,14 +24,14 @@ public class ChangeCredentialService {
     public ResponseEntity<String> replacePassword(String email, String newPassword, Character userType) {
         if (userType == 'S') {
             Student student = studentRepository.findByEmail(email)
-                    .orElseThrow(() -> new UserNotFoundException("User does not exist"));
+                    .orElseThrow(() -> new UserNotFoundException("Student does not exist!"));
             return replaceStudentPassword(student, newPassword);
         } else if (userType == 'O') {
             Organiser organiser = organiserRepository.findByEmail(email)
-                    .orElseThrow(() -> new UserNotFoundException("User does not exist"));
+                    .orElseThrow(() -> new UserNotFoundException("Organiser does not exist!"));
             return replaceOrganiserPassword(organiser, newPassword);
         } else
-            throw new IllegalArgumentException("Invalid user type");
+            throw new InvalidUserTypeException("User type is invalid!");
     }
 
     public ResponseEntity<String> replaceStudentPassword(Student student, String newPassword) {

@@ -2,6 +2,10 @@ package G3.jio.exceptions;
 
 public class InvalidUserTypeException extends RuntimeException {
     public InvalidUserTypeException() {
-        super("User Type can only be 'O' or 'S'.");
+        super();
+    }
+
+    public InvalidUserTypeException(String msg) {
+        super("Invalid User Type: " + msg);
     }
 }
