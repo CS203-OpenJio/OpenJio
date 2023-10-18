@@ -210,7 +210,7 @@ class AuthServiceTest {
         }
 
         // Assertions
-        assertEquals("User Type can only be 'O' or 'S'.", exceptionMessage);
+        assertEquals("Invalid User Type: User type is invalid!", exceptionMessage);
     }
 
     @Test

@@ -17,7 +17,6 @@ import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.EventNotFoundException;
-import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;

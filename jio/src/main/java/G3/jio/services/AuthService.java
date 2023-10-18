@@ -76,7 +76,7 @@ public class AuthService {
         } else if (registrationDTO.getUserType() == 'O') {
             return this.registerOrganiser(registrationDTO);
         }
-        throw new InvalidUserTypeException();
+        throw new InvalidUserTypeException("User type is invalid!");
     }
 
     /**

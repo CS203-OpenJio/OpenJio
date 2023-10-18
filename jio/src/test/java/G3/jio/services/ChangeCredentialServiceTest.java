@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -130,7 +129,7 @@ class ChangeCredentialServiceTest {
     }
 
     @Test
-    void replacePasswordInvalidUserType() {
+    void replacePasswordInvalidUserType_Failure() {
         String exceptionMsg = "";
         // Arrange
         String email = "user@example.com";
@@ -139,7 +138,7 @@ class ChangeCredentialServiceTest {
 
         // Act
         try {
-            ResponseEntity<String> responseEntity = changeCredentialService.replacePassword(email, newPassword, userType);
+            changeCredentialService.replacePassword(email, newPassword, userType);
         } catch (InvalidUserTypeException e) {
             exceptionMsg = e.getMessage();
         }

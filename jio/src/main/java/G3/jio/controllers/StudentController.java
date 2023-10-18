@@ -3,7 +3,6 @@ package G3.jio.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class StudentController {
 
     private final StudentService studentService;
-
-    private final BCryptPasswordEncoder encoder;
 
     // get student given their id
     @GetMapping(path = "/id/{id}")
@@ -70,7 +67,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentsByName(name));
     }
 
-    // // add a student
+    // // add a student ---> If uncommented need to add private final BCryptPasswordEncoder encoder; variable
     // @PostMapping
     // public ResponseEntity<Student> addStudent(@Valid @RequestBody Student student) {
     //     student.setPassword(encoder.encode(student.getPassword()));
