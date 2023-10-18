@@ -33,9 +33,12 @@ public class OrganiserService {
 
     // get
     public Organiser getOrganiser(Long organiserId) {
-        return organiserRepository.findById(organiserId).map(organiser -> {
-            return organiser;
-        }).orElse(null);
+        Optional<Organiser> o = organiserRepository.findById(organiserId);
+        if (!o.isPresent()) {
+            throw new UserNotFoundException("Organiser does not exist!");
+        }
+        Organiser organiser = o.get();
+        return organiser;
     }
 
     // list all Organiser

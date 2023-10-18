@@ -60,7 +60,7 @@ public class StudentController {
     // get all students
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.findAllStudents());
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     // get all students with name

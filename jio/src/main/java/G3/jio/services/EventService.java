@@ -1,5 +1,7 @@
 package G3.jio.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -103,20 +105,20 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
-    private Event eventMapToEntity(EventDTO eventDTO) {
-        ModelMapper mapper = new ModelMapper();
+    // private Event eventMapToEntity(EventDTO eventDTO) {
+    //     ModelMapper mapper = new ModelMapper();
 
-        Event event = mapper.map(eventDTO, Event.class);
+    //     Event event = mapper.map(eventDTO, Event.class);
 
-        // settle datetime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
-        event.setStartDateTime(startDateTime);
-        event.setEndDateTime(endDateTime);
+    //     // settle datetime
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    //     LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
+    //     LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
+    //     event.setStartDateTime(startDateTime);
+    //     event.setEndDateTime(endDateTime);
 
-        return event;
-    }
+    //     return event;
+    // }
 
     public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO queryDTO) {
 
