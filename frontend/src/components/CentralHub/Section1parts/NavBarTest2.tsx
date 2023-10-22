@@ -1,20 +1,42 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import LogoutButton from "./LogoutButton";
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import React from "react";
+
 
 function NavBarTest2() {
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   // handleClick for logout
-  const handleClick = (path: string) => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
 
-    navigate(path);
+    navigate("/logout");
   };
 
   // handleClick for other parts of NavBar
   const handleClick1 = (path: string) => {
     navigate(path);
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const scrollToElement = (scrollTarget: string) => {
@@ -27,25 +49,6 @@ function NavBarTest2() {
 
   //For NavBar transparency effect
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const [hasHovered1, setHasHovered1] = useState(false);
-  const [hasHovered2, setHasHovered2] = useState(false);
-
-  const OpenedDropDown1 = () => {
-    setHasHovered1(true);
-  };
-
-  const OpenedDropDown2 = () => {
-    setHasHovered2(true);
-  };
-
-  const ClosedDropDown1 = () => {
-    setHasHovered1(false);
-  };
-
-  const ClosedDropDown2 = () => {
-    setHasHovered2(false);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,9 +67,8 @@ function NavBarTest2() {
 
   return (
     <div
-      className={`top-0 flex justify-between items-center fixed w-full ${
-        isScrolled ? "bg-white shadow-sm" : ""
-      } z-50 pt-2 pb-2`}
+      className={`top-0 flex justify-between items-center fixed w-full ${isScrolled ? "bg-white shadow-sm" : ""
+        } z-50 pt-2 pb-2`}
       style={{
         transition: "background-color 0.2s ease-in-out",
       }}
@@ -77,92 +79,63 @@ function NavBarTest2() {
         alt="OpenJio Logo"
         src="/logo.png"
       />
-      <div className="font-medium flex flex-row text-center text-3xl font-ibm-plex-mono w-1/3 justify-between cursor-pointer">
-        <div
-          className=" flex justify-center"
-          onMouseOver={OpenedDropDown1}
-          onMouseOut={ClosedDropDown1}
+      
+      <div className="mr-5">
+        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+          {/* displays JWT for testing purposes */}
+        <Typography sx={{ minWidth: 0 }}>{localStorage.getItem("token")}</Typography>
+          <Tooltip title="Account settings">
+            <IconButton
+              onClick={handleClick}
+              size="small"
+              sx={{ ml: 1 }}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+            >
+              <Avatar sx={{ width: 42, height: 42 }}/>
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <div className="hover:bg-black hover:text-white">Events</div>
-          {hasHovered1 && (
-            <div className="absolute h-32 w-[200px]">
-              <div className="absolute translate-y-[35%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white text-black">
-                <div>
-                  <div
-                    onClick={() => scrollToElement("All Events")}
-                    className="hover:bg-black hover:text-white mb-2"
-                  >
-                    View All Events
-                  </div>
-                  <div
-                    onClick={() => handleClick1("/myevents")}
-                    className="hover:bg-black hover:text-white mb-2"
-                  >
-                    View Your Events
-                  </div>
-                  <div
-                    onClick={() => handleClick1("/eventform")}
-                    className="hover:bg-black hover:text-white"
-                  >
-                    Create New Event
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div
-          onClick={() => handleClick1("/schedule")}
-          className="hover:bg-black hover:text-white"
-        >
-          Schedule
-        </div>
-         <div className="hover:bg-black hover:text-white">
-          <div
-            // className=" flex justify-center"
-            // onMouseOver={OpenedDropDown2}
-            // onMouseOut={ClosedDropDown2}
-           
-          >
-            {/* Profile */}
-          </div> 
-          <div
-          onClick={() => handleClick1("/profilepage")}
-          className="hover:bg-black hover:text-white"
-        >
-          Profile
-        </div>
-          {hasHovered2 && (
-            <div className="absolute h-32 w-[200px]">
-              <div className="absolute translate-y-[27%] translate-x-[-29%] border border-solid border-black border-spacing-[0.5px] p-4 bg-white text-black">
-                <div>
-                  <div
-                    onClick={() => handleClick1("/account")}
-                    className="hover:bg-black hover:text-white mb-2"
-                  >
-                    View My Account
-                  </div>
-                  <div
-                    onClick={() => handleClick1("/settings")}
-                    className="hover:bg-black hover:text-white"
-                  >
-                    Settings
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+          <MenuItem onClick={() => handleClick1("/profilepage")}>
+            <Avatar /> Edit Profile
+          </MenuItem>
+          <MenuItem onClick={() => handleClick1("/eventform")}>
+            <Avatar /> Create Event
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={() =>handleClick1("/schedule")}>
+            <ListItemIcon>
+              <PersonAdd fontSize="small" />
+            </ListItemIcon>
+            Schedule
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
       </div>
-      <div
-        className="mr-5 cursor-pointer"
-        onClick={() => handleClick("/logout")}
-      >
-        <LogoutButton />
-      </div>
-    </div>
+    </div >
   );
+
 }
 
 export default NavBarTest2;
