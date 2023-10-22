@@ -10,6 +10,8 @@ const handleLogin = async (username: string, password: string) => {
   if (response.status == 200) {
     const token = response.data.token;
     await localStorage.setItem("token", token);
+    // replace with check for user type by calling backend instead of hardcoding
+    await localStorage.setItem("authorization", "O");
   }
 };
 

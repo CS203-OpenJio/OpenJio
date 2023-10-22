@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { useRef } from "react";
 
 const ForgetPassword: FunctionComponent = () => {
@@ -49,7 +49,7 @@ const ForgetPassword: FunctionComponent = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBarLite />
 
       <button
     className="cursor-pointer absolute top-[650px] left-[150px] rounded-xl bg-green-500 text-white box-border w-[438px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[2px] border-solid border-black transition-transform duration-100 ease-in-out z-50"

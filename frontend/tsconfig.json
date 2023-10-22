@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "target": "es5",
     "lib": [
@@ -25,6 +27,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "components/ui", "../pramit- Frontend/src/pages/ForgetPassword1.tsx", "src/pages/ForgetPassword2.tsx"  ] 
+    "src",
+    "components/ui",
+    "src/pages/ForgetPassword2.tsx"
+  ]
 }

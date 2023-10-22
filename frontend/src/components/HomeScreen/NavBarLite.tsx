@@ -2,7 +2,7 @@ import LoginButton from "./LoginButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function NavBar() {
+function NavBarLite() {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
@@ -84,4 +84,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarLite;

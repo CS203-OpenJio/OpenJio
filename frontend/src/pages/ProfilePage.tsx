@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
-import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import NavBarLite from "@/components/HomeScreen/NavBarLite";
+import NavBar from "../components/NavBar";
 
 const ChangeProfile: FunctionComponent = () => {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const ChangeProfile: FunctionComponent = () => {
 
     return (
         <div>
-     <NavBarTest2 />
+     <NavBar />
             <div className="flex justify-center items-center h-screen">
                 <div className="bg-gray-100 p-8 rounded-lg shadow-md">
                     <h2 className="text-2xl mb-6 text-center">Change Profile Details</h2>

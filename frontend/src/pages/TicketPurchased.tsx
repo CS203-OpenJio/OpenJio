@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NavBar from "../components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { Link, useLocation } from "react-router-dom";
 
 export default function TicketPurchased() {
@@ -8,7 +8,7 @@ export default function TicketPurchased() {
 
   return (
     <div>
-      <NavBar />
+      <NavBarLite />
       <div className="h-screen">
         <div className="h-1"></div>
         <div className="flex justify-center mt-[10vw]">

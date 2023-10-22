@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 function LogoutNavBar() {
   const navigate = useNavigate();
-
   const handleClick = (path: string) => {
     navigate(path);
   };

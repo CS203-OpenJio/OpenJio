@@ -15,8 +15,12 @@ import Logout from '@mui/icons-material/Logout';
 import React from "react";
 
 
-function NavBarTest2() {
+function NavBar() {
   const navigate = useNavigate();
+  //userType is used to determine what the user can see in the navbar
+  //A = admin, O = organizer, U = user
+  //currently hardcoded to admin
+  const userType = localStorage.getItem("authorization") || "A";
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -79,11 +83,11 @@ function NavBarTest2() {
         alt="OpenJio Logo"
         src="/logo.png"
       />
-      
+
       <div className="mr-5">
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           {/* displays JWT for testing purposes */}
-        <Typography sx={{ minWidth: 0 }}>{localStorage.getItem("token")}</Typography>
+          <Typography sx={{ minWidth: 0 }}>{localStorage.getItem("token")}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -93,7 +97,7 @@ function NavBarTest2() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 42, height: 42 }}/>
+              <Avatar sx={{ width: 42, height: 42 }} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -109,16 +113,22 @@ function NavBarTest2() {
           <MenuItem onClick={() => handleClick1("/profilepage")}>
             <Avatar /> Edit Profile
           </MenuItem>
-          <MenuItem onClick={() => handleClick1("/eventform")}>
-            <Avatar /> Create Event
-          </MenuItem>
+          {(userType === 'O' || userType==='A' )&&
+            <MenuItem onClick={() => handleClick1(`/eventform`)}>
+              <ListItemIcon>
+                <Avatar />
+              </ListItemIcon>
+              Create Event
+            </MenuItem>}
           <Divider />
-          <MenuItem onClick={() =>handleClick1("/schedule")}>
-            <ListItemIcon>
-              <PersonAdd fontSize="small" />
-            </ListItemIcon>
-            Schedule
-          </MenuItem>
+          {(userType === 'U' || userType==='A') &&
+            <MenuItem onClick={() => handleClick1("/schedule")}>
+              <ListItemIcon>
+                <PersonAdd fontSize="small" />
+              </ListItemIcon>
+              Schedule
+            </MenuItem>
+          }
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Settings fontSize="small" />
@@ -138,4 +148,4 @@ function NavBarTest2() {
 
 }
 
-export default NavBarTest2;
+export default NavBar;
