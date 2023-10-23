@@ -5,7 +5,7 @@ import {
   SetStateAction,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 
 const ForgetPassword1: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const ForgetPassword1: FunctionComponent = () => {
   return (
 
     <div>
-    <NavBar />
+    <NavBarLite />
 
     <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-center text-base text-black font-ibm-plex-mono">
       

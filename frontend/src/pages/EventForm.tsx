@@ -27,7 +27,7 @@ import {
 } from "../components/ui/popover"
 import React from "react";
 import { DateRange } from "react-day-picker"
-import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import NavBar from "../components/NavBar";
 import { Textarea } from "../components/ui/textarea";
 import {
   Command,
@@ -84,7 +84,7 @@ export default function EventForm() {
 
   return (
     <div>
-      <NavBarTest2 />
+      <NavBar />
       <div className="h-20"></div>
       <center>
         <div className="w-[80vw]">

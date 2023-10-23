@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ export default function EventPage() {
 
   return (
     <div>
-      <NavBarTest2 />
+      <NavBar />
       <div className="h-[35px]"></div>
       <div className="gap-10 w-auto m-4">
         {/* <div className="font-ibm-plex-mono mb-5">

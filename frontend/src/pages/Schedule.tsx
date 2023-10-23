@@ -1,4 +1,4 @@
-import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -42,7 +42,7 @@ const Schedule = () => {
         <p>{error}</p>
       ) : (
         <div>
-          <NavBarTest2 />
+          <NavBar />
           <div className="mt-[80px] pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">
             My Schedule
           </div>

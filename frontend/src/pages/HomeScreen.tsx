@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from "react";
-import NavBar from "../components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ const HomeScreen: FunctionComponent = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBarLite />
 
       <div className="min-h-screen">
         <div className="h-20"></div>

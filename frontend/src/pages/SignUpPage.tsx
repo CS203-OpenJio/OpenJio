@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import axios, { AxiosError } from "axios";
 import {
   AlertDialog,
@@ -149,7 +149,7 @@ const validateName = (name: string) => {
 
   return (
     <div className="flex">
-      <NavBar />
+      <NavBarLite />
       <div className="flex flex-row items-center justify-between w-full px-0">
         <div className="flex flex-col bg-floralwhite w-full h-screen p-4 text-2xl text-black font-ibm-plex-mono">
           {/* Sub Container */} {/* Split into Two Columns */}

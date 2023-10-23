@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 
 const ResetPassword: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const ResetPassword: FunctionComponent = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBarLite />
       <div className="flex justify-center items-center h-screen">
         <div className="bg-gray-100 p-8 rounded-lg shadow-md">
           <h2 className="text-2xl mb-6 text-center">Reset Password</h2>
