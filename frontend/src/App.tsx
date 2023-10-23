@@ -7,7 +7,7 @@ import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 import Schedule from "./pages/Schedule";
-import ForgetPassword1 from "src/pages/ForgetPassword1";
+
 import ForgetPassword2 from "src/pages/ForgetPassword2";
 import ForgetPassword3 from "src/pages/ForgetPassword3";
 import Profilepage from "src/pages/ProfilePage";
@@ -45,10 +45,7 @@ const router = createBrowserRouter([
     path: "/forgetpassword2",
     element: <ForgetPassword2 />,
   },
-  {
-    path: "/forgetpassword1",
-    element: <ForgetPassword1 />,
-  },
+
   // might need to update below as they require data passed through them for them to load
   {
     path: "/forgetpassword3",
