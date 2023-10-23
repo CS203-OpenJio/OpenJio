@@ -34,5 +34,3 @@ build/
 
 # 
 /src/main/resources/application.properties
-
-jio/src/main/resources/.env
