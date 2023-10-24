@@ -1,3 +1,4 @@
+import axios from "axios";
 import JWT from "./JWT";
 
 const handleLogin = async (username: string, password: string) => {
@@ -31,7 +32,8 @@ const handleSignUp = async (
     userType: "S",
   };
 
-  const response = await JWT.post("/api/v1/auth/register", body);
+  console.log(body);
+  const response = await axios.post("http://localhost:8080/api/v1/auth/register", body);
 
   if (response.status == 201) {
     const token = response.data.token;
