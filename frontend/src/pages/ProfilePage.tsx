@@ -57,57 +57,58 @@ const ChangeProfile: FunctionComponent = () => {
     };
 
     return (
-        <div>
+        <div className="h-screen bg-floralwhite text-darkslateblue font-ibm-plex-mono">
             <NavBar />
-            {isEditing ? (
-                <div className="flex justify-center items-center h-screen">
-                    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-                        <h2 className="text-2xl mb-6 text-center">Change Profile Details</h2>
-                        <input 
-                            className="block w-full mb-4 p-2 border rounded"
-                            type="date"
-                            placeholder="Date of Birth"
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                        />
-                        <input 
-                            className="block w-full mb-4 p-2 border rounded"
-                            type="text"
-                            placeholder="Matric No."
-                            value={matricNo}
-                            onChange={(e) => setMatricNo(e.target.value)}
-                        />
-                        <input 
-                            className="block w-full mb-4 p-2 border rounded"
-                            type="text"
-                            placeholder="Phone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                        <button 
-                            className="block w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                            onClick={handleChangeDetails}
-                        >
-                            Update Profile
-                        </button>
-                    </div>
+            <div className="flex justify-center items-center h-full">
+                <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md border-4 border-darkslateblue shadow-2xl">
+                    <h2 className="text-2xl mb-6 text-center text-darkslateblue font-semibold">
+                        {isEditing ? "Change Profile Details" : "Profile Details"}
+                    </h2>
+                    {isEditing ? (
+                        <div className="flex flex-col items-center">
+                            <input 
+                                className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
+                                type="date"
+                                placeholder="Date of Birth"
+                                value={dob}
+                                onChange={(e) => setDob(e.target.value)}
+                            />
+                            <input 
+                                className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
+                                type="text"
+                                placeholder="Matric No."
+                                value={matricNo}
+                                onChange={(e) => setMatricNo(e.target.value)}
+                            />
+                            <input 
+                                className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
+                                type="text"
+                                placeholder="Phone"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                            <button 
+                                className="w-4/5 p-2 bg-darkslateblue text-white rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-darkslateblue"
+                                onClick={handleChangeDetails}
+                            >
+                                Update Profile
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="mb-4 text-darkslateblue font-medium">Date of Birth: <span className="text-black">{dob}</span></div>
+                            <div className="mb-4 text-darkslateblue font-medium">Matriculation Number: <span className="text-black">{matricNo}</span></div>
+                            <div className="mb-4 text-darkslateblue font-medium">Phone: <span className="text-black">{phone}</span></div>
+                            <button 
+                                className="w-full p-2 bg-darkslateblue text-white rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-darkslateblue"
+                                onClick={() => setIsEditing(true)}
+                            >
+                                Edit Profile
+                            </button>
+                        </>
+                    )}
                 </div>
-            ) : (
-                <div className="flex justify-center items-center h-screen">
-                    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-                        <h2 className="text-2xl mb-6 text-center">Profile Details</h2>
-                        <div className="mb-4">Date of Birth: {dob}</div>
-                        <div className="mb-4">Matriculation Number: {matricNo}</div>
-                        <div className="mb-4">Phone: {phone}</div>
-                        <button 
-                            className="block w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                            onClick={() => setIsEditing(true)}
-                        >
-                            Edit Profile
-                        </button>
-                    </div>
-                </div>
-            )}
+            </div>
         </div>
     );
 };
