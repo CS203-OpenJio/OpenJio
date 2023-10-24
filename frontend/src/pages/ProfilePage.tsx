@@ -4,15 +4,52 @@ import axios from "axios";
 import JWT from "../utils/JWT";
 import NavBar from "../components/NavBar";
 
+
+import jwt_decode, { JwtPayload } from "jwt-decode";
+
 const ChangeProfile: FunctionComponent = () => {
-    const navigate = useNavigate();
-    const studentId = 3; //hardcoded
+    const token: any = localStorage.getItem("token");
+    const objToken: JwtPayload = jwt_decode(token);
+    const userEmail = objToken.sub; //ill use this after testing
+
+    const email = "pramitsbabu@gmail.com"; //hardcoded to test 
+
+    const getStudentIdByEmail = async () => { //this is where the error is it wont take my email despite authentication
+        try {
+            const response = await JWT.post(`http://localhost:8080/api/v1/students/${email}/`);
+            if (response.data && response.data.id) {
+                return response.data.id;
+            } else {
+                console.error("Student ID not found in response");
+                return null;
+            }
+        } catch (error) {
+            console.error("Error fetching student ID:", error);
+            return null;
+        }
+    };
+    
+
+
+
+    const [studentId, setStudentId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchStudentId = async () => {
+            const id = await getStudentIdByEmail();
+            if (id) {
+                setStudentId(id);
+            }
+        };
+
+        fetchStudentId();
+    }, [email]);
 
     useEffect(() => {
         const fetchStudentDetails = async () => {
             if (!studentId) return; // Ensure studentId is available
             try {
-                const response = await JWT.get(`http://localhost:8080/api/v1/students/id/3`); //hardcoded
+                const response = await JWT.get(`http://localhost:8080/api/v1/students/id/${studentId}`);
                 if (response.data) {
                     setDob(response.data.dob || "");
                     setMatricNo(response.data.matricNo || "");
@@ -24,9 +61,9 @@ const ChangeProfile: FunctionComponent = () => {
                 console.error("Error fetching student details:", error);
             }
         };
-        
+
         fetchStudentDetails();
-    }, [studentId]); 
+    }, [studentId]);
 
     const [dob, setDob] = useState("");
     const [matricNo, setMatricNo] = useState("");
@@ -46,7 +83,7 @@ const ChangeProfile: FunctionComponent = () => {
             });
             if (response.status === 200) {
                 alert('Profile details updated successfully!');
-                setIsEditing(false);  // This line makes it go back to display mode
+                setIsEditing(false);
             } else {
                 alert(response.data.message || 'Error updating profile details.');
             }
