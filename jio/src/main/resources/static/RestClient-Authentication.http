@@ -6,7 +6,9 @@ Content-Type: application/json
     "name":"thanos gay",
     "email":"thanos.gay@gmail.com",
     "password":"12345678",
-    "userType": "S"
+    "userType": "S",
+    "matricNo":"12345678",
+    "phone":"12345678"
 }
 
 ###
