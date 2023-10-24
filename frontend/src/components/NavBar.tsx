@@ -87,7 +87,7 @@ function NavBar() {
       <div className="mr-5">
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           {/* displays JWT for testing purposes */}
-          <Typography sx={{ minWidth: 0 }}>{localStorage.getItem("token")}</Typography>
+    
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
