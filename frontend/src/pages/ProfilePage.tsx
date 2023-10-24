@@ -1,28 +1,42 @@
-import { FunctionComponent, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import NavBar from "../components/NavBar";
-import { Link, useSearchParams } from "react-router-dom";
-
-import { useEffect } from "react";
+import { FunctionComponent, useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-
 import JWT from "../utils/JWT";
+import NavBar from "../components/NavBar";
 
 const ChangeProfile: FunctionComponent = () => {
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const studentId = searchParams.get("studentId");
 
-    const [name, setName] = useState("");
+    // Extract studentId from search parameters
+    const [searchParams] = useSearchParams();
+    const studentIdFromURL = searchParams.get("id");
+
+    const [studentId, setStudentId] = useState<string | null>(studentIdFromURL);
+
+    useEffect(() => {
+        // Check if studentId is already extracted from URL
+        if (studentId) return;
+
+        // Otherwise, fetch student ID on component mount
+        const fetchStudentId = async () => {
+            try {
+                const response = await JWT.get(`http://localhost:8080/api/v1/students/id/${studentIdFromURL}`);
+                if (response.data && response.data.id) {
+                    setStudentId(String(response.data.id));
+                } else {
+                    console.error("Student ID not found in response");
+                }
+            } catch (error) {
+                console.error("Error fetching student ID:", error);
+            }
+        };
+
+        fetchStudentId();
+    }, [studentId, studentIdFromURL]);
+
+    const [dob, setDob] = useState("");
     const [matricNo, setMatricNo] = useState("");
     const [phone, setPhone] = useState("");
-    const dob = null;
-    const image = null;
-    const smuCreditScore = null;
-
-
-  
 
     const handleChangeDetails = async () => {
         if (!studentId) {
@@ -34,9 +48,7 @@ const ChangeProfile: FunctionComponent = () => {
             const response = await JWT.put(`http://localhost:8080/api/v1/students/id/${studentId}`, {
                 matricNo: matricNo,
                 phone: phone,
-                image: image,
                 dob: dob,
-                smuCreditScore: smuCreditScore
             });
 
             if (response.status === 200) {
@@ -50,19 +62,18 @@ const ChangeProfile: FunctionComponent = () => {
         }
     };
 
-
     return (
         <div>
-     <NavBar />
+            <NavBar />
             <div className="flex justify-center items-center h-screen">
                 <div className="bg-gray-100 p-8 rounded-lg shadow-md">
                     <h2 className="text-2xl mb-6 text-center">Change Profile Details</h2>
                     <input 
                         className="block w-full mb-4 p-2 border rounded"
-                        type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        type="date"
+                        placeholder="Date of Birth"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
                     />
                     <input 
                         className="block w-full mb-4 p-2 border rounded"
