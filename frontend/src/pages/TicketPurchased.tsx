@@ -1,4 +1,3 @@
-import { useState } from "react";
 import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { Link, useLocation } from "react-router-dom";
 

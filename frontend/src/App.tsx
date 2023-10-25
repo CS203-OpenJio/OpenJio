@@ -14,6 +14,7 @@ import Profilepage from "src/pages/ProfilePage";
 import LogoutPage from "src/pages/LogoutPage";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
+import Unauthorized from "./pages/Unauthorized";
 
 // import { Route } from "react-router-dom";
 
@@ -45,8 +46,6 @@ const router = createBrowserRouter([
     path: "/forgetpassword2",
     element: <ForgetPassword2 />,
   },
-
-  // might need to update below as they require data passed through them for them to load
   {
     path: "/forgetpassword3",
     element: <ForgetPassword3 />
@@ -70,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/schedule",
     element: <Schedule />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
   },
 ]);
 
