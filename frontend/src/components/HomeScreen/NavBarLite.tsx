@@ -6,16 +6,21 @@ function NavBarLite() {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
-    navigate(path);
-  };
-
-  const scrollToElement = (scrollTarget: string) => {
-    const targetElement = document.getElementById(scrollTarget);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
+    if(localStorage.getItem("token") != null) {
+      navigate("/centralhub");
+    } else {
+      navigate(path);
     }
   };
+
+  // depreciated scroll method
+  // const scrollToElement = (scrollTarget: string) => {
+  //   const targetElement = document.getElementById(scrollTarget);
+
+  //   if (targetElement) {
+  //     targetElement.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   //For NavBar transparency effect
   const [isScrolled, setIsScrolled] = useState(false);
