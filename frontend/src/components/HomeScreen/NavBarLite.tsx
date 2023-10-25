@@ -5,14 +5,6 @@ import { useState, useEffect } from "react";
 function NavBarLite() {
   const navigate = useNavigate();
 
-  const handleClick = (path: string) => {
-    if(localStorage.getItem("token") != null) {
-      navigate("/centralhub");
-    } else {
-      navigate(path);
-    }
-  };
-
   // depreciated scroll method
   // const scrollToElement = (scrollTarget: string) => {
   //   const targetElement = document.getElementById(scrollTarget);
@@ -82,7 +74,7 @@ function NavBarLite() {
           FAQ
         </div>
       </div>
-      <div className="mr-5" onClick={() => handleClick("/login")}>
+      <div className="mr-5">
         <LoginButton />
       </div>
     </div>
