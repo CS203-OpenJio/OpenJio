@@ -101,6 +101,7 @@ export default function EventForm() {
       setName(data.name);
       setCapacity(data.capacity);
       setVenue(data.venue);
+      // add 1 day to the date range (for some reason the date is off by 1 day)
       setDate({ from: addDays(data.date.from, 1), to: addDays(data.date.to, 1) });
       setStep(2);
     }
@@ -526,11 +527,12 @@ const FormSchema1 = z.object({
   venue: z.string().min(4, {
     message: "Venue must be at least 4 characters.",
   }),
-  date: z.custom((value) => {
+  date: z.custom((value: unknown) => {
+    const dateRange = value as { from?: Date; to?: Date };
     // Perform your custom validation for DateRange here
     // You can check if value is a valid DateRange or not
     // Return true if it's valid, or false if it's not
-    return value != null;
+    return dateRange?.from != null && dateRange?.to != null;
   }, {
     message: "Please set a date range.",
   }),
