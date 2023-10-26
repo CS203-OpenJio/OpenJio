@@ -178,7 +178,21 @@ public class OrganiserService {
     }
 
     public void completeEvent(QueryDTO queryDTO) {
+
         Event e = getEvent(queryDTO.getEventId()); 
+
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        if (!organiserRepository.existsByEmail(email)) {
+            throw new InvalidUserTypeException("Account is not an organiser!");
+        }
+
+        // check if org id is same
+        if (!getOrganiserByEmail(email).equals(e.getOrganiser())) {
+            throw new InvalidUserTypeException("Account is not creator of this event!");
+        }
+        
         e.setCompleted(true);
         e.setVisible(false);
         List<EventRegistration> registrations = e.getRegistrations();

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.EventDTO;
@@ -14,7 +16,9 @@ import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.repositories.EventRepository;
+import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final OrganiserRepository organiserRepository;
 
     // list all event
     public List<Event> findAllEvent() {
@@ -79,6 +84,19 @@ public class EventService {
     public Event updateEvent(Long id, EventDTO eventDTO) {
 
         Event event = getEvent(id);
+
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        if (!organiserRepository.existsByEmail(email)) {
+            throw new InvalidUserTypeException("Account is not an organiser!");
+        }
+
+        // get organiser id from event
+        // check if org id is same
+        if (!organiserRepository.findByEmail(email).get().equals(event.getOrganiser())) {
+            throw new InvalidUserTypeException("Account is not creator of this event!");
+        }
         
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
@@ -90,6 +108,7 @@ public class EventService {
 
     
     public Event updateEventId (Long id, Long imageId){
+        
         Event event = getEvent(id);
         if (event == null)
         {return null;}
