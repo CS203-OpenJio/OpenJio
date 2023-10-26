@@ -6,6 +6,7 @@ import G3.jio.entities.ImageData;
 
 import java.util.Optional;
 
+
 public interface StorageRepository extends JpaRepository<ImageData,Long> {
 
 

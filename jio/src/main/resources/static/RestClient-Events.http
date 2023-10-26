@@ -1,7 +1,8 @@
 
 // get all events
 GET http://localhost:8080/api/v1/events
-Authorization: Basic bul.ge@gmail.com 13473433
+Authorization: Basic thanos.gay@gmail.com 12345678
+
 ###
 
 // get specific event
@@ -27,7 +28,7 @@ Content-Type: application/json
     "capacity":45,
     "eventType":"Workshop",
     "venue":"venue",
-    "image":"/events/cs201.jpg",
+    "image":null,
     "registered": false,
     "visible": false
 }
@@ -44,7 +45,7 @@ Authorization: Basic admin@admin.com admin
     "capacity": "213",
     "description": "sda a a a a  aa a a a a a a a ",
     "endDateTime": "2018-02-05T12:59",
-    "image": "Hello lol",
+    "image": null,
     "isVisible": true,
     "minScore": 72,
     "name": "asdasda",
