@@ -17,7 +17,6 @@ import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
-import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.OrganiserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +39,7 @@ public class OrganiserController {
     public ResponseEntity<Organiser> getOrganiserByEmail(@RequestBody QueryDTO queryDTO) {
         Organiser organiser = organiserService.getOrganiserByEmail(queryDTO.getEmail());
         if (organiser == null) {
-            throw new UserNotFoundException(" " + queryDTO.getEmail());
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(organiser);
