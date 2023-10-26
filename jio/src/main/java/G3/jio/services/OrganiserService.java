@@ -17,6 +17,7 @@ import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
@@ -132,8 +133,23 @@ public class OrganiserService {
     // redirects based on algo type
     public List<EventRegistration> allocateSlotsForEvent(QueryDTO queryDTO) {
 
-        String algo = queryDTO.getAlgo();
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        if (!organiserRepository.existsByEmail(email)) {
+            throw new InvalidUserTypeException("Account is not an organiser!");
+        }
+
+        // get organiser id
         Event event = getEvent(queryDTO.getEventId());
+
+        // check if org id is same
+        if (!getOrganiserByEmail(email).equals(event.getOrganiser())) {
+            throw new InvalidUserTypeException("Account is not creator of this event!");
+        }
+
+        String algo = queryDTO.getAlgo();
+
 
         if (algo.equals("FCFS")) {
             return algoService.allocateSlotsForEventFCFS(event);
