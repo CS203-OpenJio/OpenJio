@@ -1,8 +1,12 @@
 package G3.jio.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
@@ -20,6 +26,7 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
+import G3.jio.services.StorageService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,6 +36,9 @@ import lombok.RequiredArgsConstructor;
 public class EventController {
 
     final private EventService eventService;
+
+    @Autowired
+	private StorageService storageService;
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
@@ -85,4 +95,36 @@ public class EventController {
     public ResponseEntity<List<Student>> getStudentByEventIdandEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO));
     }
+
+    
+    //uploads image and assigns it to events based on eventId, any previous image is deleted
+	@PostMapping("/upload/{id}")
+	public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image")MultipartFile file, @PathVariable Long id) throws IOException {
+		Long uploadImage = storageService.uploadImageToFileSystem(file);
+        Event event = eventService.getEvent(id);
+        if (event.getImage() != null){
+            
+            storageService.deleteImage(event.getImage());
+        }
+        event = eventService.updateEventId(id, uploadImage);
+
+        // if (event == null)
+        //     throw new EventNotFoundException(id);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(uploadImage);
+	}
+
+
+    //downloads image based on eventId
+    @GetMapping("/download/{id}")
+	public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable Long id) throws IOException {
+		Event event = eventService.getEvent(id);
+        Long imageId =event.getImage();
+        byte[] imageData=storageService.downloadImageFromFileSystembyId(imageId);
+		return ResponseEntity.status(HttpStatus.OK)
+				.contentType(MediaType.valueOf("image/png"))
+				.body(imageData);
+
+	}
 }

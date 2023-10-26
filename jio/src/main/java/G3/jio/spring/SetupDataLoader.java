@@ -51,23 +51,23 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // == create events
         createEventIfNotFound(".Hack Social Night", LocalDateTime.of(2023, 10, 1, 7, 0),
                 LocalDateTime.of(2023, 10, 1, 19, 0), "SCIS1 B1 Alcove",
-                "/socialnight.jpg", 3, "",
+                null, 3, "",
                 "Hi All! It is with great pleasure that we invite you to .Hack’s inaugural Social Night 2023! Social Night will serve as a networking platform for you to gain insightful knowledge through the distinguished speakers from companies such as Credit Suisse. You will also get the chance to interact with the speakers and other .Hack members during the event itself. .Hack hopes to provide you with the best experiences, to better prepare you for the technology industry in the workforce. As such, we sincerely hope that you will consider attending Social Night 2023 with us!",
                 true, 0);
 
         createEventIfNotFound("Ellipsis Back2Sku Welfare Drive", LocalDateTime.of(2023, 10, 2, 7, 0),
                 LocalDateTime.of(2023, 10, 2, 19, 0), "SCIS1 Basement (near Big Steps)",
-                "/back2skuwelfaredrive.jpg", 5, "",
+                null, 5, "",
                 "Got the back-to-school blues? Well, you don’t have to dwell on it – because Ellipsis is ready to banish them with our upcoming Back2Sku Welfare Drive! We have packaged snacks and drinks for you, as well as chocolate ice cream and customised Taiwanese dessert bowls, so make sure you don’t miss out!",
                 true, 0);
 
         createEventIfNotFound(".Hack WAD2 Workshop 2023", LocalDateTime.of(2023, 10, 3, 7, 0),
-                LocalDateTime.of(2023, 10, 3, 19, 0), "SCIS1 Seminar Room B1-1", "/wad2workshop.jpg", 10, "",
+                LocalDateTime.of(2023, 10, 3, 19, 0), "SCIS1 Seminar Room B1-1", null, 10, "",
                 "Are you taking WAD2 (Web App Development 2) this year? Need a crash course on how to deploy your project? Don't sweat it! .Hack have put together a WAD2 Workshop masterclass! It aims to help students get a better understanding of AWS services and how to make use of them for your project. We will be going through AWS using S3 and EC2, CI/CD tools and demonstrating a realistic project deployed onto a live website.",
                 true, 0);
 
         createEventIfNotFound(".Hack Certification Programme (DHCP)", LocalDateTime.of(2023, 10, 4, 7, 0),
-                LocalDateTime.of(2023, 10, 4, 19, 0), "SCIS2 Computing Lab B1-1", "/dhcpworkshop.jpg", 15, "",
+                LocalDateTime.of(2023, 10, 4, 19, 0), "SCIS2 Computing Lab B1-1", null, 15, "",
                 "Thinking of picking up a new tech-related skill? Or looking for something that will boost your portfolio? Look no further, .Hack’s much-anticipated DHCP is back this year! By participating in the DHCP, you will be able to take the coveted AWS’s Cloud Practitioner Certification, under the guidance of our experienced .Hack mentors!",
                 true, 0);
 
@@ -115,7 +115,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     public Event createEventIfNotFound(String name, LocalDateTime startDateTime, LocalDateTime endDateTime,
-            String venue, String image, int capacity, String algo, String description,
+            String venue, Long image, int capacity, String algo, String description,
             boolean isVisible, int minScore) {
 
         Event event = eventRepository.findByNameAndStartDateTime(name, startDateTime);

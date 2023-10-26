@@ -79,12 +79,22 @@ public class EventService {
     public Event updateEvent(Long id, EventDTO eventDTO) {
 
         Event event = getEvent(id);
-
+        
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.map(eventDTO, event);
         eventRepository.saveAndFlush(event);
+        
+        return event;
+    }
 
+    
+    public Event updateEventId (Long id, Long imageId){
+        Event event = getEvent(id);
+        if (event == null)
+        {return null;}
+        event.setImage(imageId);
+        eventRepository.saveAndFlush(event);
         return event;
     }
 
