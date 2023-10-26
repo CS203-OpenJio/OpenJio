@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -90,7 +91,8 @@ public class OrganiserService {
             organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
         }
 
-        Event event = eventMapToEntity(eventDTO);
+        Event event = new Event();
+        event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
         organiser.getEvents().add(event);
 
@@ -100,6 +102,8 @@ public class OrganiserService {
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();
 
+        // make sure org id doesnt get mapped to eventId, turning post method to PUT
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Event event = mapper.map(eventDTO, Event.class);
 
         // settle datetime

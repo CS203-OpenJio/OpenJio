@@ -14,6 +14,7 @@ public class EventDTO {
 
     private String name;
     private Long organiserId;
+    private Long eventId;
     private String venue;
     private String image;
     private String algo;
