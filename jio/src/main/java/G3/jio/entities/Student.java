@@ -101,26 +101,56 @@ public class Student implements UserDetails {
             setSmuCreditScore(100);
             return;
         }
+
+        registrations.sort((o1, o2) -> {
+
+            if (o1.getTimeCompleted() == null && o2.getTimeCompleted() == null) {
+                return 0;
+            } else if (o1.getTimeCompleted() == null && o2.getTimeCompleted() != null) {
+                return 1;
+            } else if (o1.getTimeCompleted() != null && o2.getTimeCompleted() == null) {
+                return -1;
+            } else {
+                return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
+            }
+        });
         
         // change this to change short term score
         int k = 10;
-        double total = 1;
-        double score = 3;
+        int count = 0;
+        double total = 0.0001;
+        double score = 0.0001;
+        double shortTerm = score / total * 100;
+        double longTerm = score / total * 100;
 
         for (int i = 0; i < registrations.size(); i++) {
             EventRegistration er = registrations.get(i);
+
             if (!er.isCompleted()) {
-                
+                continue;
+            }
+
+            if (er.getStatus() ==  Status.ACCEPTED) {
+                total += er.getEventScore();
+
+                if (er.isPresentForEvent()) {
+                    score += er.getEventScore();
+                }
+            }
+
+            // to keep track of 1st k events
+            count++;
+            if (count <= k) {
+                shortTerm = score / total * 100;
             }
         }
 
-        double result = score / total * 100;
-        
-        if (result > 100) {
-            setSmuCreditScore(100);
-        } else {
-            setSmuCreditScore((int) result);
-        }
+        longTerm = score / total * 100;
+        // System.out.println("sT: " + shortTerm);
+        // System.out.println("lT: " + longTerm);
+        double result = (0.3 * longTerm) + (0.7 * shortTerm);
+        // System.out.println("result: " + result);
+        setSmuCreditScore(Math.min((int) result, 100));
     }
 
     // **************** SECURITY ****************

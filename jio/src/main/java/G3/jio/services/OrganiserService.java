@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
+import G3.jio.entities.Role;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
+import G3.jio.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,6 +36,7 @@ public class OrganiserService {
     private final EventRepository eventRepository;
     private final AlgoService algoService;
     private final EventRegistrationRepository eventRegistrationRepository;
+    private final StudentRepository studentRepository;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -181,17 +185,17 @@ public class OrganiserService {
 
         Event e = getEvent(queryDTO.getEventId()); 
 
-        // read from jwt token
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = userDetails.getUsername();
-        if (!organiserRepository.existsByEmail(email)) {
-            throw new InvalidUserTypeException("Account is not an organiser!");
-        }
+        // // read from jwt token
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // String email = userDetails.getUsername();
+        // if (!organiserRepository.existsByEmail(email) && email != "admin@admin.com") {
+        //     throw new InvalidUserTypeException("Account is not an organiser!");
+        // }
 
-        // check if org id is same
-        if (!getOrganiserByEmail(email).equals(e.getOrganiser())) {
-            throw new InvalidUserTypeException("Account is not creator of this event!");
-        }
+        // // check if org id is same
+        // if (!getOrganiserByEmail(email).equals(e.getOrganiser()) && email != "admin@admin.com") {
+        //     throw new InvalidUserTypeException("Account is not creator of this event!");
+        // }
         
         e.setCompleted(true);
         e.setVisible(false);
@@ -199,7 +203,9 @@ public class OrganiserService {
         for (EventRegistration er : registrations) {
 
             er.setCompleted(true);
+            er.setTimeCompleted(LocalDateTime.now());
             er.getStudent().updateSmuCreditScore();
+            studentRepository.saveAndFlush(er.getStudent());
             eventRegistrationRepository.saveAndFlush(er);
         }
 

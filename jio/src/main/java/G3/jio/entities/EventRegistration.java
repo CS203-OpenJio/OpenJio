@@ -2,9 +2,12 @@ package G3.jio.entities;
 
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
@@ -56,6 +59,10 @@ public class EventRegistration {
     @Column(name = "time")
     private final LocalDateTime time = LocalDateTime.now();
 
+    @JsonIgnore
+    @Column(name = "timeCompleted")
+    private LocalDateTime timeCompleted;
+
     @JsonView
     public Long getSid() {
         return student.getId();
@@ -66,7 +73,17 @@ public class EventRegistration {
         return event.getId();
     }
 
+    @JsonIgnore
     public int getStudentScore() {
         return student.getSmuCreditScore();
+    }
+
+    @JsonIgnore
+    public double getEventScore() {
+        int signUps = event.getRegistrations().size();
+        double score = signUps / event.getCapacity();
+        double minEventScore = 0.3;
+        double maxEventScore = 3.0;
+        return Math.min(Math.max(minEventScore, score), maxEventScore);
     }
 }

@@ -1,12 +1,8 @@
 package G3.jio.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
@@ -26,7 +20,6 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
-import G3.jio.services.StorageService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -36,9 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class EventController {
 
     final private EventService eventService;
-
-    @Autowired
-	private StorageService storageService;
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {

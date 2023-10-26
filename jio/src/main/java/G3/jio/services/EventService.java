@@ -1,5 +1,7 @@
 package G3.jio.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,8 +106,22 @@ public class EventService {
             .setSkipNullEnabled(true)
             .setMatchingStrategy(MatchingStrategies.STRICT);
         mapper.map(eventDTO, event);
-        eventRepository.saveAndFlush(event);
-        
+
+        // settle datetime
+        DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        if (eventDTO.getStartDateTime() != null) {
+            LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
+            event.setStartDateTime(startDateTime);
+        }
+
+        if (eventDTO.getEndDateTime() != null) {
+            LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
+            event.setEndDateTime(endDateTime);
+        }
+
+        eventRepository.saveAndFlush(event);       
         return event;
     }
 
