@@ -1,19 +1,52 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import CloseIcon from '@mui/icons-material/Close';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import React from "react";
+import { Button, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { set } from "date-fns";
 
+interface MenuItem {
+  name: string;
+  path: string;
+  icon: JSX.Element;
+  authorizedRoles: string[];
+}
+
+const menuItems: MenuItem[] = [
+  {
+    name: "Home",
+    path: "/centralhub",
+    icon: <HomeIcon />,
+    authorizedRoles: ["ADMIN", "STUDENT", "ORGANISER"],
+  },
+  {
+    name: "Profile",
+    path: "/profilepage",
+    icon: <AccountCircleIcon />,
+    authorizedRoles: ["ADMIN", "STUDENT", "ORGANISER"],
+  },
+  {
+    name: "Create Event",
+    path: "/eventform",
+    icon: <AddCircleOutlineIcon />,
+    authorizedRoles: ["ADMIN", "ORGANISER"],
+  },
+  {
+    name: "Schedule",
+    path: "/schedule",
+    icon: <CalendarMonthIcon />,
+    authorizedRoles: ["ADMIN", "STUDENT"],
+  }
+];
 
 function NavBar() {
   const navigate = useNavigate();
@@ -35,16 +68,10 @@ function NavBar() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const scrollToElement = (scrollTarget: string) => {
-    const targetElement = document.getElementById(scrollTarget);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
+    setState({ ...state, ["right"]: false });
   };
 
   //For NavBar transparency effect
@@ -58,9 +85,11 @@ function NavBar() {
         setIsScrolled(false);
       }
     };
+
+    window.addEventListener("scroll", handleScroll);
     const userType = localStorage.getItem("userType") || "";
-      setUserType(userType);
-      console.log(userType);
+    setUserType(userType);
+    console.log(userType);
     // if unauthorized, redirect to login page
     if (userType === "") {
       navigate("/unauthorized");
@@ -69,6 +98,65 @@ function NavBar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor: "right", open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
+
+  const list = () => (
+    <Box
+      sx={{ width: 300 }}
+      role="presentation"
+      onKeyDown={toggleDrawer("right", false)}
+    >
+      <div className="flex p-4 flex-row items-center justify-between cursor-default">
+        <div className="flex flex-row items-center">
+          <Avatar className="w-10 h-10 mr-3" />
+          <Typography>{userType}</Typography>
+        </div>
+        <div className="hover:bg-slate-200 rounded-lg" onClick={handleClose}>
+          <CloseIcon className="cursor-pointer p-1"/>
+        </div>
+      </div>
+      <List>
+        {menuItems.map((item) => (
+          item.authorizedRoles.includes(userType) &&
+          <ListItem key={item.name} onClick={() => navigate(item.path)} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        <ListItem key={"signout"} onClick={handleLogout} disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"Sign Out"} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
 
 
 
@@ -88,64 +176,34 @@ function NavBar() {
         src="/logo.png"
       />
 
-      <div className="mr-5">
-        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          {/* displays userType for testing purposes */}
-          <Typography sx={{ minWidth: 100 }}>{userType}</Typography>
-          <Tooltip title="Account settings">
-            <IconButton
-              onClick={handleClick}
-              size="small"
-              sx={{ ml: 1 }}
-              aria-controls={open ? 'account-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-            >
-              <Avatar sx={{ width: 42, height: 42 }} />
-            </IconButton>
-          </Tooltip>
-        </Box>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          <MenuItem onClick={() => handleClick1("/profilepage")}>
-            <Avatar /> Edit Profile
-          </MenuItem>
-          {(userType === 'ORGANISER' || userType==='ADMIN' )&&
-            <MenuItem onClick={() => handleClick1(`/eventform`)}>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              Create Event
-            </MenuItem>}
-          <Divider />
-          {(userType === 'STUDENT' || userType==='ADMIN') &&
-            <MenuItem onClick={() => handleClick1("/schedule")}>
-              <ListItemIcon>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Schedule
-            </MenuItem>
-          }
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem onClick={handleLogout}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
+      <div className="mr-5 rounded-xl bg-white shadow-md">
+        <React.Fragment key={"right"}>
+          <Button onClick={toggleDrawer("right", true)}>{
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+              {/* displays userType for testing purposes */}
+              <Typography sx={{ minWidth: 100 }}>{userType}</Typography>
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 1 }}
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  <Avatar sx={{ width: 42, height: 42 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>}</Button>
+          <Drawer
+            anchor={"right"}
+            open={state["right"]}
+            onClose={toggleDrawer("right", false)}
+          >
+            {list()}
+          </Drawer>
+        </React.Fragment>
+
       </div>
     </div >
   );
