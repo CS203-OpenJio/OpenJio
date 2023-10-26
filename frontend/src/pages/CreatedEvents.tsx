@@ -16,7 +16,9 @@ const CreatedEvents = () => {
     const [events, setEvents] = useState<any[]>([]);
     const navigate = useNavigate();
 
-
+    const handleClick = (path: string) => {
+        navigate(path);
+      };
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -69,7 +71,8 @@ const CreatedEvents = () => {
                                             {events.visible ? "Visible" : "Not Visible"}
                                         </TableCell>
                                         <TableCell>
-                                            <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-10 text-center hover:cursor-pointer">
+                                            <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-10 text-center hover:cursor-pointer"
+                                            onClick={() => handleClick("/editeventpage?id=" + events.id)}>
                                                 Edit
                                             </div>
                                         </TableCell>
