@@ -2,12 +2,15 @@ import axios from "axios";
 import JWT from "./JWT";
 
 const handleLogin = async (username: string, password: string) => {
-  console.log(username, password);
-  let response = await JWT.post("/api/v1/auth/login", {
-    email: username,
-    password: password,
-  });
-  console.log(response);
+  let response;
+  try {
+    response = await JWT.post("/api/v1/auth/login", {
+      email: username,
+      password: password,
+    });
+  } catch (err: any) {
+    throw err.response.data.message;
+  }
   if (response.status == 200) {
     const token = response.data.token;
     localStorage.setItem("token", token);
@@ -19,7 +22,6 @@ const handleLogin = async (username: string, password: string) => {
       response = await JWT.post(`http://localhost:8080/api/v1/organisers/email`, { email: username });
     }
     if (response.data) {
-      console.log(response.data);
       localStorage.setItem("userType", response.data.role);
     } else {
       throw new Error("User not found");

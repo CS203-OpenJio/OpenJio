@@ -136,7 +136,7 @@ export default function EventForm() {
   }, [algo, isVisible, minScore]);
 
   //submit data to backend
-  function submitData() {
+  async function submitData() {
     const formData = {
       name: name,
       capacity: capacity,
@@ -151,7 +151,7 @@ export default function EventForm() {
 
     // make API call
     try {
-      createEvent(formData);
+      await createEvent(formData);
       setSubmit(true);
       toast(`${name} created successfully! Refresh the page to view the event.`);
       navigate("/centralhub");
@@ -519,9 +519,9 @@ const FormSchema1 = z.object({
       return false; // Not a number
     }
     // Limit to a maximum of 1000
-    return numericValue >= 1 && numericValue <= 1000;
+    return numericValue >= 1 && numericValue <= 10000;
   }, {
-    message: "Capacity must be a number between 1 and 1000.",
+    message: "Capacity must be a number between 1 and 10000.",
   }),
   venue: z.string().min(4, {
     message: "Venue must be at least 4 characters.",
