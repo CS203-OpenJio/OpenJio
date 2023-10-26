@@ -67,7 +67,7 @@ export default function EventForm() {
   const [image, setImage] = useState(null);
   const [algo, setAlgo] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [minScore, setMinScore] = useState(0);
+  const [minScore, setMinScore] = useState(80);
 
   // default values for form
   const form1 = useForm<z.infer<typeof FormSchema1>>({
@@ -132,6 +132,7 @@ export default function EventForm() {
   // use effect for form validation
   useEffect(() => {
     if (!submitted && name != "" && capacity != "" && venue != "" && date != undefined && desc != "") {
+      setSubmit(false);
       submitData();
     }
   }, [algo, isVisible, minScore]);
@@ -479,7 +480,7 @@ export default function EventForm() {
                       <div className="flex flex-row">
                         <Slider max={100} step={1}
                           className="hover:cursor-pointer"
-                          value={[field.value] || 80}
+                          value={[field.value]}
                           onValueChange={(newValue) => {
                             field.onChange(newValue[0]); // Update the form field value
                           }} />
