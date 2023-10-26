@@ -101,26 +101,22 @@ public class Student implements UserDetails {
     public void updateSmuCreditScore() {
         if (registrations == null || registrations.isEmpty()) {
             setSmuCreditScore(100);
+            return;
         }
         
-        int accepted = 1;
-        int present = 3;
-        for (EventRegistration er : registrations) {
+        // change this to change short term score
+        int k = 10;
+        double total = 1;
+        double score = 3;
 
+        for (int i = 0; i < registrations.size(); i++) {
+            EventRegistration er = registrations.get(i);
             if (!er.isCompleted()) {
-                continue;
-            }
-
-            if (er.getStatus() == Status.ACCEPTED) {
-                accepted++;
-            }
-
-            if (er.isPresentForEvent() == true) {
-                present++;
+                
             }
         }
 
-        double result = (double) present / accepted * 100;
+        double result = score / total * 100;
         
         if (result > 100) {
             setSmuCreditScore(100);

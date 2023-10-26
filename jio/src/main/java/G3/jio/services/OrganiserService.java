@@ -10,14 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import G3.jio.DTO.AllocationDTO;
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.OrganiserDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.UserNotFoundException;
+import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class OrganiserService {
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
     private final AlgoService algoService;
+    private final EventRegistrationRepository eventRegistrationRepository;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -128,10 +130,10 @@ public class OrganiserService {
     }
 
     // redirects based on algo type
-    public List<EventRegistration> allocateSlotsForEvent(AllocationDTO allocationDTO) {
+    public List<EventRegistration> allocateSlotsForEvent(QueryDTO queryDTO) {
 
-        String algo = allocationDTO.getAlgo();
-        Event event = getEvent(allocationDTO.getEventId());
+        String algo = queryDTO.getAlgo();
+        Event event = getEvent(queryDTO.getEventId());
 
         if (algo.equals("FCFS")) {
             return algoService.allocateSlotsForEventFCFS(event);
@@ -153,5 +155,20 @@ public class OrganiserService {
         }
         Event event = o.get();
         return event;
+    }
+
+    public void completeEvent(QueryDTO queryDTO) {
+        Event e = getEvent(queryDTO.getEventId()); 
+        e.setCompleted(true);
+        e.setVisible(false);
+        List<EventRegistration> registrations = e.getRegistrations();
+        for (EventRegistration er : registrations) {
+
+            er.setCompleted(true);
+            er.getStudent().updateSmuCreditScore();
+            eventRegistrationRepository.saveAndFlush(er);
+        }
+
+        eventRepository.saveAndFlush(e);
     }
 }

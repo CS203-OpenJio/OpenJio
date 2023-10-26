@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import G3.jio.DTO.AllocationDTO;
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
@@ -70,7 +69,14 @@ public class OrganiserController {
 
     // allocate slots in event
     @PostMapping(path = "/events/allocation")
-    public ResponseEntity<List<EventRegistration>> allocateSlotsForEvent(@RequestBody AllocationDTO allocationDTO) {
-        return ResponseEntity.ok(organiserService.allocateSlotsForEvent(allocationDTO));
+    public ResponseEntity<List<EventRegistration>> allocateSlotsForEvent(@RequestBody QueryDTO queryDTO) {
+        return ResponseEntity.ok(organiserService.allocateSlotsForEvent(queryDTO));
+    }
+
+    // set event to 'completed'
+    @PostMapping(path = "/events/complete")
+    public ResponseEntity<String> completeEvent(@RequestBody QueryDTO queryDTO) {
+        organiserService.completeEvent(queryDTO);
+        return ResponseEntity.ok("Event has been marked as complete.");
     }
 }
