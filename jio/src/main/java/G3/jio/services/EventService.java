@@ -110,15 +110,7 @@ public class EventService {
     }
 
     
-    public Event updateEventId (Long id, Long imageId){
-        
-        Event event = getEvent(id);
-        if (event == null)
-        {return null;}
-        event.setImage(imageId);
-        eventRepository.saveAndFlush(event);
-        return event;
-    }
+
 
     // delete by id
     public void deleteEvent(Long id) {
