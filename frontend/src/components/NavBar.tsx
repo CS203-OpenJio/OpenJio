@@ -10,9 +10,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import GridViewIcon from '@mui/icons-material/GridView';
 import React from "react";
 import { Button, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { set } from "date-fns";
 
 interface MenuItem {
   name: string;
@@ -21,6 +21,7 @@ interface MenuItem {
   authorizedRoles: string[];
 }
 
+//Add here for more menu items!
 const menuItems: MenuItem[] = [
   {
     name: "Home",
@@ -45,7 +46,13 @@ const menuItems: MenuItem[] = [
     path: "/schedule",
     icon: <CalendarMonthIcon />,
     authorizedRoles: ["ADMIN", "STUDENT"],
-  }
+  },
+  {
+    name: "Created Events",
+    path: "/createdevents",
+    icon: <GridViewIcon />,
+    authorizedRoles: ["ADMIN", "ORGANISER"],
+  },
 ];
 
 function NavBar() {
@@ -68,7 +75,7 @@ function NavBar() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleClose = () => {
     setAnchorEl(null);
     setState({ ...state, ["right"]: false });
@@ -131,9 +138,10 @@ function NavBar() {
           <Typography>{userType}</Typography>
         </div>
         <div className="hover:bg-slate-200 rounded-lg" onClick={handleClose}>
-          <CloseIcon className="cursor-pointer p-1"/>
+          <CloseIcon className="cursor-pointer p-1" />
         </div>
       </div>
+      <Divider />
       <List>
         {menuItems.map((item) => (
           item.authorizedRoles.includes(userType) &&
@@ -182,19 +190,9 @@ function NavBar() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
               {/* displays userType for testing purposes */}
               <Typography sx={{ minWidth: 100 }}>{userType}</Typography>
-              <Tooltip title="Account settings">
-                <IconButton
-                  onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 1 }}
-                  aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                >
-                  <Avatar sx={{ width: 42, height: 42 }} />
-                </IconButton>
-              </Tooltip>
-            </Box>}</Button>
+              <Avatar className="w-10 h-10" />
+            </Box>}
+          </Button>
           <Drawer
             anchor={"right"}
             open={state["right"]}
