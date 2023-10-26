@@ -45,7 +45,7 @@ export default function EventForm() {
 
   // check if user is an organiser
   useEffect(() => {
-    if (localStorage.getItem("userType") !== "ORGANISER") {
+    if (localStorage.getItem("userType") === "STUDENT") {
       navigate("/unauthorized");
     }
   }, []);
