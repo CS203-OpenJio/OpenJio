@@ -8,7 +8,6 @@ const createEvent = async (body: {}) => {
             delete body["image"];
             body = {
                 ...body,
-                image: "Hello lol"
             }
             if ("date" in body) {
                 let date = body["date"] as { from?: string, to?: string };
@@ -25,6 +24,7 @@ const createEvent = async (body: {}) => {
             console.log(body);
         await JWT.post("http://localhost:8080/api/v1/organisers/create-event", body).catch(
             (err) => {
+                console.log(err);   
                 throw err;
             }
         );

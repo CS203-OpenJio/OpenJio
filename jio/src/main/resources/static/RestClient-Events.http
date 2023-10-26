@@ -28,7 +28,7 @@ Content-Type: application/json
     "capacity":45,
     "eventType":"Workshop",
     "venue":"venue",
-    "image":null,
+    "image":"/events/cs201.jpg",
     "registered": false,
     "visible": false
 }
@@ -45,7 +45,7 @@ Authorization: Basic admin@admin.com admin
     "capacity": "213",
     "description": "sda a a a a  aa a a a a a a a ",
     "endDateTime": "2018-02-05T12:59",
-    "image": null,
+    "image": "Hello lol",
     "isVisible": true,
     "minScore": 72,
     "name": "asdasda",

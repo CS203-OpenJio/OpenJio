@@ -52,7 +52,7 @@ public class Event {
     private String venue;
 
     @Column(name = "image")
-    private Long image;
+    private String image;
 
     @Column(name = "capacity")
     private int capacity;
