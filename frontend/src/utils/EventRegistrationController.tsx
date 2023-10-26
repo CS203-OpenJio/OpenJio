@@ -24,7 +24,6 @@ const createEvent = async (body: {}) => {
             console.log(body);
         await JWT.post("http://localhost:8080/api/v1/organisers/create-event", body).catch(
             (err) => {
-                console.log(err);   
                 throw err;
             }
         );

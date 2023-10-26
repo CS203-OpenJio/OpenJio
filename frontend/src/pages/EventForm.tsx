@@ -66,7 +66,7 @@ export default function EventForm() {
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
   const [algo, setAlgo] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [minScore, setMinScore] = useState(80);
 
   // default values for form
@@ -90,7 +90,7 @@ export default function EventForm() {
     resolver: zodResolver(FormSchema3),
     defaultValues: {
       algo: algo.toString(),
-      isVisible: isVisible,
+      visible: visible,
       minScore: minScore,
     },
   });
@@ -122,7 +122,7 @@ export default function EventForm() {
   function nextButton3(data: z.infer<typeof FormSchema3>) {
     if (data) {
       setAlgo(parseInt(data.algo));
-      setIsVisible(data.isVisible);
+      setVisible(data.visible);
       setMinScore(data.minScore);
     } else {
       toast("error");
@@ -135,7 +135,7 @@ export default function EventForm() {
       setSubmit(false);
       submitData();
     }
-  }, [algo, isVisible, minScore]);
+  }, [algo, visible, minScore]);
 
   //submit data to backend
   async function submitData() {
@@ -147,7 +147,7 @@ export default function EventForm() {
       description: desc,
       image: image,
       algo: algo,
-      isVisible: isVisible,
+      visible: visible,
       minScore: minScore,
     };
 
@@ -155,7 +155,7 @@ export default function EventForm() {
     try {
       await createEvent(formData);
       setSubmit(true);
-      toast(`${name} created successfully! Refresh the page to view the event.`);
+      toast.success(`${name} created successfully! Refresh the page to view the event.`);
       navigate("/centralhub");
     } catch (err) {
       toast((err as { message: string })?.message || "Unknown error");
@@ -444,7 +444,7 @@ export default function EventForm() {
 
               <FormField
                 control={form3.control}
-                name="isVisible"
+                name="visible"
                 render={({ field }) => (
                   <FormItem className="flex flex-col rounded-lg font-ibm-plex-mono">
                     <FormLabel className="text-base">
@@ -571,7 +571,7 @@ const FormSchema3 = z.object({
   algo: z.string({
     required_error: "Please select an algorithm.",
   }),
-  isVisible: z.boolean().default(false),
+  visible: z.boolean().default(false),
   minScore: z
     .number()
     .min(0, {

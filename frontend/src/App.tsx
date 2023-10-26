@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import Unauthorized from "./pages/Unauthorized";
 import CreatedEvents from "./pages/CreatedEvents";
+import EditEventPage from "./pages/EditEvent";
 
 // import { Route } from "react-router-dom";
 
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
   {
     path: "/unauthorized",
     element: <Unauthorized />,
+  },
+  {
+    path: "/editeventpage",
+    element: <EditEventPage />,
   },
 ]);
 
