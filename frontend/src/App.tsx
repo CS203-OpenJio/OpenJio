@@ -7,7 +7,6 @@ import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 import Schedule from "./pages/Schedule";
-
 import ForgetPassword2 from "src/pages/ForgetPassword2";
 import ForgetPassword3 from "src/pages/ForgetPassword3";
 import Profilepage from "src/pages/ProfilePage";
@@ -15,6 +14,7 @@ import LogoutPage from "src/pages/LogoutPage";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import Unauthorized from "./pages/Unauthorized";
+import CreatedEvents from "./pages/CreatedEvents";
 
 // import { Route } from "react-router-dom";
 
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/schedule",
     element: <Schedule />,
+  },
+  {
+    path: "/createdevents",
+    element: <CreatedEvents />,
   },
   {
     path: "/unauthorized",
