@@ -5,6 +5,7 @@ const LogoutPage = () => {
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
+    localStorage.clear();
     navigate(path);
   };
 

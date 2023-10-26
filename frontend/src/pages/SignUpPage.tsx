@@ -49,66 +49,66 @@ const SignUpPage: FunctionComponent = () => {
 
   const validatePassword = (pwd: string) => {
     if (pwd.length < 8 || pwd.length > 20) {
-        if (!toast.isActive(PASSWORD_TOAST_ID)) {
-            toast.error("Password must be between 8 and 20 characters long.", { toastId: PASSWORD_TOAST_ID });
-        }
-        return false;
+      if (!toast.isActive(PASSWORD_TOAST_ID)) {
+        toast.error("Password must be between 8 and 20 characters long.", { toastId: PASSWORD_TOAST_ID });
+      }
+      return false;
     } else {
-        toast.dismiss(PASSWORD_TOAST_ID);
+      toast.dismiss(PASSWORD_TOAST_ID);
     }
     return true;
-}
+  }
 
-const validatePhoneNumber = (phoneNumber: string) => {
-  const pattern = /^\d{8}$/;
-  if (!pattern.test(phoneNumber)) {
+  const validatePhoneNumber = (phoneNumber: string) => {
+    const pattern = /^\d{8}$/;
+    if (!pattern.test(phoneNumber)) {
       if (!toast.isActive(PHONE_TOAST_ID)) {
-          toast.error("Phone number must be 8 integers only.", { toastId: PHONE_TOAST_ID });
+        toast.error("Phone number must be 8 integers only.", { toastId: PHONE_TOAST_ID });
       }
       return false;
-  } else {
+    } else {
       toast.dismiss(PHONE_TOAST_ID);
+    }
+    return true;
   }
-  return true;
-}
 
-const validateMatriculationId = (matriculationId: string) => {
-  const pattern = /^\d{8}$/;
-  if (!pattern.test(matriculationId)) {
+  const validateMatriculationId = (matriculationId: string) => {
+    const pattern = /^\d{8}$/;
+    if (!pattern.test(matriculationId)) {
       if (!toast.isActive(MATRICULATION_TOAST_ID)) {
-          toast.error("Matriculation ID must be 8 integers only.", { toastId: MATRICULATION_TOAST_ID });
+        toast.error("Matriculation ID must be 8 integers only.", { toastId: MATRICULATION_TOAST_ID });
       }
       return false;
-  } else {
+    } else {
       toast.dismiss(MATRICULATION_TOAST_ID);
+    }
+    return true;
   }
-  return true;
-}
 
-const validateName = (name: string) => {
-  if (name.length < 5 || name.length > 15) {
+  const validateName = (name: string) => {
+    if (name.length < 5 || name.length > 15) {
       if (!toast.isActive(NAME_TOAST_ID)) {
-          toast.error("Name must be between 5 and 15 characters long.", { toastId: NAME_TOAST_ID });
+        toast.error("Name must be between 5 and 15 characters long.", { toastId: NAME_TOAST_ID });
       }
       return false;
-  } else {
+    } else {
       toast.dismiss(NAME_TOAST_ID);
+    }
+    return true;
   }
-  return true;
-}
 
   const validateEmail = (email: string) => {
     const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!pattern.test(email)) {
-        if (!toast.isActive(EMAIL_TOAST_ID)) {
-            toast.error("Invalid email format.", { toastId: EMAIL_TOAST_ID });
-        }
-        return false;
+      if (!toast.isActive(EMAIL_TOAST_ID)) {
+        toast.error("Invalid email format.", { toastId: EMAIL_TOAST_ID });
+      }
+      return false;
     } else {
-        toast.dismiss(EMAIL_TOAST_ID);
+      toast.dismiss(EMAIL_TOAST_ID);
     }
     return true;
-}
+  }
 
   const handleSubmit = async () => {
     //sign up logic w backend api
@@ -117,7 +117,7 @@ const validateName = (name: string) => {
 
     if (!validatePassword(password) || !validateEmail(email) || !validateName(fullname) || !validatePhoneNumber(phonenumber) || !validateMatriculationId(matriculationid)) {
       return; // Don't proceed if validation fails
-  }
+    }
 
 
     try {
@@ -137,7 +137,7 @@ const validateName = (name: string) => {
     } catch (err: any) {
       console.log(err);
       setOpen(true);
-      if (err.response.data.message) {
+      if (err.response?.data.message) {
         setErrorMessage(err.response.data.message);
       } else {
         setErrorMessage("An expected error occured!");
@@ -159,8 +159,8 @@ const validateName = (name: string) => {
               Sign Up
             </b>
             <div className="flex flex-col items-center bg-white rounded-11xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border-[1px] border-solid border-gray-200 p-[24px] w-full space-y-4 ml-[160px]">
-         
-            <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4" style={{ overflowY: 'auto'}}>
+
+              <div className="flex flex-col items-start w-full px-4 space-y-4 mb-4" style={{ overflowY: 'auto' }}>
                 {" "}
                 {/* Adjusted to flex column, added spacing, and overflow hidden */}
                 <div className="flex flex-col items-start w-[100%] space-y-4 mb-4 overflow-hidden">
@@ -178,10 +178,10 @@ const validateName = (name: string) => {
                         onChange={(e) => {
                           setFullname(e.target.value);
                           validateName(e.target.value);
-                      }}
+                        }}
                       />
                     </div>
-                   
+
                   </div>
                   <div className="flex flex-col w-full px-3 space-y-4">
                     <div className="text-left font-medium leading-[20px]">
@@ -196,10 +196,10 @@ const validateName = (name: string) => {
                         onChange={(e) => {
                           setEmail(e.target.value);
                           validateEmail(e.target.value);
-                      }}
+                        }}
                       />
                     </div>
-                   
+
                   </div>
                   {/* Password */}
                   <div className="flex flex-col w-full px-3 space-y-4">
@@ -215,10 +215,10 @@ const validateName = (name: string) => {
                         onChange={(e) => {
                           setPassword(e.target.value);
                           validatePassword(e.target.value);
-                      }}
+                        }}
                       />
                     </div>
-                    
+
                   </div>
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Phone Number */}
@@ -234,10 +234,10 @@ const validateName = (name: string) => {
                         onChange={(e) => {
                           setPhonenumber(e.target.value);
                           validatePhoneNumber(e.target.value);
-                      }}
+                        }}
                       />
                     </div>
-                 
+
                   </div>{" "}
                   {/* Adjusted the container to flex column and added spacing between children elements */}
                   {/* Matriculation Id */}
@@ -254,25 +254,24 @@ const validateName = (name: string) => {
                         onChange={(e) => {
                           setMatriculationid(e.target.value);
                           validateMatriculationId(e.target.value);
-                      }}
+                        }}
                       />
                     </div>
-                   
+
                   </div>
                 </div>
                 <div className="font-medium w-full text-center mb-2">
                   Year of matriculation
                 </div>
-                <div className="flex flex-row items-center space-x-2 mx-auto"> 
+                <div className="flex flex-row items-center space-x-2 mx-auto">
                   {/* Flex container in row orientation with equally spaced items */}
                   <button
                     onClick={() => setSelectedYear("2022/2023")}
                     className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-          selectedYear === "2022/2023"
-            ? "bg-blue-500 text-white"
-            : "bg-floralwhite text-black"
-        } 
+        ${selectedYear === "2022/2023"
+                        ? "bg-blue-500 text-white"
+                        : "bg-floralwhite text-black"
+                      } 
         transform active:scale-95`}
                   >
                     <div className="relative leading-[20px]">2022/2023</div>
@@ -280,11 +279,10 @@ const validateName = (name: string) => {
                   <button
                     onClick={() => setSelectedYear("2021/2022")}
                     className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-          selectedYear === "2021/2022"
-            ? "bg-blue-500 text-white"
-            : "bg-floralwhite text-black"
-        } 
+        ${selectedYear === "2021/2022"
+                        ? "bg-blue-500 text-white"
+                        : "bg-floralwhite text-black"
+                      } 
         transform active:scale-95`}
                   >
                     <div className="relative leading-[20px]">2021/2022</div>
@@ -292,11 +290,10 @@ const validateName = (name: string) => {
                   <button
                     onClick={() => setSelectedYear("2020/2021")}
                     className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-          selectedYear === "2020/2021"
-            ? "bg-blue-500 text-white"
-            : "bg-floralwhite text-black"
-        } 
+        ${selectedYear === "2020/2021"
+                        ? "bg-blue-500 text-white"
+                        : "bg-floralwhite text-black"
+                      } 
         transform active:scale-95`}
                   >
                     <div className="relative leading-[20px]">2020/2021</div>
@@ -304,11 +301,10 @@ const validateName = (name: string) => {
                   <button
                     onClick={() => setSelectedYear("2019/2020")}
                     className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-          selectedYear === "2019/2020"
-            ? "bg-blue-500 text-white"
-            : "bg-floralwhite text-black"
-        } 
+        ${selectedYear === "2019/2020"
+                        ? "bg-blue-500 text-white"
+                        : "bg-floralwhite text-black"
+                      } 
         transform active:scale-95`}
                   >
                     <div className="relative leading-[20px]">2019/2020</div>

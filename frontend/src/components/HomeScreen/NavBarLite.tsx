@@ -5,17 +5,14 @@ import { useState, useEffect } from "react";
 function NavBarLite() {
   const navigate = useNavigate();
 
-  const handleClick = (path: string) => {
-    navigate(path);
-  };
+  // depreciated scroll method
+  // const scrollToElement = (scrollTarget: string) => {
+  //   const targetElement = document.getElementById(scrollTarget);
 
-  const scrollToElement = (scrollTarget: string) => {
-    const targetElement = document.getElementById(scrollTarget);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  //   if (targetElement) {
+  //     targetElement.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   //For NavBar transparency effect
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,7 +74,7 @@ function NavBarLite() {
           FAQ
         </div>
       </div>
-      <div className="mr-5" onClick={() => handleClick("/login")}>
+      <div className="mr-5">
         <LoginButton />
       </div>
     </div>

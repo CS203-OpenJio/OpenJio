@@ -17,17 +17,13 @@ import React from "react";
 
 function NavBar() {
   const navigate = useNavigate();
-  //userType is used to determine what the user can see in the navbar
-  //A = admin, O = organizer, U = user
-  //currently hardcoded to admin
-  const userType = localStorage.getItem("authorization") || "A";
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [userType, setUserType] = useState("");
   const open = Boolean(anchorEl);
 
   // handleClick for logout
   const handleLogout = () => {
     localStorage.removeItem("token");
-
     navigate("/logout");
   };
 
@@ -62,12 +58,20 @@ function NavBar() {
         setIsScrolled(false);
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
+    const userType = localStorage.getItem("userType") || "";
+      setUserType(userType);
+      console.log(userType);
+    // if unauthorized, redirect to login page
+    if (userType === "") {
+      navigate("/unauthorized");
+    }
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+
+
 
   return (
     <div
@@ -86,8 +90,8 @@ function NavBar() {
 
       <div className="mr-5">
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          {/* displays JWT for testing purposes */}
-          <Typography sx={{ minWidth: 0 }}>{localStorage.getItem("token")}</Typography>
+          {/* displays userType for testing purposes */}
+          <Typography sx={{ minWidth: 100 }}>{userType}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -113,7 +117,7 @@ function NavBar() {
           <MenuItem onClick={() => handleClick1("/profilepage")}>
             <Avatar /> Edit Profile
           </MenuItem>
-          {(userType === 'O' || userType==='A' )&&
+          {(userType === 'ORGANISER' || userType==='ADMIN' )&&
             <MenuItem onClick={() => handleClick1(`/eventform`)}>
               <ListItemIcon>
                 <Avatar />
@@ -121,7 +125,7 @@ function NavBar() {
               Create Event
             </MenuItem>}
           <Divider />
-          {(userType === 'U' || userType==='A') &&
+          {(userType === 'STUDENT' || userType==='ADMIN') &&
             <MenuItem onClick={() => handleClick1("/schedule")}>
               <ListItemIcon>
                 <PersonAdd fontSize="small" />
@@ -149,3 +153,7 @@ function NavBar() {
 }
 
 export default NavBar;
+function onEffect(arg0: () => void, arg1: any[]) {
+  throw new Error("Function not implemented.");
+}
+

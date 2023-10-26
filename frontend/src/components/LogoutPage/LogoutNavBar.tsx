@@ -51,7 +51,7 @@ function LogoutNavBar() {
         />
       </Link>
 
-      <div className="mr-5" onClick={() => handleClick("/login")}>
+      <div className="mr-5">
         <LoginButton />
       </div>
     </div>
