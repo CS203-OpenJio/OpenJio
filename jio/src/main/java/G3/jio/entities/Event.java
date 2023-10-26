@@ -76,7 +76,7 @@ public class Event {
 
     // with student
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "event-registration")
     List<EventRegistration> registrations = new ArrayList<>();
 
     public void addEventRegistration(EventRegistration eventRegistration) {
@@ -84,7 +84,7 @@ public class Event {
     }
 
     // with organiser
-    @JsonBackReference
+    @JsonBackReference(value = "organiser-event")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organiser_id")
     private Organiser organiser;

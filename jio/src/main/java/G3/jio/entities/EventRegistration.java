@@ -34,13 +34,13 @@ public class EventRegistration {
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "student_id")
-    @JsonBackReference
+    @JsonBackReference(value = "student-registration")
     // @Exclude
     Student student;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "event_id")
-    @JsonBackReference
+    @JsonBackReference(value = "event-registration")
     // @Exclude
     Event event;
 

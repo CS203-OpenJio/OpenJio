@@ -61,7 +61,7 @@ public class Organiser implements UserDetails {
 
     // ****************** Relationship with EVENT ******************
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "organiser-event")
     @OneToMany(mappedBy = "organiser", orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Event> events;
 

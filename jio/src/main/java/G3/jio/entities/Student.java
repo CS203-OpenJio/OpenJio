@@ -85,7 +85,7 @@ public class Student implements UserDetails {
     private String resetPasswordToken;
 
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "student-registration")
     // @JsonIgnore
     List<EventRegistration> registrations = new ArrayList<>();
 
