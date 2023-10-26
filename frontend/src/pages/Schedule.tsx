@@ -1,16 +1,13 @@
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "src/components/ui/table";
-import JWT from "../utils/JWT";
 import { getSchedule } from "../utils/ScheduleController";
 
 const Schedule = () => {
@@ -22,7 +19,6 @@ const Schedule = () => {
   useEffect(() => {
     // Make the Axios GET request when the component mounts
     getSchedule().then((response: any) => {
-      console.log(response)
       setRegisteredEvents(response); // Store the data in the "data" state variable
       setLoading(false);
     })
