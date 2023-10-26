@@ -3,10 +3,13 @@ package G3.jio.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.LoginDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.DTO.RegistrationDTO;
 import G3.jio.config.jwt.JwtService;
 import G3.jio.entities.AuthenticationResponse;
@@ -141,5 +144,22 @@ public class AuthService {
         Student student = mapper.map(registrationDTO, Student.class);
         student.setRole(Role.STUDENT);
         return student;
+    }
+
+    public Object identifyUser() {
+
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+
+        if (studentRepository.existsByEmail(email)) {
+            return studentRepository.findByEmail(email).get();
+
+        } else if (organiserRepository.existsByEmail(email)){
+            return organiserRepository.findByEmail(email).get();
+
+        } else {
+            throw new UserNotFoundException("No Such User");
+        }
     }
 }

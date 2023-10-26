@@ -3,6 +3,7 @@ package G3.jio.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +40,16 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "Account Successfully Created"),
             @ApiResponse(responseCode = "400", description = "Input fields invalid")
     })
-    @PostMapping("/register")
+    @PostMapping(path = "/register")
     public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody RegistrationDTO registrationDTO) {
 
         // return 201
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(registrationDTO));
     }
 
+    @GetMapping(path = "/identify")
+    public ResponseEntity<Object> identifyUser() {
+
+        return ResponseEntity.ok(authService.identifyUser());
+    }
 }
