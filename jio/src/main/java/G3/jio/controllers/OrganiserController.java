@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/organisers")
 @RequiredArgsConstructor
 public class OrganiserController {
-    
+
     private final OrganiserService organiserService;
 
     // get all organisers

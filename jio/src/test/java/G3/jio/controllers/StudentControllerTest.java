@@ -1,5 +1,5 @@
-package G3.jio.controller;
+package G3.jio.controllers;
 
 public class StudentControllerTest {
-    
+
 }

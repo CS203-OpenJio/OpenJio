@@ -101,7 +101,7 @@ public class Student implements UserDetails {
             setSmuCreditScore(100);
             return;
         }
-        
+
         // change this to change short term score
         int k = 10;
         double total = 1;
@@ -110,12 +110,12 @@ public class Student implements UserDetails {
         for (int i = 0; i < registrations.size(); i++) {
             EventRegistration er = registrations.get(i);
             if (!er.isCompleted()) {
-                
+
             }
         }
 
         double result = score / total * 100;
-        
+
         if (result > 100) {
             setSmuCreditScore(100);
         } else {
