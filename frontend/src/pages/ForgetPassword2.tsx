@@ -53,75 +53,73 @@ const ForgetPassword: FunctionComponent = () => {
       alert("Emails do not match.");
     }
   };
-
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <NavBarLite />
 
-      <div className="flex justify-center items-center h-screen bg-floralwhite text-left text-lg text-black font-ibm-plex-mono">
-        <div className="flex flex-col items-center text-center text-base w-3/4 space-y-4">
-          {!isEmailsMatch && (
-            <div className="bg-lightyellow rounded-lg p-2 shadow-md text-black font-bold">
-              Emails do not match!
-            </div>
-          )}
+      <div className="flex-1 relative bg-floralwhite w-full overflow-hidden text-left text-base text-black font-ibm-plex-mono">
+        <div className="flex flex-col justify-center items-center h-full space-y-6">
+          <div className="flex flex-col items-center space-y-6">
+        
 
-          <div className="leading-[24px] font-medium">Enter Email Address</div>
-          <input
-            className="rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-darkslateblue w-full"
+<div className="rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border  w-[434px] h-[342px] overflow-hidden border-[0.5px] border-solid border-black flex flex-col justify-center items-center p-4 space-y-4">
+
+
+<div className="w-[300px] h-[60px] overflow-visible relative">
+        <div className="absolute top-[-20px] left-[3px] leading-[20px] font-medium inline-block w-[200px] h-[18px] text-black z-10">
+            Email Address
+        </div>
+        <input
+            className={`w-full font-medium font-ibm-plex-mono text-xs bg-white rounded-xl box-border py-2.5 px-3 border-[1px] border-solid ${
+                !isEmailsMatch ? "border-red-500" : "border-darkslateblue"
+            }`}
             type="email"
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className="leading-[20px] font-medium">
+        />
+    </div>
+
+    <div className="w-[300px] h-[60px] overflow-visible relative">
+        <div className="absolute top-[-20px] left-[3px] leading-[20px] font-medium inline-block w-[250px] h-[18px] text-black z-10">
             Confirm Email Address
-          </div>
-          <input
-            className="rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black w-full"
+        </div>
+        <input
+            className={`w-full font-medium font-ibm-plex-mono text-xs bg-white rounded-xl box-border py-2.5 px-3 border-[1px] border-solid ${
+                !isEmailsMatch ? "border-red-500" : "border-darkslateblue"
+            }`}
             type="email"
-            placeholder="Enter your email address"
+            placeholder="Confirm your email address"
             value={confirmEmail}
             onChange={(e) => setConfirmEmail(e.target.value)}
-          />
+        />
+    </div>
+    {!isEmailsMatch && (
+        <div className="bg-lightyellow rounded-lg p-2 shadow-md text-black font-bold w-[300px] mb-2">
+            Emails do not match!
+        </div>
+    )}
 
-          <Link
-            className="cursor-pointer [text-decoration:none] rounded flex flex-row py-[3px] pr-1 pl-2 items-center justify-center gap-[2px] text-3xs text-black font-ibm-plex-mono border-[1px] border-solid border-black"
-            to="/forgetpassword3"
-            onClick={onButtonClick}
-          >
-            Reset Password
-            <img
-              className="relative w-3 h-3 object-cover"
-              alt=""
-              src="/undefined5.png"
-            />
-          </Link>
-
-          <button
-            ref={buttonRef}
-            className="cursor-pointer rounded-xl bg-white box-border w-[438px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
-            onClick={handleSendResetLink}
-            onMouseDown={() =>
-              buttonRef.current &&
-              (buttonRef.current.style.transform = "scale(0.95)")
-            }
-            onMouseUp={() =>
-              buttonRef.current &&
-              (buttonRef.current.style.transform = "scale(1)")
-            }
-            onMouseLeave={() =>
-              buttonRef.current &&
-              (buttonRef.current.style.transform = "scale(1)")
-            }
-          >
-            Send reset Link
-          </button>
-
-          <div className="rounded-md bg-black w-3/4 text-mini text-white p-4">
-            A password reset link will be sent to your email address. Please
-            check your inbox and follow the instructions provided to reset your
-            password.
+              <button
+                ref={buttonRef}
+                className="cursor-pointer rounded-xl bg-floralwhite box-border w-[300px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
+                onClick={handleSendResetLink}
+                onMouseDown={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(0.95)")
+                }
+                onMouseUp={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+                onMouseLeave={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+              >
+                Send Reset Link
+              </button>
+            </div>
           </div>
         </div>
       </div>
