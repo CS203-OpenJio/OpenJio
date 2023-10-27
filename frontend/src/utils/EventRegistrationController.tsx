@@ -14,7 +14,11 @@ const createEvent = async (body: {}) => {
                 delete body["date"];
                 //format date below
                 let dateTo = new Date(date?.to ?? "");
+                var userTimezoneOffset1 = dateTo.getTimezoneOffset() * 60000;
+                dateTo = new Date(dateTo.getTime() - userTimezoneOffset1);
                 let dateFrom = new Date(date?.from ?? "");
+                var userTimezoneOffset2 = dateFrom.getTimezoneOffset() * 60000;
+                dateFrom = new Date(dateFrom.getTime() - userTimezoneOffset2);
                 body = {
                     ...body,
                     startDateTime: dateFrom,

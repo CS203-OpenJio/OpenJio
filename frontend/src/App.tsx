@@ -11,11 +11,14 @@ import ForgetPassword2 from "src/pages/ForgetPassword2";
 import ForgetPassword3 from "src/pages/ForgetPassword3";
 import Profilepage from "src/pages/ProfilePage";
 import LogoutPage from "src/pages/LogoutPage";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Unauthorized from "./pages/Unauthorized";
 import CreatedEvents from "./pages/CreatedEvents";
 import EditEventPage from "./pages/EditEvent";
+import EventParticipant from "./pages/EventParticipant";
+import OSignUpPage from "./pages/OSignUpPage";
+import WhichSignUp from "./pages/WhichSignUp";
 
 // import { Route } from "react-router-dom";
 
@@ -49,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forgetpassword3",
-    element: <ForgetPassword3 />
+    element: <ForgetPassword3 />,
   },
   {
     path: "/eventpage",
@@ -61,7 +64,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
+    element: <WhichSignUp />,
+  },
+  {
+    path: "/studentsignup",
     element: <SignUpPage />,
+  },
+  {
+    path: "/organisersignup",
+    element: <OSignUpPage />,
   },
   {
     path: "/logout",
@@ -83,15 +94,19 @@ const router = createBrowserRouter([
     path: "/editeventpage",
     element: <EditEventPage />,
   },
+  {
+    path: "/eventparticipant",
+    element: <EventParticipant />,
+  },
 ]);
 
 const App = () => {
   return (
-  <>
-  <ToastContainer />
-  <RouterProvider router={router} />;
-  </>
+    <>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </>
   );
-}
+};
 
 export default App;

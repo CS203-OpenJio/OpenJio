@@ -101,8 +101,7 @@ export default function EventForm() {
       setName(data.name);
       setCapacity(data.capacity);
       setVenue(data.venue);
-      // add 1 day to the date range (for some reason the date is off by 1 day)
-      setDate({ from: addDays(data.date.from, 1), to: addDays(data.date.to, 1) });
+      setDate({ from: data.date.from, to: data.date.to });
       setStep(2);
     }
     else {
@@ -155,7 +154,7 @@ export default function EventForm() {
     try {
       await createEvent(formData);
       setSubmit(true);
-      toast.success(`${name} created successfully! Refresh the page to view the event.`);
+      toast.success(`${name} created successfully!`);
       navigate("/centralhub");
     } catch (err) {
       toast((err as { message: string })?.message || "Unknown error");
@@ -548,6 +547,10 @@ const FormSchema2 = z.object({
     message: "Description must have at least 10 words.",
   }),
   image: z.custom((value) => {
+    // If value is null, it means no file was selected
+    if (value == null) {
+      return true;
+    }
     if (!(value instanceof File)) {
       return false;
     }

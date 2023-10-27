@@ -102,13 +102,30 @@ public class Student implements UserDetails {
             return;
         }
 
+        registrations.sort((o1, o2) -> {
+
+            if (o1.getTimeCompleted() == null && o2.getTimeCompleted() == null) {
+                return 0;
+            } else if (o1.getTimeCompleted() == null && o2.getTimeCompleted() != null) {
+                return 1;
+            } else if (o1.getTimeCompleted() != null && o2.getTimeCompleted() == null) {
+                return -1;
+            } else {
+                return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
+            }
+        });
+
         // change this to change short term score
         int k = 10;
-        double total = 1;
-        double score = 3;
+        int count = 0;
+        double total = 0.0001;
+        double score = 0.0001;
+        double shortTerm = score / total * 100;
+        double longTerm = score / total * 100;
 
         for (int i = 0; i < registrations.size(); i++) {
             EventRegistration er = registrations.get(i);
+
             if (!er.isCompleted()) {
 
             }

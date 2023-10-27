@@ -29,7 +29,9 @@ const LoginPage: FunctionComponent = () => {
       handleSuccess("/centralhub");
       // Handle the successful login response here
     } catch (err: any) {
-      setErrorMessage(err?.message || "Login failed. Please check your credentials.");
+      setErrorMessage(
+        err?.message || "Login failed. Please check your credentials."
+      );
     }
   };
 

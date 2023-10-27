@@ -18,7 +18,7 @@ const CreatedEvents = () => {
 
     const handleClick = (path: string) => {
         navigate(path);
-      };
+    };
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -45,7 +45,7 @@ const CreatedEvents = () => {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="w-[70px]">Event Id</TableHead>
+                                    <TableHead>Event Id</TableHead>
                                     <TableHead>Event Name</TableHead>
                                     <TableHead>Venue</TableHead>
                                     <TableHead>Date from</TableHead>
@@ -72,8 +72,14 @@ const CreatedEvents = () => {
                                         </TableCell>
                                         <TableCell>
                                             <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-10 text-center hover:cursor-pointer"
-                                            onClick={() => handleClick("/editeventpage?id=" + events.id)}>
+                                                onClick={() => handleClick("/editeventpage?id=" + events.id)}>
                                                 Edit
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="w-[15%]">
+                                            <div className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center hover:cursor-pointer"
+                                                onClick={() => handleClick("/eventparticipant?id=" + events.id)}>
+                                                View Participants
                                             </div>
                                         </TableCell>
                                     </TableRow>
