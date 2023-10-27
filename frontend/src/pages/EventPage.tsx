@@ -70,49 +70,82 @@ export default function EventPage() {
   );
   function TicketFooter({ id }: { id: number }) {
     let body = {
-      eventId: id,
+        eventId: id,
     };
 
-    async function handleClick() {
-      console.log(body);
+    const [showOrganiserAlert, setShowOrganiserAlert] = useState(false);
 
-      await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
-        (err) => {
-          console.log(err.message);
+    async function handleClick() {
+        console.log(body);
+
+        await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
+            (err) => {
+                console.log(err.message);
+            }
+        );
+    }
+
+    function handleRegisterClick(e: React.MouseEvent) {
+        const userType = localStorage.getItem("userType");
+        if (userType === "ORGANISER") {
+            setShowOrganiserAlert(true);
+            e.preventDefault(); 
+            e.stopPropagation();
+            return;
         }
-      );
     }
 
     return (
-      <div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="hover:cursor-pointer font-ibm-plex-mono"
-            >
-              Register
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className="font-ibm-plex-mono">
-                Confirm Registration?
-              </DialogTitle>
-            </DialogHeader>
-            <DialogFooter>
-              <Link to="/purchased" state={{ TID: id }}>
-                <Button
-                  onClick={handleClick}
-                  className="hover:cursor-pointer font-ibm-plex-mono"
-                >
-                  Confirm
-                </Button>
-              </Link>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
+        <div>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button
+                        variant="outline"
+                        className="hover:cursor-pointer font-ibm-plex-mono"
+                        onClick={handleRegisterClick}
+                    >
+                        Register
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle className="font-ibm-plex-mono">
+                            Confirm Registration?
+                        </DialogTitle>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Link to="/purchased" state={{ TID: id }}>
+                            <Button
+                                onClick={handleClick}
+                                className="hover:cursor-pointer font-ibm-plex-mono"
+                            >
+                                Confirm
+                            </Button>
+                        </Link>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {showOrganiserAlert && (
+                <Dialog open={showOrganiserAlert}>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle className="font-ibm-plex-mono">
+                                Notification
+                            </DialogTitle>
+                        </DialogHeader>
+                        <DialogDescription className="font-ibm-plex-mono">
+                            Organisers cannot register for events.
+                        </DialogDescription>
+                        <DialogFooter>
+                            <Button onClick={() => setShowOrganiserAlert(false)}>
+                                Close
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            )}
+        </div>
     );
-  }
+}
 }
