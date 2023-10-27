@@ -61,8 +61,8 @@ const ForgetPassword: FunctionComponent = () => {
         <div className="flex flex-col justify-center items-center h-full space-y-6">
           <div className="flex flex-col items-center space-y-6">
         
-
-<div className="rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border  w-[434px] h-[342px] overflow-hidden border-[0.5px] border-solid border-black flex flex-col justify-center items-center p-4 space-y-4">
+          <div className="rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border w-[434px] h-[342px] overflow-hidden border-[0.5px] border-solid border-black flex flex-col justify-center items-center p-4 space-y-2">
+    <h2 className="text-xl font-semibold mb-6">Forget Password</h2>
 
 
 <div className="w-[300px] h-[60px] overflow-visible relative">
@@ -94,12 +94,22 @@ const ForgetPassword: FunctionComponent = () => {
             onChange={(e) => setConfirmEmail(e.target.value)}
         />
     </div>
-    {!isEmailsMatch && (
-        <div className="bg-lightyellow rounded-lg p-2 shadow-md text-black font-bold w-[300px] mb-2">
-            Emails do not match!
-        </div>
-    )}
 
+    <Link
+            className="cursor-pointer [text-decoration:none] rounded flex flex-row py-[3px] pr-1 pl-2 items-center justify-center gap-[2px] text-3xs text-black font-ibm-plex-mono border-[1px] border-solid border-black"
+            to="/forgetpassword3"
+            onClick={onButtonClick}
+          >
+            Reset Password
+            <img
+              className="relative w-3 h-3 object-cover"
+              alt=""
+              src="/undefined5.png"
+            />
+          </Link>
+
+
+   
               <button
                 ref={buttonRef}
                 className="cursor-pointer rounded-xl bg-floralwhite box-border w-[300px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
@@ -119,6 +129,13 @@ const ForgetPassword: FunctionComponent = () => {
               >
                 Send Reset Link
               </button>
+              {!isEmailsMatch && (
+        <div className="bg-lightyellow  p-2 text-black font-bold w-[300px] mb-2 text-center">
+            Emails do not match!
+        </div>
+    )}
+
+
             </div>
           </div>
         </div>
