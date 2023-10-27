@@ -16,7 +16,7 @@ const EventBox: React.FC = () => {
   return (
     <div className="bg-white border border-1 round border-black flex flex-column justify-center items-center">
       {events.map((event: any) => (
-        <EventPost
+        event.visible && <EventPost
           key={event?.id}
           eventNumber={event?.id}
           imgPath={event?.image}
