@@ -36,38 +36,43 @@ export default function EventPage() {
       });
   }, []);
 
+ 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex flex-col justify-center">
       <NavBar />
-      <div className="h-[35px]"></div>
-      <div className="gap-10 w-auto m-4">
-        {/* <div className="font-ibm-plex-mono mb-5">
-          Welcome <span className="text-xl font-bold">{user.username}</span>!
-        </div> */}
-        <div className="" key={event?.id}>
-          <div className="flex flex-col justify-normal items-center font-ibm-plex-mono ml-14 mr-14">
-            <h2 className="text-31xl">{event?.name}</h2>
+      <div className="container mx-auto px-4 py-10">
+        <div className="bg-white rounded-xl p-8 shadow-xl mx-auto border-2 border-gray-300 w-full max-w-2xl" key={event?.id}>
+          <h2 className="text-4xl font-semibold mb-8 text-center text-gray-700">{event?.name}</h2>
+          <div className="flex justify-center mb-8">
             <img
               src={event?.image}
-              className="h-[400px] w-[300px] rounded-3xl mb-5"
-            ></img>
-            <div className="flex grow whitespace-break-spaces bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
-              <div className="">
-                Date: {new Date(event?.startDateTime).toLocaleString()} to {new Date(event?.endDateTime).toLocaleString()} |
-              </div>
-              <div className=""> Venue: {event?.venue} | </div>
-              <div className=""> Max Event Capacity: {event?.capacity} </div>
-            </div>
-            <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
-              {event?.description}
-            </div>
-
+              alt={event?.name}
+              className="h-[400px] w-[300px] rounded-3xl shadow-md"
+            />
+          </div>
+          <div className="mb-8 text-center">
+            <p className="text-lg mb-4">
+              <span className="font-semibold">Date:</span> {new Date(event?.startDateTime).toLocaleString()} to {new Date(event?.endDateTime).toLocaleString()}
+            </p>
+            <p className="text-lg mb-4">
+              <span className="font-semibold">Venue:</span> {event?.venue}
+            </p>
+            <p className="text-lg mb-4">
+              <span className="font-semibold">Max Event Capacity:</span> {event?.capacity}
+            </p>
+          </div>
+          <div className="text-gray-700 mb-8 text-center">
+            {event?.description}
+          </div>
+          <div className="flex justify-center">
             <TicketFooter id={event?.id} />
           </div>
         </div>
       </div>
     </div>
   );
+
+  
   function TicketFooter({ id }: { id: number }) {
     let body = {
         eventId: id,
