@@ -105,7 +105,11 @@ const EditEventPage: React.FC = () => {
                 delete updatedData["date"];
                 //format date below
                 let dateTo = new Date(date?.to ?? "");
+                var userTimezoneOffset1 = dateTo.getTimezoneOffset() * 60000;
+                dateTo = new Date(dateTo.getTime() - userTimezoneOffset1);
                 let dateFrom = new Date(date?.from ?? "");
+                var userTimezoneOffset2 = dateFrom.getTimezoneOffset() * 60000;
+                dateFrom = new Date(dateFrom.getTime() - userTimezoneOffset2);
                 updatedData = {
                     ...updatedData,
                     startDateTime: dateFrom,
@@ -449,6 +453,10 @@ const FormSchema = z.object({
         message: "Description must have at least 10 words.",
     }),
     image: z.custom((value) => {
+        // If value is null, it means no file was selected
+        if (value == null) {
+            return true;
+        }
         if (!(value instanceof File)) {
             return false;
         }

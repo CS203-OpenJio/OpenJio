@@ -155,7 +155,7 @@ export default function EventForm() {
     try {
       await createEvent(formData);
       setSubmit(true);
-      toast.success(`${name} created successfully! Refresh the page to view the event.`);
+      toast.success(`${name} created successfully!`);
       navigate("/centralhub");
     } catch (err) {
       toast((err as { message: string })?.message || "Unknown error");
@@ -548,6 +548,10 @@ const FormSchema2 = z.object({
     message: "Description must have at least 10 words.",
   }),
   image: z.custom((value) => {
+    // If value is null, it means no file was selected
+    if (value == null) {
+      return true;
+    }
     if (!(value instanceof File)) {
       return false;
     }
