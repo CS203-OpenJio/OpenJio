@@ -10,10 +10,10 @@ function IsStudentButton() {
     return (
         <a>
             <button
-                className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-4 px-8 border border-gray-400 rounded shadow text-6xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform m-10"
+                className="bg-white hover:translate hover:bg-black hover:text-white font-semibold py-4 px-8 border border-gray-400 rounded shadow text-6xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform mt-2 mb-7"
                 onClick={handleClick}
             >
-                Are you a student?
+                I'm a SMU student!
             </button>
         </a>
     );
