@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  running-integration-and-unit-tests:
+    runs-on: ubuntu-latest
+
+    # Code from Github repository is available on Github Actions runner
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up JDK environment?
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+
+    # Use DATABASE_URL to connect to your RDS MySQL database for testing
+    - name: Run Unit and Integration Testing
+      # env: DATABASE_URL: ${{ secrets.RDS_DATABASE_URL }}
+      run: ./mvnw clean install
+
+  # build-and-deploy-backend:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Build and push backend Docker image
+  #     env:
+  #       ECR_REPO_URI: ${{ secrets.ECR_REPO_URI_BACKEND }}
+  #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     run: |
+  #       # Build the backend Docker image
+  #       docker build -t my-backend-image -f backend/Dockerfile .
+
+  #       # Authenticate with AWS ECR
+  #       aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  #       aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+  #       aws ecr get-login-password --region your-aws-region | docker login --username AWS --password-stdin $ECR_REPO_URI
+
+  #       # Tag and push the backend Docker image to ECR
+  #       docker tag my-backend-image $ECR_REPO_URI:latest
+  #       docker push $ECR_REPO_URI:latest
+
+  #   - name: Deploy backend to ECS
+  #     run: |
+  #       # Deploy the backend service to ECS using ecs-cli or other ECS deployment method
+  #       # Example: ecs-cli compose --file backend/docker-compose.yml up
+
+  # build-and-deploy-frontend:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
+
+  #   - name: Build and push frontend Docker image
+  #     env:
+  #       ECR_REPO_URI: ${{ secrets.ECR_REPO_URI_FRONTEND }}
+  #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     run: |
+  #       # Build the frontend Docker image
+  #       docker build -t my-frontend-image -f frontend/Dockerfile .
+
+  #       # Authenticate with AWS ECR
+  #       aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  #       aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+  #       aws ecr get-login-password --region your-aws-region | docker login --username AWS --password-stdin $ECR_REPO_URI
+
+  #       # Tag and push the frontend Docker image to ECR
+  #       docker tag my-frontend-image $ECR_REPO_URI:latest
+  #       docker push $ECR_REPO_URI:latest
+
+  #   - name: Deploy frontend to ECS
+  #     run: |
+  #       # Deploy the frontend service to ECS using ecs-cli or other ECS deployment method
+  #       # Example: ecs-cli compose --file frontend/docker-compose.yml up
