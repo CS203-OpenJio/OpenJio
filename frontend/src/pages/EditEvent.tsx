@@ -141,11 +141,6 @@ const EditEventPage: React.FC = () => {
         }
     }
 
-
-    function onClick() {
-        console.log(eventData);
-    }
-
     return (
         <div className="w-screen">
             <NavBar />

@@ -101,8 +101,7 @@ export default function EventForm() {
       setName(data.name);
       setCapacity(data.capacity);
       setVenue(data.venue);
-      // add 1 day to the date range (for some reason the date is off by 1 day)
-      setDate({ from: addDays(data.date.from, 1), to: addDays(data.date.to, 1) });
+      setDate({ from: data.date.from, to: data.date.to });
       setStep(2);
     }
     else {
