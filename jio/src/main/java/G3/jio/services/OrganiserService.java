@@ -164,15 +164,16 @@ public class OrganiserService {
 
         String algo;
         if (queryDTO.getAlgo() != null) {
+            System.out.println("query algo: " + queryDTO.getAlgo());
             algo = queryDTO.getAlgo();
 
         } else if (event.getAlgo() != null) {
+            System.out.println("event algo: " + event.getAlgo());
             algo = event.getAlgo();
 
         } else {
             throw new NotExistException("The event has no allocation type!");
         }
-
 
         if (algo.equals("FCFS")) {
             return algoService.allocateSlotsForEventFCFS(event);
@@ -187,7 +188,7 @@ public class OrganiserService {
             return algoService.allocateSlotsForEventScore(event);
         }
 
-        return null;
+        throw new CustomErrorException("The event does not have a valid allocation type!");
     }
 
     public Event getEvent(Long eventId) {
