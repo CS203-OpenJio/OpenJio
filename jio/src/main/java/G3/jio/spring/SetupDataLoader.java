@@ -141,10 +141,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         er.setEvent(eventRepository.findById(eventId).get());
 
         studentRepository.findById(studentId).get().addEventRegistration(er);
-        studentRepository.saveAndFlush(studentRepository.findById(studentId).get());
+        // studentRepository.saveAndFlush(studentRepository.findById(studentId).get());
 
         eventRepository.findById(eventId).get().addEventRegistration(er);
-        eventRepository.saveAndFlush(eventRepository.findById(eventId).get());
+        // eventRepository.saveAndFlush(eventRepository.findById(eventId).get());
 
         eventRegistrationRepository.saveAndFlush(er);
         return er;
