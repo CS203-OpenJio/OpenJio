@@ -110,8 +110,8 @@ const EditEventPage: React.FC = () => {
             dateFrom = new Date(dateFrom.getTime() - userTimezoneOffset2);
             updatedData = {
                 ...updatedData,
-                startDateTime: dateFrom.toISOString().split('T')[0]+ 'T00:00:00',
-                endDateTime: dateTo.toISOString().split('T')[0]+ 'T00:00:00'
+                startDateTime: dateFrom.toISOString().split('T')[0] + 'T00:00:00',
+                endDateTime: dateTo.toISOString().split('T')[0] + 'T00:00:00'
             }
         }
 
@@ -128,12 +128,12 @@ const EditEventPage: React.FC = () => {
             if ("startDateTime" in updatedData) {
                 let date = updatedData["startDateTime"];
                 delete updatedData["startDateTime"];
-                updatedFields["startDateTime"]=date+".000Z";
+                updatedFields["startDateTime"] = date + ".000Z";
             }
             if ("endDateTime" in updatedData) {
                 let date = updatedData["endDateTime"];
                 delete updatedData["endDateTime"];
-                updatedFields["endDateTime"]=date+".000Z";
+                updatedFields["endDateTime"] = date + ".000Z";
             }
             const updatedEvent = { ...updatedFields };
             try {
@@ -170,7 +170,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Name" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s name, you can edit this in the future
+                                        This is your event’s name
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -186,7 +186,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Capacity" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s capacity, you can edit this in the future
+                                        This is your event’s capacity
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -202,7 +202,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Venue" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s location, you can edit this in the future
+                                        This is your event’s location
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -256,41 +256,8 @@ const EditEventPage: React.FC = () => {
                                         </Popover>
                                     </div>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s duration, you can edit this in the future
+                                        This is your event’s duration
                                     </FormDescription>
-                                    <FormMessage className="font-ibm-plex-mono" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            name="image"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel className="font-ibm-plex-mono">Event Image</FormLabel>
-                                    <Input
-                                        id="picture"
-                                        className="bg-white w-96 hover:cursor-pointer"
-                                        type="file"
-                                        onChange={(e) => {
-                                            e.target.files && field.onChange(e.target.files[0]);
-                                        }}
-                                    />
-                                    <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s image, you can change or delete this in the future (optional)
-                                    </FormDescription>
-                                    <FormMessage className="font-ibm-plex-mono" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
-                                    </FormControl>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
                             )}
@@ -349,7 +316,7 @@ const EditEventPage: React.FC = () => {
                                         </PopoverContent>
                                     </Popover>
                                     <FormDescription>
-                                        This chooses the way your slots are distributed, you can change this in the future.
+                                        This chooses the way your slots are distributed
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -376,9 +343,43 @@ const EditEventPage: React.FC = () => {
                                         </div>
                                     </FormControl>
                                     <FormDescription>
-                                        Let your event be visible immediately?
+                                        Let your event be visible?
                                     </FormDescription>
 
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                                    </FormControl>
+                                    <FormMessage className="font-ibm-plex-mono" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="image"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel className="font-ibm-plex-mono">Event Image</FormLabel>
+                                    <Input
+                                        id="picture"
+                                        className="bg-white w-96 hover:cursor-pointer"
+                                        type="file"
+                                        onChange={(e) => {
+                                            e.target.files && field.onChange(e.target.files[0]);
+                                        }}
+                                    />
+                                    <FormDescription className="font-ibm-plex-mono">
+                                        This is your event’s image (optional)
+                                    </FormDescription>
+                                    <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
                             )}
                         />
@@ -499,7 +500,7 @@ const languages = [
     { label: "Random Selection", value: "Random" },
     { label: "Weighted Queue Selection", value: "Score" },
     { label: "Weighted Random Selection", value: "Weighted Random" },
-    
-  ] as const  
+
+] as const
 
 export default EditEventPage;
