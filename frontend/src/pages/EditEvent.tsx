@@ -117,7 +117,6 @@ const EditEventPage: React.FC = () => {
 
         Object.keys(updatedData).forEach((key: string) => {
             if (updatedData[key] != eventData[key]) {
-                console.log(updatedData[key] + "  hi  " + eventData[key])
                 hasUpdates = true;
                 updatedFields[key] = updatedData[key];
             }
@@ -126,6 +125,16 @@ const EditEventPage: React.FC = () => {
         if (hasUpdates && eventId) {
             // create a new event object with only the fields
             // that have been updated by checking with eventData
+            if ("startDateTime" in updatedData) {
+                let date = updatedData["startDateTime"];
+                delete updatedData["startDateTime"];
+                updatedFields["startDateTime"]=date+".000Z";
+            }
+            if ("endDateTime" in updatedData) {
+                let date = updatedData["endDateTime"];
+                delete updatedData["endDateTime"];
+                updatedFields["endDateTime"]=date+".000Z";
+            }
             const updatedEvent = { ...updatedFields };
             try {
                 console.log("below")
