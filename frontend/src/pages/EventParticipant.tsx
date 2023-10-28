@@ -10,7 +10,7 @@ import {
 import { Input, Button } from '@mui/material';
 import { CSVLink } from "react-csv";
 import NavBar from '../components/NavBar';
-import { getParticipants } from '../utils/CreatedEventController';
+import { getParticipants,getAcceptedParticipants,allocateSlots } from '../utils/CreatedEventController';
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface Participant {
@@ -46,14 +46,21 @@ const EventParticipant = () => {
 
     useEffect(() => {
         if (eventId) {
-            getParticipants(eventId).then((eventParticipants) => {
+            getAcceptedParticipants(eventId).then((eventParticipants) => {
                 setParticipants(eventParticipants);
-                console.log(eventParticipants);
             });
         } else {
             throw new Error("Event not found.");
         }
     }, []);
+
+    const handleAllocate = async () => {
+        await allocateSlots(eventId??'');
+        await getAcceptedParticipants(eventId??'').then((eventParticipants) => {
+            setParticipants(eventParticipants);
+            console.log(eventParticipants);
+        });
+    }
 
 
     const handleExport = useCallback(() => {
@@ -103,14 +110,18 @@ const EventParticipant = () => {
     return (
         <div>
             <NavBar />
-            <div className="container mx-auto max-w-3xl mt-[80px]">
+            <div className="container mx-auto max-w-4xl mt-[80px]">
                 <div className="py-8">
-                    <div className="flex flex-row mb-1 sm:mb-0 justify-between items-center w-[88%]">
+                    <div className="flex flex-row mb-1 sm:mb-0 justify-between items-center w-[90%] p-4">
                         <h2 className="text-2xl leading-tight font-ibm-plex-mono">Participants</h2>
                         <Input placeholder="Search" className="mr-2" value={searchTerm} onChange={handleSearch} />
-                        <CSVLink {...handleExport()} filename={'participants.csv'} className="font-bold text-sm font-ibm-plex-mono mr-2 mt-2 px-3 py-2 bg-green-600 rounded-md shadow-lg text-black no-underline hover:bg-green-700">
-                            Export
+                        <CSVLink {...handleExport()} filename={'participants.csv'} className="font-bold text-sm font-ibm-plex-mono px-3 py-2 bg-green-600 rounded-md shadow-lg text-white no-underline hover:bg-green-700">
+                            Export All
                         </CSVLink>
+                        <div className='font-bold text-sm font-ibm-plex-mono px-3 py-2 bg-red-600 rounded-md shadow-lg text-white hover:bg-red-700 hover:cursor-pointer'
+                        onClick={handleAllocate}>
+                            Allocate
+                        </div>
                     </div>
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto font-ibm-plex-mono">
                         <Table>

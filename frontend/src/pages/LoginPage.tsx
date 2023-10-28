@@ -9,8 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { handleLogin } from "../utils/AuthController";
 
-// IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
-
 const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
 
