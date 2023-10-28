@@ -73,7 +73,7 @@ public class EventRegistration {
         return event.getId();
     }
 
-    @JsonIgnore
+    @JsonView
     public int getStudentScore() {
         return student.getSmuCreditScore();
     }

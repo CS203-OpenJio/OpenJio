@@ -52,6 +52,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // == create initial users
         createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN);
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
+        createStudentIfNotFound("student2", "student3@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student3", "student3@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student4", "student4@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student5", "student5@student.com", "student", Role.STUDENT);
@@ -86,30 +87,30 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 
         // create registrations
-        createEventRegistrationIfNotFound(3L, 1L);
-        createEventRegistrationIfNotFound(3L, 2L);
-        createEventRegistrationIfNotFound(3L, 3L);
-        createEventRegistrationIfNotFound(3L, 4L);
+        createEventRegistrationIfNotFound(2L, 1L, false);
+        createEventRegistrationIfNotFound(2L, 2L, false);
+        createEventRegistrationIfNotFound(2L, 3L, true);
+        createEventRegistrationIfNotFound(2L, 4L, true);
 
-        createEventRegistrationIfNotFound(4L, 1L);
-        createEventRegistrationIfNotFound(4L, 2L);
-        createEventRegistrationIfNotFound(4L, 3L);
-        createEventRegistrationIfNotFound(4L, 4L);
+        createEventRegistrationIfNotFound(3L, 1L, false);
+        createEventRegistrationIfNotFound(3L, 2L, true);
+        createEventRegistrationIfNotFound(3L, 3L, true);
+        createEventRegistrationIfNotFound(3L, 4L, true);
 
-        createEventRegistrationIfNotFound(5L, 1L);
-        createEventRegistrationIfNotFound(5L, 2L);
-        createEventRegistrationIfNotFound(5L, 3L);
-        createEventRegistrationIfNotFound(5L, 4L);
+        createEventRegistrationIfNotFound(4L, 1L, false);
+        createEventRegistrationIfNotFound(4L, 2L, false);
+        createEventRegistrationIfNotFound(4L, 3L, false);
+        createEventRegistrationIfNotFound(4L, 4L, false);
 
-        createEventRegistrationIfNotFound(6L, 1L);
-        createEventRegistrationIfNotFound(6L, 2L);
-        createEventRegistrationIfNotFound(6L, 3L);
-        createEventRegistrationIfNotFound(6L, 4L);
+        createEventRegistrationIfNotFound(5L, 1L, true);
+        createEventRegistrationIfNotFound(5L, 2L, true);
+        createEventRegistrationIfNotFound(5L, 3L, false);
+        createEventRegistrationIfNotFound(5L, 4L, false);
 
-        createEventRegistrationIfNotFound(7L, 1L);
-        createEventRegistrationIfNotFound(7L, 2L);
-        createEventRegistrationIfNotFound(7L, 3L);
-        createEventRegistrationIfNotFound(7L, 4L);
+        createEventRegistrationIfNotFound(6L, 1L, true);
+        createEventRegistrationIfNotFound(6L, 2L, true);
+        createEventRegistrationIfNotFound(6L, 3L, true);
+        createEventRegistrationIfNotFound(6L, 4L, true);
 
         alreadySetup = true;
     }
@@ -134,11 +135,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public EventRegistration createEventRegistrationIfNotFound(Long studentId, Long eventId) {
+    public EventRegistration createEventRegistrationIfNotFound(Long studentId, Long eventId, boolean present) {
 
         EventRegistration er = new EventRegistration();
         er.setStudent(studentRepository.findById(studentId).get());
         er.setEvent(eventRepository.findById(eventId).get());
+        er.setPresentForEvent(present);
 
         studentRepository.findById(studentId).get().addEventRegistration(er);
         // studentRepository.saveAndFlush(studentRepository.findById(studentId).get());
