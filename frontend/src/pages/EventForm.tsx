@@ -590,6 +590,7 @@ const languages = [
   { label: "Normal Queue", value: "FCFS" },
   { label: "Random Selection", value: "Random" },
   { label: "Weighted Random Selection", value: "Weighted Random" },
+  { label: "Weighted Random Selection", value: "Weighted Random" },
 ] as const
 
 
