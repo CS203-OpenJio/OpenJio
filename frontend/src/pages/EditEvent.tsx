@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { getEvents, handleChangeEvent } from "../utils/EditEventController";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -47,7 +47,6 @@ const EditEventPage: React.FC = () => {
                 setLoading(true);
                 setEventData({ ...newEvent });
                 setDate({ from: new Date(newEvent.startDateTime), to: new Date(newEvent.endDateTime) });
-                console.log(eventData);
             });
         } else {
             throw new Error("Event not found.");
@@ -59,9 +58,7 @@ const EditEventPage: React.FC = () => {
                 name: eventData.name,
                 capacity: eventData.capacity?.toString(),
                 venue: eventData.venue,
-                date: eventData.date
-                    ? { from: eventData.date.from, to: eventData.date.to }
-                    : null,
+                date: date,
                 image: eventData.image,
                 description: eventData.description,
                 algo: eventData.algo,
@@ -82,7 +79,7 @@ const EditEventPage: React.FC = () => {
             date: date ? { from: date.from, to: date.to } : null,
             image: eventData?.image ?? '',
             description: eventData?.description ?? '',
-            algo: eventData?.algo ?? '0',
+            algo: eventData?.algo ?? '',
             visible: eventData?.visible ?? false,
             minScore: eventData?.minScore ?? 80,
         },
@@ -100,27 +97,26 @@ const EditEventPage: React.FC = () => {
             updatedData = {
                 ...updatedData,
             }
-            if ("date" in updatedData) {
-                let date = updatedData["date"] as { from?: string, to?: string };
-                delete updatedData["date"];
-                //format date below
-                let dateTo = new Date(date?.to ?? "");
-                var userTimezoneOffset1 = dateTo.getTimezoneOffset() * 60000;
-                dateTo = new Date(dateTo.getTime() - userTimezoneOffset1);
-                let dateFrom = new Date(date?.from ?? "");
-                var userTimezoneOffset2 = dateFrom.getTimezoneOffset() * 60000;
-                dateFrom = new Date(dateFrom.getTime() - userTimezoneOffset2);
-                updatedData = {
-                    ...updatedData,
-                    startDateTime: dateFrom,
-                    endDateTime: dateTo
-                }
+        }
+        if ("date" in updatedData) {
+            let date = updatedData["date"] as { from?: string, to?: string };
+            delete updatedData["date"];
+            //format date below
+            let dateTo = new Date(date?.to ?? "");
+            var userTimezoneOffset1 = dateTo.getTimezoneOffset() * 60000;
+            dateTo = new Date(dateTo.getTime() - userTimezoneOffset1);
+            let dateFrom = new Date(date?.from ?? "");
+            var userTimezoneOffset2 = dateFrom.getTimezoneOffset() * 60000;
+            dateFrom = new Date(dateFrom.getTime() - userTimezoneOffset2);
+            updatedData = {
+                ...updatedData,
+                startDateTime: dateFrom.toISOString().split('T')[0] + 'T00:00:00',
+                endDateTime: dateTo.toISOString().split('T')[0] + 'T00:00:00'
             }
         }
 
         Object.keys(updatedData).forEach((key: string) => {
             if (updatedData[key] != eventData[key]) {
-                console.log(updatedData[key], eventData[key])
                 hasUpdates = true;
                 updatedFields[key] = updatedData[key];
             }
@@ -129,15 +125,29 @@ const EditEventPage: React.FC = () => {
         if (hasUpdates && eventId) {
             // create a new event object with only the fields
             // that have been updated by checking with eventData
+            if ("startDateTime" in updatedData) {
+                let date = updatedData["startDateTime"];
+                delete updatedData["startDateTime"];
+                updatedFields["startDateTime"] = date + ".000Z";
+            }
+            if ("endDateTime" in updatedData) {
+                let date = updatedData["endDateTime"];
+                delete updatedData["endDateTime"];
+                updatedFields["endDateTime"] = date + ".000Z";
+            }
             const updatedEvent = { ...updatedFields };
             try {
+                console.log("below")
+                console.log(updatedEvent);
                 handleChangeEvent(eventId, updatedEvent);
-                // navigate("/eventpage?id=" + eventId)
+                // navigate("/createdevents")
             }
             catch (error) {
                 console.log(error);
-                throw new Error("Error updating event details.");
+                toast.error("Error updating event details!");
             }
+        } else {
+            toast.error("No changes made.")
         }
     }
 
@@ -160,7 +170,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Name" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s name, you can edit this in the future
+                                        This is your event’s name
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -176,7 +186,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Capacity" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s capacity, you can edit this in the future
+                                        This is your event’s capacity
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -192,7 +202,7 @@ const EditEventPage: React.FC = () => {
                                         <Input className="bg-white" placeholder="Event Venue" {...field} />
                                     </FormControl>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s location, you can edit this in the future
+                                        This is your event’s location
                                     </FormDescription>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
@@ -201,7 +211,7 @@ const EditEventPage: React.FC = () => {
                         <FormField
                             control={form.control}
                             name="date"
-                            render={({ field }) => (
+                            render={({ }) => (
                                 <FormItem className="flex flex-col">
                                     <FormLabel className="font-ibm-plex-mono">Event Duration</FormLabel>
                                     <div className={cn("grid gap-2")}>
@@ -246,41 +256,8 @@ const EditEventPage: React.FC = () => {
                                         </Popover>
                                     </div>
                                     <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s duration, you can edit this in the future
+                                        This is your event’s duration
                                     </FormDescription>
-                                    <FormMessage className="font-ibm-plex-mono" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            name="image"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel className="font-ibm-plex-mono">Event Image</FormLabel>
-                                    <Input
-                                        id="picture"
-                                        className="bg-white w-96 hover:cursor-pointer"
-                                        type="file"
-                                        onChange={(e) => {
-                                            e.target.files && field.onChange(e.target.files[0]);
-                                        }}
-                                    />
-                                    <FormDescription className="font-ibm-plex-mono">
-                                        This is your event’s image, you can change or delete this in the future (optional)
-                                    </FormDescription>
-                                    <FormMessage className="font-ibm-plex-mono" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
-                                    </FormControl>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
                             )}
@@ -339,7 +316,7 @@ const EditEventPage: React.FC = () => {
                                         </PopoverContent>
                                     </Popover>
                                     <FormDescription>
-                                        This chooses the way your slots are distributed, you can change this in the future.
+                                        This chooses the way your slots are distributed
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -366,9 +343,43 @@ const EditEventPage: React.FC = () => {
                                         </div>
                                     </FormControl>
                                     <FormDescription>
-                                        Let your event be visible immediately?
+                                        Let your event be visible?
                                     </FormDescription>
 
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                                    </FormControl>
+                                    <FormMessage className="font-ibm-plex-mono" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="image"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel className="font-ibm-plex-mono">Event Image</FormLabel>
+                                    <Input
+                                        id="picture"
+                                        className="bg-white w-96 hover:cursor-pointer"
+                                        type="file"
+                                        onChange={(e) => {
+                                            e.target.files && field.onChange(e.target.files[0]);
+                                        }}
+                                    />
+                                    <FormDescription className="font-ibm-plex-mono">
+                                        This is your event’s image (optional)
+                                    </FormDescription>
+                                    <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>
                             )}
                         />
@@ -485,9 +496,11 @@ const FormSchema = z.object({
 })
 
 const languages = [
-    { label: "Normal Queue", value: "0" },
-    { label: "Random Selection", value: "1" },
-    { label: "Weighted Random Selection", value: "2" },
+    { label: "Normal Queue", value: "FCFS" },
+    { label: "Random Selection", value: "Random" },
+    { label: "Weighted Queue Selection", value: "Score" },
+    { label: "Weighted Random Selection", value: "Weighted Random" },
+
 ] as const
 
 export default EditEventPage;

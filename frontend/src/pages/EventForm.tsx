@@ -65,7 +65,7 @@ export default function EventForm() {
   });
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
-  const [algo, setAlgo] = useState(0);
+  const [algo, setAlgo] = useState("");
   const [visible, setVisible] = useState(false);
   const [minScore, setMinScore] = useState(80);
 
@@ -89,7 +89,7 @@ export default function EventForm() {
   const form3 = useForm<z.infer<typeof FormSchema3>>({
     resolver: zodResolver(FormSchema3),
     defaultValues: {
-      algo: algo.toString(),
+      algo: algo,
       visible: visible,
       minScore: minScore,
     },
@@ -120,7 +120,7 @@ export default function EventForm() {
   }
   function nextButton3(data: z.infer<typeof FormSchema3>) {
     if (data) {
-      setAlgo(parseInt(data.algo));
+      setAlgo(data.algo);
       setVisible(data.visible);
       setMinScore(data.minScore);
     } else {
@@ -587,9 +587,10 @@ const FormSchema3 = z.object({
 })
 
 const languages = [
-  { label: "Normal Queue", value: "0" },
-  { label: "Random Selection", value: "1" },
-  { label: "Weighted Random Selection", value: "2" },
+  { label: "Normal Queue", value: "FCFS" },
+  { label: "Random Selection", value: "Random" },
+  { label: "Weighted Random Selection", value: "Weighted Random" },
+  { label: "Weighted Random Selection", value: "Weighted Random" },
 ] as const
 
 

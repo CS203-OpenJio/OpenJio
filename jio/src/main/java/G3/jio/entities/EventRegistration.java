@@ -8,6 +8,7 @@ import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
@@ -29,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "event_registration")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventRegistration {
 
     @Id
@@ -38,13 +40,11 @@ public class EventRegistration {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "student_id")
     @JsonBackReference(value = "student-registration")
-    // @Exclude
     Student student;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "event_id")
     @JsonBackReference(value = "event-registration")
-    // @Exclude
     Event event;
 
     @Column(name = "Status")
@@ -73,7 +73,7 @@ public class EventRegistration {
         return event.getId();
     }
 
-    @JsonIgnore
+    @JsonView
     public int getStudentScore() {
         return student.getSmuCreditScore();
     }
@@ -85,5 +85,11 @@ public class EventRegistration {
         double minEventScore = 0.3;
         double maxEventScore = 3.0;
         return Math.min(Math.max(minEventScore, score), maxEventScore);
+    }
+
+    @Override
+    public String toString() {
+        return "EventRegistration [id=" + id + ", status=" + status + ", isPresentForEvent=" + isPresentForEvent
+                + ", isCompleted=" + isCompleted + "]";
     }
 }

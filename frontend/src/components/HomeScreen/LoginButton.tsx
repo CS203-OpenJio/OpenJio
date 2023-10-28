@@ -5,11 +5,11 @@ function LoginButton() {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    if(localStorage.getItem("token") != null) {
-      navigate("/centralhub");
-    } else {
+    // if(localStorage.getItem("token") != null) {
+    //   navigate("/centralhub");
+    // } else {
       navigate("/login");
-    }
+    // }
   };
   return (
     <a>

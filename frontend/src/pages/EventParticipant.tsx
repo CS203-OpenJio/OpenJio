@@ -7,11 +7,14 @@ import {
     TableHeader,
     TableRow,
 } from "src/components/ui/table";
-import { Input, Button } from '@mui/material';
+import { Input, Button, ToggleButtonGroup, ToggleButton, ButtonGroup } from '@mui/material';
 import { CSVLink } from "react-csv";
 import NavBar from '../components/NavBar';
-import { getParticipants } from '../utils/CreatedEventController';
+import { getParticipants, getStatusParticipants, allocateSlots, closeEvent } from '../utils/CreatedEventController';
+import { getEvents } from '../utils/EditEventController';
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 interface Participant {
     id: number;
@@ -31,6 +34,33 @@ const EventParticipant = () => {
     const [participants, setParticipants] = useState(participantsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string }>({ key: '', direction: '' });
+    const [alignment, setAlignment] = React.useState('web');
+    const [completed, setCompleted] = useState(false);
+    const [eventName, setEventName] = useState("");
+
+    const handleChange = async (
+        event: React.MouseEvent<HTMLElement>,
+        newAlignment: string,
+    ) => {
+        setAlignment(newAlignment);
+        if (eventId) {
+            if (newAlignment === 'ALL') {
+                await getParticipants(eventId ?? '').then((eventParticipants) => {
+                    setParticipants(eventParticipants);
+                });
+            } else if (newAlignment === 'ACCEPTED' || newAlignment === 'PENDING' || newAlignment === 'REJECTED') {
+                await getStatusParticipants(eventId, newAlignment).then((eventParticipants) => {
+                    setParticipants(eventParticipants);
+                });
+            } else {
+                setAlignment("ALL");
+                await getParticipants(eventId ?? '').then((eventParticipants) => {
+                    setParticipants(eventParticipants);
+                });
+            }
+        }
+
+    };
 
     const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -44,16 +74,48 @@ const EventParticipant = () => {
         setSortConfig({ key, direction });
     }, [sortConfig]);
 
+    const updateCompleted = () => {
+        if (eventId) {
+            try {
+                getEvents(eventId).then((newEvent) => {
+                    setEventName(newEvent.name);
+                    setCompleted(newEvent.completed);
+                });
+            } catch (error) {
+                toast.error("Error updating completed.");
+            }
+        } else {
+            toast.error("Event not found.");
+        }
+    }
+
     useEffect(() => {
         if (eventId) {
+            updateCompleted();
             getParticipants(eventId).then((eventParticipants) => {
                 setParticipants(eventParticipants);
-                console.log(eventParticipants);
+                handleChange({} as React.MouseEvent<HTMLElement>, 'ALL');
             });
         } else {
-            throw new Error("Event not found.");
+            toast.error("Event not found.");
         }
     }, []);
+
+    const handleAllocate = async () => {
+        if (eventId) {
+            try {
+                await allocateSlots(eventId);
+                await getStatusParticipants(eventId, "ACCEPTED").then((eventParticipants) => {
+                    setParticipants(eventParticipants);
+                    handleChange({} as React.MouseEvent<HTMLElement>, 'ACCEPTED');
+                });
+            } catch (error) {
+                toast.error("Error allocating slots.");
+            }
+
+        }
+
+    };
 
 
     const handleExport = useCallback(() => {
@@ -100,18 +162,61 @@ const EventParticipant = () => {
         return filteredParticipants;
     }, [searchTerm, sortedParticipants]);
 
+    async function handleClose(): Promise<void> {
+        if (eventId) {
+            try {
+            await closeEvent(eventId)
+            toast.success("Event closed.");
+            updateCompleted();
+            } catch (error) {
+                toast.error("Error closing event.");
+            }
+        } else {
+            toast.error("Event not found.");
+        }
+    }
+
     return (
         <div>
             <NavBar />
-            <div className="container mx-auto max-w-3xl mt-[80px]">
+            <div className="container mx-auto max-w-4xl mt-[80px]">
                 <div className="py-8">
-                    <div className="flex flex-row mb-1 sm:mb-0 justify-between items-center w-[88%]">
-                        <h2 className="text-2xl leading-tight font-ibm-plex-mono">Participants</h2>
-                        <Input placeholder="Search" className="mr-2" value={searchTerm} onChange={handleSearch} />
-                        <CSVLink {...handleExport()} filename={'participants.csv'} className="font-bold text-sm font-ibm-plex-mono mr-2 mt-2 px-3 py-2 bg-green-600 rounded-md shadow-lg text-black no-underline hover:bg-green-700">
-                            Export
-                        </CSVLink>
+                    <h2 className="text-2xl leading-tight font-ibm-plex-mono">Participants<span className='text-sm'> of <span className='underline tracking-tight'>{eventName}</span></span></h2>
+                    <div className="flex flex-row mb-1 sm:mb-0 justify-between h-8">
+                        <div className='flex-col'>
+                            <ToggleButtonGroup
+                                className='h-8'
+                                color="primary"
+                                value={alignment}
+                                exclusive
+                                onChange={handleChange}
+                                aria-label="Platform"
+                            >
+                                <ToggleButton value="ALL">All</ToggleButton>
+                                <ToggleButton value="ACCEPTED">Accepted</ToggleButton>
+                                <ToggleButton value="PENDING">Pending</ToggleButton>
+                                <ToggleButton value="REJECTED">Rejected</ToggleButton>
+                            </ToggleButtonGroup>
+                            <Input placeholder="Search" className="ml-2" value={searchTerm} onChange={handleSearch} />
+                        </div>
+
+                        <div className='flex'>
+                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                <Button
+                                    className='bg-green-500'
+                                    color="success">
+                                    <CSVLink {...handleExport()} filename={'participants.csv'} className="text-white no-underline flex">
+                                        <CloudDownloadIcon /><span className='ml-1'>.CSV</span>
+                                    </CSVLink>
+                                </Button>
+                                <Button onClick={handleAllocate} disabled={completed}>Allocate</Button>
+                                <Button onClick={handleClose} disabled={completed} color="error">{completed ? "event closed" : "close event"}</Button>
+                            </ButtonGroup>
+                        </div>
+
                     </div>
+
+
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto font-ibm-plex-mono">
                         <Table>
                             <TableHeader>
@@ -138,6 +243,7 @@ const EventParticipant = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
 
     );
