@@ -15,18 +15,26 @@ import {
 } from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
 import JWT from "../utils/JWT";
+import { set } from "date-fns";
 
 export default function EventPage() {
   // does a GET request, sets it in PostData variable
-
+  const navigate = useNavigate();
   const [event, setEvent] = useState({} as any);
 
   // to search for id based on url so we can GET request specific event
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get("id");
+  const [userType, setUser] = useState({} as any);
 
   useEffect(() => {
     // Make the Axios GET request when the component mounts
+    const userType = localStorage.getItem("userType") || "";
+    setUser(userType);
+    // if unauthorized, redirect to login page
+    if (userType === "") {
+      navigate("/unauthorized");
+    }
     JWT.get(`http://localhost:8080/api/v1/events/id/${eventId}`)
       .then((response) => {
         setEvent(response.data); // Store the data in the "data" state variable
@@ -40,29 +48,35 @@ export default function EventPage() {
     <div>
       <NavBar />
       <div className="h-[35px]"></div>
-      <div className="gap-10 w-auto m-4">
+      <div className=" m-4">
         {/* <div className="font-ibm-plex-mono mb-5">
           Welcome <span className="text-xl font-bold">{user.username}</span>!
         </div> */}
         <div className="" key={event?.id}>
-          <div className="flex flex-col justify-normal items-center font-ibm-plex-mono ml-14 mr-14">
-            <h2 className="text-31xl">{event?.name}</h2>
+          <div className="flex flex-row justify-normal font-ibm-plex-mono w-[70%] m-auto mt-24">
             <img
               src={event?.image}
-              className="h-[400px] w-[300px] rounded-3xl mb-5"
+              className="rounded-3xl mx-auto object-contain w-[500px] mr-16"
             ></img>
-            <div className="flex grow whitespace-break-spaces bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg m-4">
-              <div className="">
-                Date: {new Date(event?.startDateTime).toLocaleString()} to {new Date(event?.endDateTime).toLocaleString()} |
+            <div className="flex flex-col bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg mx-auto mt-8">
+            <h2 className="text-28xl font-ibm-plex-mono mx-auto">{event?.name}</h2>
+              <div className="ml-8 mt-8">
+                Date: {new Date(event?.startDateTime).toLocaleDateString()} to {new Date(event?.endDateTime).toLocaleDateString()}
               </div>
-              <div className=""> Venue: {event?.venue} | </div>
-              <div className=""> Max Event Capacity: {event?.capacity} </div>
-            </div>
-            <div className="flex grow text-4xl font-light bg-white border border-solid border-black rounded-lg p-3 m-4">
-              {event?.description}
+              <div className="ml-8">Venue: {event?.venue}</div>
+              <div className="ml-8">Event Capacity: {event?.capacity}</div>
+              <div className="font-light -mb-8 mx-8 text-xl mt-12">Description</div>
+              <p className="flex grow text-lg font-mono font-light bg-white border border-solid border-black rounded-lg p-3 mt-8 tracking-tight mx-8">
+                {event?.description}
+              </p>
+              <div className="flex flex-row justify-end mt-8">
+                 {userType == "STUDENT" && <TicketFooter id={event?.id} />}
+              </div>
+
             </div>
 
-            <TicketFooter id={event?.id} />
+
+
           </div>
         </div>
       </div>
@@ -89,14 +103,14 @@ export default function EventPage() {
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="hover:cursor-pointer font-ibm-plex-mono"
+              className="hover:cursor-pointer font-ibm-plex-mono bg-black text-white shadow-lg"
             >
               Register
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="font-ibm-plex-mono">
+              <DialogTitle className="font-ibm-plex-mono tracking-wide">
                 Confirm Registration?
               </DialogTitle>
             </DialogHeader>

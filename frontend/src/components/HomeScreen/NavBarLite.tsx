@@ -40,7 +40,7 @@ function NavBarLite() {
   return (
     <div
       className={`flex justify-between items-center fixed w-full ${
-        isScrolled ? "bg-white shadow-sm" : ""
+        isScrolled ? "bg-[#FBF6EE] shadow-sm" : ""
       } z-50 pt-2 pb-2`}
       style={{
         transition: "background-color 0.2s ease-in-out",
