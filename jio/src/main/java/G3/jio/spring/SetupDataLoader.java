@@ -44,9 +44,18 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
 
         // == create initial users
-        createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN, 100);
+        createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN);
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
-        createStudentIfNotFound("student", "student@student.com", "student", Role.STUDENT, 50);
+        createStudentIfNotFound("student1", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student2", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student3", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student4", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student5", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student6", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student7", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student8", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student9", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student10", "student@student.com", "student", Role.STUDENT);
 
         // == create events
         createEventIfNotFound(".Hack Social Night", LocalDateTime.of(2023, 10, 1, 7, 0),
@@ -75,7 +84,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public Student createStudentIfNotFound(String name, String email, String password, Role role, int smuCreditScore) {
+    public Student createStudentIfNotFound(String name, String email, String password, Role role) {
 
         Student student = studentRepository.findByEmail(email).map(s -> {
             return s;
@@ -87,7 +96,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
             student.setRole(role);
-            student.setSmuCreditScore(smuCreditScore);
         }
 
         student = studentRepository.save(student);
@@ -132,6 +140,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             event.setDescription(description);
             event.setVisible(isVisible);
             event.setMinScore(minScore);
+            event.setOrganiser(organiserRepository.findById(1L).get());
         }
 
         event = eventRepository.save(event);
