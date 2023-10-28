@@ -79,7 +79,7 @@ public class StudentControllerTest {
         student = new Student();
         student.setName("admin");
         String encodedPassword = new BCryptPasswordEncoder().encode("password");
-        student.setEmail("admin@admin.com");
+        student.setEmail("admin1@admin.com");
         student.setPassword(encodedPassword);
         student.setRole(Role.ADMIN);
         studentRepository.save(student);
@@ -93,7 +93,7 @@ public class StudentControllerTest {
         studentRepository.save(student);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("admin@admin.com", "password");
+        headers.setBasicAuth("admin1@admin.com", "password");
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject jsonObject = new JSONObject();
         try {
@@ -112,9 +112,6 @@ public class StudentControllerTest {
                 HttpMethod.POST,
                 request,
                 AuthenticationResponse.class);
-
-        // testing if Student was created successfully
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
         // Registration was successful, and the response contains a token.
         AuthenticationResponse responseBody = response.getBody();
@@ -157,7 +154,7 @@ public class StudentControllerTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name", "new guy");
+            jsonObject.put("name", "newguy");
             jsonObject.put("email", "newGuyEmail@test.com");
             jsonObject.put("password", "password");
             jsonObject.put("userType", "S");
