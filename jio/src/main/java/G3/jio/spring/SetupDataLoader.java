@@ -5,14 +5,17 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import G3.jio.entities.Event;
+import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Role;
 import G3.jio.entities.Student;
+import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
@@ -34,6 +37,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EventRegistrationRepository eventRegistrationRepository;
+
     // API
 
     @Override
@@ -46,16 +52,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // == create initial users
         createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN);
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
-        createStudentIfNotFound("student1", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student2", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student3", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student4", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student5", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student6", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student7", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student8", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student9", "student@student.com", "student", Role.STUDENT);
-        createStudentIfNotFound("student10", "student@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student3", "student3@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student4", "student4@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student5", "student5@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student6", "student6@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student7", "student7@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student8", "student8@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student9", "student9@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student10", "student10@student.com", "student", Role.STUDENT);
 
         // == create events
         createEventIfNotFound(".Hack Social Night", LocalDateTime.of(2023, 10, 1, 7, 0),
@@ -80,6 +84,33 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 "Thinking of picking up a new tech-related skill? Or looking for something that will boost your portfolio? Look no further, .Hack’s much-anticipated DHCP is back this year! By participating in the DHCP, you will be able to take the coveted AWS’s Cloud Practitioner Certification, under the guidance of our experienced .Hack mentors!",
                 true, 0);
 
+
+        // create registrations
+        createEventRegistrationIfNotFound(3L, 1L);
+        createEventRegistrationIfNotFound(3L, 2L);
+        createEventRegistrationIfNotFound(3L, 3L);
+        createEventRegistrationIfNotFound(3L, 4L);
+
+        createEventRegistrationIfNotFound(4L, 1L);
+        createEventRegistrationIfNotFound(4L, 2L);
+        createEventRegistrationIfNotFound(4L, 3L);
+        createEventRegistrationIfNotFound(4L, 4L);
+
+        createEventRegistrationIfNotFound(5L, 1L);
+        createEventRegistrationIfNotFound(5L, 2L);
+        createEventRegistrationIfNotFound(5L, 3L);
+        createEventRegistrationIfNotFound(5L, 4L);
+
+        createEventRegistrationIfNotFound(6L, 1L);
+        createEventRegistrationIfNotFound(6L, 2L);
+        createEventRegistrationIfNotFound(6L, 3L);
+        createEventRegistrationIfNotFound(6L, 4L);
+
+        createEventRegistrationIfNotFound(7L, 1L);
+        createEventRegistrationIfNotFound(7L, 2L);
+        createEventRegistrationIfNotFound(7L, 3L);
+        createEventRegistrationIfNotFound(7L, 4L);
+
         alreadySetup = true;
     }
 
@@ -100,6 +131,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         student = studentRepository.save(student);
         return student;
+    }
+
+    @Transactional
+    public EventRegistration createEventRegistrationIfNotFound(Long studentId, Long eventId) {
+
+        EventRegistration er = new EventRegistration();
+        er.setStudent(studentRepository.findById(studentId).get());
+        er.setEvent(eventRepository.findById(eventId).get());
+
+        eventRegistrationRepository.saveAndFlush(er);
+        return er;
     }
 
     @Transactional
