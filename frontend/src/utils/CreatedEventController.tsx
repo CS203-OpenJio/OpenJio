@@ -41,9 +41,9 @@ const allocateSlots = async (id: string) => {
     }
 }
 
-const getAcceptedParticipants = async (id: string) => {
+const getStatusParticipants = async (id: string, status:string) => {
     try {
-        const response = await JWT.post(`http://localhost:8080/api/v1/events/registrations`, {eventId: id, status: "ACCEPTED"});
+        const response = await JWT.post(`http://localhost:8080/api/v1/events/registrations`, {eventId: id, status: status});
         return response.data;
     } catch (error) {
         console.log(error);
@@ -51,4 +51,13 @@ const getAcceptedParticipants = async (id: string) => {
     }
 }
 
-export { getEvents, getParticipants, allocateSlots, getAcceptedParticipants };
+const closeEvent = async (id: string) => {
+    try {
+        await JWT.post(`http://localhost:8080/api/v1/organisers/events/complete`, {eventId: id});
+    } catch (error) {
+        console.log(error);
+        throw new Error("Error closing event.");
+    }
+}   
+
+export { getEvents, getParticipants, allocateSlots, getStatusParticipants, closeEvent };
