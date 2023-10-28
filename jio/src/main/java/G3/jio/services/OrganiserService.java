@@ -1,5 +1,6 @@
 package G3.jio.services;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,6 +22,7 @@ import G3.jio.entities.Organiser;
 import G3.jio.entities.Role;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
@@ -156,7 +158,16 @@ public class OrganiserService {
             throw new InvalidUserTypeException("Account is not creator of this event!");
         }
 
-        String algo = queryDTO.getAlgo();
+        String algo;
+        if (queryDTO.getAlgo() != null) {
+            algo = queryDTO.getAlgo();
+
+        } else if (event.getAlgo() != null) {
+            algo = event.getAlgo();
+
+        } else {
+            throw new NotExistException("The event has no allocation type!");
+        }
 
 
         if (algo.equals("FCFS")) {

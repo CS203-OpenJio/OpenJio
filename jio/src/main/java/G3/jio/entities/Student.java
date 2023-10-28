@@ -114,7 +114,7 @@ public class Student implements UserDetails {
                 return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
             }
         });
-
+        
         // change this to change short term score
         int k = 10;
         int count = 0;
@@ -127,17 +127,30 @@ public class Student implements UserDetails {
             EventRegistration er = registrations.get(i);
 
             if (!er.isCompleted()) {
+                continue;
+            }
 
+            if (er.getStatus() ==  Status.ACCEPTED) {
+                total += er.getEventScore();
+
+                if (er.isPresentForEvent()) {
+                    score += er.getEventScore();
+                }
+            }
+
+            // to keep track of 1st k events
+            count++;
+            if (count <= k) {
+                shortTerm = score / total * 100;
             }
         }
 
-        double result = score / total * 100;
-
-        if (result > 100) {
-            setSmuCreditScore(100);
-        } else {
-            setSmuCreditScore((int) result);
-        }
+        longTerm = score / total * 100;
+        // System.out.println("sT: " + shortTerm);
+        // System.out.println("lT: " + longTerm);
+        double result = (0.3 * longTerm) + (0.7 * shortTerm);
+        // System.out.println("result: " + result);
+        setSmuCreditScore(Math.min((int) result, 100));
     }
 
     // **************** SECURITY ****************
