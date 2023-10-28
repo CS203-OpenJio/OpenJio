@@ -1,7 +1,6 @@
 import { FunctionComponent, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { getStudentByEmail, handleChangeDetails } from "../utils/ProfileController";
-import { setEngine } from "crypto";
 
 const ChangeProfile: FunctionComponent = () => {
     const [dob, setDob] = useState("");

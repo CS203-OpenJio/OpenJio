@@ -23,9 +23,7 @@ const CreatedEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getEvents();
-            console.log(events);
             setEvents(events);
-            console.log(events.length)
         };
         if (localStorage.getItem("userType") === "STUDENT") {
             navigate("/unauthorized");
