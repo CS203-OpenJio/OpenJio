@@ -1,5 +1,5 @@
 # Using an official Node.js runtime as a parent image
-FROM node
+FROM node:alpine
 
 # Setting the working directory to /openjio/frontend
 WORKDIR /openjio/frontend
@@ -10,6 +10,8 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+
+RUN npm install -g cross-env
 
 # Copy the rest of the application code to the working directory
 COPY . .
