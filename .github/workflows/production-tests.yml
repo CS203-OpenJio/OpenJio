@@ -24,7 +24,7 @@ jobs:
         cache: maven
 
     - name: Change directory to Backend
-      run: cd /jio
+      run: cd jio
     
     - name: Test with Maven
       run: ./mvnw test
