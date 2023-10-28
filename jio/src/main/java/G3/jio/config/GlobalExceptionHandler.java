@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import G3.jio.exceptions.AlreadyExistsException;
+import G3.jio.exceptions.CustomErrorException;
 import G3.jio.exceptions.ErrorModel;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.FailedRegistrationException;
@@ -108,4 +109,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Invalid parameters in request", ex.getMessage());
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
 	}
+
+    @ExceptionHandler(CustomErrorException.class)
+    private ResponseEntity<ErrorModel> handleCustomError(CustomErrorException ex) {
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Something went wrong?", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }

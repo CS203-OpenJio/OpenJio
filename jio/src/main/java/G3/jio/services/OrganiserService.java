@@ -1,14 +1,13 @@
 package G3.jio.services;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,8 @@ import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
-import G3.jio.entities.Role;
+import G3.jio.entities.Status;
+import G3.jio.exceptions.CustomErrorException;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.NotExistException;
@@ -27,7 +27,6 @@ import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
-import G3.jio.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -38,7 +37,7 @@ public class OrganiserService {
     private final EventRepository eventRepository;
     private final AlgoService algoService;
     private final EventRegistrationRepository eventRegistrationRepository;
-    private final StudentRepository studentRepository;
+    private final StudentService studentService;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -158,6 +157,11 @@ public class OrganiserService {
             throw new InvalidUserTypeException("Account is not creator of this event!");
         }
 
+        // check if event is completed
+        if (event.isCompleted()) {
+            throw new CustomErrorException("Event is already completed!");
+        }
+
         String algo;
         if (queryDTO.getAlgo() != null) {
             algo = queryDTO.getAlgo();
@@ -211,15 +215,14 @@ public class OrganiserService {
         e.setCompleted(true);
         e.setVisible(false);
         List<EventRegistration> registrations = e.getRegistrations();
-        for (EventRegistration er : registrations) {
+        Iterator<EventRegistration> it = registrations.iterator();
+        while (it.hasNext()) {
+
+            EventRegistration er = it.next();
 
             er.setCompleted(true);
             er.setTimeCompleted(LocalDateTime.now());
-            er.getStudent().updateSmuCreditScore();
-            studentRepository.saveAndFlush(er.getStudent());
-            eventRegistrationRepository.saveAndFlush(er);
         }
-
         eventRepository.saveAndFlush(e);
     }
 }

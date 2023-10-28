@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -94,12 +95,11 @@ public class Student implements UserDetails {
     }
 
     // smu credit score
-    private int smuCreditScore = 100;
+    @JsonView
+    public int getSmuCreditScore() {
 
-    public void updateSmuCreditScore() {
         if (registrations == null || registrations.isEmpty()) {
-            setSmuCreditScore(100);
-            return;
+            return 100;
         }
 
         registrations.sort((o1, o2) -> {
@@ -132,6 +132,7 @@ public class Student implements UserDetails {
 
             if (er.getStatus() ==  Status.ACCEPTED) {
                 total += er.getEventScore();
+                System.out.println(total);
 
                 if (er.isPresentForEvent()) {
                     score += er.getEventScore();
@@ -144,13 +145,13 @@ public class Student implements UserDetails {
                 shortTerm = score / total * 100;
             }
         }
-
+        
         longTerm = score / total * 100;
         // System.out.println("sT: " + shortTerm);
         // System.out.println("lT: " + longTerm);
         double result = (0.3 * longTerm) + (0.7 * shortTerm);
         // System.out.println("result: " + result);
-        setSmuCreditScore(Math.min((int) result, 100));
+        return Math.min((int) result, 100);
     }
 
     // **************** SECURITY ****************
@@ -246,5 +247,4 @@ public class Student implements UserDetails {
         result = prime * result + ((dob == null) ? 0 : dob.hashCode());
         return result;
     }
-
 }
