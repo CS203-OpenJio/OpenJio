@@ -2,6 +2,8 @@ package G3.jio.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -76,14 +78,13 @@ public class StudentControllerTest {
         // admin account
         student = new Student();
         student.setName("admin");
-        String encodedPassword = new BCryptPasswordEncoder().encode("admin");
+        String encodedPassword = new BCryptPasswordEncoder().encode("password");
         student.setEmail("admin@admin.com");
         student.setPassword(encodedPassword);
         student.setRole(Role.ADMIN);
         studentRepository.save(student);
 
         student = new Student();
-        student.setId(2L); // ID for testing only
         student.setName("test1");
         encodedPassword = new BCryptPasswordEncoder().encode("password");
         student.setEmail("test@test.com");
@@ -92,6 +93,7 @@ public class StudentControllerTest {
         studentRepository.save(student);
 
         HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("admin@admin.com", "password");
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject jsonObject = new JSONObject();
         try {
@@ -182,7 +184,7 @@ public class StudentControllerTest {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("email", "test2@test.com");
+            jsonObject.put("email", "test@test.com");
         } catch (JSONException e) {
 
         }
