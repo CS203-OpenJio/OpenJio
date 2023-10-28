@@ -38,14 +38,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Change directory to Frontend 
-        run: cd frontend
-
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
           IMAGE_TAG: latest
         run: |
+          cd frontend
           aws ecr-public get-login-password --region us-east-1  | docker login --username AWS --password-stdin public.ecr.aws/d5r5w0o4
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
