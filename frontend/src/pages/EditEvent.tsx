@@ -497,7 +497,9 @@ const FormSchema = z.object({
 const languages = [
     { label: "Normal Queue", value: "FCFS" },
     { label: "Random Selection", value: "Random" },
+    { label: "Weighted Queue Selection", value: "Score" },
     { label: "Weighted Random Selection", value: "Weighted Random" },
+    
   ] as const  
 
 export default EditEventPage;

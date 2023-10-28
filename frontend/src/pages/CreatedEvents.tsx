@@ -48,6 +48,7 @@ const CreatedEvents = () => {
                                     <TableHead>Venue</TableHead>
                                     <TableHead>Date from</TableHead>
                                     <TableHead>Date to</TableHead>
+                                    <TableHead>Visibility</TableHead>
                                     <TableHead>Status</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -67,6 +68,9 @@ const CreatedEvents = () => {
                                         </TableCell>
                                         <TableCell>
                                             {events.visible ? "Visible" : "Not Visible"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {events.isCompleted ? "Completed" : "Ongoing"}
                                         </TableCell>
                                         <TableCell>
                                             <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-10 text-center hover:cursor-pointer"
