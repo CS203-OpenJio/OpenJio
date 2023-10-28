@@ -44,9 +44,45 @@ export default function EventPage() {
       });
   }, []);
 
+ 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex flex-col justify-center font-poppins">
       <NavBar />
+<<<<<<< HEAD
+      <div className="container mx-auto px-4 py-10">
+        <div className="bg-white rounded-xl p-8 shadow-2xl mx-auto border-4 border-gray-300 w-full max-w-2xl" key={event?.id}>
+          
+          <h2 className="text-4xl font-extrabold mb-10 text-center text-gray-700 leading-tight">{event?.name}</h2>
+          
+          <div className="flex justify-center mb-10 relative group">
+            <img
+              src={event?.image}
+              alt={event?.name}
+              className="h-[400px] w-[300px] rounded-3xl shadow-lg transform transition-transform duration-300 group-hover:scale-105"
+            />
+           
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+            <div className="p-6 bg-gray-100 rounded-lg text-center shadow-lg transform transition-transform duration-300 hover:scale-105">
+              <div className="font-semibold text-xl mb-2">Date</div>
+              {new Date(event?.startDateTime).toLocaleDateString()} to {new Date(event?.endDateTime).toLocaleDateString()}
+            </div>
+            <div className="p-6 bg-gray-100 rounded-lg text-center shadow-lg transform transition-transform duration-300 hover:scale-105">
+              <div className="font-semibold text-xl mb-2">Time</div>
+              {new Date(event?.startDateTime).toLocaleTimeString()} to {new Date(event?.endDateTime).toLocaleTimeString()}
+            </div>
+            <div className="p-6 bg-gray-100 rounded-lg text-center shadow-lg transform transition-transform duration-300 hover:scale-105">
+              <div className="font-semibold text-xl mb-2">Venue</div>
+              {event?.venue}
+            </div>
+          </div>
+          
+          <div className="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200 mb-10 transform transition-transform duration-300 hover:scale-105">
+            <div className="font-semibold text-2xl mb-4 text-center">Event Description</div>
+            <div className="text-gray-700 text-center leading-relaxed">
+              {event?.description}
+=======
       <div className="h-[35px]"></div>
       <div className=" m-4">
         {/* <div className="font-ibm-plex-mono mb-5">
@@ -73,31 +109,104 @@ export default function EventPage() {
                  {userType == "STUDENT" && <TicketFooter id={event?.id} />}
               </div>
 
+>>>>>>> f8111e5d2fff809c68ee7496ae109ff76a6d363a
             </div>
+          </div>
+
+<<<<<<< HEAD
+          <div className="flex justify-center">
+            <TicketFooter id={event?.id} />
+=======
 
 
-
+>>>>>>> f8111e5d2fff809c68ee7496ae109ff76a6d363a
           </div>
         </div>
       </div>
     </div>
   );
+
+  
   function TicketFooter({ id }: { id: number }) {
     let body = {
-      eventId: id,
+        eventId: id,
     };
 
-    async function handleClick() {
-      console.log(body);
+    const [showOrganiserAlert, setShowOrganiserAlert] = useState(false);
 
-      await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
-        (err) => {
-          console.log(err.message);
+    async function handleClick() {
+        console.log(body);
+
+        await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
+            (err) => {
+                console.log(err.message);
+            }
+        );
+    }
+
+    function handleRegisterClick(e: React.MouseEvent) {
+        const userType = localStorage.getItem("userType");
+        if (userType === "ORGANISER") {
+            setShowOrganiserAlert(true);
+            e.preventDefault(); 
+            e.stopPropagation();
+            return;
         }
-      );
     }
 
     return (
+<<<<<<< HEAD
+        <div>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button
+                        variant="outline"
+                        className="hover:cursor-pointer font-ibm-plex-mono"
+                        onClick={handleRegisterClick}
+                    >
+                        Register
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle className="font-ibm-plex-mono">
+                            Confirm Registration?
+                        </DialogTitle>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Link to="/purchased" state={{ TID: id }}>
+                            <Button
+                                onClick={handleClick}
+                                className="hover:cursor-pointer font-ibm-plex-mono"
+                            >
+                                Confirm
+                            </Button>
+                        </Link>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {showOrganiserAlert && (
+                <Dialog open={showOrganiserAlert}>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle className="font-ibm-plex-mono">
+                                Notification
+                            </DialogTitle>
+                        </DialogHeader>
+                        <DialogDescription className="font-ibm-plex-mono">
+                            Organisers cannot register for events.
+                        </DialogDescription>
+                        <DialogFooter>
+                            <Button onClick={() => setShowOrganiserAlert(false)}>
+                                Close
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            )}
+        </div>
+=======
       <div>
         <Dialog>
           <DialogTrigger asChild>
@@ -127,6 +236,7 @@ export default function EventPage() {
           </DialogContent>
         </Dialog>
       </div>
+>>>>>>> f8111e5d2fff809c68ee7496ae109ff76a6d363a
     );
-  }
+}
 }
