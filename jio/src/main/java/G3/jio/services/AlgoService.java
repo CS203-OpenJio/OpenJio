@@ -206,4 +206,41 @@ public class AlgoService {
 
         return winners;
     }
+
+    // Score
+    public List<EventRegistration> allocateSlotsForEventScore(Event event) {
+
+        event.setAlgo("Score");
+        List<EventRegistration> winners = new ArrayList<>();
+        List<EventRegistration> applications = event.getRegistrations();
+        applications.sort((o1, o2) -> {
+
+                // compare by score
+                if (o1.getStudentScore() != o2.getStudentScore()) {
+                    return o2.getStudentScore() - o1.getStudentScore();
+
+                // compare by time
+                } else {
+                    return o1.getTime().compareTo(o2.getTime());
+                }
+            });
+
+
+        for (int i = 0; i < applications.size(); i++) {
+
+            EventRegistration registration = applications.get(i);
+
+            if (i < event.getCapacity()) {
+                registration.setStatus(Status.ACCEPTED);
+                winners.add(registration);
+
+            } else {
+                registration.setStatus(Status.REJECTED);
+            }
+
+            eventRegistrationRepository.saveAndFlush(registration);
+        }
+
+        return winners;
+    }
 }

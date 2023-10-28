@@ -182,6 +182,9 @@ public class OrganiserService {
 
         } else if (algo.equals("Weighted Random")) {
             return algoService.allocateSlotsForEventWeightedRandom(event);
+
+        } else if (algo.equals("Score")) {
+            return algoService.allocateSlotsForEventScore(event);
         }
 
         return null;

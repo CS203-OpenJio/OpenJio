@@ -132,7 +132,7 @@ public class Student implements UserDetails {
 
             if (er.getStatus() ==  Status.ACCEPTED) {
                 total += er.getEventScore();
-                System.out.println(total);
+                //System.out.println(total);
 
                 if (er.isPresentForEvent()) {
                     score += er.getEventScore();
