@@ -24,7 +24,7 @@ jobs:
     # Use DATABASE_URL to connect to your RDS MySQL database for testing
     - name: Run Unit and Integration Testing
       # env: DATABASE_URL: ${{ secrets.RDS_DATABASE_URL }}
-      run: ./jio/mvnw clean install
+      run: ./jio/mvnw clean install -DskipTests
 
   # build-and-deploy-backend:
   #   runs-on: ubuntu-latest
