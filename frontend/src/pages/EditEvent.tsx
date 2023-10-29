@@ -32,6 +32,7 @@ import { Textarea } from "../components/ui/textarea";
 import { Command, CommandGroup, CommandItem } from "../components/ui/command";
 import { Switch } from "../components/ui/switch";
 import { Slider } from "../components/ui/slider";
+import { Tooltip } from "@mui/material";
 
 const EditEventPage: React.FC = () => {
     const navigate = useNavigate();
@@ -292,24 +293,26 @@ const EditEventPage: React.FC = () => {
                                             <Command>
                                                 <CommandGroup>
                                                     {languages.map((language) => (
-                                                        <CommandItem
-                                                            value={language.label}
-                                                            className="font-ibm-plex-mono"
-                                                            key={language.value}
-                                                            onSelect={() => {
-                                                                form.setValue("algo", language.value)
-                                                            }}
-                                                        >
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-2 h-4 w-4",
-                                                                    language.value === field.value
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                            {language.label}
-                                                        </CommandItem>
+                                                       <Tooltip title={language.desc} placement="right">
+                                                       <CommandItem
+                                                         value={language.label}
+                                                         className="font-ibm-plex-mono hover:cursor-pointer"
+                                                         key={language.value}
+                                                         onSelect={() => {
+                                                           form.setValue("algo", language.value)
+                                                         }}
+                                                       >
+                                                         <Check
+                                                           className={cn(
+                                                             "mr-2 h-4 w-4",
+                                                             language.value === field.value
+                                                               ? "opacity-100"
+                                                               : "opacity-0"
+                                                           )}
+                                                         />
+                                                         {language.label}
+                                                       </CommandItem>
+                                                     </Tooltip>
                                                     ))}
                                                 </CommandGroup>
                                             </Command>
@@ -496,11 +499,10 @@ const FormSchema = z.object({
 })
 
 const languages = [
-    { label: "Normal Queue", value: "FCFS" },
-    { label: "Random Selection", value: "Random" },
-    { label: "Weighted Queue Selection", value: "Score" },
-    { label: "Weighted Random Selection", value: "Weighted Random" },
-
-] as const
+    { label: "Normal Queue", value: "FCFS", desc: "First Come First Serve" },
+    { label: "Random Selection", value: "Random", desc: "Participants are randomly chosen" },
+    { label: "Weighted Queue Selection", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
+    { label: "Weighted Random Selection", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
+  ] as const
 
 export default EditEventPage;
