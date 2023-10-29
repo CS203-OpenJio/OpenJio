@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -35,7 +34,7 @@ export default function EventPage() {
     if (userType === "") {
       navigate("/unauthorized");
     }
-    JWT.get(`http://localhost:8080/api/v1/events/id/${eventId}`)
+    JWT.get(`/api/v1/events/id/${eventId}`)
       .then((response) => {
         setEvent(response.data); // Store the data in the "data" state variable
       })

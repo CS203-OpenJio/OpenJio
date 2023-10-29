@@ -17,9 +17,9 @@ const handleLogin = async (username: string, password: string) => {
 
     // Get user type
     try {
-      response = await JWT.post(`http://localhost:8080/api/v1/students/email`, { email: username });
+      response = await JWT.post(`/api/v1/students/email`, { email: username });
     } catch (err) {
-      response = await JWT.post(`http://localhost:8080/api/v1/organisers/email`, { email: username });
+      response = await JWT.post(`/api/v1/organisers/email`, { email: username });
     }
     if (response.data) {
       localStorage.setItem("userType", response.data.role);
@@ -37,7 +37,7 @@ const handleSignUp = async (
   phone: string
 ) => {
 
-  const response = await axios.post("http://localhost:8080/api/v1/auth/register", {
+  const response = await JWT.post("/api/v1/auth/register", {
     name: name,
     email: email,
     password: password,

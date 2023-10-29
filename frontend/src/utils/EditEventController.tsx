@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 const getEvents = async (id: string) => {
     try {
-        const response = await JWT.get(`http://localhost:8080/api/v1/events/id/${id}`);
+        const response = await JWT.get(`/api/v1/events/id/${id}`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -19,7 +19,7 @@ const handleChangeEvent = async (id: string, event: {}) => {
     }
     try {
         // make API call
-        const response = await JWT.put(`http://localhost:8080/api/v1/events/id/${id}`, event);
+        const response = await JWT.put(`/api/v1/events/id/${id}`, event);
         // if response is successful, return data
         if (response.status === 200) {
             console.log(JSON.stringify(event));

@@ -1,7 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBarLite from "../components/HomeScreen/NavBarLite";
-import axios, { AxiosError } from "axios";
 import {
     AlertDialog,
     AlertDialogAction,

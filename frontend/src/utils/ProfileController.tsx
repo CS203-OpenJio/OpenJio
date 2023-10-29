@@ -10,7 +10,7 @@ const getStudentByEmail = async () => {
 
     try {
         // make API call
-        const response = await JWT.post(`http://localhost:8080/api/v1/students/email`, {email: userEmail});
+        const response = await JWT.post(`/api/v1/students/email`, {email: userEmail});
         // if response is successful, return data
         if (response.data) {
             console.log(response.data);
@@ -31,7 +31,7 @@ const handleChangeDetails = async (studentId:String, matricNo:String, phone:Stri
     }
     try {
         // make API call
-        const response = await JWT.put(`http://localhost:8080/api/v1/students/id/${studentId}`, {
+        const response = await JWT.put(`/api/v1/students/id/${studentId}`, {
             matricNo: matricNo,
             phone: phone,
             dob: dob,
