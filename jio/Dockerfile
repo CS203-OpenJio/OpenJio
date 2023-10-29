@@ -1,5 +1,5 @@
 # Using java 17
-FROM openjdk:17-oracle
+FROM arm64v8/openjdk:17-oracle
 
 WORKDIR /app
 
