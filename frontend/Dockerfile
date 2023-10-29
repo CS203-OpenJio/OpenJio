@@ -19,7 +19,7 @@ COPY . .
 EXPOSE 3006
 
 # Build the React app for production
-CMD npm start
+CMD ["npm", "start"]
 
 # # Serve the React app using a lightweight HTTP server
 # RUN npm install -g serve
