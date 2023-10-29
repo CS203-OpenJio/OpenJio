@@ -1,10 +1,14 @@
 # Using java 17
-FROM arm64v8/openjdk:17-oracle
+FROM openjdk:17-oracle
 
 WORKDIR /app
 
 # Copy the folder into the container
 COPY . .
+
+RUN chmod +x ./mvnw
+
+SHELL ["/bin/bash", "-c"]
 
 RUN ./mvnw clean install -U -DskipTests 
 
