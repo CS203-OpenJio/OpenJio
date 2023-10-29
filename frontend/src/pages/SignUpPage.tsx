@@ -30,7 +30,6 @@ const SignUpPage: FunctionComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [matriculationid, setMatriculationid] = useState("");
-    const [selectedYear, setSelectedYear] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
 
     const [fullnameError, setFullnameError] = useState("");
@@ -140,13 +139,17 @@ const SignUpPage: FunctionComponent = () => {
 
             setLoading(true);
             await handleSignUp(
-                fullname,
-                email,
-                password,
-                matriculationid,
-                phonenumber
+                {
+                    name: fullname,
+                    email: email,
+                    password: password,
+                    matricNo: matriculationid,
+                    phone: phonenumber,
+                    userType: "S",
+                }
             );
 
+            toast.success("User Sign up successful!");
             handleSuccess("/login");
             // Handle the successful login response here
         } catch (err: any) {
@@ -171,9 +174,9 @@ const SignUpPage: FunctionComponent = () => {
                     {/* left Column Container */}{" "}
                     <div className="flex flex-col items-center w-[50%] mt-[60px]">
                         <div className="flex flex-col items-center bg-white rounded-11xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)] border-[1px] border-solid border-gray-200 p-[24px] w-full space-y-4">
-                                                  <b className="text-[40px] font-source-serif-pro">
-                            Student Sign Up
-                        </b>
+                            <b className="text-[40px]">
+                                Student Sign Up
+                            </b>
                             <div
                                 className="flex flex-col items-start w-full px-4 space-y-4 mb-4"
                                 style={{ overflowY: "auto" }}
@@ -285,76 +288,6 @@ const SignUpPage: FunctionComponent = () => {
                                             />
                                         </div>
                                     </div>
-                                </div>
-                                <div className="font-medium w-full text-center mb-2">
-                                    Year of matriculation
-                                </div>
-                                <div className="flex flex-row items-center space-x-2 mx-auto">
-                                    {/* Flex container in row orientation with equally spaced items */}
-                                    <button
-                                        onClick={() =>
-                                            setSelectedYear("2022/2023")
-                                        }
-                                        className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-            selectedYear === "2022/2023"
-                ? "bg-blue-500 text-white"
-                : "bg-floralwhite text-black"
-        } 
-        transform active:scale-95`}
-                                    >
-                                        <div className="relative leading-[20px]">
-                                            2022/2023
-                                        </div>
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            setSelectedYear("2021/2022")
-                                        }
-                                        className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-            selectedYear === "2021/2022"
-                ? "bg-blue-500 text-white"
-                : "bg-floralwhite text-black"
-        } 
-        transform active:scale-95`}
-                                    >
-                                        <div className="relative leading-[20px]">
-                                            2021/2022
-                                        </div>
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            setSelectedYear("2020/2021")
-                                        }
-                                        className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-            selectedYear === "2020/2021"
-                ? "bg-blue-500 text-white"
-                : "bg-floralwhite text-black"
-        } 
-        transform active:scale-95`}
-                                    >
-                                        <div className="relative leading-[20px]">
-                                            2020/2021
-                                        </div>
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            setSelectedYear("2019/2020")
-                                        }
-                                        className={`cursor-pointer rounded-md flex flex-col p-2 items-center justify-center 
-        ${
-            selectedYear === "2019/2020"
-                ? "bg-blue-500 text-white"
-                : "bg-floralwhite text-black"
-        } 
-        transform active:scale-95`}
-                                    >
-                                        <div className="relative leading-[20px]">
-                                            2019/2020
-                                        </div>
-                                    </button>
                                 </div>
                                 <div className="flex flex-col items-stretch w-full">
                                     <button
