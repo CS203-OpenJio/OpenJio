@@ -1,8 +1,8 @@
 # Using an official Node.js runtime as a parent image
-FROM node:alpine
+FROM node
 
 # Setting the working directory to /openjio/frontend
-WORKDIR /openjio/frontend
+WORKDIR /
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
