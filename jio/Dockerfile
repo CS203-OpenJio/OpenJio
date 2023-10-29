@@ -6,10 +6,6 @@ WORKDIR /app
 # Copy the folder into the container
 COPY . .
 
-RUN chmod +x ./mvnw
-
-SHELL ["/bin/bash", "-c"]
-
 RUN ./mvnw clean install -U -DskipTests 
 
 ARG JAR_FILE=target/*.jar
