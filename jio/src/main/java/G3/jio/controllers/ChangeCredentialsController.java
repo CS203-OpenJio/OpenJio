@@ -1,6 +1,7 @@
 package G3.jio.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(path = "api/v1/edit-profile")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class ChangeCredentialsController {
-    
+
     final private ChangeCredentialService changeCredentialService;
     final private AuthService authService;
 
