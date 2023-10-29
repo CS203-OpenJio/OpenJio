@@ -30,7 +30,6 @@ import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
 
-
 class AuthServiceTest {
 
     @Mock
@@ -80,12 +79,12 @@ class AuthServiceTest {
 
     @Test
     void authenticateUser_StudentLogin_Success() {
-        // Mocking
+        // Arrange
         when(studentRepository.existsByEmail(anyString())).thenReturn(true);
         when(studentRepository.findByEmail(anyString())).thenReturn(Optional.of(new Student()));
         when(jwtService.generateToken(any())).thenReturn("mockedToken");
 
-        // Test
+        // Act
         LoginDTO loginDTO = new LoginDTO("student@test.com", "password");
         AuthenticationResponse response = authService.authenticateUser(loginDTO);
 
@@ -122,7 +121,7 @@ class AuthServiceTest {
         verify(jwtService).generateToken(any());
     }
 
-        @Test
+    @Test
     void authenticateUser_InvalidEmailLogin_UserNotFoundExceptionThrown() {
         // Arrange
         String exceptionMessage = "";
@@ -147,7 +146,6 @@ class AuthServiceTest {
         verify(studentRepository).existsByEmail("test@test.com");
 
     }
-
 
     @Test
     void registerUser_StudentRegistration_Success() {
@@ -201,7 +199,7 @@ class AuthServiceTest {
         // Arrange
         String exceptionMessage = "";
         registrationDTO.setUserType('X');
-        
+
         // Act
         try {
             authService.registerUser(registrationDTO);
