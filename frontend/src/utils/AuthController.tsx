@@ -29,21 +29,23 @@ const handleLogin = async (username: string, password: string) => {
   }
 };
 
-const handleSignUp = async (
-  name: string,
-  email: string,
-  password: string,
-  matricNo: string,
-  phone: string
-) => {
+interface User {
+  name: string;
+  email: string;
+  password: string;
+  matricNo?: string;
+  phone: string;
+  userType: string;
+}
 
+const handleSignUp = async (user: User) => {
   const response = await JWT.post("/api/v1/auth/register", {
-    name: name,
-    email: email,
-    password: password,
-    matricNo: matricNo,
-    phone: phone,
-    userType: "S",
+    name: user.name,
+    email: user.email,
+    password: user.password,
+    matricNo: user.matricNo,
+    phone: user.phone,
+    userType: user.userType,
   });
 
   if (response.status == 201) {
