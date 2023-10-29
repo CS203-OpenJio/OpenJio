@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import G3.jio.DTO.LoginDTO;
@@ -212,7 +214,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerStudent_DuplicateEmail_FailedRegistrationExceptionThrown() {
+    void registerStudent_StudentEmailExists_FailedRegistrationExceptionThrown() {
 
         // Arrange
         String exceptionMessage = "";
@@ -234,7 +236,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerOrganiser_DuplicateEmail_FailedRegistrationExceptionThrown() {
+    void registerOrganiser_OrganiserEmailExists_FailedRegistrationExceptionThrown() {
 
         // Arrange
         String exceptionMessage = "";
@@ -254,4 +256,65 @@ class AuthServiceTest {
         // Verify
         verify(studentRepository).existsByEmail(anyString());
     }
+
+    @Test
+    void registerStudent_OrganiserEmailExists_FailedRegistrationExceptionThrown() {
+
+        // Arrange
+        String exceptionMessage = "";
+        registrationDTO.setUserType('S');
+        when(organiserRepository.existsByEmail(anyString())).thenReturn(true);
+
+        // Act
+        try {
+            authService.registerUser(registrationDTO);
+        } catch (FailedRegistrationException e) {
+            exceptionMessage = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Registration Failed: Email already taken!", exceptionMessage);
+
+        // Verify
+        verify(studentRepository).existsByEmail(anyString());
+    }
+
+    @Test
+    void registerOrganiser_StudentEmailExists_FailedRegistrationExceptionThrown() {
+
+        // Arrange
+        String exceptionMessage = "";
+        registrationDTO.setUserType('O');
+        when(studentRepository.existsByEmail(anyString())).thenReturn(true);
+
+        // Act
+        try {
+            authService.registerUser(registrationDTO);
+        } catch (FailedRegistrationException e) {
+            exceptionMessage = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Registration Failed: Email already taken!", exceptionMessage);
+
+        // Verify
+        verify(studentRepository).existsByEmail(anyString());
+    }
+
+    // *** CANNOT TEST METHOD identifyUser***
+    // @Test
+    // void identifyUser_StudentExists_ReturnStudent() {
+
+    // // Arrange
+    // String email = "test@test.com";
+    // when(studentRepository.existsByEmail(anyString())).thenReturn(true);
+    // when(studentRepository.findByEmail(anyString())).thenReturn(Optional.of(student));
+
+    // // Act
+    // Object user = authService.identifyUser();
+
+    // // Assert
+    // assertEquals(student, user);
+    // }
+
 }

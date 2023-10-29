@@ -79,17 +79,13 @@ public class ResetPasswordService {
         boolean isStudent;
 
         Optional<Student> optionalStudent = studentRepository.findByEmail(email);
-        try {
-            if (optionalStudent.isPresent()) {
-                student = optionalStudent.get();
-                isStudent = true;
-            } else {
-                organiser = organiserRepository.findByEmail(email)
-                        .orElseThrow(() -> new NotExistException("Account"));
-                isStudent = false;
-            }
-        } catch (NoSuchElementException e) {
-            throw new NotExistException("Account");
+        if (optionalStudent.isPresent()) {
+            student = optionalStudent.get();
+            isStudent = true;
+        } else {
+            organiser = organiserRepository.findByEmail(email)
+                    .orElseThrow(() -> new NotExistException("Account"));
+            isStudent = false;
         }
 
         /*

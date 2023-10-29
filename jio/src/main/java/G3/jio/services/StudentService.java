@@ -53,12 +53,15 @@ public class StudentService {
 
     // get by name
     public List<Student> getStudentsByName(String name) {
+        if (!studentRepository.existsByName(name)) {
+            throw new UserNotFoundException("Student does not exist!");
+        }
         return studentRepository.findAllByName(name);
     }
 
     // // save a student
     // public Student addStudent(Student newStudent) {
-    //     return studentRepository.save(newStudent);
+    // return studentRepository.save(newStudent);
     // }
 
     // update student
