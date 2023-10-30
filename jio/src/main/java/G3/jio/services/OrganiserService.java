@@ -36,8 +36,6 @@ public class OrganiserService {
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
     private final AlgoService algoService;
-    private final EventRegistrationRepository eventRegistrationRepository;
-    private final StudentService studentService;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
