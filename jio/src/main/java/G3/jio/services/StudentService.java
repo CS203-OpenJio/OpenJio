@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import G3.jio.DTO.CustomResponseDTO;
 import G3.jio.DTO.QueryDTO;
 import G3.jio.DTO.StudentDTO;
 import G3.jio.entities.Event;
@@ -104,16 +105,26 @@ public class StudentService {
         return events;
     }
 
-    public List<Event> getEventByStudentEmailAndEventRegistrationStatus(QueryDTO queryDTO) {
+    public List<CustomResponseDTO> getEventByStudentEmailAndEventRegistrationStatus(QueryDTO queryDTO) {
         Student student = getStudentByEmail(queryDTO.getEmail());
 
         List<EventRegistration> registrations = student.getRegistrations();
-        List<Event> events = new ArrayList<>();
+        List<CustomResponseDTO> events = new ArrayList<>();
+
+        System.out.println("---------------------");
 
         for (EventRegistration registeredEvent : registrations) {
 
             if (registeredEvent.getStatus() == queryDTO.getStatus() || queryDTO.getStatus() == null) {
-                events.add(registeredEvent.getEvent());
+                Event event = registeredEvent.getEvent();
+                CustomResponseDTO customResponse = new CustomResponseDTO();
+                customResponse.setEventName(event.getName());
+                customResponse.setVenue(event.getVenue());
+                customResponse.setStartDateTime(event.getStartDateTime());
+                customResponse.setEndDateTime(event.getEndDateTime());
+                customResponse.setStatus(registeredEvent.getStatus());
+                customResponse.setCompleted(event.isCompleted());
+                events.add(customResponse);
             }
         }
 
