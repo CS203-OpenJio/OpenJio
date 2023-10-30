@@ -68,7 +68,7 @@ export default function EventForm() {
   const [image, setImage] = useState(null);
   const [algo, setAlgo] = useState("");
   const [visible, setVisible] = useState(false);
-  const [minScore, setMinScore] = useState(80);
+  const [minScore, setMinScore] = useState(0);
 
   // default values for form
   const form1 = useForm<z.infer<typeof FormSchema1>>({
@@ -443,7 +443,6 @@ export default function EventForm() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form3.control}
                 name="visible"
@@ -470,31 +469,65 @@ export default function EventForm() {
                   </FormItem>
                 )}
               />
-              <FormField
+                            <FormField
                 control={form3.control}
                 name="minScore"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col rounded-lg font-ibm-plex-mono">
-                    <FormLabel className="text-base">
-                      Attendee Minimum Score
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex flex-row">
-                        <Slider max={100} step={1}
-                          className="hover:cursor-pointer"
-                          value={[field.value]}
-                          onValueChange={(newValue) => {
-                            field.onChange(newValue[0]); // Update the form field value
-                          }} />
-                        <div className="ml-6">
-                          {[field.value]}
-                        </div>
-                      </div>
-                    </FormControl>
+                  <FormItem className="flex flex-col font-ibm-plex-mono">
+                    <FormLabel>Event Registration Options</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[300px] justify-between hover:cursor-pointer bg-white",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? minScoreFilter.find(
+                                (minScoreFilter) => minScoreFilter.value === field.value
+                              )?.label
+                              : "Select Option"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[300px] p-0 mt-[-4px]">
+                        <Command>
+                          <CommandGroup>
+                            {minScoreFilter.map((minScoreFilter) => (
+                              <Tooltip title={minScoreFilter.desc} placement="right">
+                                <CommandItem
+                                  value={minScoreFilter.label}
+                                  className="font-ibm-plex-mono hover:cursor-pointer"
+                                  key={minScoreFilter.value}
+                                  onSelect={() => {
+                                    form3.setValue("minScore", minScoreFilter.value)
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      minScoreFilter.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {minScoreFilter.label}
+                                </CommandItem>
+                              </Tooltip>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
                     <FormDescription>
-                      Minimum event participation score for attendees signing up.
+                      Choose the type or users able to participate in your event.
                     </FormDescription>
-
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -596,4 +629,9 @@ const languages = [
   { label: "Weighted Random Selection", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
 ] as const
 
+const minScoreFilter = [
+  { label: "Normal", value: 0, desc: "All are allowed to register" },
+  { label: "Low", value: 30, desc: "Users highly unlikely to attend are not allowed to register" },
+  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register"},
+] as const
 
