@@ -62,7 +62,6 @@ const Schedule = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[70px]">Event Id</TableHead>
                       <TableHead>Event Name</TableHead>
                       <TableHead>Venue</TableHead>
                       <TableHead>Date</TableHead>
@@ -72,17 +71,14 @@ const Schedule = () => {
                   <TableBody>
                     {registeredEvents.map((registeredEvent: any) => (
                       completed === registeredEvent.completed && <TableRow key={registeredEvent.name}>
-                        <TableCell className="font-medium">
-                          {registeredEvent.id}
-                        </TableCell>
-                        <TableCell>{registeredEvent.name}</TableCell>
+                        <TableCell>{registeredEvent.eventName}</TableCell>
                         <TableCell>{registeredEvent.venue}</TableCell>
                         <TableCell>
                           {new Date(registeredEvent.startDateTime).toLocaleString()}
                         </TableCell>
                         <TableCell>
                           {/* Not sure why registrations for an event is an array? */}
-                          {registeredEvent.registrations[0].status}
+                          {registeredEvent.status}
                         </TableCell>
                       </TableRow>
                     ))}
