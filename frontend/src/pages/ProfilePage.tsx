@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FunctionComponent, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { getStudentByEmail, handleChangeDetails } from "../utils/ProfileController";
@@ -33,7 +35,13 @@ const ChangeProfile: FunctionComponent = () => {
     // Update student details
     const setDetails = (studentId: string, matricNo: string, phone: string, dob: string) => {
         try {
-            // make API call
+            if (
+!validatePhoneNumber(phone) ||
+!validateMatriculationId(matricNo) ) {
+    return; // Don't proceed if validation fails
+}
+
+// make API call
             handleChangeDetails(studentId, matricNo, phone, dob);
             // set state
             setIsEditing(false);
@@ -102,3 +110,87 @@ const ChangeProfile: FunctionComponent = () => {
 };
 
 export default ChangeProfile;
+
+const validatePassword = (pwd: string) => {
+        if (pwd.length < 8 || pwd.length > 20) {
+            if (!toast.isActive(PASSWORD_TOAST_ID)) {
+                toast.error(
+                    "Password must be between 8 and 20 characters long.",
+                    { toastId: PASSWORD_TOAST_ID }
+                );
+            }
+            return false;
+        } else {
+            toast.dismiss(PASSWORD_TOAST_ID);
+        }
+        return true;
+    };
+
+const validatePhoneNumber = (phoneNumber: string) => {
+        const pattern = /^\d{8}$/;
+        if (!pattern.test(phoneNumber)) {
+            if (!toast.isActive(PHONE_TOAST_ID)) {
+                toast.error("Phone number must be 8 integers only.", {
+                    toastId: PHONE_TOAST_ID,
+                });
+            }
+            return false;
+        } else {
+            toast.dismiss(PHONE_TOAST_ID);
+        }
+        return true;
+    };
+
+const validateMatriculationId = (matriculationId: string) => {
+        const pattern = /^\d{8}$/;
+        if (!pattern.test(matriculationId)) {
+            if (!toast.isActive(MATRICULATION_TOAST_ID)) {
+                toast.error("Matriculation ID must be 8 integers only.", {
+                    toastId: MATRICULATION_TOAST_ID,
+                });
+            }
+            return false;
+        } else {
+            toast.dismiss(MATRICULATION_TOAST_ID);
+        }
+        return true;
+    };
+
+const validateName = (name: string) => {
+        if (name.length < 5 || name.length > 15) {
+            if (!toast.isActive(NAME_TOAST_ID)) {
+                toast.error("Name must be between 5 and 15 characters long.", {
+                    toastId: NAME_TOAST_ID,
+                });
+            }
+            return false;
+        } else {
+            toast.dismiss(NAME_TOAST_ID);
+        }
+        return true;
+    };
+
+const validateEmail = (email: string) => {
+        const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!pattern.test(email)) {
+            if (!toast.isActive(EMAIL_TOAST_ID)) {
+                toast.error("Invalid email format.", {
+                    toastId: EMAIL_TOAST_ID,
+                });
+            }
+            return false;
+        } else {
+            toast.dismiss(EMAIL_TOAST_ID);
+        }
+        return true;
+    };
+
+const EMAIL_TOAST_ID = "email_toast_id_validation_toast";
+
+const PHONE_TOAST_ID = "phone_toast_id_validation_toast";
+
+const MATRICULATION_TOAST_ID = "matriculation_toast_id_validation_toast";
+
+const NAME_TOAST_ID = "name_toast_id_validation_toast";
+
+const PASSWORD_TOAST_ID = "password_toast_id_validation_toast";
