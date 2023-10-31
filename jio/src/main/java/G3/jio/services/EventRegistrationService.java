@@ -34,33 +34,34 @@ public class EventRegistrationService {
     // add
     public EventRegistration addEventRegistration(EventRegistrationDTO newEventRegistrationDTO) throws NotExistException {
 
-
         Student student = null;
         Long studentId = newEventRegistrationDTO.getStudentId();
+
+        // read from jwt token if no student id is given
         if (studentId == null) {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String studentEmail = userDetails.getUsername();
             student = studentService.getStudentByEmail(studentEmail);
 
-        } else if (!studentRepository.existsById(studentId)) {
-            throw new NotExistException("Student");
-
-        } else {
+        } else if (studentRepository.existsById(studentId)) {
             student = studentRepository.getReferenceById(studentId);
+            
+        } else {
+            throw new NotExistException("Student");
         }
 
-        // find event
+        // find event id
         Long eventId = newEventRegistrationDTO.getEventId();
         if (!eventRepository.existsById(eventId)) {
             throw new NotExistException("Event");
         }
 
-        // check if exists
-        // to ensure only 1 sign up
+        // check if exists to ensure only 1 sign up
         if (eventRegistrationRepository.existsByStudentIdAndEventId(student.getId(), eventId)) {
             throw new AlreadyExistsException("Event Registration");
         }
 
+        // get event
         Event event = eventRepository.getReferenceById(newEventRegistrationDTO.getEventId());
 
         // check if student score is > min score of event
@@ -76,7 +77,6 @@ public class EventRegistrationService {
         // save into student and event list
         student.addEventRegistration(newEventRegistration);
         event.addEventRegistration(newEventRegistration);
-        // System.out.println(newEventRegistration);
 
         // save into db
         return eventRegistrationRepository.save(newEventRegistration);

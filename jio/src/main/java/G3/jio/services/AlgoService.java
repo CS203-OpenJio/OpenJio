@@ -115,33 +115,24 @@ public class AlgoService {
             pool.add(i, Integer.valueOf(i));
         }
 
-        // System.out.println("pool: " + pool);
-
         // get winners, add to winners and exclude from future
         Set<Integer> winnerIdx = new HashSet<>();
         Random rand = new Random();
         for (int i = 0 ; i < event.getCapacity(); i++) {
 
-            // pick a random index
+            // pick a random index and add to winners 
             int idx = rand.nextInt(pool.size());
-            // System.out.println("idx: " + idx);
-
-            // add to winnerIdx
             winnerIdx.add(pool.get(idx));
   
             // remove from pool
             pool.remove(idx);
-
-            // System.out.println(winnerIdx);
-            // System.out.println(pool);
         }
 
         // set winners to accepted and the rest of registrations to rejected and save
-        for (int i = 0; i < applications.size(); i++) {
+        for (int i = 0; i < applications.size(); i++) { 
             
             EventRegistration er = applications.get(i);
             if (winnerIdx.contains(i)) {
-                // System.out.println("hello " + i);
                 er.setStatus(Status.ACCEPTED);
                 winners.add(er);
 
@@ -192,7 +183,6 @@ public class AlgoService {
         for (int i = 0; i < applications.size(); i++) {
 
             EventRegistration registration = applications.get(i);
-
             if (i < event.getCapacity()) {
                 registration.setStatus(Status.ACCEPTED);
                 winners.add(registration);
