@@ -18,13 +18,11 @@ import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
-import G3.jio.entities.Status;
 import G3.jio.exceptions.CustomErrorException;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
-import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
@@ -94,8 +92,7 @@ public class OrganiserService {
             organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
         }
 
-        Event event = new Event();
-        event = eventMapToEntity(eventDTO);
+        Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
         organiser.getEvents().add(event);
 
@@ -162,11 +159,9 @@ public class OrganiserService {
 
         String algo;
         if (queryDTO.getAlgo() != null) {
-            System.out.println("query algo: " + queryDTO.getAlgo());
             algo = queryDTO.getAlgo();
 
         } else if (event.getAlgo() != null) {
-            System.out.println("event algo: " + event.getAlgo());
             algo = event.getAlgo();
 
         } else {
@@ -194,8 +189,8 @@ public class OrganiserService {
         if (!o.isPresent()) {
             throw new EventNotFoundException();
         }
-        Event event = o.get();
-        return event;
+
+        return o.get();
     }
 
     public void completeEvent(QueryDTO queryDTO) {

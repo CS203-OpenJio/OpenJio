@@ -71,6 +71,7 @@ public class ResetPasswordServiceTest {
         Student student = new Student();
         student.setEmail(email);
 
+        when(studentRepository.existsByEmail(email)).thenReturn(true);
         when(studentRepository.findByEmail(email)).thenReturn(Optional.of(student));
 
         // Act

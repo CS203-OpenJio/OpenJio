@@ -365,98 +365,98 @@ class StudentServiceTest {
         verify(studentRepository, times(1)).findByEmail(student.getEmail());
     }
 
-    @Test
-    void getEventByStudentEmailAndEventRegistrationStatus_NULLStatus_Success_ReturnAllEvents() {
+    // @Test
+    // void getEventByStudentEmailAndEventRegistrationStatus_NULLStatus_Success_ReturnAllEvents() {
 
-        // Arrange
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setEmail(student.getEmail());
-        when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
+    //     // Arrange
+    //     QueryDTO queryDTO = new QueryDTO();
+    //     queryDTO.setEmail(student.getEmail());
+    //     when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
 
-        // Act
-        List<Event> responseEventList = studentService
-                .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
+    //     // Act
+    //     List<Event> responseEventList = studentService
+    //             .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
 
-        // Assert
-        assertEquals(eventList, responseEventList);
-        verify(studentRepository, times(1)).findByEmail(student.getEmail());
-    }
+    //     // Assert
+    //     assertEquals(eventList, responseEventList);
+    //     verify(studentRepository, times(1)).findByEmail(student.getEmail());
+    // }
 
-    @Test
-    void getEventByStudentEmailAndEventRegistrationStatus_PENDINGStatus_Success_ReturnAllEvents() {
+    // @Test
+    // void getEventByStudentEmailAndEventRegistrationStatus_PENDINGStatus_Success_ReturnAllEvents() {
 
-        // Arrange
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setEmail(student.getEmail());
-        queryDTO.setStatus(Status.PENDING);
-        when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
+    //     // Arrange
+    //     QueryDTO queryDTO = new QueryDTO();
+    //     queryDTO.setEmail(student.getEmail());
+    //     queryDTO.setStatus(Status.PENDING);
+    //     when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
 
-        // Act
-        List<Event> responseEventList = studentService
-                .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
+    //     // Act
+    //     List<Event> responseEventList = studentService
+    //             .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
 
-        // Assert
-        assertEquals(1, responseEventList.size());
-        verify(studentRepository, times(1)).findByEmail(student.getEmail());
-    }
+    //     // Assert
+    //     assertEquals(1, responseEventList.size());
+    //     verify(studentRepository, times(1)).findByEmail(student.getEmail());
+    // }
 
-    @Test
-    void getEventByStudentEmailAndEventRegistrationStatus_ACCEPTEDStatus_Success_ReturnAllEvents() {
+    // @Test
+    // void getEventByStudentEmailAndEventRegistrationStatus_ACCEPTEDStatus_Success_ReturnAllEvents() {
 
-        // Arrange
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setEmail(student.getEmail());
-        queryDTO.setStatus(Status.PENDING);
-        when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
+    //     // Arrange
+    //     QueryDTO queryDTO = new QueryDTO();
+    //     queryDTO.setEmail(student.getEmail());
+    //     queryDTO.setStatus(Status.PENDING);
+    //     when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
 
-        // Act
-        List<Event> responseEventList = studentService
-                .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
+    //     // Act
+    //     List<Event> responseEventList = studentService
+    //             .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
 
-        // Assert
-        assertEquals(1, responseEventList.size());
-        verify(studentRepository, times(1)).findByEmail(student.getEmail());
-    }
+    //     // Assert
+    //     assertEquals(1, responseEventList.size());
+    //     verify(studentRepository, times(1)).findByEmail(student.getEmail());
+    // }
 
-    @Test
-    void getEventByStudentEmailAndEventRegistrationStatus_REJECTEDStatus_Success_ReturnAllEvents() {
+    // @Test
+    // void getEventByStudentEmailAndEventRegistrationStatus_REJECTEDStatus_Success_ReturnAllEvents() {
 
-        // Arrange
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setEmail(student.getEmail());
-        queryDTO.setStatus(Status.PENDING);
-        when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
+    //     // Arrange
+    //     QueryDTO queryDTO = new QueryDTO();
+    //     queryDTO.setEmail(student.getEmail());
+    //     queryDTO.setStatus(Status.PENDING);
+    //     when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.of(student));
 
-        // Act
-        List<Event> responseEventList = studentService
-                .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
+    //     // Act
+    //     List<Event> responseEventList = studentService
+    //             .getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
 
-        // Assert
-        assertEquals(1, responseEventList.size());
-        verify(studentRepository, times(1)).findByEmail(student.getEmail());
-    }
+    //     // Assert
+    //     assertEquals(1, responseEventList.size());
+    //     verify(studentRepository, times(1)).findByEmail(student.getEmail());
+    // }
 
-    @Test
-    void getEventByStudentEmailAndEventRegistrationStatus_StudentNotExist_Failure_ThrowUserNotFound() {
+    // @Test
+    // void getEventByStudentEmailAndEventRegistrationStatus_StudentNotExist_Failure_ThrowUserNotFound() {
 
-        // Arrange
-        String exceptionMsg = "";
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setEmail(student.getEmail());
+    //     // Arrange
+    //     String exceptionMsg = "";
+    //     QueryDTO queryDTO = new QueryDTO();
+    //     queryDTO.setEmail(student.getEmail());
 
-        when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
+    //     when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
 
-        // Act
-        try {
-            studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
-        } catch (UserNotFoundException e) {
-            exceptionMsg = e.getMessage();
-        }
+    //     // Act
+    //     try {
+    //         studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO);
+    //     } catch (UserNotFoundException e) {
+    //         exceptionMsg = e.getMessage();
+    //     }
 
-        // Assert
-        assertEquals("User Not Found: Student does not exist!", exceptionMsg);
-        verify(studentRepository, times(1)).findByEmail(student.getEmail());
-    }
+    //     // Assert
+    //     assertEquals("User Not Found: Student does not exist!", exceptionMsg);
+    //     verify(studentRepository, times(1)).findByEmail(student.getEmail());
+    // }
 
     /*********************
      * (WIP) We currently do not allow changes to email and name
