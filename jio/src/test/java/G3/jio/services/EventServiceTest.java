@@ -1,14 +1,28 @@
 package G3.jio.services;
 
+import G3.jio.DTO.EventDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
+import G3.jio.entities.EventRegistration;
+import G3.jio.entities.Organiser;
+import G3.jio.entities.Status;
+import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +39,66 @@ class EventServiceTest {
     @InjectMocks
     private EventService eventService;
 
+    private List<Student> studentList;
+
+    private List<EventRegistration> eventRegistrationList;
+
+    private Event event;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        Student student1 = new Student();
+        student1 = new Student();
+        student1.setName("Daniel1");
+        student1.setEmail("test1@test.com");
+
+        Student student2 = new Student();
+        student2 = new Student();
+        student2.setName("Daniel2");
+        student2.setEmail("test2@test.com");
+
+        Student student3 = new Student();
+        student3 = new Student();
+        student3.setName("Daniel3");
+        student3.setEmail("test3@test.com");
+
+        studentList = List.of(student1, student2, student3);
+
+        event = new Event();
+        event.setId(1L);
+        event.setName("event 1");
+        event.setDescription("random description 1");
+        // Event event2 = new Event();
+        // event2.setId(2L);
+        // event2.setName("event 2");
+        // event2.setDescription("random description 2");
+        // Event event3 = new Event();
+        // event3.setId(3L);
+        // event3.setName("event 3");
+        // event3.setDescription("random description 3");
+        // List<Event> eventList = List.of(event1, event2, event3);
+
+        EventRegistration eventRegistration1 = new EventRegistration();
+        eventRegistration1.setEvent(event);
+        eventRegistration1.setStudent(student1);
+        eventRegistration1.setStatus(Status.PENDING);
+
+        EventRegistration eventRegistration2 = new EventRegistration();
+        eventRegistration2.setEvent(event);
+        eventRegistration2.setStudent(student2);
+        eventRegistration2.setStatus(Status.ACCEPTED);
+
+        EventRegistration eventRegistration3 = new EventRegistration();
+        eventRegistration3.setEvent(event);
+        eventRegistration3.setStudent(student3);
+        eventRegistration3.setStatus(Status.REJECTED);
+
+        eventRegistrationList = List.of(eventRegistration1, eventRegistration2,
+                eventRegistration3);
+
+        event.setRegistrations(eventRegistrationList);
     }
 
     @Test
@@ -186,18 +257,30 @@ class EventServiceTest {
     // }
 
     @Test
-    void deleteEvent() {
+    void deleteEvent_Success() {
         // Arrange
-        Long eventId = 1L;
+        Organiser organiser = new Organiser();
+        organiser.setId(1L);
+
         Event event = new Event();
-        when(eventRepository.existsById(eventId)).thenReturn(true);
-        when(eventRepository.getReferenceById(eventId)).thenReturn(event);
+        event.setId(1L);
+        event.setOrganiser(organiser);
+
+        List<Event> events = new ArrayList<>();
+        events.add(event);
+        organiser.setEvents(events);
+
+        when(eventRepository.existsById(any(Long.class))).thenReturn(true);
+        when(eventRepository.getReferenceById(any(Long.class))).thenReturn(event);
 
         // Act
-        eventService.deleteEvent(eventId);
+        eventService.deleteEvent(event.getId());
+
+        List<Event> emptyList = new ArrayList<>();
 
         // Assert
-        verify(eventRepository).deleteById(eventId);
+        assertEquals(emptyList, organiser.getEvents());
+        verify(eventRepository).deleteById(1L);
     }
 
     @Test
@@ -219,6 +302,109 @@ class EventServiceTest {
         assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
     }
 
+    @Test
+    void deleteEvent_OrganiserNULL_ThrowsEventNotFound() {
+        String exceptionMsg = "";
+        // Arrange
+        Event event = new Event();
+        event.setId(1L);
+        event.setOrganiser(null);
+
+        List<Event> events = new ArrayList<>();
+        events.add(event);
+
+        when(eventRepository.existsById(any(Long.class))).thenReturn(true);
+        when(eventRepository.getReferenceById(any(Long.class))).thenReturn(event);
+
+        try {
+            // Act
+            eventService.deleteEvent(1L);
+        } catch (UserNotFoundException e) {
+            // Assert
+            exceptionMsg = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("User Not Found: Organiser does not exist!", exceptionMsg);
+    }
+
+    @Test
+    void getStudentByEventIdandEventRegistrationStatus__NULLStatus_Success_ReturnStudentList() {
+
+        // Arrange
+        QueryDTO queryDTO = new QueryDTO();
+        queryDTO.setEventId(1L);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+        // Act
+        List<Student> result = eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO);
+
+        // Assert
+        assertEquals(studentList, result);
+
+    }
+
+    @Test
+    void getStudentByEventIdandEventRegistrationStatus__PENDINGStatus_Success_ReturnStudentList() {
+
+        // Arrange
+        QueryDTO queryDTO = new QueryDTO();
+        queryDTO.setEventId(1L);
+        queryDTO.setStatus(Status.PENDING);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+        // Act
+        List<Student> result = eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO);
+
+        // Assert
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void getStudentByEventIdandEventRegistrationStatus__REJECTEDStatus_Success_ReturnStudentList() {
+
+        // Arrange
+        QueryDTO queryDTO = new QueryDTO();
+        queryDTO.setEventId(1L);
+        queryDTO.setStatus(Status.REJECTED);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+        // Act
+        List<Student> result = eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO);
+
+        // Assert
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void getStudentByEventIdandEventRegistrationStatus__ACCEPTEDStatus_Success_ReturnStudentList() {
+
+        // Arrange
+        QueryDTO queryDTO = new QueryDTO();
+        queryDTO.setEventId(1L);
+        queryDTO.setStatus(Status.ACCEPTED);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+        // Act
+        List<Student> result = eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO);
+
+        // Assert
+        assertEquals(1, result.size());
+    }
+
+    // public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO
+    // queryDTO) {
+
+    // Event event = getEvent(queryDTO.getEventId());
+    // List<EventRegistration> registrations = event.getRegistrations();
+    // List<Student> students = new ArrayList<>();
+
+    // for (EventRegistration registration : registrations) {
+
+    // if (registration.getStatus() == queryDTO.getStatus() || queryDTO.getStatus()
+    // == null) {
+    // students.add(registration.getStudent());
+    // }
+    // }
+
+    // return students;
+    // }
     // TODO: test
 
     // @Test

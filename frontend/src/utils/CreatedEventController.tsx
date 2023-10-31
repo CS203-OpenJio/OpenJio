@@ -13,7 +13,7 @@ const getEvents = async () => {
         const objToken:JwtPayload = jwt_decode(token);
         const userEmail:string = objToken.sub;
 
-        const response = await JWT.post(`http://localhost:8080/api/v1/organisers/email/events`, {email: userEmail});
+        const response = await JWT.post(`/api/v1/organisers/email/events`, {email: userEmail});
         return response.data;
     } catch(err) {
         console.log(err);
@@ -23,7 +23,7 @@ const getEvents = async () => {
 
 const getParticipants = async (id: string) => {
     try {
-        const response = await JWT.post(`http://localhost:8080/api/v1/events/registrations`, {eventId: id});
+        const response = await JWT.post(`/api/v1/events/registrations`, {eventId: id});
         return response.data;
     } catch (error) {
         console.log(error);
@@ -34,7 +34,7 @@ const getParticipants = async (id: string) => {
 const allocateSlots = async (id: string) => {
     console.log(id)
     try {
-        await JWT.post(`http://localhost:8080/api/v1/organisers/events/allocation`, {eventId: id}); 
+        await JWT.post(`/api/v1/organisers/events/allocation`, {eventId: id}); 
     } catch (error) {
         console.log(error);
         throw new Error("Error allocating slots.");
@@ -43,7 +43,7 @@ const allocateSlots = async (id: string) => {
 
 const getStatusParticipants = async (id: string, status:string) => {
     try {
-        const response = await JWT.post(`http://localhost:8080/api/v1/events/registrations`, {eventId: id, status: status});
+        const response = await JWT.post(`/api/v1/events/registrations`, {eventId: id, status: status});
         return response.data;
     } catch (error) {
         console.log(error);
@@ -53,7 +53,7 @@ const getStatusParticipants = async (id: string, status:string) => {
 
 const closeEvent = async (id: string) => {
     try {
-        await JWT.post(`http://localhost:8080/api/v1/organisers/events/complete`, {eventId: id});
+        await JWT.post(`/api/v1/organisers/events/complete`, {eventId: id});
     } catch (error) {
         console.log(error);
         throw new Error("Error closing event.");

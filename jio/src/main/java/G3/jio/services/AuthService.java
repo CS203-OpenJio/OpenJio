@@ -45,18 +45,14 @@ public class AuthService {
         );
 
         if (studentRepository.existsByEmail(loginDTO.getEmail())) {
-            var user = studentRepository.findByEmail(loginDTO.getEmail()).map(student -> {
-                return student;
-            }).orElseThrow();
+            var user = studentRepository.findByEmail(loginDTO.getEmail()).map(student -> student).orElseThrow();
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
 
         } else if (organiserRepository.existsByEmail(loginDTO.getEmail())){
-            var user = organiserRepository.findByEmail(loginDTO.getEmail()).map(organiser -> {
-                return organiser;
-            }).orElseThrow();
+            var user = organiserRepository.findByEmail(loginDTO.getEmail()).map(organiser -> organiser).orElseThrow();
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                 .token(jwtToken)

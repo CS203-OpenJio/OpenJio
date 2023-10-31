@@ -20,6 +20,7 @@ import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
 import lombok.RequiredArgsConstructor;
@@ -100,16 +101,15 @@ public class EventService {
         if (!organiserRepository.findByEmail(email).get().equals(event.getOrganiser())) {
             throw new InvalidUserTypeException("Account is not creator of this event!");
         }
-        
+
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
-            .setSkipNullEnabled(true)
-            .setMatchingStrategy(MatchingStrategies.STRICT);
+                .setSkipNullEnabled(true)
+                .setMatchingStrategy(MatchingStrategies.STRICT);
         mapper.map(eventDTO, event);
 
         // settle datetime
-        DateTimeFormatter formatter =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         if (eventDTO.getStartDateTime() != null) {
             LocalDateTime startDateTime = LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
@@ -121,12 +121,9 @@ public class EventService {
             event.setEndDateTime(endDateTime);
         }
 
-        eventRepository.saveAndFlush(event);       
+        eventRepository.saveAndFlush(event);
         return event;
     }
-
-    
-
 
     // delete by id
     public void deleteEvent(Long id) {
@@ -136,10 +133,10 @@ public class EventService {
 
         Event event = eventRepository.getReferenceById(id);
         Organiser organiser = event.getOrganiser();
-        if (organiser != null) {
-            organiser.getEvents().remove(event);
+        if (organiser == null) {
+            throw new UserNotFoundException("Organiser does not exist!");
         }
-
+        organiser.getEvents().remove(event);
         eventRepository.deleteById(id);
     }
 

@@ -12,8 +12,4 @@ public class NotExistException extends RuntimeException {
         super(item + " doesn't exist!");
     }
 
-    public NotExistException(String item, String company) {
-        super(item + " doesn't exist for " + company + "!");
-    }
-
 }

@@ -2,6 +2,8 @@ package G3.jio.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -76,28 +78,20 @@ public class StudentControllerTest {
         // admin account
         student = new Student();
         student.setName("admin");
-        String encodedPassword = new BCryptPasswordEncoder().encode("admin");
+        String encodedPassword = new BCryptPasswordEncoder().encode("securepassword");
         student.setEmail("admin@admin.com");
         student.setPassword(encodedPassword);
         student.setRole(Role.ADMIN);
         studentRepository.save(student);
 
-        student = new Student();
-        student.setId(2L); // ID for testing only
-        student.setName("test1");
-        encodedPassword = new BCryptPasswordEncoder().encode("password");
-        student.setEmail("test@test.com");
-        student.setPassword(encodedPassword);
-        student.setRole(Role.STUDENT);
-        studentRepository.save(student);
-
         HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("admin@admin.com", "securepassword");
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("name", "test2");
-            jsonObject.put("email", "test2@test.com");
-            jsonObject.put("password", "password");
+            jsonObject.put("email", "hhuuuhh@test.com");
+            jsonObject.put("password", "securepassword");
             jsonObject.put("userType", "S");
         } catch (JSONException e) {
         }
@@ -111,7 +105,7 @@ public class StudentControllerTest {
                 request,
                 AuthenticationResponse.class);
 
-        // testing if Student was created successfully
+        // testing if organiser was created successfully
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
         // Registration was successful, and the response contains a token.
@@ -155,7 +149,7 @@ public class StudentControllerTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name", "new guy");
+            jsonObject.put("name", "newguy");
             jsonObject.put("email", "newGuyEmail@test.com");
             jsonObject.put("password", "password");
             jsonObject.put("userType", "S");
@@ -182,7 +176,7 @@ public class StudentControllerTest {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("email", "test2@test.com");
+            jsonObject.put("email", "test@test.com");
         } catch (JSONException e) {
 
         }
