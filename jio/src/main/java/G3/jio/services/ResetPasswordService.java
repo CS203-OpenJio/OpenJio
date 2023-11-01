@@ -51,7 +51,7 @@ public class ResetPasswordService {
             mailService.sendSimpleMessage(email, "OpenJio Password Reset", organiser.getResetPasswordToken());
 
         } else {
-            throw new UserNotFoundException("No Such User");
+            throw new UserNotFoundException();
         }
 
         return new ResponseEntity<>("An email has been sent to you. Please check it for a code to reset your password!",

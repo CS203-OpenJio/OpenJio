@@ -92,6 +92,7 @@ public class ResetPasswordServiceTest {
         Organiser organiser = new Organiser();
         organiser.setEmail(email);
 
+        when(organiserRepository.existsByEmail(email)).thenReturn(true);
         when(organiserRepository.findByEmail(email)).thenReturn(Optional.of(organiser));
 
         // Act
@@ -106,44 +107,49 @@ public class ResetPasswordServiceTest {
     }
 
     @Test
-    void setResetPasswordTokenAndSendEmail_StudentEmailNotMatch_ThrowIllegalArgumentException() {
+    void setResetPasswordTokenAndSendEmail_StudentEmailNotMatch_ThrowUserNotFoundException() {
 
         String exceptionMsg = "";
         // Arrange
         String email = "does@not.exist";
-        when(studentRepository.findByEmail(email)).thenReturn(Optional.of(student));
-        when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(studentRepository.existsByEmail(email)).thenReturn(false);
+        when(organiserRepository.existsByEmail(email)).thenReturn(false);
+        // when(studentRepository.findByEmail(email)).thenReturn(Optional.of(student));
+        // when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act
         try {
             resetPasswordService.setResetPasswordTokenAndSendEmail(email);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             exceptionMsg = e.getMessage();
         }
 
         // Assert
-        assertEquals("Email entered is incorrect", exceptionMsg);
+        assertEquals("User Not Found", exceptionMsg);
     }
 
-    @Test
-    void setResetPasswordTokenAndSendEmail_OrganiserEmailNotMatch_ThrowIllegalArgumentException() {
+    // TODO
+    // Method above should cover this path already
+    // @Test
+    // void setResetPasswordTokenAndSendEmail_OrganiserEmailNotMatch_ThrowIllegalArgumentException() {
 
-        String exceptionMsg = "";
-        // Arrange
-        String email = "does@not.exist";
-        when(organiserRepository.findByEmail(email)).thenReturn(Optional.of(organiser));
-        when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
+    //     String exceptionMsg = "";
+    //     // Arrange
+    //     String email = "does@not.exist";
+    //     when(studentRepository.existsByEmail(email)).thenReturn(false);
+    //     when(organiserRepository.findByEmail(email)).thenReturn(Optional.of(organiser));
+    //     when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
 
-        // Act
-        try {
-            resetPasswordService.setResetPasswordTokenAndSendEmail(email);
-        } catch (IllegalArgumentException e) {
-            exceptionMsg = e.getMessage();
-        }
+    //     // Act
+    //     try {
+    //         resetPasswordService.setResetPasswordTokenAndSendEmail(email);
+    //     } catch (IllegalArgumentException e) {
+    //         exceptionMsg = e.getMessage();
+    //     }
 
-        // Assert
-        assertEquals("Email entered is incorrect", exceptionMsg);
-    }
+    //     // Assert
+    //     assertEquals("Email entered is incorrect", exceptionMsg);
+    // }
 
     @Test
     void setResetPasswordTokenAndSendEmail_StudentTokenExist_TokenAlreadyExists() {
@@ -153,8 +159,9 @@ public class ResetPasswordServiceTest {
         String email = "student@test.com";
         student.setResetPasswordToken("existingToken");
 
+        when(studentRepository.existsByEmail(email)).thenReturn(true);
         when(studentRepository.findByEmail(email)).thenReturn(Optional.of(student));
-        when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
+        // when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act
         try {
@@ -175,14 +182,15 @@ public class ResetPasswordServiceTest {
         String email = "organiser@test.com";
         organiser.setResetPasswordToken("existingToken");
 
+        when(studentRepository.existsByEmail(email)).thenReturn(false);
+        when(organiserRepository.existsByEmail(email)).thenReturn(true);
         when(organiserRepository.findByEmail(email)).thenReturn(Optional.of(organiser));
-        when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
+        // when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act
         try {
             resetPasswordService.setResetPasswordTokenAndSendEmail(email);
         } catch (AlreadyExistsException e) {
-            // Assert
             exceptionMsg = e.getMessage();
         }
 
@@ -190,27 +198,29 @@ public class ResetPasswordServiceTest {
         assertEquals("Reset password token already exists!", exceptionMsg);
     }
 
-    @Test
-    void setResetPasswordTokenAndSendEmail_NotExist_ThrowUserNotFound() {
+    // TODO
+    // Method above should cover this path already
+    // @Test
+    // void setResetPasswordTokenAndSendEmail_NotExist_ThrowUserNotFound() {
 
-        String exceptionMsg = "";
+    //     String exceptionMsg = "";
 
-        // Arrange
-        String email = "does@not.exist";
-        when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
-        when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
+    //     // Arrange
+    //     String email = "does@not.exist";
+    //     when(studentRepository.findByEmail(email)).thenReturn(Optional.empty());
+    //     when(organiserRepository.findByEmail(email)).thenReturn(Optional.empty());
 
-        // Act
-        try {
-            resetPasswordService.setResetPasswordTokenAndSendEmail(email);
-        } catch (UserNotFoundException e) {
-            // Assert
-            exceptionMsg = e.getMessage();
-        }
+    //     // Act
+    //     try {
+    //         resetPasswordService.setResetPasswordTokenAndSendEmail(email);
+    //     } catch (UserNotFoundException e) {
+    //         // Assert
+    //         exceptionMsg = e.getMessage();
+    //     }
 
-        // Assert
-        assertEquals("User Not Found: No such user", exceptionMsg);
-    }
+    //     // Assert
+    //     assertEquals("User Not Found: No such user", exceptionMsg);
+    // }
 
     @Test
     void checkAndDeleteTokenAndChangePassword_Student_Success() {
