@@ -152,7 +152,7 @@ class EventServiceTest {
         }
 
         // Assert
-        assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
+        assertEquals("Event does not exist!", exceptionMsg);
     }
 
     @Test
@@ -191,7 +191,7 @@ class EventServiceTest {
         }
 
         // Assert
-        assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
+        assertEquals("Event does not exist!", exceptionMsg);
     }
 
     // @Test
@@ -253,7 +253,7 @@ class EventServiceTest {
     // exceptionMsg = e.getMessage();
     // }
 
-    // assertEquals(exceptionMsg, "Event Not Found: Event does not exist!");
+    // assertEquals(exceptionMsg, "Event does not exist!");
     // }
 
     @Test
@@ -299,7 +299,7 @@ class EventServiceTest {
         }
 
         // Assert
-        assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
+        assertEquals("Event does not exist!", exceptionMsg);
     }
 
     @Test

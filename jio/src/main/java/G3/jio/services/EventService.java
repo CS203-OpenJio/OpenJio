@@ -41,7 +41,7 @@ public class EventService {
     public Event getEvent(Long eventId) {
         Optional<Event> o = eventRepository.findById(eventId);
         if (!o.isPresent()) {
-            throw new EventNotFoundException("Event does not exist!");
+            throw new EventNotFoundException();
         }
         Event event = o.get();
         return event;
@@ -52,7 +52,7 @@ public class EventService {
         List<Event> events = eventRepository.findAllByName(name);
 
         if (events.isEmpty()) {
-            throw new EventNotFoundException("Event does not exist!");
+            throw new EventNotFoundException();
         }
 
         return events;
@@ -128,7 +128,7 @@ public class EventService {
     // delete by id
     public void deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
-            throw new EventNotFoundException("Event does not exist!");
+            throw new EventNotFoundException();
         }
 
         Event event = eventRepository.getReferenceById(id);

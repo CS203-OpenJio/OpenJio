@@ -14,8 +14,10 @@ import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.AlreadyExistsException;
+import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.FailedRegistrationException;
 import G3.jio.exceptions.NotExistException;
+import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.StudentRepository;
@@ -47,13 +49,13 @@ public class EventRegistrationService {
             student = studentRepository.getReferenceById(studentId);
             
         } else {
-            throw new NotExistException("Student");
+            throw new UserNotFoundException("Student");
         }
 
         // find event id
         Long eventId = newEventRegistrationDTO.getEventId();
         if (!eventRepository.existsById(eventId)) {
-            throw new NotExistException("Event");
+            throw new EventNotFoundException();
         }
 
         // check if exists to ensure only 1 sign up
@@ -100,9 +102,11 @@ public class EventRegistrationService {
 
         EventRegistration eventRegistration = eventRegistrationRepository.getReferenceById(id);
         Student student = eventRegistration.getStudent();
-        Event event = eventRegistration.getEvent();
         student.getRegistrations().remove(eventRegistration);
+
+        Event event = eventRegistration.getEvent();
         event.getRegistrations().remove(eventRegistration);
+
         eventRegistrationRepository.deleteById(id);
     }
 
