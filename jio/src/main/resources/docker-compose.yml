@@ -9,7 +9,8 @@ services:
     volumes:
       - my-db-data:/var/lib/mysql
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:3307:3306"
+      # make sure that your port connection in mysql is 3307
 
 volumes:
   my-db-data:
