@@ -85,9 +85,9 @@ public class EventService {
     // }
 
     // update event
-    public Event updateEvent(Long id, EventDTO eventDTO) {
+    public Event updateEvent(Long eventId, EventDTO eventDTO) {
 
-        Event event = getEvent(id);
+        Event event = getEvent(eventId);
 
         // read from jwt token
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -126,18 +126,19 @@ public class EventService {
     }
 
     // delete by id
-    public void deleteEvent(Long id) {
-        if (!eventRepository.existsById(id)) {
+    public void deleteEvent(Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
             throw new EventNotFoundException();
         }
 
-        Event event = eventRepository.getReferenceById(id);
+        Event event = eventRepository.getReferenceById(eventId);
+        
         Organiser organiser = event.getOrganiser();
         if (organiser == null) {
             throw new UserNotFoundException("Organiser does not exist!");
         }
         organiser.getEvents().remove(event);
-        eventRepository.deleteById(id);
+        eventRepository.deleteById(eventId);
     }
 
     // private Event eventMapToEntity(EventDTO eventDTO) {

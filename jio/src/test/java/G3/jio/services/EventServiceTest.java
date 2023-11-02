@@ -11,6 +11,8 @@ import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRepository;
+import G3.jio.repositories.OrganiserRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,6 +20,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,6 +40,9 @@ class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
 
+    @Mock
+    private OrganiserRepository organiserRepository;
+
     @InjectMocks
     private EventService eventService;
 
@@ -44,6 +51,8 @@ class EventServiceTest {
     private List<EventRegistration> eventRegistrationList;
 
     private Event event;
+
+    private Organiser organiser;
 
     @BeforeEach
     void setUp() {
@@ -66,10 +75,19 @@ class EventServiceTest {
 
         studentList = List.of(student1, student2, student3);
 
+        organiser = new Organiser();
+        organiser.setId(1L);
+        organiser.setEmail("testorg@test.com");
+
         event = new Event();
         event.setId(1L);
         event.setName("event 1");
         event.setDescription("random description 1");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        event.setStartDateTime(LocalDateTime.parse("2023-10-18T12:34:56.789Z", formatter));
+        event.setEndDateTime(LocalDateTime.parse("2023-11-20T15:45:30.500Z", formatter));
+        event.setOrganiser(organiser);
         // Event event2 = new Event();
         // event2.setId(2L);
         // event2.setName("event 2");
@@ -388,48 +406,98 @@ class EventServiceTest {
         assertEquals(1, result.size());
     }
 
-    // public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO
-    // queryDTO) {
+    @Test
+    void updateEventRegistration_Success() {
 
-    // Event event = getEvent(queryDTO.getEventId());
-    // List<EventRegistration> registrations = event.getRegistrations();
-    // List<Student> students = new ArrayList<>();
+        // Arrange
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+        Organiser organiser = new Organiser();
+        organiser.setId(1L);
+        organiser.setEmail("testorg@test.com");
 
-    // for (EventRegistration registration : registrations) {
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setStartDateTime("2023-12-18T12:34:56.789Z");
+        eventDTO.setEndDateTime("2023-12-20T15:45:30.500Z");
 
-    // if (registration.getStatus() == queryDTO.getStatus() || queryDTO.getStatus()
-    // == null) {
-    // students.add(registration.getStudent());
-    // }
-    // }
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(organiser);
+        when(organiserRepository.existsByEmail(any(String.class))).thenReturn(true);
+        when(organiserRepository.findByEmail(any(String.class))).thenReturn(Optional.of(organiser));
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
 
-    // return students;
-    // }
-    // TODO: test
+        // Act
+        eventService.updateEvent(event.getId(), eventDTO);
 
-    // @Test
-    // void getStudentByEventIdandEventRegistrationStatus() {
-    // // Arrange
-    // QueryDTO queryDTO = new QueryDTO();
-    // Long eventId = 1L;
-    // queryDTO.setEventId(eventId);
-    // queryDTO.setStatus(EventRegistration.Status.CONFIRMED);
+        // Assert
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        assertEquals(LocalDateTime.parse("2023-12-18T12:34:56.789Z", formatter), event.getStartDateTime());
+        assertEquals(LocalDateTime.parse("2023-12-20T15:45:30.500Z", formatter), event.getEndDateTime());
+        verify(eventRepository).saveAndFlush(event);
+    }
 
-    // Event event = new Event();
-    // EventRegistration registration = new EventRegistration();
-    // registration.setStatus(EventRegistration.Status.CONFIRMED);
-    // Student student = new Student();
-    // registration.setStudent(student);
-    // event.getRegistrations().add(registration);
+    // Account is not organiser
+    @Test
+    void updateEventRegistration_EmailNotOrganiser_ThrowsInvalidUserTypeException() {
 
-    // when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
+        // Arrange
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+        Student student = new Student();
 
-    // // Act
-    // List<Student> result =
-    // eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(student);
+        when(organiserRepository.existsByEmail(any(String.class))).thenReturn(false);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
 
-    // // Assert
-    // assertEquals(1, result.size());
-    // assertEquals(student, result.get(0));
-    // }
+        // Act
+        String exceptionMsg = "";
+        try {
+            eventService.updateEvent(event.getId(), new EventDTO());
+        } catch (InvalidUserTypeException e) {
+            exceptionMsg = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Invalid User Type: Account is not an organiser!", exceptionMsg);
+
+    }
+
+    // Different organiser
+    @Test
+    void updateEventRegistration_OrganiserNotSame_ThrowsInvalidUserTypeException() {
+
+        // Arrange
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setStartDateTime("2023-12-18T12:34:56.789Z");
+        eventDTO.setEndDateTime("2023-12-20T15:45:30.500Z");
+
+        Organiser otherOrganiser = new Organiser();
+        otherOrganiser.setId(2L);
+        otherOrganiser.setEmail("differentOrg@test.com");
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(organiser);
+        when(organiserRepository.existsByEmail(any(String.class))).thenReturn(true);
+        when(organiserRepository.findByEmail(any(String.class))).thenReturn(Optional.of(otherOrganiser));
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+
+        // Act
+        String exceptionMsg = "";
+        try {
+            eventService.updateEvent(event.getId(), eventDTO);
+        } catch (InvalidUserTypeException e) {
+            exceptionMsg = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Invalid User Type: Account is not creator of this event!", exceptionMsg);
+    }
+
 }
