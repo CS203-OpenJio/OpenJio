@@ -7,7 +7,7 @@ import axios from "axios";
 // header
 
 const JWT = axios.create({
-  baseURL: "openjio-loadbalancer-backend-824860381.ap-southeast-1.elb.amazonaws.com",
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 JWT.interceptors.request.use(
