@@ -60,7 +60,7 @@ const EditEventPage: React.FC = () => {
                 capacity: eventData.capacity?.toString(),
                 venue: eventData.venue,
                 date: date,
-                image: eventData.image,
+                image: null,
                 description: eventData.description,
                 algo: eventData.algo,
                 visible: eventData.visible,
@@ -91,8 +91,7 @@ const EditEventPage: React.FC = () => {
         let updatedData: any = { ...data };
         const updatedFields: any = {};
         // if image is in data, delete it from data
-        // if date is in data, delete it from data and format it
-        // as a Date object
+        // UPDATE WHEN IMAGES ARE FIXED
         if ("image" in updatedData) {
             delete updatedData["image"];
             updatedData = {
