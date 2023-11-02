@@ -3,6 +3,8 @@ package G3.jio.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,7 +18,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import G3.jio.DTO.EventDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.Organiser;
 import G3.jio.exceptions.UserNotFoundException;
@@ -38,9 +45,27 @@ class OrganiserServiceTest {
     @InjectMocks
     private OrganiserService organiserService;
 
+    private Event event;
+
+    private Organiser organiser;
+
+    private QueryDTO queryDTO;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        organiser = new Organiser();
+        organiser.setName("org1");
+        organiser.setEmail("test@test.com");
+
+        event = new Event();
+        event.setId(1L);
+        event.setName("event1");
+        event.setOrganiser(organiser);
+
+        queryDTO = new QueryDTO();
+        queryDTO.setEventId(event.getId());
     }
 
     @Test
@@ -69,7 +94,7 @@ class OrganiserServiceTest {
     }
 
     @Test
-    void getAll_NoOrganisers_Success(){
+    void getAll_NoOrganisers_Success() {
 
         // arrange
         when(organiserRepository.findAll()).thenReturn(new ArrayList<Organiser>());
@@ -206,75 +231,142 @@ class OrganiserServiceTest {
         verify(eventRepository, times(1)).findAllByOrganiserId(any(Long.class));
     }
 
-    /*********************
-     * (WIP) We currently do not allow changes to email and name
-     *********************/
+    @Test
+    void getEvent_Success() {
 
+    // Arrange
+    when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
+
+    // Act
+    Event responseEvent = organiserService.getEvent(event.getId());
+
+    // Assert
+    assertEquals(event, responseEvent);
+    }
+
+    @Test
+    void getEvent_EventNotFound_Failure_ThrowEventNotFoundException() {
+
+        // Arrange
+        when(eventRepository.findById(event.getId())).thenReturn(Optional.empty());
+
+        // Act
+        String exceptionMsg = "";
+        try {
+            organiserService.getEvent(event.getId());
+        } catch (Exception e) {
+            exceptionMsg = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
+    }
+
+    // WIP
     // @Test
-    // void testUpdateOrganiser_OrganiserExists_ReturnOrganiser() {
-
+    // void postEvent_Success() {
     // // Arrange
-    // //UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
-    // UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    // Organiser newOrganiser = new Organiser();
-    // newOrganiser.setName("Daniel");
-    // newOrganiser.setEmail("newemail@test.com");
-    // Organiser originalOrganiser = new Organiser();
-    // originalOrganiser.setId(1L);
-    // originalOrganiser.setName(newOrganiser.getEmail());
-    // originalOrganiser.setEmail(newOrganiser.getEmail());
+    // Authentication authentication = mock(Authentication.class);
+    // SecurityContext securityContext = mock(SecurityContext.class);
+    // SecurityContextHolder.setContext(securityContext);
 
-    // when(organiserRepository.existsByEmail(any(String.class)))
-    // .thenReturn(false);
-    // when(organiserRepository.getById(any(Long.class)))
-    // .thenReturn(Optional.of(originalOrganiser));
-    // when(organiserRepository.getByEmail(anyString()))
-    // .thenReturn(Optional.of(newOrganiser));
-    // when(organiserRepository.saveAndFlush(any(Organiser.class)))
-    // .thenReturn(newOrganiser);
-
-    // // Act
-    // Organiser responseOrganiser =
-    // organiserService.updateOrganiser(originalOrganiser.getId(), newOrganiser);
-
-    // // Assert
-    // assertEquals(originalOrganiser, responseOrganiser);
-    // verify(organiserRepository, times(1)).existsByEmail(newOrganiser.getEmail());
-    // verify(organiserRepository, times(1)).getByEmail("newemail@test.com");
-    // verify(organiserRepository, times(1)).getById(originalOrganiser.getId());
-    // verify(organiserRepository, times(1)).saveAndFlush(originalOrganiser);
-
+    // when(securityContext.getAuthentication()).thenReturn(authentication);
+    // when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(organiser);
     // }
 
-    // @Test
-    // void
-    // testUpdateOrganiser_EmailAlreadyExistsInOrganiser_ThrowAlreadyExistsException()
-    // {
+    @Test
+    void completeEvent_Success() {
 
-    // // Arrange
-    // String email = "Daniel";
-    // UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
-    // UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
-    // String exceptionMsg = "";
+        // Arrange
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(organiser);
 
-    // when(organiserRepository.existsByEmail(anyString()))
-    // .thenReturn(false);
-    // when(organiserRepository.existsByEmail(anyString()))
-    // .thenReturn(true);
+        when(organiserRepository.existsByEmail(anyString())).thenReturn(true);
+        when(organiserRepository.findByEmail(anyString())).thenReturn(Optional.of(organiser));
+        when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
 
-    // // Act
-    // try {
-    // Organiser responseOrganiser = organiserService.updateOrganiser(email,
-    // updateOrganiserDetailsDTO);
-    // } catch (AlreadyExistsException e) {
-    // exceptionMsg = e.getMessage();
-    // }
+        // Act
+        organiserService.completeEvent(queryDTO);
 
-    // // Assert
-    // assertEquals("Email already exists!", exceptionMsg);
-    // verify(organiserRepository,
-    // times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
-    // verify(organiserRepository,
-    // times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
-    // }
+        // Assert
+        assertEquals(event.isCompleted(), true);
+        assertEquals(event.isVisible(), false);
+        verify(eventRepository, times(1)).saveAndFlush(event);
+    }
+
 }
+
+/*********************
+ * (WIP) We currently do not allow changes to email and name
+ *********************/
+
+// @Test
+// void testUpdateOrganiser_OrganiserExists_ReturnOrganiser() {
+
+// // Arrange
+// //UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
+// UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+// Organiser newOrganiser = new Organiser();
+// newOrganiser.setName("Daniel");
+// newOrganiser.setEmail("newemail@test.com");
+// Organiser originalOrganiser = new Organiser();
+// originalOrganiser.setId(1L);
+// originalOrganiser.setName(newOrganiser.getEmail());
+// originalOrganiser.setEmail(newOrganiser.getEmail());
+
+// when(organiserRepository.existsByEmail(any(String.class)))
+// .thenReturn(false);
+// when(organiserRepository.getById(any(Long.class)))
+// .thenReturn(Optional.of(originalOrganiser));
+// when(organiserRepository.getByEmail(anyString()))
+// .thenReturn(Optional.of(newOrganiser));
+// when(organiserRepository.saveAndFlush(any(Organiser.class)))
+// .thenReturn(newOrganiser);
+
+// // Act
+// Organiser responseOrganiser =
+// organiserService.updateOrganiser(originalOrganiser.getId(), newOrganiser);
+
+// // Assert
+// assertEquals(originalOrganiser, responseOrganiser);
+// verify(organiserRepository, times(1)).existsByEmail(newOrganiser.getEmail());
+// verify(organiserRepository, times(1)).getByEmail("newemail@test.com");
+// verify(organiserRepository, times(1)).getById(originalOrganiser.getId());
+// verify(organiserRepository, times(1)).saveAndFlush(originalOrganiser);
+
+// }
+
+// @Test
+// void
+// testUpdateOrganiser_EmailAlreadyExistsInOrganiser_ThrowAlreadyExistsException()
+// {
+
+// // Arrange
+// String email = "Daniel";
+// UpdateOrganiserDetailsDTO updateOrganiserDetailsDTO = new
+// UpdateOrganiserDetailsDTO("Jacky", "jacky@yahoo.com.sg", null, 1000);
+// String exceptionMsg = "";
+
+// when(organiserRepository.existsByEmail(anyString()))
+// .thenReturn(false);
+// when(organiserRepository.existsByEmail(anyString()))
+// .thenReturn(true);
+
+// // Act
+// try {
+// Organiser responseOrganiser = organiserService.updateOrganiser(email,
+// updateOrganiserDetailsDTO);
+// } catch (AlreadyExistsException e) {
+// exceptionMsg = e.getMessage();
+// }
+
+// // Assert
+// assertEquals("Email already exists!", exceptionMsg);
+// verify(organiserRepository,
+// times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
+// verify(organiserRepository,
+// times(1)).existsByEmail(updateOrganiserDetailsDTO.getEmail());
+// }
