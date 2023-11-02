@@ -77,26 +77,35 @@ public class OrganiserService {
     // organiser post event
     public Event postEvent(EventDTO eventDTO) {
 
-        Organiser organiser = null;
-        Long organiserId = eventDTO.getOrganiserId();
-        if (organiserId == null) {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            String email = userDetails.getUsername();
-            organiser = this.getOrganiserByEmail(email);
-
-        } else if (!organiserRepository.existsById(organiserId)) {
-            throw new UserNotFoundException("Organiser does not exist!");
-
-        } else {
-            organiser = organiserRepository.getReferenceById(eventDTO.getOrganiserId());
-        }
+        Organiser organiser = getOrganiserFromTokenOrDTO(eventDTO);
 
         Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
         organiser.getEvents().add(event);
 
         return eventRepository.save(event);
+    }
+
+    // retrieves organiser from DTO or from token
+    private Organiser getOrganiserFromTokenOrDTO(EventDTO eventDTO) {
+
+        Organiser organiser = null;
+
+        Long organiserId = eventDTO.getOrganiserId();
+
+        // if no orgId provided in DTO, read from token
+        if (organiserId == null) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            String email = userDetails.getUsername();
+            organiser = this.getOrganiserByEmail(email);
+
+        // else if orgId is provided, check that it exists
+        } else {
+            organiser = organiserRepository.findById(organiserId).orElseThrow(() -> new UserNotFoundException("Organiser does not exist!"));
+        }
+
+        return organiser;
     }
 
     private Event eventMapToEntity(EventDTO eventDTO) {
