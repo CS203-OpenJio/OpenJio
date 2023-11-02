@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
 
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
-                    authorizeHttpRequests.requestMatchers("/api/v1/auth/**").permitAll();
+                    authorizeHttpRequests.requestMatchers("/api/v1/auth/**", "/").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
                 })
                 .authenticationProvider(authenticationProvider()) // specifies the authentication provider for
