@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping(path = "api/v1/register-event")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
@@ -40,15 +42,19 @@ public class EventRegistrationController {
 
     // get specific event registration using studentId and eventid
     @GetMapping(path = "/event/{eventId}/student/{studentId}")
-    public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(@PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
-        return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
+    public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(
+            @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
+        return ResponseEntity
+                .ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
     }
 
     // add
     @PostMapping(path = "")
-    public ResponseEntity<EventRegistration> addEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+    public ResponseEntity<EventRegistration> addEventRegistration(
+            @RequestBody EventRegistrationDTO eventRegistrationDTO) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
     }
 
     // delete
@@ -61,7 +67,8 @@ public class EventRegistrationController {
 
     // update student registration details
     @PutMapping(path = "/update")
-    public ResponseEntity<EventRegistration> updateEventRegistration(@RequestBody EventRegistrationDTO eventRegistrationDTO) {
+    public ResponseEntity<EventRegistration> updateEventRegistration(
+            @RequestBody EventRegistrationDTO eventRegistrationDTO) {
         return ResponseEntity.ok(eventRegistrationService.updateEventRegistration(eventRegistrationDTO));
     }
 }

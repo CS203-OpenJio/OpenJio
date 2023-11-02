@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { getEvents, handleChangeEvent } from "../utils/EditEventController";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -60,7 +60,7 @@ const EditEventPage: React.FC = () => {
                 capacity: eventData.capacity?.toString(),
                 venue: eventData.venue,
                 date: date,
-                image: eventData.image,
+                image: null,
                 description: eventData.description,
                 algo: eventData.algo,
                 visible: eventData.visible,
@@ -91,8 +91,7 @@ const EditEventPage: React.FC = () => {
         let updatedData: any = { ...data };
         const updatedFields: any = {};
         // if image is in data, delete it from data
-        // if date is in data, delete it from data and format it
-        // as a Date object
+        // UPDATE WHEN IMAGES ARE FIXED
         if ("image" in updatedData) {
             delete updatedData["image"];
             updatedData = {
@@ -455,7 +454,6 @@ const EditEventPage: React.FC = () => {
                     </form>
                 </Form>
             </div>
-            <ToastContainer />
         </div>
     );
 };

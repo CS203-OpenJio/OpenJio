@@ -6,7 +6,7 @@ name: Backend Deployment
 on:
   push:
     branches:
-      - deployment
+      - pauseCICD
 
 env:
   AWS_REGION: ap-southeast-1 

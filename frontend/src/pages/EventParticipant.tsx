@@ -13,7 +13,7 @@ import NavBar from '../components/NavBar';
 import { getParticipants, getStatusParticipants, allocateSlots, closeEvent } from '../utils/CreatedEventController';
 import { getEvents } from '../utils/EditEventController';
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 interface Participant {
@@ -243,7 +243,6 @@ const EventParticipant = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </div>
 
     );
