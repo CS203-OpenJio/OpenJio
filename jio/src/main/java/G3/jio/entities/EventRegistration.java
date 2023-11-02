@@ -5,6 +5,8 @@ package G3.jio.entities;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
@@ -26,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "event_registration")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventRegistration {
 
     @Id
@@ -34,14 +37,12 @@ public class EventRegistration {
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "student_id")
-    @JsonBackReference
-    // @Exclude
+    @JsonBackReference(value = "student-registration")
     Student student;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "event_id")
-    @JsonBackReference
-    // @Exclude
+    @JsonBackReference(value = "event-registration")
     Event event;
 
     @Column(name = "Status")
@@ -56,6 +57,10 @@ public class EventRegistration {
     @Column(name = "time")
     private final LocalDateTime time = LocalDateTime.now();
 
+    @JsonIgnore
+    @Column(name = "timeCompleted")
+    private LocalDateTime timeCompleted;
+
     @JsonView
     public Long getSid() {
         return student.getId();
@@ -66,7 +71,23 @@ public class EventRegistration {
         return event.getId();
     }
 
+    @JsonView
     public int getStudentScore() {
         return student.getSmuCreditScore();
+    }
+
+    @JsonIgnore
+    public double getEventScore() {
+        int signUps = event.getRegistrations().size();
+        double score = signUps / event.getCapacity();
+        double minEventScore = 0.3;
+        double maxEventScore = 3.0;
+        return Math.min(Math.max(minEventScore, score), maxEventScore);
+    }
+
+    @Override
+    public String toString() {
+        return "EventRegistration [id=" + id + ", status=" + status + ", isPresentForEvent=" + isPresentForEvent
+                + ", isCompleted=" + isCompleted + "]";
     }
 }

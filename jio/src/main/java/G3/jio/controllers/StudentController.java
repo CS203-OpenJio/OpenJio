@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import G3.jio.DTO.CustomResponseDTO;
 import G3.jio.DTO.QueryDTO;
 import G3.jio.DTO.StudentDTO;
 import G3.jio.entities.Event;
@@ -51,8 +52,7 @@ public class StudentController {
 
     // get events registered for by student email and status
     @PostMapping(path = "/email/events")
-    public ResponseEntity<List<Event>> getEventByStudentEmailAndEventRegistrationStatus(
-            @RequestBody QueryDTO queryDTO) {
+    public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
 
         return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }

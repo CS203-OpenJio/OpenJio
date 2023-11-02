@@ -2,6 +2,7 @@ package G3.jio.services;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -109,9 +110,9 @@ public class AlgoService {
         }
 
         // create pool
-        Set<Integer> pool = new HashSet<>();
+        List<Integer> pool = new ArrayList<>();
         for (int i = 0; i < applications.size(); i++) {
-            pool.add(i);
+            pool.add(i, Integer.valueOf(i));
         }
 
         // get winners, add to winners and exclude from future
@@ -119,18 +120,16 @@ public class AlgoService {
         Random rand = new Random();
         for (int i = 0 ; i < event.getCapacity(); i++) {
 
-            // pick a random index
+            // pick a random index and add to winners 
             int idx = rand.nextInt(pool.size());
-
-            // add to winnerIdx
-            winnerIdx.add(idx);
-
+            winnerIdx.add(pool.get(idx));
+  
             // remove from pool
             pool.remove(idx);
         }
 
         // set winners to accepted and the rest of registrations to rejected and save
-        for (int i = 0; i < applications.size(); i++) {
+        for (int i = 0; i < applications.size(); i++) { 
             
             EventRegistration er = applications.get(i);
             if (winnerIdx.contains(i)) {
@@ -149,10 +148,14 @@ public class AlgoService {
     }
 
     private List<EventRegistration> acceptAll(List<EventRegistration> winners, List<EventRegistration> applications) {
-        for (EventRegistration er : applications) {
+
+        Iterator<EventRegistration> iter = applications.iterator();
+        while (iter.hasNext()) {
+            EventRegistration er = iter.next();
             er.setStatus(Status.ACCEPTED);
             winners.add(er);
-            eventRegistrationRepository.saveAndFlush(er);
+
+            // eventRegistrationRepository.saveAndFlush(er);
         }
 
         return winners;
@@ -173,6 +176,42 @@ public class AlgoService {
                 // compare by credit score
                 } else {
                     return o1.getStudentScore() - o2.getStudentScore();
+                }
+            });
+
+
+        for (int i = 0; i < applications.size(); i++) {
+
+            EventRegistration registration = applications.get(i);
+            if (i < event.getCapacity()) {
+                registration.setStatus(Status.ACCEPTED);
+                winners.add(registration);
+
+            } else {
+                registration.setStatus(Status.REJECTED);
+            }
+
+            eventRegistrationRepository.saveAndFlush(registration);
+        }
+
+        return winners;
+    }
+
+    // Score
+    public List<EventRegistration> allocateSlotsForEventScore(Event event) {
+
+        event.setAlgo("Score");
+        List<EventRegistration> winners = new ArrayList<>();
+        List<EventRegistration> applications = event.getRegistrations();
+        applications.sort((o1, o2) -> {
+
+                // compare by score
+                if (o1.getStudentScore() != o2.getStudentScore()) {
+                    return o2.getStudentScore() - o1.getStudentScore();
+
+                // compare by time
+                } else {
+                    return o1.getTime().compareTo(o2.getTime());
                 }
             });
 

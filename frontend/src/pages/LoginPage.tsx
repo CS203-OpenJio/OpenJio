@@ -6,10 +6,8 @@ import {
   useState,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { handleLogin } from "../utils/AuthController";
-
-// IMPORTANT: LOGIN CUURRENTLY DOES NOT SET USERNAME AND PASSWORD FOR WEBSITE,  ONLY CHECKS IF VALID USRNAME/PWD
 
 const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -28,8 +26,10 @@ const LoginPage: FunctionComponent = () => {
       await handleLogin(username, password);
       handleSuccess("/centralhub");
       // Handle the successful login response here
-    } catch (err) {
-      setErrorMessage("Login failed. Please check your credentials.");
+    } catch (err: any) {
+      setErrorMessage(
+        err?.message || "Login failed. Please check your credentials."
+      );
     }
   };
 
@@ -74,7 +74,7 @@ const LoginPage: FunctionComponent = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <NavBar />
+      <NavBarLite />
 
       <div className="flex-1 relative bg-floralwhite w-full overflow-hidden text-left text-base text-black font-ibm-plex-mono">
         <img

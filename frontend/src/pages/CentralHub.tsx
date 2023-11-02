@@ -1,6 +1,6 @@
 import Section1 from "../components/CentralHub/Section1";
 import Section2 from "../components/CentralHub/Section2";
-import NavBarTest2 from "../components/CentralHub/Section1parts/NavBarTest2";
+import NavBar from "../components/NavBar";
 import Select1 from "../components/CentralHub/Section1parts/Select1";
 import Select2 from "../components/CentralHub/Section1parts/Select2";
 import Select3 from "../components/CentralHub/Section1parts/Select3";
@@ -10,7 +10,7 @@ import Section3 from "../components/CentralHub/Section3";
 function CentralHub() {
   return (
     <div>
-      <NavBarTest2 />
+      <NavBar />
       <Section1 />
       <p></p>
       <div className="pb-3 ml-14 font-source-serif-pro text-darkslateblue text-31xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)">

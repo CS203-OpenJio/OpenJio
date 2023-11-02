@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBar from "src/components/HomeScreen/NavBar";
+import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { useRef } from "react";
 
 const ForgetPassword: FunctionComponent = () => {
@@ -19,132 +19,123 @@ const ForgetPassword: FunctionComponent = () => {
     navigate("/");
   }, [navigate]);
 
+  const onButtonClick = useCallback(() => {
+    navigate("/forgetpassword3");
+  }, [navigate]);
+
   const handleSendResetLink = async () => {
     if (isEmailsMatch) {
-        const response = await fetch('http://localhost:8080/api/v1/forgot-password/token', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Basic ' + btoa('admin@admin.com:admin'), // Assuming the provided Basic auth credentials
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-            }),
-        });
-
-        const data = await response.json();
-
-        // Handle the response data here. For instance, notify the user if the token was sent successfully or show an error.
-        if (response.ok) {
-            // Token sent successfully
-            alert('Token sent! Please check your email.');
-        } else {
-            // Handle any errors here
-            alert(data.message || 'Error sending token.');
+      const response = await fetch(
+        "http://localhost:8080/api/v1/forgot-password/token",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa("admin@admin.com:admin"), // Assuming the provided Basic auth credentials
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
         }
+      );
+
+      const data = await response.json();
+
+      // Handle the response data here. For instance, notify the user if the token was sent successfully or show an error.
+      if (response.ok) {
+        // Token sent successfully
+        alert("Token sent! Please check your email.");
+      } else {
+        // Handle any errors here
+        alert(data.message || "Error sending token.");
+      }
     } else {
-        alert('Emails do not match.');
+      alert("Emails do not match.");
     }
-};
-
+  };
   return (
-    <div>
-      <NavBar />
+    <div className="flex flex-col h-screen">
+      <NavBarLite />
 
-      <button
-    className="cursor-pointer absolute top-[650px] left-[150px] rounded-xl bg-green-500 text-white box-border w-[438px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[2px] border-solid border-black transition-transform duration-100 ease-in-out z-50"
-    onClick={() => navigate('/forgetpassword3')}
-    style={{ transform: "scale(1)" }}
-    onMouseDown={() =>
-        buttonRef.current &&
-        (buttonRef.current.style.transform = "scale(0.95)")
-    }
-    onMouseUp={() =>
-        buttonRef.current &&
-        (buttonRef.current.style.transform = "scale(1)")
-    }
-    onMouseLeave={() =>
-        buttonRef.current &&
-        (buttonRef.current.style.transform = "scale(1)")
-    }
->
-    Go to Reset Password Page
-</button>
+      <div className="flex-1 relative bg-floralwhite w-full overflow-hidden text-left text-base text-black font-ibm-plex-mono">
+        <div className="flex flex-col justify-center items-center h-full space-y-6">
+          <div className="flex flex-col items-center space-y-6">
+        
+          <div className="rounded-11xl bg-white shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border w-[434px] h-[342px] overflow-hidden border-[0.5px] border-solid border-black flex flex-col justify-center items-center p-4 space-y-2">
+    <h2 className="text-xl font-semibold mb-6">Forget Password</h2>
 
-      <div className="relative bg-floralwhite w-full h-[982px] overflow-hidden text-left text-lg text-black font-ibm-plex-mono">
-        <div className="absolute top-[45px] left-[446px] w-[693px] h-[892px] overflow-hidden text-center text-base">
-          <div className="absolute top-[0px] left-[0px] w-[693px] h-[758px] overflow-hidden">
-            <div className="absolute top-[480px] left-[225px] w-[465px] h-[25px] overflow-hidden text-left">
+
+<div className="w-[300px] h-[60px] overflow-visible relative">
+        <div className="absolute top-[-20px] left-[3px] leading-[20px] font-medium inline-block w-[200px] h-[18px] text-black z-10">
+            Email Address
+        </div>
+        <input
+            className={`w-full font-medium font-ibm-plex-mono text-xs bg-white rounded-xl box-border py-2.5 px-3 border-[1px] border-solid ${
+                !isEmailsMatch ? "border-red-500" : "border-darkslateblue"
+            }`}
+            type="email"
+            placeholder="Enter your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+        />
+    </div>
+
+    <div className="w-[300px] h-[60px] overflow-visible relative">
+        <div className="absolute top-[-20px] left-[3px] leading-[20px] font-medium inline-block w-[250px] h-[18px] text-black z-10">
+            Confirm Email Address
+        </div>
+        <input
+            className={`w-full font-medium font-ibm-plex-mono text-xs bg-white rounded-xl box-border py-2.5 px-3 border-[1px] border-solid ${
+                !isEmailsMatch ? "border-red-500" : "border-darkslateblue"
+            }`}
+            type="email"
+            placeholder="Confirm your email address"
+            value={confirmEmail}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+        />
+    </div>
+
+    <Link
+            className="cursor-pointer [text-decoration:none] rounded flex flex-row py-[3px] pr-1 pl-2 items-center justify-center gap-[2px] text-3xs text-black font-ibm-plex-mono border-[1px] border-solid border-black"
+            to="/forgetpassword3"
+            onClick={onButtonClick}
+          >
+            Reset Password
+            <img
+              className="relative w-3 h-3 object-cover"
+              alt=""
+              src="/undefined5.png"
+            />
+          </Link>
+
+
+   
+              <button
+                ref={buttonRef}
+                className="cursor-pointer rounded-xl bg-floralwhite box-border w-[300px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
+                onClick={handleSendResetLink}
+                onMouseDown={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(0.95)")
+                }
+                onMouseUp={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+                onMouseLeave={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+              >
+                Send Reset Link
+              </button>
               {!isEmailsMatch && (
-                <div className="bg-lightyellow rounded-lg p-2 shadow-md text-black font-bold">
-                  Emails do not match!
-                </div>
-              )}
-            </div>
-            <button
-              ref={buttonRef} // Assign the ref to the button
-              className="cursor-pointer absolute top-[530px] left-[125px] rounded-xl bg-white box-border w-[438px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
-              onClick={handleSendResetLink}
-              style={{ transform: "scale(1)" }} // Initial scale
-              onMouseDown={() =>
-                buttonRef.current &&
-                (buttonRef.current.style.transform = "scale(0.95)")
-              } // Scale down when pressed
-              onMouseUp={() =>
-                buttonRef.current &&
-                (buttonRef.current.style.transform = "scale(1)")
-              } // Scale back to original size when released
-              onMouseLeave={() =>
-                buttonRef.current &&
-                (buttonRef.current.style.transform = "scale(1)")
-              } // Scale back to original size when mouse leaves
-            >
-              Send reset Link
-            </button>
-            <div className="absolute top-[635px] left-[5px] rounded-md bg-black w-[683px] h-[123px] text-mini text-white">
-              <div className="absolute w-[calc(100%_-_32px)] top-[calc(50%_-_7.5px)] left-[16px] leading-[22px] font-medium flex items-center justify-center h-4">
-                A password reset link will be sent to your email address. Please
-                check your inbox and follow the instructions provided to reset
-                your password.
-              </div>
-              <div className="absolute bottom-[8px] left-[calc(50%_-_21.5px)] flex flex-row items-center justify-center gap-[4px]">
-                <div className="relative rounded-81xl bg-white w-5 h-1" />
-                <div className="relative rounded-81xl bg-white w-1 h-1" />
-                <div className="relative rounded-81xl bg-white w-1 h-1" />
-                <div className="relative rounded-81xl bg-white w-1 h-1" />
-              </div>
-            </div>
+        <div className="bg-lightyellow  p-2 text-black font-bold w-[300px] mb-2 text-center">
+            Emails do not match!
+        </div>
+    )}
 
-            <div className="absolute top-[243px] left-[0px] w-[693px] h-[235px] overflow-hidden">
-              <div className="absolute top-[0px] left-[10px] leading-[24px] font-medium inline-block w-[664px] h-[37px]">
-                Reset Your Password
-              </div>
-              <div className="absolute top-[37px] left-[0px] w-[693px] h-[198px] overflow-hidden text-left text-xs">
-                <div className="absolute top-[0px] left-[0px] w-[692px] h-[146px] overflow-hidden flex flex-col py-0 px-3 box-border items-start justify-center gap-[4px]">
-                  <div className="self-stretch relative leading-[20px] font-medium">
-                    Email Address
-                  </div>
-                  <input
-                    className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-darkslateblue"
-                    type="email"
-                    placeholder="Enter your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="absolute top-[123px] left-[1px] w-[692px] h-[75px] overflow-hidden flex flex-col py-0 px-3 box-border items-start justify-center gap-[4px]">
-                  <div className="self-stretch relative leading-[20px] font-medium">
-                    Confirm Email Address
-                  </div>
-                  <input
-                    className="self-stretch rounded-md flex flex-row py-2 px-3 items-center justify-start border-[1px] border-solid border-black"
-                    type="email"
-                    placeholder="Enter your email address"
-                    value={confirmEmail}
-                    onChange={(e) => setConfirmEmail(e.target.value)}
-                  />
-                </div>
-              </div>
+
             </div>
           </div>
         </div>

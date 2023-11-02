@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import G3.jio.entities.ImageData;
 import G3.jio.entities.ImageUtils;
+import G3.jio.entities.Organiser;
+import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.ImageNotFoundException;
+import G3.jio.entities.Event;
 import G3.jio.entities.FileData;
 
 import G3.jio.repositories.FileDataRepository;
@@ -23,7 +27,9 @@ import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.nio.file.*; 
 
 @Service
 
@@ -74,6 +80,7 @@ public class StorageService {
 
     
 
+    //uploads image
     public String uploadImage(MultipartFile file) throws IOException {
         ImageData imageData = repository.save(ImageData.builder()
                 .name(file.getOriginalFilename())
@@ -86,7 +93,7 @@ public class StorageService {
     }
 
 
-
+    //downloads image
     public byte[] downloadImage(String fileName) {
         Optional<ImageData> dbImageData = repository.findByName(fileName);
         byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());
@@ -94,29 +101,56 @@ public class StorageService {
     }
 
 
-    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
+    //uploads image to file system
+    public Long uploadImageToFileSystem(MultipartFile file) throws IOException {
         String filePath=FOLDER_PATH+file.getOriginalFilename();
-    
+        
         FileData fileData=fileDataRepository.save(FileData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath).build());
 
         file.transferTo(new File(filePath));
-
+        Long fileLong = fileData.getId();
         if (fileData != null) {
-            return "file uploaded successfully : " + filePath;
+            //return "file uploaded successfully : " + filePath;
+            return fileLong;
         }
         return null;
     }
 
+
+    //donwloads image from file system searching by filename
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
+
         Optional<FileData> fileData = fileDataRepository.findByName(fileName);
+        String filePath=fileData.get().getFilePath();
+        byte[] images = Files.readAllBytes(new File(filePath).toPath());
+        return images;
+
+    }
+
+
+    
+    //donwloads image from file system searching by id
+    public byte[] downloadImageFromFileSystembyId(Long id) throws IOException {
+        Optional<FileData> fileData = fileDataRepository.findById(id);
         String filePath=fileData.get().getFilePath();
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;
     }
 
 
+    //deletes image from file system searching by id
+    public void deleteImage(Long id)throws IOException {
+        if (!fileDataRepository.existsById(id)) {
+            throw new ImageNotFoundException(id);
+        }
+        Optional<FileData> file = fileDataRepository.findById(id);
+        String filePath=file.get().getFilePath();
 
+
+        Files.delete(new File(filePath).toPath());
+        fileDataRepository.deleteById(id);
+    }
 }

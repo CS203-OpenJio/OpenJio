@@ -2,7 +2,7 @@
 import JWT from "./JWT";
 
 const getAllEvents = async () => {
-  const response = await JWT.get(`http://localhost:8080/api/v1/events`);
+  const response = await JWT.get(`/api/v1/events`);
 
   return response.data;
 };

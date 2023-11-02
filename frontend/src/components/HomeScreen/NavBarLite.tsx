@@ -2,20 +2,17 @@ import LoginButton from "./LoginButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function NavBar() {
+function NavBarLite() {
   const navigate = useNavigate();
 
-  const handleClick = (path: string) => {
-    navigate(path);
-  };
+  // depreciated scroll method
+  // const scrollToElement = (scrollTarget: string) => {
+  //   const targetElement = document.getElementById(scrollTarget);
 
-  const scrollToElement = (scrollTarget: string) => {
-    const targetElement = document.getElementById(scrollTarget);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  //   if (targetElement) {
+  //     targetElement.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   //For NavBar transparency effect
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,7 +40,7 @@ function NavBar() {
   return (
     <div
       className={`flex justify-between items-center fixed w-full ${
-        isScrolled ? "bg-white shadow-sm" : ""
+        isScrolled ? "bg-[#FBF6EE] shadow-sm" : ""
       } z-50 pt-2 pb-2`}
       style={{
         transition: "background-color 0.2s ease-in-out",
@@ -77,11 +74,11 @@ function NavBar() {
           FAQ
         </div>
       </div>
-      <div className="mr-5" onClick={() => handleClick("/login")}>
+      <div className="mr-5">
         <LoginButton />
       </div>
     </div>
   );
 }
 
-export default NavBar;
+export default NavBarLite;

@@ -37,14 +37,10 @@ public class UserDetailsService implements org.springframework.security.core.use
             throw new UserNotFoundException(email);
         } else if (!tempOrganiser.isEmpty()) {
             organiser = tempOrganiser.get();
-        } else if (!tempStudent.isEmpty()) {
-            student = tempStudent.get();
-        }
-
-        if (organiser != null) {
             user = User.withUsername(organiser.getEmail()).password(organiser.getPassword()).authorities("USER")
                     .build();
-        } else if (student != null) {
+        } else if (!tempStudent.isEmpty()) {
+            student = tempStudent.get();
             user = User.withUsername(student.getEmail()).password(student.getPassword()).authorities("USER").build();
         }
 

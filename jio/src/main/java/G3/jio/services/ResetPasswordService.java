@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import G3.jio.entities.AuthenticationResponse;
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.AlreadyExistsException;
@@ -22,41 +23,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ResetPasswordService {
 
-    final private StudentRepository studentRepository;
-    final private OrganiserRepository organiserRepository;
-    final private ChangeCredentialService changeCredentialService;
-    final private MailService mailService;
+    private final StudentRepository studentRepository;
+    private final OrganiserRepository organiserRepository;
+    private final ChangeCredentialService changeCredentialService;
+    private final MailService mailService;
 
     public ResponseEntity<String> setResetPasswordTokenAndSendEmail(String email) {
-        Student student = null;
-        Organiser organiser = null;
-        boolean isStudent;
 
-        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
-        Optional<Organiser> optionalOrganiser = organiserRepository.findByEmail(email);
-        if (optionalStudent.isPresent()) {
-            student = optionalStudent.get();
-            isStudent = true;
-        } else if (optionalOrganiser.isPresent()) {
-            organiser = optionalOrganiser.get();
-            isStudent = false;
-        } else {
-            throw new UserNotFoundException("No such user");
-        }
+        if (studentRepository.existsByEmail(email)) {
+            Student student = studentRepository.findByEmail(email).map(s -> s).orElseThrow();
 
-        if (isStudent) {
-            if (!student.getEmail().equals(email))
-                throw new IllegalArgumentException("Email entered is incorrect");
             if (student.getResetPasswordToken() != null)
                 throw new AlreadyExistsException("Reset password token");
 
             student.setResetPasswordToken(RandomString.make(16));
             studentRepository.saveAndFlush(student);
-
             mailService.sendSimpleMessage(email, "OpenJio Password Reset", student.getResetPasswordToken());
-        } else {
-            if (!organiser.getEmail().equals(email))
-                throw new IllegalArgumentException("Email entered is incorrect");
+
+        } else if (organiserRepository.existsByEmail(email)){
+            Organiser organiser = organiserRepository.findByEmail(email).map(o -> o).orElseThrow();
             if (organiser.getResetPasswordToken() != null)
                 throw new AlreadyExistsException("Reset password token");
 
@@ -64,6 +49,9 @@ public class ResetPasswordService {
             organiserRepository.saveAndFlush(organiser);
 
             mailService.sendSimpleMessage(email, "OpenJio Password Reset", organiser.getResetPasswordToken());
+
+        } else {
+            throw new UserNotFoundException();
         }
 
         return new ResponseEntity<>("An email has been sent to you. Please check it for a code to reset your password!",
@@ -79,17 +67,13 @@ public class ResetPasswordService {
         boolean isStudent;
 
         Optional<Student> optionalStudent = studentRepository.findByEmail(email);
-        try {
-            if (optionalStudent.isPresent()) {
-                student = optionalStudent.get();
-                isStudent = true;
-            } else {
-                organiser = organiserRepository.findByEmail(email)
-                        .orElseThrow(() -> new NotExistException("Account"));
-                isStudent = false;
-            }
-        } catch (NoSuchElementException e) {
-            throw new NotExistException("Account");
+        if (optionalStudent.isPresent()) {
+            student = optionalStudent.get();
+            isStudent = true;
+        } else {
+            organiser = organiserRepository.findByEmail(email)
+                    .orElseThrow(() -> new NotExistException("Account"));
+            isStudent = false;
         }
 
         /*

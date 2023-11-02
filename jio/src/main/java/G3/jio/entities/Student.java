@@ -13,12 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -87,7 +86,7 @@ public class Student implements UserDetails {
     private String resetPasswordToken;
 
     @OneToMany(mappedBy = "student", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "student-registration")
     // @JsonIgnore
     List<EventRegistration> registrations = new ArrayList<>();
 
@@ -96,37 +95,63 @@ public class Student implements UserDetails {
     }
 
     // smu credit score
-    private int smuCreditScore = 100;
+    @JsonView
+    public int getSmuCreditScore() {
 
-    public void updateSmuCreditScore() {
         if (registrations == null || registrations.isEmpty()) {
-            setSmuCreditScore(100);
+            return 100;
         }
+
+        registrations.sort((o1, o2) -> {
+
+            if (o1.getTimeCompleted() == null && o2.getTimeCompleted() == null) {
+                return 0;
+            } else if (o1.getTimeCompleted() == null && o2.getTimeCompleted() != null) {
+                return 1;
+            } else if (o1.getTimeCompleted() != null && o2.getTimeCompleted() == null) {
+                return -1;
+            } else {
+                return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
+            }
+        });
         
-        int accepted = 1;
-        int present = 3;
-        for (EventRegistration er : registrations) {
+        // change this to change short term score
+        int k = 10;
+        int count = 0;
+        double total = 0.0001;
+        double score = 0.0001;
+        double shortTerm = score / total * 100;
+        double longTerm = score / total * 100;
+
+        for (int i = 0; i < registrations.size(); i++) {
+            EventRegistration er = registrations.get(i);
 
             if (!er.isCompleted()) {
                 continue;
             }
 
-            if (er.getStatus() == Status.ACCEPTED) {
-                accepted++;
+            if (er.getStatus() ==  Status.ACCEPTED) {
+                total += er.getEventScore();
+                //System.out.println(total);
+
+                if (er.isPresentForEvent()) {
+                    score += er.getEventScore();
+                }
             }
 
-            if (er.isPresentForEvent() == true) {
-                present++;
+            // to keep track of 1st k events
+            count++;
+            if (count <= k) {
+                shortTerm = score / total * 100;
             }
         }
-
-        double result = (double) present / accepted * 100;
         
-        if (result > 100) {
-            setSmuCreditScore(100);
-        } else {
-            setSmuCreditScore((int) result);
-        }
+        longTerm = score / total * 100;
+        // System.out.println("sT: " + shortTerm);
+        // System.out.println("lT: " + longTerm);
+        double result = (0.3 * longTerm) + (0.7 * shortTerm);
+        // System.out.println("result: " + result);
+        return Math.min((int) result, 100);
     }
 
     // **************** SECURITY ****************
@@ -141,7 +166,6 @@ public class Student implements UserDetails {
     }
 
     @Column(name = "role")
-    @Enumerated(EnumType.STRING)
     public Role role;
 
     @Override
@@ -223,5 +247,4 @@ public class Student implements UserDetails {
         result = prime * result + ((dob == null) ? 0 : dob.hashCode());
         return result;
     }
-
 }

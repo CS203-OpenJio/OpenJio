@@ -3,7 +3,7 @@ package G3.jio.exceptions;
 public class EventNotFoundException extends RuntimeException {
 
     public EventNotFoundException() {
-        super();
+        super("Event does not exist!");
     }
 
     public EventNotFoundException(Long Id) {

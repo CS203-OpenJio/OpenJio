@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 function LogoutNavBar() {
   const navigate = useNavigate();
-
   const handleClick = (path: string) => {
     navigate(path);
   };
@@ -52,7 +51,7 @@ function LogoutNavBar() {
         />
       </Link>
 
-      <div className="mr-5" onClick={() => handleClick("/login")}>
+      <div className="mr-5">
         <LoginButton />
       </div>
     </div>

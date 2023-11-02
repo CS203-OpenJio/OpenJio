@@ -23,7 +23,7 @@ Authorization: Basic bul.ge@gmail.com 13473433
 
 {
     "studentId":1,
-    "eventId":1,
+    "eventId":5,
     "status":"ACCEPTED"
 }
 
@@ -61,7 +61,7 @@ Content-Type: application/json
 Authorization: Basic bul.ge@gmail.com 13473433
 
 {
-    "eventId":1
+    "eventId":5
 }
 
 ###

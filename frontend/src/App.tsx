@@ -7,13 +7,18 @@ import TicketPurchased from "src/pages/TicketPurchased";
 import EventForm from "./pages/EventForm";
 import SignUpPage from "./pages/SignUpPage";
 import Schedule from "./pages/Schedule";
-import ForgetPassword1 from "src/pages/ForgetPassword1";
 import ForgetPassword2 from "src/pages/ForgetPassword2";
 import ForgetPassword3 from "src/pages/ForgetPassword3";
 import Profilepage from "src/pages/ProfilePage";
 import LogoutPage from "src/pages/LogoutPage";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Unauthorized from "./pages/Unauthorized";
+import CreatedEvents from "./pages/CreatedEvents";
+import EditEventPage from "./pages/EditEvent";
+import EventParticipant from "./pages/EventParticipant";
+import OSignUpPage from "./pages/OSignUpPage";
+import WhichSignUp from "./pages/WhichSignUp";
 
 // import { Route } from "react-router-dom";
 
@@ -46,13 +51,8 @@ const router = createBrowserRouter([
     element: <ForgetPassword2 />,
   },
   {
-    path: "/forgetpassword1",
-    element: <ForgetPassword1 />,
-  },
-  // might need to update below as they require data passed through them for them to load
-  {
     path: "/forgetpassword3",
-    element: <ForgetPassword3 />
+    element: <ForgetPassword3 />,
   },
   {
     path: "/eventpage",
@@ -64,7 +64,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
+    element: <WhichSignUp />,
+  },
+  {
+    path: "/studentsignup",
     element: <SignUpPage />,
+  },
+  {
+    path: "/organisersignup",
+    element: <OSignUpPage />,
   },
   {
     path: "/logout",
@@ -74,15 +82,31 @@ const router = createBrowserRouter([
     path: "/schedule",
     element: <Schedule />,
   },
+  {
+    path: "/createdevents",
+    element: <CreatedEvents />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
+  {
+    path: "/editeventpage",
+    element: <EditEventPage />,
+  },
+  {
+    path: "/eventparticipant",
+    element: <EventParticipant />,
+  },
 ]);
 
 const App = () => {
   return (
-  <>
-  <ToastContainer />
-  <RouterProvider router={router} />;
-  </>
+    <>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import NavBar from "../components/HomeScreen/NavBar";
+import NavBar from "../components/NavBar";
 import { Link, useLocation } from "react-router-dom";
 
 export default function TicketPurchased() {

@@ -2,21 +2,26 @@ package G3.jio.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import G3.jio.DTO.AllocationDTO;
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.OrganiserDTO;
+import G3.jio.DTO.QueryDTO;
 import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
+import G3.jio.exceptions.CustomErrorException;
 import G3.jio.exceptions.EventNotFoundException;
+import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.EventRepository;
 import G3.jio.repositories.OrganiserRepository;
@@ -97,6 +102,8 @@ public class OrganiserService {
     private Event eventMapToEntity(EventDTO eventDTO) {
         ModelMapper mapper = new ModelMapper();
 
+        // make sure org id doesnt get mapped to eventId, turning post method to PUT
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Event event = mapper.map(eventDTO, Event.class);
 
         // settle datetime
@@ -128,10 +135,38 @@ public class OrganiserService {
     }
 
     // redirects based on algo type
-    public List<EventRegistration> allocateSlotsForEvent(AllocationDTO allocationDTO) {
+    public List<EventRegistration> allocateSlotsForEvent(QueryDTO queryDTO) {
 
-        String algo = allocationDTO.getAlgo();
-        Event event = getEvent(allocationDTO.getEventId());
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        if (!organiserRepository.existsByEmail(email)) {
+            throw new InvalidUserTypeException("Account is not an organiser!");
+        }
+
+        // get organiser id
+        Event event = getEvent(queryDTO.getEventId());
+
+        // check if org id is same
+        if (!getOrganiserByEmail(email).equals(event.getOrganiser())) {
+            throw new InvalidUserTypeException("Account is not creator of this event!");
+        }
+
+        // check if event is completed
+        if (event.isCompleted()) {
+            throw new CustomErrorException("Event is already completed!");
+        }
+
+        String algo;
+        if (queryDTO.getAlgo() != null) {
+            algo = queryDTO.getAlgo();
+
+        } else if (event.getAlgo() != null) {
+            algo = event.getAlgo();
+
+        } else {
+            throw new NotExistException("The event has no allocation type!");
+        }
 
         if (algo.equals("FCFS")) {
             return algoService.allocateSlotsForEventFCFS(event);
@@ -141,9 +176,12 @@ public class OrganiserService {
 
         } else if (algo.equals("Weighted Random")) {
             return algoService.allocateSlotsForEventWeightedRandom(event);
+
+        } else if (algo.equals("Score")) {
+            return algoService.allocateSlotsForEventScore(event);
         }
 
-        return null;
+        throw new CustomErrorException("The event does not have a valid allocation type!");
     }
 
     public Event getEvent(Long eventId) {
@@ -151,7 +189,37 @@ public class OrganiserService {
         if (!o.isPresent()) {
             throw new EventNotFoundException();
         }
-        Event event = o.get();
-        return event;
+
+        return o.get();
+    }
+
+    public void completeEvent(QueryDTO queryDTO) {
+
+        Event e = getEvent(queryDTO.getEventId()); 
+
+        // read from jwt token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        if (!organiserRepository.existsByEmail(email)) {
+            throw new InvalidUserTypeException("Account is not an organiser!");
+        }
+
+        // check if org id is same
+        if (!getOrganiserByEmail(email).equals(e.getOrganiser())) {
+            throw new InvalidUserTypeException("Account is not creator of this event!");
+        }
+        
+        e.setCompleted(true);
+        e.setVisible(false);
+        List<EventRegistration> registrations = e.getRegistrations();
+        Iterator<EventRegistration> it = registrations.iterator();
+        while (it.hasNext()) {
+
+            EventRegistration er = it.next();
+
+            er.setCompleted(true);
+            er.setTimeCompleted(LocalDateTime.now());
+        }
+        eventRepository.saveAndFlush(e);
     }
 }

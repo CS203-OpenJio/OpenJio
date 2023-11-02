@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import G3.jio.DTO.LoginDTO;
@@ -29,7 +31,6 @@ import G3.jio.exceptions.InvalidUserTypeException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
-
 
 class AuthServiceTest {
 
@@ -80,12 +81,12 @@ class AuthServiceTest {
 
     @Test
     void authenticateUser_StudentLogin_Success() {
-        // Mocking
+        // Arrange
         when(studentRepository.existsByEmail(anyString())).thenReturn(true);
         when(studentRepository.findByEmail(anyString())).thenReturn(Optional.of(new Student()));
         when(jwtService.generateToken(any())).thenReturn("mockedToken");
 
-        // Test
+        // Act
         LoginDTO loginDTO = new LoginDTO("student@test.com", "password");
         AuthenticationResponse response = authService.authenticateUser(loginDTO);
 
@@ -122,7 +123,7 @@ class AuthServiceTest {
         verify(jwtService).generateToken(any());
     }
 
-        @Test
+    @Test
     void authenticateUser_InvalidEmailLogin_UserNotFoundExceptionThrown() {
         // Arrange
         String exceptionMessage = "";
@@ -147,7 +148,6 @@ class AuthServiceTest {
         verify(studentRepository).existsByEmail("test@test.com");
 
     }
-
 
     @Test
     void registerUser_StudentRegistration_Success() {
@@ -201,7 +201,7 @@ class AuthServiceTest {
         // Arrange
         String exceptionMessage = "";
         registrationDTO.setUserType('X');
-        
+
         // Act
         try {
             authService.registerUser(registrationDTO);
@@ -214,7 +214,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerStudent_DuplicateEmail_FailedRegistrationExceptionThrown() {
+    void registerStudent_StudentEmailExists_FailedRegistrationExceptionThrown() {
 
         // Arrange
         String exceptionMessage = "";
@@ -236,7 +236,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerOrganiser_DuplicateEmail_FailedRegistrationExceptionThrown() {
+    void registerOrganiser_OrganiserEmailExists_FailedRegistrationExceptionThrown() {
 
         // Arrange
         String exceptionMessage = "";
@@ -256,4 +256,65 @@ class AuthServiceTest {
         // Verify
         verify(studentRepository).existsByEmail(anyString());
     }
+
+    @Test
+    void registerStudent_OrganiserEmailExists_FailedRegistrationExceptionThrown() {
+
+        // Arrange
+        String exceptionMessage = "";
+        registrationDTO.setUserType('S');
+        when(organiserRepository.existsByEmail(anyString())).thenReturn(true);
+
+        // Act
+        try {
+            authService.registerUser(registrationDTO);
+        } catch (FailedRegistrationException e) {
+            exceptionMessage = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Registration Failed: Email already taken!", exceptionMessage);
+
+        // Verify
+        verify(studentRepository).existsByEmail(anyString());
+    }
+
+    @Test
+    void registerOrganiser_StudentEmailExists_FailedRegistrationExceptionThrown() {
+
+        // Arrange
+        String exceptionMessage = "";
+        registrationDTO.setUserType('O');
+        when(studentRepository.existsByEmail(anyString())).thenReturn(true);
+
+        // Act
+        try {
+            authService.registerUser(registrationDTO);
+        } catch (FailedRegistrationException e) {
+            exceptionMessage = e.getMessage();
+        }
+
+        // Assert
+        assertEquals("Registration Failed: Email already taken!", exceptionMessage);
+
+        // Verify
+        verify(studentRepository).existsByEmail(anyString());
+    }
+
+    // *** CANNOT TEST METHOD identifyUser***
+    // @Test
+    // void identifyUser_StudentExists_ReturnStudent() {
+
+    // // Arrange
+    // String email = "test@test.com";
+    // when(studentRepository.existsByEmail(anyString())).thenReturn(true);
+    // when(studentRepository.findByEmail(anyString())).thenReturn(Optional.of(student));
+
+    // // Act
+    // Object user = authService.identifyUser();
+
+    // // Assert
+    // assertEquals(student, user);
+    // }
+
 }
