@@ -4,7 +4,7 @@ name: Backend Deployment
 on:
   push:
     branches:
-      - deployment
+      - none
 
 env:
   AWS_REGION: ap-southeast-1 
