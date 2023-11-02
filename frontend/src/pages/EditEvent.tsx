@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { getEvents, handleChangeEvent } from "../utils/EditEventController";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -455,7 +455,6 @@ const EditEventPage: React.FC = () => {
                     </form>
                 </Form>
             </div>
-            <ToastContainer />
         </div>
     );
 };

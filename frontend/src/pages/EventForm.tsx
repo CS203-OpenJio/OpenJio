@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Form,
@@ -540,7 +540,6 @@ export default function EventForm() {
           </Form>
         </div>}
       </div>
-      <ToastContainer />
     </div>
   );
 }
