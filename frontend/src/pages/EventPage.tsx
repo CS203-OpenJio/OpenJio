@@ -27,7 +27,7 @@ export default function EventPage() {
 
   useEffect(() => {
     // Make the Axios GET request when the component mounts
-    JWT.get(`http://localhost:8080/api/v1/events/id/${eventId}`)
+    JWT.get(`/api/v1/events/id/${eventId}`)
       .then((response) => {
         setEvent(response.data); // Store the data in the "data" state variable
       })
