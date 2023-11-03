@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -39,12 +38,8 @@ public class OrganiserService {
 
     // get
     public Organiser getOrganiser(Long organiserId) {
-        Optional<Organiser> o = organiserRepository.findById(organiserId);
-        if (!o.isPresent()) {
-            throw new UserNotFoundException("Organiser does not exist!");
-        }
-        Organiser organiser = o.get();
-        return organiser;
+
+        return organiserRepository.findById(organiserId).orElseThrow(() -> new UserNotFoundException("Organiser does not exist!"));
     }
 
     // list all Organiser
@@ -54,12 +49,8 @@ public class OrganiserService {
 
     // update organiser
     public Organiser updateOrganiser(Long id, OrganiserDTO organiserDTO) {
-        Optional<Organiser> o = organiserRepository.findById(id);
-        if (!o.isPresent()) {
-            throw new UserNotFoundException("Organiser does not exist!");
-        }
-        Organiser organiser = o.get();
 
+        Organiser organiser = getOrganiser(id);
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.map(organiserDTO, organiser);
@@ -83,7 +74,10 @@ public class OrganiserService {
 
         Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
-        event.setImage(storageServiceAWS.uploadFile(imageFile));
+
+        if (imageFile != null) {
+            event.setImage(storageServiceAWS.uploadFile(imageFile));
+        }
         organiser.getEvents().add(event);
 
         return eventRepository.save(event);
@@ -193,17 +187,12 @@ public class OrganiserService {
     }
 
     public Event getEvent(Long eventId) {
-        Optional<Event> o = eventRepository.findById(eventId);
-        if (!o.isPresent()) {
-            throw new EventNotFoundException();
-        }
-
-        return o.get();
+        return eventRepository.findById(eventId).orElseThrow(EventNotFoundException::new);
     }
 
     public void completeEvent(QueryDTO queryDTO) {
 
-        Event e = getEvent(queryDTO.getEventId()); 
+        Event event = getEvent(queryDTO.getEventId()); 
 
         // read from jwt token
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -213,13 +202,13 @@ public class OrganiserService {
         }
 
         // check if org id is same
-        if (!getOrganiserByEmail(email).equals(e.getOrganiser())) {
+        if (!getOrganiserByEmail(email).equals(event.getOrganiser())) {
             throw new InvalidUserTypeException("Account is not creator of this event!");
         }
         
-        e.setCompleted(true);
-        e.setVisible(false);
-        List<EventRegistration> registrations = e.getRegistrations();
+        event.setCompleted(true);
+        event.setVisible(false);
+        List<EventRegistration> registrations = event.getRegistrations();
         Iterator<EventRegistration> it = registrations.iterator();
         while (it.hasNext()) {
 
@@ -228,6 +217,6 @@ public class OrganiserService {
             er.setCompleted(true);
             er.setTimeCompleted(LocalDateTime.now());
         }
-        eventRepository.saveAndFlush(e);
+        eventRepository.saveAndFlush(event);
     }
 }

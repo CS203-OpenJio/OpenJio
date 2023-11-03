@@ -31,8 +31,8 @@ public class StorageServiceAWS {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
         fileObj.delete();
-        return "File uploaded : " + fileName;
-    }
+        return "https://"+ bucketName + ".s3.amazonaws.com/" + fileName;
+    }    
 
 
     public byte[] downloadFile(String fileName) {
