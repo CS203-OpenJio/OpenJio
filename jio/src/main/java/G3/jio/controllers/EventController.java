@@ -13,7 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
@@ -21,6 +27,7 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -61,12 +68,16 @@ public class EventController {
 
     // update event
     @PutMapping(path = "/id/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
-        Event event = eventService.updateEvent(id, eventDTO);
-        if (event == null)
-            throw new EventNotFoundException(id);
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
-        return ResponseEntity.ok(event);
+        if (!eventService.existsById(id)) {
+            throw new EventNotFoundException();
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        EventDTO eventDTO = mapper.readValue(event, EventDTO.class);
+
+        return ResponseEntity.ok(eventService.updateEvent(id, eventDTO, imageFile));
     }
 
     // delete event
