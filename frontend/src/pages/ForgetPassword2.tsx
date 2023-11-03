@@ -2,8 +2,6 @@ import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBarLite from "../components/HomeScreen/NavBarLite";
 import { useRef } from "react";
-import { handleSendResetLink }  from "../utils/AuthController";
-import JWT from "@/utils/JWT";
 
 const ForgetPassword: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -17,26 +15,44 @@ const ForgetPassword: FunctionComponent = () => {
     setIsEmailsMatch(email === confirmEmail);
   }, [email, confirmEmail]);
 
+  const onFrameContainerClick = useCallback(() => {
+    navigate("/");
+  }, [navigate]);
 
   const onButtonClick = useCallback(() => {
     navigate("/forgetpassword3");
   }, [navigate]);
-  
-  const onSendResetLinkClick = async () => {
-    try {
-      const message = await handleSendResetLink(email); // Call the function with the email state
-      alert(message); // Alert the message returned by the function
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message); // Now we know it's an Error and it has a message property
+
+  const handleSendResetLink = async () => {
+    if (isEmailsMatch) {
+      const response = await fetch(
+        "http://localhost:8080/api/v1/forgot-password/token",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Basic " + btoa("admin@admin.com:admin"), // Assuming the provided Basic auth credentials
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      // Handle the response data here. For instance, notify the user if the token was sent successfully or show an error.
+      if (response.ok) {
+        // Token sent successfully
+        alert("Token sent! Please check your email.");
       } else {
-        alert('An unexpected error occurred'); // Fallback error message
+        // Handle any errors here
+        alert(data.message || "Error sending token.");
       }
+    } else {
+      alert("Emails do not match.");
     }
   };
-  
-
-
   return (
     <div className="flex flex-col h-screen">
       <NavBarLite />
@@ -94,25 +110,25 @@ const ForgetPassword: FunctionComponent = () => {
 
 
    
-          <button
-  ref={buttonRef}
-  className="cursor-pointer rounded-xl bg-floralwhite box-border w-[300px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
-  onClick={onSendResetLinkClick} 
-  onMouseDown={() =>
-    buttonRef.current &&
-    (buttonRef.current.style.transform = "scale(0.95)")
-  }
-  onMouseUp={() =>
-    buttonRef.current &&
-    (buttonRef.current.style.transform = "scale(1)")
-  }
-  onMouseLeave={() =>
-    buttonRef.current &&
-    (buttonRef.current.style.transform = "scale(1)")
-  }
->
-  Send Reset Link
-</button>
+              <button
+                ref={buttonRef}
+                className="cursor-pointer rounded-xl bg-floralwhite box-border w-[300px] h-[46px] flex flex-col py-2.5 px-3 items-center justify-center border-[1px] border-solid border-black transition-transform duration-100 ease-in-out"
+                onClick={handleSendResetLink}
+                onMouseDown={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(0.95)")
+                }
+                onMouseUp={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+                onMouseLeave={() =>
+                  buttonRef.current &&
+                  (buttonRef.current.style.transform = "scale(1)")
+                }
+              >
+                Send Reset Link
+              </button>
               {!isEmailsMatch && (
         <div className="bg-lightyellow  p-2 text-black font-bold w-[300px] mb-2 text-center">
             Emails do not match!
