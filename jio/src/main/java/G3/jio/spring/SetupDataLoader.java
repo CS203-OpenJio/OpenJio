@@ -130,7 +130,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             student.setRole(role);
         }
 
-        student = studentRepository.save(student);
+        student = studentRepository.saveAndFlush(student);
         return student;
     }
 
@@ -167,7 +167,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             organiser.setRole(role);
         }
 
-        organiser = organiserRepository.save(organiser);
+        organiser = organiserRepository.saveAndFlush(organiser);
         return organiser;
     }
 
@@ -176,7 +176,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             String venue, String image, int capacity, String algo, String description,
             boolean isVisible, int minScore) {
 
-        Event event = eventRepository.findByNameAndStartDateTime(name, startDateTime);
+        Event event = eventRepository.findByNameAndStartDateTime(name, startDateTime).map(e -> {return e;}).orElse(null);
 
         if (event == null) {
             event = new Event();
@@ -193,7 +193,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             event.setOrganiser(organiserRepository.findById(1L).get());
         }
 
-        event = eventRepository.save(event);
+        event = eventRepository.saveAndFlush(event);
         return event;
     }
 }
