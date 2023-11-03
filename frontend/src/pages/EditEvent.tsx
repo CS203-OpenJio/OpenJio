@@ -78,7 +78,7 @@ const EditEventPage: React.FC = () => {
             capacity: eventData?.capacity?.toString() ?? '',
             venue: eventData?.venue ?? '',
             date: date ? { from: date.from, to: date.to } : null,
-            image: eventData?.image ?? '',
+            image: eventData?.image ?? null,
             description: eventData?.description ?? '',
             algo: eventData?.algo ?? '',
             visible: eventData?.visible ?? false,
