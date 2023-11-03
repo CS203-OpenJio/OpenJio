@@ -31,6 +31,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final OrganiserRepository organiserRepository;
+    private final StorageServiceAWS storageServiceAWS;
 
     // list all event
     public List<Event> findAllEvent() {
@@ -119,6 +120,11 @@ public class EventService {
         if (eventDTO.getEndDateTime() != null) {
             LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(), formatter);
             event.setEndDateTime(endDateTime);
+        }
+
+        // settle image
+        if (eventDTO.getImageFile() != null) {
+            event.setImage(storageServiceAWS.uploadFile(eventDTO.getImageFile()));
         }
 
         eventRepository.saveAndFlush(event);

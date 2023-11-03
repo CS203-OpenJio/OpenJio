@@ -34,6 +34,7 @@ public class OrganiserService {
     private final OrganiserRepository organiserRepository;
     private final EventRepository eventRepository;
     private final AlgoService algoService;
+    private final StorageServiceAWS storageServiceAWS;
 
     // get
     public Organiser getOrganiser(Long organiserId) {
@@ -81,6 +82,7 @@ public class OrganiserService {
 
         Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
+        event.setImage(storageServiceAWS.uploadFile(eventDTO.getImageFile()));
         organiser.getEvents().add(event);
 
         return eventRepository.save(event);
@@ -89,8 +91,6 @@ public class OrganiserService {
     // retrieves organiser from DTO or from token
     private Organiser getOrganiserFromTokenOrDTO(EventDTO eventDTO) {
 
-        Organiser organiser = null;
-
         Long organiserId = eventDTO.getOrganiserId();
 
         // if no orgId provided in DTO, read from token
@@ -98,14 +98,12 @@ public class OrganiserService {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             String email = userDetails.getUsername();
-            organiser = this.getOrganiserByEmail(email);
+            return this.getOrganiserByEmail(email);
 
         // else if orgId is provided, check that it exists
         } else {
-            organiser = organiserRepository.findById(organiserId).orElseThrow(() -> new UserNotFoundException("Organiser does not exist!"));
+            return organiserRepository.findById(organiserId).orElseThrow(() -> new UserNotFoundException("Organiser does not exist!"));
         }
-
-        return organiser;
     }
 
     private Event eventMapToEntity(EventDTO eventDTO) {

@@ -15,16 +15,16 @@ import G3.jio.services.StorageServiceAWS;
 public class StorageControllerAWS {
 
     @Autowired
-    private StorageServiceAWS service;
+    private StorageServiceAWS storageServiceAWS;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam(value = "file") MultipartFile file) {
-        return new ResponseEntity<>(service.uploadFile(file), HttpStatus.OK);
+        return new ResponseEntity<>(storageServiceAWS.uploadFile(file), HttpStatus.OK);
     }
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
-        byte[] data = service.downloadFile(fileName);
+        byte[] data = storageServiceAWS.downloadFile(fileName);
         ByteArrayResource resource = new ByteArrayResource(data);
         return ResponseEntity
                 .ok()
@@ -36,6 +36,6 @@ public class StorageControllerAWS {
 
     @DeleteMapping("/delete/{fileName}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
-        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
+        return new ResponseEntity<>(storageServiceAWS.deleteFile(fileName), HttpStatus.OK);
     }
 }
