@@ -1,4 +1,7 @@
 package G3.jio.config;
+
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,17 +17,17 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Allow requests from a specific origin
-        config.addAllowedOrigin("http://localhost:3006");
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3006", "http://openjio.xyz"));
 
         // Allow all HTTP methods
         config.addAllowedMethod("*");
 
         // Allow specific headers, you can customize this
-        config.addAllowedHeader("Authorization");
-        config.addAllowedHeader("Content-Type");
+        config.addAllowedHeader("*");
+
+        config.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
-

@@ -12,7 +12,6 @@ import G3.jio.services.ResetPasswordService;
 
 @RestController
 @RequestMapping("api/v1/forgot-password")
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class ResetPasswordController {
     ResetPasswordService resetPasswordService;
 

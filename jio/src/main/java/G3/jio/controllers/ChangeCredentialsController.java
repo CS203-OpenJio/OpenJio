@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(path = "api/v1/edit-profile")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class ChangeCredentialsController {
 
     final private ChangeCredentialService changeCredentialService;

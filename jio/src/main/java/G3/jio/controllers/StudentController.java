@@ -27,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/students")
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class StudentController {
 
     private final StudentService studentService;
@@ -54,6 +53,7 @@ public class StudentController {
     @PostMapping(path = "/email/events")
     public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
 
+            
         return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }
 

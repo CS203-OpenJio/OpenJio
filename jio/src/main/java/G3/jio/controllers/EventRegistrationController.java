@@ -24,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping(path = "api/v1/register-event")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;

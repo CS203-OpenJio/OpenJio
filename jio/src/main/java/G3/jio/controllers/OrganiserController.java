@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/organisers")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class OrganiserController {
 
     private final OrganiserService organiserService;

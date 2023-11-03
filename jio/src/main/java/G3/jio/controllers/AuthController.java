@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "openjio.xyz", allowedHeaders = "*")
 public class AuthController {
 
     @Autowired
