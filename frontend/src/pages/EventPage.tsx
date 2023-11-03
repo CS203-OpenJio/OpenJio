@@ -14,7 +14,6 @@ import {
 } from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
 import JWT from "../utils/JWT";
-import { set } from "date-fns";
 
 export default function EventPage() {
   // does a GET request, sets it in PostData variable

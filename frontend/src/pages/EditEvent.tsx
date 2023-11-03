@@ -92,12 +92,7 @@ const EditEventPage: React.FC = () => {
         const updatedFields: any = {};
         // if image is in data, delete it from data
         // UPDATE WHEN IMAGES ARE FIXED
-        if ("image" in updatedData) {
-            delete updatedData["image"];
-            updatedData = {
-                ...updatedData,
-            }
-        }
+
         if ("date" in updatedData) {
             let date = updatedData["date"] as { from?: string, to?: string };
             delete updatedData["date"];
@@ -116,7 +111,10 @@ const EditEventPage: React.FC = () => {
         }
 
         Object.keys(updatedData).forEach((key: string) => {
-            if (updatedData[key] != eventData[key]) {
+            if(key === "image") {
+                hasUpdates = true;
+                updatedFields[key] = updatedData[key];
+            } else if (updatedData[key] != eventData[key]) {
                 hasUpdates = true;
                 updatedFields[key] = updatedData[key];
             }
