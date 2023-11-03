@@ -3,15 +3,21 @@ package G3.jio.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
@@ -48,10 +54,13 @@ public class OrganiserController {
 
     // post event
     @PostMapping(path = "/create-event")
-    public ResponseEntity<Event> postEvent(@Valid @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Event> postEvent(@Valid @RequestParam("event") String event,  @RequestParam(value = "file", required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        EventDTO eventDTO = mapper.readValue(event, EventDTO.class);
 
         // System.out.println(eventDTO.getOrganiserId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(organiserService.postEvent(eventDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(organiserService.postEvent(eventDTO, imageFile));
     }
 
     // delete

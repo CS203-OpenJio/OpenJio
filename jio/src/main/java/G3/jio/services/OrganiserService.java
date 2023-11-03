@@ -11,6 +11,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.OrganiserDTO;
@@ -76,13 +77,13 @@ public class OrganiserService {
     }
 
     // organiser post event
-    public Event postEvent(EventDTO eventDTO) {
+    public Event postEvent(EventDTO eventDTO, MultipartFile imageFile) {
 
         Organiser organiser = getOrganiserFromTokenOrDTO(eventDTO);
 
         Event event = eventMapToEntity(eventDTO);
         event.setOrganiser(organiser);
-        event.setImage(storageServiceAWS.uploadFile(eventDTO.getImageFile()));
+        event.setImage(storageServiceAWS.uploadFile(imageFile));
         organiser.getEvents().add(event);
 
         return eventRepository.save(event);
