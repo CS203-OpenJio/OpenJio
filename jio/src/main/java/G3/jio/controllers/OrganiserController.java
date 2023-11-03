@@ -54,7 +54,7 @@ public class OrganiserController {
 
     // post event
     @PostMapping(path = "/create-event")
-    public ResponseEntity<Event> postEvent(@Valid @RequestParam("event") String event,  @RequestParam(value = "file", required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
+    public ResponseEntity<Event> postEvent(@Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         EventDTO eventDTO = mapper.readValue(event, EventDTO.class);

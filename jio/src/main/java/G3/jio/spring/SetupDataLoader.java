@@ -52,7 +52,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // == create initial users
         createStudentIfNotFound("admin", "admin@admin.com", "admin", Role.ADMIN);
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
-        createStudentIfNotFound("student2", "student3@student.com", "student", Role.STUDENT);
+        createStudentIfNotFound("student2", "student2@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student3", "student3@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student4", "student4@student.com", "student", Role.STUDENT);
         createStudentIfNotFound("student5", "student5@student.com", "student", Role.STUDENT);
@@ -135,7 +135,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public EventRegistration createEventRegistrationIfNotFound(Long studentId, Long eventId, boolean present) {
+    public void createEventRegistrationIfNotFound(Long studentId, Long eventId, boolean present) {
+
+        if(eventRegistrationRepository.existsByStudentIdAndEventId(studentId, eventId)) {
+            return;
+        }
 
         EventRegistration er = new EventRegistration();
         er.setStudent(studentRepository.findById(studentId).get());
@@ -149,7 +153,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // eventRepository.saveAndFlush(eventRepository.findById(eventId).get());
 
         eventRegistrationRepository.saveAndFlush(er);
-        return er;
     }
 
     @Transactional

@@ -47,7 +47,6 @@ public class ResetPasswordService {
 
             organiser.setResetPasswordToken(RandomString.make(16));
             organiserRepository.saveAndFlush(organiser);
-
             mailService.sendSimpleMessage(email, "OpenJio Password Reset", organiser.getResetPasswordToken());
 
         } else {
