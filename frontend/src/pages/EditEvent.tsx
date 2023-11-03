@@ -292,26 +292,26 @@ const EditEventPage: React.FC = () => {
                                             <Command>
                                                 <CommandGroup>
                                                     {languages.map((language) => (
-                                                       <Tooltip title={language.desc} placement="right">
-                                                       <CommandItem
-                                                         value={language.label}
-                                                         className="font-ibm-plex-mono hover:cursor-pointer"
-                                                         key={language.value}
-                                                         onSelect={() => {
-                                                           form.setValue("algo", language.value)
-                                                         }}
-                                                       >
-                                                         <Check
-                                                           className={cn(
-                                                             "mr-2 h-4 w-4",
-                                                             language.value === field.value
-                                                               ? "opacity-100"
-                                                               : "opacity-0"
-                                                           )}
-                                                         />
-                                                         {language.label}
-                                                       </CommandItem>
-                                                     </Tooltip>
+                                                        <Tooltip title={language.desc} placement="right">
+                                                            <CommandItem
+                                                                value={language.label}
+                                                                className="font-ibm-plex-mono hover:cursor-pointer"
+                                                                key={language.value}
+                                                                onSelect={() => {
+                                                                    form.setValue("algo", language.value)
+                                                                }}
+                                                            >
+                                                                <Check
+                                                                    className={cn(
+                                                                        "mr-2 h-4 w-4",
+                                                                        language.value === field.value
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                                {language.label}
+                                                            </CommandItem>
+                                                        </Tooltip>
                                                     ))}
                                                 </CommandGroup>
                                             </Command>
@@ -385,68 +385,68 @@ const EditEventPage: React.FC = () => {
                                 </FormItem>
                             )}
                         />
-                       <FormField
-                control={form.control}
-                name="minScore"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col font-ibm-plex-mono">
-                    <FormLabel>Event Registration Options</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[300px] justify-between hover:cursor-pointer bg-white",
-                              !field.value && "text-muted-foreground"
+                        <FormField
+                            control={form.control}
+                            name="minScore"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col font-ibm-plex-mono">
+                                    <FormLabel>Event Registration Options</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "w-[300px] justify-between hover:cursor-pointer bg-white",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value
+                                                        ? minScoreFilter.find(
+                                                            (minScoreFilter) => minScoreFilter.value === field.value
+                                                        )?.label
+                                                        : "Select Option"}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-[300px] p-0 mt-[-4px]">
+                                            <Command>
+                                                <CommandGroup>
+                                                    {minScoreFilter.map((minScoreFilter) => (
+                                                        <Tooltip title={minScoreFilter.desc} placement="right">
+                                                            <CommandItem
+                                                                value={minScoreFilter.label}
+                                                                className="font-ibm-plex-mono hover:cursor-pointer"
+                                                                key={minScoreFilter.value}
+                                                                onSelect={() => {
+                                                                    form.setValue("minScore", minScoreFilter.value)
+                                                                }}
+                                                            >
+                                                                <Check
+                                                                    className={cn(
+                                                                        "mr-2 h-4 w-4",
+                                                                        minScoreFilter.value === field.value
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                                {minScoreFilter.label}
+                                                            </CommandItem>
+                                                        </Tooltip>
+                                                    ))}
+                                                </CommandGroup>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormDescription>
+                                        Choose the type or users able to participate in your event.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
                             )}
-                          >
-                            {field.value
-                              ? minScoreFilter.find(
-                                (minScoreFilter) => minScoreFilter.value === field.value
-                              )?.label
-                              : "Select Option"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[300px] p-0 mt-[-4px]">
-                        <Command>
-                          <CommandGroup>
-                            {minScoreFilter.map((minScoreFilter) => (
-                              <Tooltip title={minScoreFilter.desc} placement="right">
-                                <CommandItem
-                                  value={minScoreFilter.label}
-                                  className="font-ibm-plex-mono hover:cursor-pointer"
-                                  key={minScoreFilter.value}
-                                  onSelect={() => {
-                                    form.setValue("minScore", minScoreFilter.value)
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      minScoreFilter.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                  {minScoreFilter.label}
-                                </CommandItem>
-                              </Tooltip>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription>
-                      Choose the type or users able to participate in your event.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        />
                         <div className="flex flex-row justify-between w-[100%]">
                             <div></div>
                             <Button type="submit" className="hover:cursor-pointer">Confirm Changes</Button>
@@ -535,12 +535,12 @@ const languages = [
     { label: "Random Selection", value: "Random", desc: "Participants are randomly chosen" },
     { label: "Weighted Queue Selection", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
     { label: "Weighted Random Selection", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
-  ] as const
-  const minScoreFilter = [
+] as const
+const minScoreFilter = [
     { label: "Normal", value: 0, desc: "All are allowed to register" },
     { label: "Low", value: 30, desc: "Users highly unlikely to attend are not allowed to register" },
-    { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register"},
-  ] as const
-  
+    { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register" },
+] as const
+
 
 export default EditEventPage;
