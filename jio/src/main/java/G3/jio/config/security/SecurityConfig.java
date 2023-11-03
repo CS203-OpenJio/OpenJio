@@ -59,8 +59,6 @@ public class SecurityConfig {
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .httpBasic(Customizer.withDefaults())
-
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests.requestMatchers("/api/v1/auth/**", "/").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
