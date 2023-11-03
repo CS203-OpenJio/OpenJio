@@ -89,7 +89,7 @@ export default function EventPage() {
     async function handleClick() {
       console.log(body);
 
-      await JWT.post("http://localhost:8080/api/v1/register-event", body).catch(
+      await JWT.post("/api/v1/register-event", body).catch(
         (err) => {
           console.log(err.message);
         }
