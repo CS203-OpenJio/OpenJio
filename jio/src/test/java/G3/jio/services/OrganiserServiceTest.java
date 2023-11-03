@@ -259,7 +259,7 @@ class OrganiserServiceTest {
         }
 
         // Assert
-        assertEquals("Event Not Found: Event does not exist!", exceptionMsg);
+        assertEquals("Event does not exist!", exceptionMsg);
     }
 
     // WIP
