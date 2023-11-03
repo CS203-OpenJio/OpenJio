@@ -54,4 +54,23 @@ const handleSignUp = async (user: User) => {
   }
 };
 
-export { handleLogin, handleSignUp };
+const handleSendResetLink = async (email: string) => {
+  let response;
+  try {
+    response = await JWT.post("/api/v1/forgot-password/token", {
+      email: email,
+    });
+  } catch (err: any) {
+    throw err.response.data.message;
+  }
+  if (response.status === 200) {
+    // Token sent successfully
+    return "Token sent! Please check your email.";
+  } else {
+    // Handle any errors here
+    throw new Error(response.data.message || "Error sending token.");
+  }
+};
+
+
+export { handleLogin, handleSignUp, handleSendResetLink};
