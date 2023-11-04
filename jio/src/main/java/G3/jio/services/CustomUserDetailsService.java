@@ -13,12 +13,13 @@ import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CustomUserDetailsService implements org.springframework.security.core.userdetails.
+UserDetailsService {
 
     private OrganiserRepository organiserRepository;
     private StudentRepository studentRepository;
 
-    public UserDetailsService(OrganiserRepository organiserRepository, StudentRepository studentRepository) {
+    public CustomUserDetailsService(OrganiserRepository organiserRepository, StudentRepository studentRepository) {
         this.organiserRepository = organiserRepository;
         this.studentRepository = studentRepository;
     }
@@ -39,7 +40,7 @@ public class UserDetailsService implements org.springframework.security.core.use
             organiser = tempOrganiser.get();
             user = User.withUsername(organiser.getEmail()).password(organiser.getPassword()).authorities("USER")
                     .build();
-        } else if (!tempStudent.isEmpty()) {
+        } else {
             student = tempStudent.get();
             user = User.withUsername(student.getEmail()).password(student.getPassword()).authorities("USER").build();
         }

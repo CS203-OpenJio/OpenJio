@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EventController {
 
-    final private EventService eventService;
+    private final EventService eventService;
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {

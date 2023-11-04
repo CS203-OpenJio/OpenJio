@@ -1,5 +1,6 @@
 package G3.jio.services;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class AlgoService {
 
     private final EventRegistrationRepository eventRegistrationRepository;
-    private Random rand = new Random();
+    SecureRandom rand = new SecureRandom();
 
     public List<EventRegistration> allocateSlotsForEventWeightedRandom(Event event) {
 
