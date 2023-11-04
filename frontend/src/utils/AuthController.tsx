@@ -22,6 +22,7 @@ const handleLogin = async (username: string, password: string) => {
       response = await JWT.post(`/api/v1/organisers/email`, { email: username });
     }
     if (response.data) {
+      localStorage.setItem("name", response.data.name);
       localStorage.setItem("userType", response.data.role);
     } else {
       throw new Error("User not found");

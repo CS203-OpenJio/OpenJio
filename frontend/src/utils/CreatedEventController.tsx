@@ -35,9 +35,13 @@ const allocateSlots = async (id: string) => {
     console.log(id)
     try {
         await JWT.post(`/api/v1/organisers/events/allocation`, {eventId: id}); 
-    } catch (error) {
+    } catch (error:any) {
         console.log(error);
+        if (error.response.data.details) {
+        throw new Error(error.response.data.details);
+        } else {
         throw new Error("Error allocating slots.");
+        }
     }
 }
 

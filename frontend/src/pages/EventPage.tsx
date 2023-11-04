@@ -2,7 +2,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   Dialog,
   DialogContent,
@@ -13,11 +12,13 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
-import JWT from "../utils/JWT";
+import { getEvent, registerEvent } from "../utils/EventController";
+import { toast } from "react-toastify";
+
 
 export default function EventPage() {
-  // does a GET request, sets it in PostData variable
   const navigate = useNavigate();
+  // does a GET request, sets it in PostData variable
   const [event, setEvent] = useState({} as any);
 
   // to search for id based on url so we can GET request specific event
@@ -33,31 +34,28 @@ export default function EventPage() {
     if (userType === "") {
       navigate("/unauthorized");
     }
-    JWT.get(`/api/v1/events/id/${eventId}`)
-      .then((response) => {
-        setEvent(response.data); // Store the data in the "data" state variable
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      getEvent(eventId).then((data) => {
+        setEvent(data);
       });
-  }, []);
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }, [eventId]);
 
   return (
     <div>
       <NavBar />
       <div className="h-[35px]"></div>
       <div className=" m-4">
-        {/* <div className="font-ibm-plex-mono mb-5">
-          Welcome <span className="text-xl font-bold">{user.username}</span>!
-        </div> */}
         <div className="" key={event?.id}>
-          <div className="flex flex-row justify-normal font-ibm-plex-mono w-[70%] m-auto mt-24">
+          <div className="flex flex-row justify-normal font-ibm-plex-mono w-[80%] m-auto mt-24">
             <img
               src={event?.image}
-              className="rounded-3xl mx-auto object-contain w-[500px] mr-16"
+              className="rounded-3xl mx-auto object-contain w-[600px] mr-16"
             ></img>
-            <div className="flex flex-col bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg mx-auto mt-8">
-            <h2 className="text-28xl font-ibm-plex-mono mx-auto">{event?.name}</h2>
+            <div className="flex flex-col flex-grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg mx-auto mt-8">
+              <h2 className="text-28xl font-ibm-plex-mono mx-auto">{event?.name}</h2>
               <div className="ml-8 mt-8">
                 Date: {new Date(event?.startDateTime).toLocaleDateString()} to {new Date(event?.endDateTime).toLocaleDateString()}
               </div>
@@ -68,31 +66,27 @@ export default function EventPage() {
                 {event?.description}
               </p>
               <div className="flex flex-row justify-end mt-8">
-                 {userType == "STUDENT" && <TicketFooter id={event?.id} />}
+                {userType == "STUDENT" && <RegisterButton id={event?.id} />}
               </div>
 
             </div>
-
-
 
           </div>
         </div>
       </div>
     </div>
   );
-  function TicketFooter({ id }: { id: number }) {
-    let body = {
-      eventId: id,
-    };
-
+  function RegisterButton({ id }: { id: string }) {
+    const navigate = useNavigate();
     async function handleClick() {
-      console.log(body);
-
-      await JWT.post("/api/v1/register-event", body).catch(
+      registerEvent(id).catch(
         (err) => {
-          console.log(err.message);
+          toast.error(err.message);
+          return;
         }
       );
+      toast.success("Successfully registered for event!");
+      navigate("/purchased");
     }
 
     return (
@@ -113,14 +107,12 @@ export default function EventPage() {
               </DialogTitle>
             </DialogHeader>
             <DialogFooter>
-              <Link to="/purchased" state={{ TID: id }}>
-                <Button
-                  onClick={handleClick}
-                  className="hover:cursor-pointer font-ibm-plex-mono"
-                >
-                  Confirm
-                </Button>
-              </Link>
+              <Button
+                onClick={handleClick}
+                className="hover:cursor-pointer font-ibm-plex-mono"
+              >
+                Confirm
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
