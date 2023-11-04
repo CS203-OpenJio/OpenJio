@@ -156,69 +156,38 @@ const HomeScreen: FunctionComponent = () => {
             </div>
           </div>
         </div>
-        <div
-          id="scrollFAQ"
-          className="w-[60%] m-auto mt-[5vw]"
-          style={{ width: "70%", margin: "auto", marginTop: "5vw" }}
-        >
+        <div id="scrollFAQ" className="text-center mt-[5vw]">
           <div style={{ textAlign: "center" }}>
-            <b
-              style={{
-                marginTop: "20px",
-                display: "inline-block",
-                lineHeight: "150%",
-                fontSize: "51px",
-                textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                color: "darkslateblue",
-              }}
-            >
-              FAQ
-            </b>
-            <div style={{ marginLeft: "-130px" }}>
-              <div
-                style={{
-                  borderRadius: "8px",
-                  backgroundColor: "white",
-                  margin: "auto",
-                  overflow: "hidden",
-                  textAlign: "left",
-                  fontSize: "20px",
-                  fontFamily: "IBM Plex Mono",
-                  border: "solid 0.5px",
-                  marginTop: "3vw",
-                  width: "120%",
-                }}
-              >
-                {faqs.map((faq, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      borderBottom:
-                        index === faqs.length - 1 ? "none" : "1px solid #ccc",
-                      transition: "all 0.3s ease-in-out",
-                    }}
-                  >
-                    <div
-                      style={{ cursor: "pointer", margin: "10px" }}
-                      onClick={() =>
-                        setOpenIndex(openIndex === index ? null : index)
-                      }
-                    >
-                      <b>{faq.question}</b>
-                    </div>
-                    <div
-                      style={{
-                        maxHeight: openIndex === index ? "100px" : "0",
-                        overflow: "hidden",
-                        transition: "max-height 0.3s ease-in-out",
-                      }}
-                    >
-                      <p>{faq.answer}</p>
-                    </div>
+          <b className="inline-block font-source-serif-pro leading-[150%] inline-block text-51xl [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)] text-darkslateblue">
+      FAQ
+    </b>
+    <div className="rounded-xl bg-white mt-[3vw] text-left text-xl font-ibm-plex-mono border-solid border-[0.5px]">
+      {faqs.map((faq, index) => (
+        <div
+          key={index}
+          className={`border-b border-solid ${
+            index === faqs.length - 1 ? "" : "border-gray-300"
+          }`}
+        >
+                <div
+                  className="cursor-pointer p-4"
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
+                >
+                   <b className="text-xl font-roboto-serif text-black">{faq.question}</b>
+                </div>
+                <div
+                  className={`overflow-hidden transition-max-height duration-300 ${
+                    openIndex === index ? "max-h-24" : "max-h-0"
+                  }`}
+                >
+                 <p className="p-4 text-base font-ibm-plex-mono">{faq.answer}</p>
+                </div>
                   </div>
                 ))}
               </div>
-            </div>
+        
           </div>
         </div>
       </div>
@@ -229,3 +198,4 @@ const HomeScreen: FunctionComponent = () => {
 };
 
 export default HomeScreen;
+

@@ -3,54 +3,71 @@ import "react-toastify/dist/ReactToastify.css";
 import { FunctionComponent, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { getStudentByEmail, handleChangeDetails } from "../utils/ProfileController";
+// import { getOrganiserByEmail, handleOrganiserChangeDetails } from "../utils/OrganiserController"; // Placeholder imports
 
 const ChangeProfile: FunctionComponent = () => {
     const [dob, setDob] = useState("");
     const [matricNo, setMatricNo] = useState("");
     const [phone, setPhone] = useState("");
-    const [studentId, setStudentId] = useState("");
+    const [id, setId] = useState("");
     const [isEditing, setIsEditing] = useState(false);
-
-
+    const [userType, setUserType] = useState(""); // New state for user type
 
     useEffect(() => {
-        // Fetch student details
-        const fetchStudentDetails = async () => {
+        // Determine user type
+        const userType = localStorage.getItem("userType") || "";
+        setUserType(userType);
+
+        // Fetch details based on user type
+        const fetchDetails = async () => {
             try {
-                // make API call
-                const response = await getStudentByEmail();
-                // set state
+                let response;
+                if (userType === "STUDENT") {
+                    response = await getStudentByEmail();
+                    setMatricNo(response.matricNo); // Only for students
+                } else if (userType === "ORGANISER") {
+                    console.log("Update organizer details function goes here.");
+                    // response = await getOrganiserByEmail();  Placeholder function
+                } else {
+                    throw new Error("Invalid user type");
+                }
+                // set common state
                 setDob(response.dob);
-                setMatricNo(response.matricNo);
                 setPhone(response.phone);
-                setStudentId(response.id);
+                setId(response.id);
             } catch (error) {
                 console.error("Error handling the response:", error);
                 alert('Error fetching profile details.');
             }
         };
-        fetchStudentDetails();
+        fetchDetails();
     }, [isEditing]);
 
-    // Update student details
-    const setDetails = (studentId: string, matricNo: string, phone: string, dob: string) => {
+    // Update details
+    const setDetails = async (id: string, matricNo: string, phone: string, dob: string) => {
         try {
-            if (
-!validatePhoneNumber(phone) ||
-!validateMatriculationId(matricNo) ) {
-    return; // Don't proceed if validation fails
-}
+            if (!validatePhoneNumber(phone)) {
+                return; // Don't proceed if validation fails
+            }
 
-// make API call
-            handleChangeDetails(studentId, matricNo, phone, dob);
-            // set state
+            if (userType === "STUDENT" && !validateMatriculationId(matricNo)) {
+                return; // Don't proceed if validation fails
+            }
+
+            if (userType === "STUDENT") {
+                await handleChangeDetails(id, matricNo, phone, dob);
+            } else if (userType === "ORGANISER") {
+                console.log("Update organizer details function goes here.");
+                // await handleOrganiserChangeDetails(id, phone, dob);  Placeholder function
+            } else {
+                throw new Error("Invalid user type");
+            }
             setIsEditing(false);
         } catch (error) {
             console.error("Error handling the response:", error);
             alert('Error updating profile details.');
         }
     }
-
 
     return (
         <div className="h-screen bg-floralwhite text-darkslateblue font-ibm-plex-mono">
@@ -62,6 +79,7 @@ const ChangeProfile: FunctionComponent = () => {
                     </h2>
                     {isEditing ? (
                         <div className="flex flex-col items-center">
+                            {/* Common fields */}
                             <input
                                 className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
                                 type="date"
@@ -72,29 +90,36 @@ const ChangeProfile: FunctionComponent = () => {
                             <input
                                 className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
                                 type="text"
-                                placeholder="Matric No."
-                                value={matricNo}
-                                onChange={(e) => setMatricNo(e.target.value)}
-                            />
-                            <input
-                                className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
-                                type="text"
                                 placeholder="Phone"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                             />
+                            {/* Student specific field */}
+                            {userType === "STUDENT" && (
+                                <input
+                                    className="w-4/5 p-2 mb-4 border rounded-xl focus:ring focus:ring-darkslateblue transition ease-in-out border-darkslateblue"
+                                    type="text"
+                                    placeholder="Matric No."
+                                    value={matricNo}
+                                    onChange={(e) => setMatricNo(e.target.value)}
+                                />
+                            )}
                             <button
                                 className="w-4/5 p-2 bg-darkslateblue text-white rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-darkslateblue"
-                                onClick={() => setDetails(studentId, matricNo, phone, dob)}
+                                onClick={() => setDetails(id, matricNo, phone, dob)}
                             >
                                 Update Profile
                             </button>
                         </div>
                     ) : (
                         <>
+                            {/* Common details */}
                             <div className="mb-4 text-darkslateblue font-medium">Date of Birth: <span className="text-black">{dob}</span></div>
-                            <div className="mb-4 text-darkslateblue font-medium">Matriculation Number: <span className="text-black">{matricNo}</span></div>
                             <div className="mb-4 text-darkslateblue font-medium">Phone: <span className="text-black">{phone}</span></div>
+                            {/* Student specific detail */}
+                            {userType === "STUDENT" && (
+                                <div className="mb-4 text-darkslateblue font-medium">Matriculation Number: <span className="text-black">{matricNo}</span></div>
+                            )}
                             <button
                                 className="w-full p-2 bg-darkslateblue text-white rounded-xl hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-darkslateblue"
                                 onClick={() => setIsEditing(true)}
