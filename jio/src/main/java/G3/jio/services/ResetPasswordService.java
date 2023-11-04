@@ -1,6 +1,5 @@
 package G3.jio.services;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.modelmapper.internal.bytebuddy.utility.RandomString;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import G3.jio.entities.AuthenticationResponse;
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.AlreadyExistsException;
@@ -27,6 +25,7 @@ public class ResetPasswordService {
     private final OrganiserRepository organiserRepository;
     private final ChangeCredentialService changeCredentialService;
     private final MailService mailService;
+    String resetTokenString = "Reset password token";
 
     public ResponseEntity<String> setResetPasswordTokenAndSendEmail(String email) {
 
@@ -34,7 +33,7 @@ public class ResetPasswordService {
             Student student = studentRepository.findByEmail(email).map(s -> s).orElseThrow();
 
             if (student.getResetPasswordToken() != null)
-                throw new AlreadyExistsException("Reset password token");
+                throw new AlreadyExistsException(resetTokenString);
 
             student.setResetPasswordToken(RandomString.make(16));
             studentRepository.saveAndFlush(student);
@@ -43,7 +42,7 @@ public class ResetPasswordService {
         } else if (organiserRepository.existsByEmail(email)){
             Organiser organiser = organiserRepository.findByEmail(email).map(o -> o).orElseThrow();
             if (organiser.getResetPasswordToken() != null)
-                throw new AlreadyExistsException("Reset password token");
+                throw new AlreadyExistsException(resetTokenString);
 
             organiser.setResetPasswordToken(RandomString.make(16));
             organiserRepository.saveAndFlush(organiser);
@@ -80,7 +79,7 @@ public class ResetPasswordService {
          */
         if (isStudent) {
             if (student.getResetPasswordToken() == null)
-                throw new NotExistException("Reset password token");
+                throw new NotExistException(resetTokenString);
 
             // wrong token
             if (!student.getResetPasswordToken().equals(resetPasswordToken))
@@ -90,7 +89,7 @@ public class ResetPasswordService {
             studentRepository.saveAndFlush(student);
         } else {
             if (organiser.getResetPasswordToken() == null)
-                throw new NotExistException("Reset password token");
+                throw new NotExistException(resetTokenString);
 
             // wrong token
             if (!organiser.getResetPasswordToken().equals(resetPasswordToken))

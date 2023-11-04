@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AlgoService {
 
     private final EventRegistrationRepository eventRegistrationRepository;
+    private Random rand = new Random();
 
     public List<EventRegistration> allocateSlotsForEventWeightedRandom(Event event) {
 
@@ -45,7 +46,7 @@ public class AlgoService {
         Set<Integer> winnerIdx = new HashSet<>();
         for (int i = 0 ; i < event.getCapacity(); i++) {
 
-            randPickOneWithWeight(winnerIdx, applications, pool);
+            randPickOneWithWeight(winnerIdx, pool);
         }
         
         // set winners to accepted and the rest of registrations to rejected and save
@@ -67,7 +68,7 @@ public class AlgoService {
         return winners;
     }
 
-    private void randPickOneWithWeight(Set<Integer> winnerIdx, List<EventRegistration> applications, int[] pool) {
+    private void randPickOneWithWeight(Set<Integer> winnerIdx, int[] pool) {
         
         // get sum of scores
         int sumScore = 0;
@@ -76,7 +77,6 @@ public class AlgoService {
         }
 
         // pick one random idx with weight
-        Random rand = new Random();
         double randWeight = rand.nextDouble(sumScore);
         double cumScore = 0;
 
@@ -117,7 +117,6 @@ public class AlgoService {
 
         // get winners, add to winners and exclude from future
         Set<Integer> winnerIdx = new HashSet<>();
-        Random rand = new Random();
         for (int i = 0 ; i < event.getCapacity(); i++) {
 
             // pick a random index and add to winners 
@@ -154,8 +153,6 @@ public class AlgoService {
             EventRegistration er = iter.next();
             er.setStatus(Status.ACCEPTED);
             winners.add(er);
-
-            // eventRegistrationRepository.saveAndFlush(er);
         }
 
         return winners;

@@ -152,24 +152,6 @@ public class EventService {
         eventRepository.deleteById(eventId);
     }
 
-    // private Event eventMapToEntity(EventDTO eventDTO) {
-    // ModelMapper mapper = new ModelMapper();
-
-    // Event event = mapper.map(eventDTO, Event.class);
-
-    // // settle datetime
-    // DateTimeFormatter formatter =
-    // DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    // LocalDateTime startDateTime =
-    // LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
-    // LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(),
-    // formatter);
-    // event.setStartDateTime(startDateTime);
-    // event.setEndDateTime(endDateTime);
-
-    // return event;
-    // }
-
     public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO queryDTO) {
 
         Event event = getEvent(queryDTO.getEventId());

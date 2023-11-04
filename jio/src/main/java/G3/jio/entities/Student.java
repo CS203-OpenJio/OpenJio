@@ -63,9 +63,6 @@ public class Student implements UserDetails {
     @JsonIgnore
     private String image;
 
-    // @Column(name = "accType")
-    // private char accType;
-
     // @NotNull
     // @Size(min = 8, max = 8, message = "Matriculation number must be valid")
     @Column(name = "matricNo")
@@ -102,18 +99,7 @@ public class Student implements UserDetails {
             return 100;
         }
 
-        registrations.sort((o1, o2) -> {
-
-            if (o1.getTimeCompleted() == null && o2.getTimeCompleted() == null) {
-                return 0;
-            } else if (o1.getTimeCompleted() == null && o2.getTimeCompleted() != null) {
-                return 1;
-            } else if (o1.getTimeCompleted() != null && o2.getTimeCompleted() == null) {
-                return -1;
-            } else {
-                return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
-            }
-        });
+        sortRegistrationsByTimeCompleted();
         
         // change this to change short term score
         int k = 10;
@@ -121,7 +107,6 @@ public class Student implements UserDetails {
         double total = 0.0001;
         double score = 0.0001;
         double shortTerm = score / total * 100;
-        double longTerm = score / total * 100;
 
         for (int i = 0; i < registrations.size(); i++) {
             EventRegistration er = registrations.get(i);
@@ -132,7 +117,6 @@ public class Student implements UserDetails {
 
             if (er.getStatus() ==  Status.ACCEPTED) {
                 total += er.getEventScore();
-                //System.out.println(total);
 
                 if (er.isPresentForEvent()) {
                     score += er.getEventScore();
@@ -146,12 +130,24 @@ public class Student implements UserDetails {
             }
         }
         
-        longTerm = score / total * 100;
-        // System.out.println("sT: " + shortTerm);
-        // System.out.println("lT: " + longTerm);
+        double longTerm = score / total * 100;
         double result = (0.3 * longTerm) + (0.7 * shortTerm);
-        // System.out.println("result: " + result);
         return Math.min((int) result, 100);
+    }
+
+    private void sortRegistrationsByTimeCompleted() {
+        registrations.sort((o1, o2) -> {
+
+            if (o1.getTimeCompleted() == null && o2.getTimeCompleted() == null) {
+                return 0;
+            } else if (o1.getTimeCompleted() == null && o2.getTimeCompleted() != null) {
+                return 1;
+            } else if (o1.getTimeCompleted() != null && o2.getTimeCompleted() == null) {
+                return -1;
+            } else {
+                return -o1.getTimeCompleted().compareTo(o2.getTimeCompleted());
+            }
+        });
     }
 
     // **************** SECURITY ****************
