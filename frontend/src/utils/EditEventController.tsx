@@ -18,27 +18,27 @@ const handleChangeEvent = async (id: string, event: {}) => {
         throw new Error("Nothing to Update!");
     }
     try {
+        let formData = new FormData();
         // make API call
-        if ("image" in event) {
-            let image = event["image"] as string;
+        if ("image" in event && event["image"] !== null) {
+            console.log("image in body")
+            let image = event["image"] as Blob;
             delete event["image"];
-            event = {
-                event:{...event},
-                image: image
-            }
+            formData.append("imageFile", image);
+            console.log(image)
+        } else if ("image" in event) {
+            delete event["image"];
         }
-        const response = await JWT.put(`/api/v1/events/id/${id}`, event);
+        formData.append("event", JSON.stringify(event));
+        console.log(JSON.stringify(event));
+        const response = await JWT.put(`/api/v1/events/id/${id}`, formData);
         // if response is successful, return data
         if (response.status === 200) {
-            console.log(JSON.stringify(event));
-            toast(JSON.stringify(event));
             toast.success('Event details updated successfully!');
         } else {
             throw new Error("Error updating event details.");
-        } 
+        }
     } catch (error) {
-        toast(JSON.stringify(event));
-        console.log(error);
         throw new Error("Error updating event details.");
     }
 };
