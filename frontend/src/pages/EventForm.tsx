@@ -525,7 +525,7 @@ export default function EventForm() {
                       </PopoverContent>
                     </Popover>
                     <FormDescription>
-                      Choose the type or users able to participate in your event.
+                      Choose the type of users able to participate in your event.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

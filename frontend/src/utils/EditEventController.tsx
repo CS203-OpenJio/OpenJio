@@ -19,6 +19,14 @@ const handleChangeEvent = async (id: string, event: {}) => {
     }
     try {
         // make API call
+        if ("image" in event) {
+            let image = event["image"] as string;
+            delete event["image"];
+            event = {
+                event:{...event},
+                image: image
+            }
+        }
         const response = await JWT.put(`/api/v1/events/id/${id}`, event);
         // if response is successful, return data
         if (response.status === 200) {

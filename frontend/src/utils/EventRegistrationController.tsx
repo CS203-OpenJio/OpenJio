@@ -4,7 +4,6 @@ import JWT from "./JWT";
 const createEvent = async (body: {}) => {
 
     try {
-        
             if ("date" in body) {
                 let date = body["date"] as { from?: string, to?: string };
                 delete body["date"];
@@ -20,6 +19,14 @@ const createEvent = async (body: {}) => {
                     startDateTime: dateFrom,
                     endDateTime: dateTo
                 }
+            if ("image" in body) {
+                let image = body["image"] as string;
+                delete body["image"];
+                body = {
+                    event:{...body},
+                    image: image
+                }
+            }
             console.log(body);
         await JWT.post("/api/v1/organisers/create-event", body).catch(
             (err) => {
