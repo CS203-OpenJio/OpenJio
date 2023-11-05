@@ -19,18 +19,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
     private final AuthService authService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account Logged in Successfully"),
             @ApiResponse(responseCode = "400", description = "Incorrect Username or Password")
     })
+
+    @Operation(summary = "Logins user")
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
 
@@ -41,6 +44,8 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "Account Successfully Created"),
             @ApiResponse(responseCode = "400", description = "Input fields invalid")
     })
+
+    @Operation(summary = "Registers user")
     @PostMapping(path = "/register")
     public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody RegistrationDTO registrationDTO) {
 
@@ -48,6 +53,8 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(registrationDTO));
     }
 
+
+    @Operation(summary = "Identifies user")
     @GetMapping(path = "/identify")
     public ResponseEntity<Object> identifyUser() {
 

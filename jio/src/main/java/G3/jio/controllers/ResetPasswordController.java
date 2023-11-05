@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import G3.jio.DTO.ResetPasswordDTO;
 import G3.jio.services.ResetPasswordService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("api/v1/forgot-password")
 public class ResetPasswordController {
@@ -20,6 +22,7 @@ public class ResetPasswordController {
     }
 
     // @ApiOperation("Gets the reset password token for a user")
+    @Operation(summary = "Gets the reset password token for a user")
     @PostMapping("/token")
     public ResponseEntity<String> setResetPasswordTokenAndSendEmail(@RequestBody ResetPasswordDTO resetPasswordDTO) {
         return resetPasswordService.setResetPasswordTokenAndSendEmail(resetPasswordDTO.getEmail());
@@ -27,6 +30,7 @@ public class ResetPasswordController {
 
     // @ApiOperation("checks the reset password token for a user, deleting if a
     // match is found")
+    @Operation(summary = "checks the reset password token for a user, deleting if a match is found")
     @PostMapping("/")
     public ResponseEntity<String> checkAndDeleteTokenAndChangePasswordIfCorrectResetPasswordToken(
             @RequestBody ResetPasswordDTO resetPasswordDTO) {

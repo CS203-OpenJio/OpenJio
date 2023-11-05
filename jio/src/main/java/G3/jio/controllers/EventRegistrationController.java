@@ -20,43 +20,48 @@ import G3.jio.entities.EventRegistration;
 import G3.jio.services.EventRegistrationService;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @Controller
-@RequestMapping(path = "api/v1/register-event")
+@RequestMapping(path = "api/v1/register-events")
 @RequiredArgsConstructor
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
 
     // get by student or eventid
+    @Operation(summary = "Get registration by student Id")
     @GetMapping(path = "/student/{studentId}")
     public ResponseEntity<List<EventRegistration>> getEventRegistrationsByUserId(@PathVariable long studentId) {
         return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByStudentId(studentId));
     }
 
+    @Operation(summary = "Get registration by event Id")
     @GetMapping(path = "/event/{eventId}")
     public ResponseEntity<List<EventRegistration>> getEventRegistrationsByEventId(@PathVariable long eventId) {
         return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventId(eventId));
     }
 
-    // get specific event registration using studentId and eventid
-    @GetMapping(path = "/event/{eventId}/student/{studentId}")
-    public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(
-            @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
-        return ResponseEntity
-                .ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
-    }
+    // // get specific event registration using studentId and eventid
+    // @GetMapping(path = "/event/{eventId}/student/{studentId}")
+    // public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(
+    //         @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
+
+    //     return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
+    // }
 
     // add
+    @Operation(summary = "Add event registration")
     @PostMapping(path = "")
     public ResponseEntity<EventRegistration> addEventRegistration(
             @RequestBody EventRegistrationDTO eventRegistrationDTO) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
     }
 
     // delete
+    @Operation(summary = "Delete registration by Id")
     @DeleteMapping(path = "/id/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         eventRegistrationService.deleteEventRegistration(id);
@@ -65,6 +70,7 @@ public class EventRegistrationController {
     }
 
     // update student registration details
+    @Operation(summary = "Update student registration details")
     @PutMapping(path = "/update")
     public ResponseEntity<EventRegistration> updateEventRegistration(
             @RequestBody EventRegistrationDTO eventRegistrationDTO) {

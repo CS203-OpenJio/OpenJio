@@ -23,6 +23,8 @@ import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.services.StudentService;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class StudentController {
     private final StudentService studentService;
 
     // get student given their id
+    @Operation (summary = "Get student given their id")
     @GetMapping(path = "/id/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable("id") Long id) {
         Student student = studentService.getStudent(id);
@@ -43,6 +46,8 @@ public class StudentController {
     }
 
     // get student given their email
+
+    @Operation (summary = "Get student given their email")
     @PostMapping(path = "/email")
     public ResponseEntity<Student> getStudentByEmail(@RequestBody QueryDTO queryDTO) {
 
@@ -50,20 +55,23 @@ public class StudentController {
     }
 
     // get events registered for by student email and status
+
+    @Operation (summary = "Get events registered for by student email and status")
     @PostMapping(path = "/email/events")
     public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
 
-            
         return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }
 
     // get all students
+     @Operation (summary = "Get all students")
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     // get all students with name
+    @Operation (summary = "Get all with name by student name")
     @GetMapping(path = "/name/{name}")
     public ResponseEntity<List<Student>> getStudentsByName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
@@ -81,6 +89,7 @@ public class StudentController {
     // }
 
     // delete student
+    @Operation (summary = "Delete student by Id")
     @DeleteMapping(path = "/id/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
@@ -88,6 +97,7 @@ public class StudentController {
     }
 
     // update student with the id
+    @Operation (summary = "Update student by Id")
     @PutMapping(path = "/id/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
         return ResponseEntity.ok(studentService.updateStudent(id, studentDTO));

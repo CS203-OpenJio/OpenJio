@@ -30,6 +30,8 @@ import G3.jio.services.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @Controller
 @RequestMapping(path = "api/v1/events")
@@ -38,12 +40,14 @@ public class EventController {
 
     private final EventService eventService;
 
-    @GetMapping
+    @Operation(summary = "Get all events")
+    @GetMapping(path = "/all")
     public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.findAllEvent());
     }
 
     // get event by name using %20 in blankspaces
+    @Operation(summary = "Get event by name using %20 in blankspaces")
     @GetMapping(path = "/name/{name}")
     public ResponseEntity<List<Event>> getEventsbyName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
@@ -53,6 +57,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventByName(name));
     }
 
+    @Operation(summary = "Get event by id")
     @GetMapping(path = "/id/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 
@@ -67,6 +72,7 @@ public class EventController {
     // }
 
     // update event
+    @Operation(summary = "Update event, find by id")
     @PutMapping(path = "/id/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
@@ -81,6 +87,7 @@ public class EventController {
     }
 
     // delete event
+    @Operation(summary = "Delete event, find by id")
     @DeleteMapping(path = "/id/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
         try {
@@ -93,6 +100,7 @@ public class EventController {
     }
 
     // get students signed up for events based on eventId and status
+    @Operation(summary = "Get students signed up for events based on eventId and status")
     @PostMapping(path = "/registrations")
     public ResponseEntity<List<Student>> getStudentByEventIdandEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO));
