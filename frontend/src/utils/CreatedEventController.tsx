@@ -31,10 +31,10 @@ const getParticipants = async (id: string) => {
     }
 };
 
-const allocateSlots = async (id: string) => {
+const allocateSlots = async (id: string, algo:string | null) => {
     console.log(id)
     try {
-        await JWT.post(`/api/v1/organisers/events/allocation`, {eventId: id}); 
+        await JWT.post(`/api/v1/organisers/events/allocation`, {eventId: id, algo: algo}); 
     } catch (error:any) {
         console.log(error);
         if (error.response.data.details) {
