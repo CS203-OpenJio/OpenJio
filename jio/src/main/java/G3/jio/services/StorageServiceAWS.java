@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
 
+import G3.jio.exceptions.CustomErrorException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,9 @@ public class StorageServiceAWS {
         File fileObj = convertMultiPartFileToFile(file);
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
-        fileObj.delete();
+        if (!fileObj.delete()) {
+            throw new CustomErrorException();
+        }
         return "https://"+ bucketName + ".s3.amazonaws.com/" + fileName;
     }    
 

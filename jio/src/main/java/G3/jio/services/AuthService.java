@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.LoginDTO;
-import G3.jio.DTO.QueryDTO;
 import G3.jio.DTO.RegistrationDTO;
 import G3.jio.config.jwt.JwtService;
 import G3.jio.entities.AuthenticationResponse;
@@ -18,7 +17,6 @@ import G3.jio.entities.Role;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.FailedRegistrationException;
 import G3.jio.exceptions.InvalidUserTypeException;
-import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
