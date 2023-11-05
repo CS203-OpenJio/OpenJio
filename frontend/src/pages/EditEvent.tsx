@@ -86,12 +86,10 @@ const EditEventPage: React.FC = () => {
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         let hasUpdates = false;
         let updatedData: any = { ...data };
         const updatedFields: any = {};
-        // if image is in data, delete it from data
-        // UPDATE WHEN IMAGES ARE FIXED
 
         if ("date" in updatedData) {
             let date = updatedData["date"] as { from?: string, to?: string };
@@ -137,8 +135,12 @@ const EditEventPage: React.FC = () => {
             try {
                 console.log("below")
                 console.log(updatedEvent);
-                handleChangeEvent(eventId, updatedEvent);
-                // navigate("/createdevents")
+                await handleChangeEvent(eventId, updatedEvent);
+                if(data.visible) {
+                    navigate("/eventpage?id=" + eventId)
+                } else {
+                    navigate("/createdevents")
+                }
             }
             catch (error) {
                 console.log(error);
