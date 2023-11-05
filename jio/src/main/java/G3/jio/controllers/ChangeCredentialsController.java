@@ -26,7 +26,7 @@ public class ChangeCredentialsController {
 
     // @ApiOperation(value = "Updates password of a Customer or a Merchant", notes =
     // "New username must not already be used")
-    @Operation(summary = "Updates password of a Customer or a Merchant")
+    @Operation(summary = "Updates password")
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@Valid @RequestBody ChangeCredentialsDTO changeCredentialsDTO) {
         verifyLogin(changeCredentialsDTO);
