@@ -6,7 +6,7 @@ name: Frontend Deployment
 on:
   push:
     branches:
-      - pauseCICD
+      - main
 
 env:
   AWS_REGION: ap-southeast-1 
