@@ -100,7 +100,7 @@ const router = createBrowserRouter([
     element: <EventParticipant />,
   },
   {
-    path: "/swagger-ui.html",
+    path: "/swagger",
     element: <Swagger />,
   },
 ]);
