@@ -23,6 +23,7 @@ const CreatedEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getEvents();
+            console.log(events);
             setEvents(events);
         };
         if (localStorage.getItem("userType") === "STUDENT") {
@@ -70,16 +71,21 @@ const CreatedEvents = () => {
                                             {events.visible ? "Visible" : "Not Visible"}
                                         </TableCell>
                                         <TableCell>
-                                            {events.isCompleted ? "Completed" : "Ongoing"}
+                                            {events.completed ? "Completed" : "Ongoing"}
                                         </TableCell>
                                         <TableCell>
-                                            <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-10 text-center hover:cursor-pointer"
-                                                onClick={() => handleClick("/editeventpage?id=" + events.id)}>
-                                                Edit
-                                            </div>
+                                            {events.completed ?
+                                                <div className="bg-slate-300 text-slate-400 font-bold py-2 px-2 rounded w-10 text-center">
+                                                    Edit
+                                                </div> :
+                                                <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-10 text-center hover:cursor-pointer shadow-md"
+                                                    onClick={() => handleClick("/editeventpage?id=" + events.id)}>
+                                                    Edit
+                                                </div>
+                                            }
                                         </TableCell>
                                         <TableCell className="w-[15%]">
-                                            <div className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center hover:cursor-pointer"
+                                            <div className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center hover:cursor-pointer shadow-md"
                                                 onClick={() => handleClick("/eventparticipant?id=" + events.id)}>
                                                 View Participants
                                             </div>

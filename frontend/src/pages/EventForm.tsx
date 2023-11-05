@@ -35,7 +35,7 @@ import {
   CommandItem,
 } from "../components/ui/command"
 import { Switch } from "../components/ui/switch"
-import { Slider } from "../components/ui/slider";
+import MDEditor, { selectWord } from "@uiw/react-md-editor";
 import { createEvent } from "../utils/EventController";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
@@ -362,8 +362,12 @@ export default function EventForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                    <FormControl>
-                      <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                    <FormControl data-color-mode="light">
+                      <MDEditor
+                        height={400}
+                        value={field.value} // Use field.value from the form library
+                        onChange={(value) => field.onChange(value)} // Update the form library value
+                      />
                     </FormControl>
                     <FormMessage className="font-ibm-plex-mono" />
                   </FormItem>
@@ -469,7 +473,7 @@ export default function EventForm() {
                   </FormItem>
                 )}
               />
-                            <FormField
+              <FormField
                 control={form3.control}
                 name="minScore"
                 render={({ field }) => (
@@ -623,15 +627,15 @@ const FormSchema3 = z.object({
 
 const languages = [
   { label: "Normal Queue", value: "FCFS", desc: "First Come First Serve" },
-  { label: "Random Selection", value: "Random", desc: "Participants are randomly chosen" },
-  { label: "Weighted Queue Selection", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
-  { label: "Weighted Random Selection", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
+  { label: "Random", value: "Random", desc: "Participants are randomly chosen" },
+  { label: "Priority Queue", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
+  { label: "Weighted Random", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
 ] as const
 
 const minScoreFilter = [
   { label: "Normal", value: 1, desc: "All are allowed to register" },
   { label: "Low", value: 30, desc: "Users highly unlikely to attend are not allowed to register" },
-  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register"},
+  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register" },
 ] as const
 
 

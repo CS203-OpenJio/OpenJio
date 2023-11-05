@@ -15,7 +15,9 @@ JWT.interceptors.request.use(
     // console.log("config", config);
     if (
       config.url === "/api/v1/auth/login" ||
-      config.url === "/api/vi/auth/register"
+      config.url === "/api/vi/auth/register" ||
+      config.url === "/api/v1/auth/forgot-password/token" ||
+      config.url === "/swagger-ui.html"
     )
       return config;
 

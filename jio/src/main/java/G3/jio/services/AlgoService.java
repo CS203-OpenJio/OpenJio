@@ -1,10 +1,10 @@
 package G3.jio.services;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AlgoService {
 
     private final EventRegistrationRepository eventRegistrationRepository;
-    private Random rand = new Random();
+    SecureRandom rand = new SecureRandom();
 
     public List<EventRegistration> allocateSlotsForEventWeightedRandom(Event event) {
 

@@ -59,8 +59,14 @@ public class SecurityConfig {
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests((authorizeHttpRequests) -> {
-                    authorizeHttpRequests.requestMatchers("/api/v1/auth/**", "/").permitAll();
+                .authorizeHttpRequests(authorizeHttpRequests -> {
+                    authorizeHttpRequests.requestMatchers("/api/v1/auth/**","/v3/api-docs",
+                    "/v2/api-docs", "/swagger-resources/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
+                    "/api-docs/**",
+                    "api-docs" ,"/").permitAll();
                     authorizeHttpRequests.anyRequest().authenticated();
                 })
                 .authenticationProvider(authenticationProvider()) // specifies the authentication provider for

@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import G3.jio.DTO.LoginDTO;
-import G3.jio.DTO.QueryDTO;
 import G3.jio.DTO.RegistrationDTO;
 import G3.jio.config.jwt.JwtService;
 import G3.jio.entities.AuthenticationResponse;
@@ -149,10 +148,10 @@ public class AuthService {
         String email = userDetails.getUsername();
 
         if (studentRepository.existsByEmail(email)) {
-            return studentRepository.findByEmail(email).get();
+            return studentRepository.findByEmail(email).orElseThrow();
 
         } else if (organiserRepository.existsByEmail(email)){
-            return organiserRepository.findByEmail(email).get();
+            return organiserRepository.findByEmail(email).orElseThrow();
 
         } else {
             throw new UserNotFoundException("No Such User");

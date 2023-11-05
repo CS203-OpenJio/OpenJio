@@ -14,16 +14,19 @@ import G3.jio.services.ChangeCredentialService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping(path = "api/v1/edit-profile")
 @RequiredArgsConstructor
 public class ChangeCredentialsController {
 
-    final private ChangeCredentialService changeCredentialService;
-    final private AuthService authService;
+    private final ChangeCredentialService changeCredentialService;
+    private final AuthService authService;
 
     // @ApiOperation(value = "Updates password of a Customer or a Merchant", notes =
     // "New username must not already be used")
+    @Operation(summary = "Updates password")
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@Valid @RequestBody ChangeCredentialsDTO changeCredentialsDTO) {
         verifyLogin(changeCredentialsDTO);
@@ -32,6 +35,7 @@ public class ChangeCredentialsController {
                 changeCredentialsDTO.getNewPassword(), changeCredentialsDTO.getUserType());
     }
 
+    @Operation(summary = "Verifies login")
     public void verifyLogin(ChangeCredentialsDTO changeCredentialsDTO) {
         LoginDTO loginDTO = new LoginDTO(changeCredentialsDTO.getEmail(), changeCredentialsDTO.getPassword());
         authService.authenticateUser(loginDTO);
