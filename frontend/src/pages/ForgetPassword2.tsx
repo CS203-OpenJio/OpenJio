@@ -28,7 +28,7 @@ const ForgetPassword: FunctionComponent = () => {
     if (isEmailsMatch) {
       try {
         const response = await JWT.post("/api/v1/forgot-password/token", {
-          username: email, // Using 'username' field instead of 'email'
+          email: email, // Using 'username' field instead of 'email'
         });
   
         // Handle the response data here. For instance, notify the user if the token was sent successfully.
