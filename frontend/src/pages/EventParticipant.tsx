@@ -52,7 +52,7 @@ const EventParticipant = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string }>({ key: '', direction: '' });
     const [alignment, setAlignment] = React.useState('web');
-    const [completed, setCompleted] = useState(false);
+    const [completed, setCompleted] = useState(true);
     const [eventName, setEventName] = useState("");
     const [value, setValue] = useState<string | null>(null);
 
