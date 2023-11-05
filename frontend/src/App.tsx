@@ -19,6 +19,7 @@ import EditEventPage from "./pages/EditEvent";
 import EventParticipant from "./pages/EventParticipant";
 import OSignUpPage from "./pages/OSignUpPage";
 import WhichSignUp from "./pages/WhichSignUp";
+import Swagger from "./pages/Swagger";
 
 // import { Route } from "react-router-dom";
 
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: "/eventparticipant",
     element: <EventParticipant />,
+  },
+  {
+    path: "/swagger-ui.html",
+    element: <Swagger />,
   },
 ]);
 
