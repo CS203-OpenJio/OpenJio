@@ -28,6 +28,8 @@ import G3.jio.services.OrganiserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/v1/organisers")
 @RequiredArgsConstructor
@@ -36,12 +38,14 @@ public class OrganiserController {
     private final OrganiserService organiserService;
 
     // get all organisers
+    @Operation(summary = "Get all organisers")
     @GetMapping
     public ResponseEntity<List<Organiser>> getAllOrganisers() {
         return ResponseEntity.ok(organiserService.getAllOrganisers());
     }
 
     // get organiser given their email
+    @Operation(summary = "Get organiser by email")
     @PostMapping(path = "/email")
     public ResponseEntity<Organiser> getOrganiserByEmail(@RequestBody QueryDTO queryDTO) {
         Organiser organiser = organiserService.getOrganiserByEmail(queryDTO.getEmail());
@@ -53,6 +57,7 @@ public class OrganiserController {
     }
 
     // post event
+    @Operation(summary = "Create event")
     @PostMapping(path = "/create-event")
     public ResponseEntity<Event> postEvent(@RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
@@ -62,6 +67,7 @@ public class OrganiserController {
     }
 
     // delete
+    @Operation(summary = "Delete event")
     @DeleteMapping(path = "/id/{id}")
     public ResponseEntity<String> deleteOrganiserById(@PathVariable("id") Long id) {
         organiserService.deleteOrganiser(id);
@@ -69,18 +75,21 @@ public class OrganiserController {
     }
 
     // view events based on organiser email
+    @Operation(summary = "View events based on organiser email")
     @PostMapping(path = "/email/events")
     public ResponseEntity<List<Event>> getEventsByOrganiserEmail(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(organiserService.getEventsByOrganiserEmail(queryDTO.getEmail()));
     }
 
     // allocate slots in event
+    @Operation(summary = "Allocates slots in a event")
     @PostMapping(path = "/events/allocation")
     public ResponseEntity<List<EventRegistration>> allocateSlotsForEvent(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(organiserService.allocateSlotsForEvent(queryDTO));
     }
 
     // set event to 'completed'
+    @Operation(summary = "Set event to complete")
     @PostMapping(path = "/events/complete")
     public ResponseEntity<String> completeEvent(@RequestBody QueryDTO queryDTO) {
         organiserService.completeEvent(queryDTO);
