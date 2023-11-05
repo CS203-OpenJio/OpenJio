@@ -58,8 +58,6 @@ public class OrganiserController {
 
         ObjectMapper mapper = new ObjectMapper();
         EventDTO eventDTO = mapper.readValue(event, EventDTO.class);
-
-        // System.out.println(eventDTO.getOrganiserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(organiserService.postEvent(eventDTO, imageFile));
     }
 

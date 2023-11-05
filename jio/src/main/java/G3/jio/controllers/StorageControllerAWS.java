@@ -11,10 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import G3.jio.services.StorageServiceAWS;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/v1/file")
 public class StorageControllerAWS {
 
-    @Autowired
     private StorageServiceAWS storageServiceAWS;
 
     @PostMapping("/upload")

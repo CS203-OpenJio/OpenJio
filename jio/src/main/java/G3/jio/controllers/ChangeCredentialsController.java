@@ -19,8 +19,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChangeCredentialsController {
 
-    final private ChangeCredentialService changeCredentialService;
-    final private AuthService authService;
+    private final ChangeCredentialService changeCredentialService;
+    private final AuthService authService;
 
     // @ApiOperation(value = "Updates password of a Customer or a Merchant", notes =
     // "New username must not already be used")

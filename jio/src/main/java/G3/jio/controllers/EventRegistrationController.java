@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @Controller
-@RequestMapping(path = "api/v1/register-event")
+@RequestMapping(path = "api/v1/register-events")
 @RequiredArgsConstructor
 public class EventRegistrationController {
 
@@ -39,21 +39,20 @@ public class EventRegistrationController {
         return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventId(eventId));
     }
 
-    // get specific event registration using studentId and eventid
-    @GetMapping(path = "/event/{eventId}/student/{studentId}")
-    public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(
-            @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
-        return ResponseEntity
-                .ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
-    }
+    // // get specific event registration using studentId and eventid
+    // @GetMapping(path = "/event/{eventId}/student/{studentId}")
+    // public ResponseEntity<EventRegistration> getEventRegistrationsByEventIdAndStudentId(
+    //         @PathVariable("eventId") Long eventId, @PathVariable("studentId") Long studentId) {
+
+    //     return ResponseEntity.ok(eventRegistrationService.getEventRegistrationsByEventIdAndStudentId(eventId, studentId));
+    // }
 
     // add
     @PostMapping(path = "")
     public ResponseEntity<EventRegistration> addEventRegistration(
             @RequestBody EventRegistrationDTO eventRegistrationDTO) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventRegistrationService.addEventRegistration(eventRegistrationDTO));
     }
 
     // delete

@@ -53,7 +53,6 @@ public class StudentController {
     @PostMapping(path = "/email/events")
     public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
 
-            
         return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }
 

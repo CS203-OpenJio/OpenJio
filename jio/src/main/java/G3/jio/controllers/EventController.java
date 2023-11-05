@@ -38,7 +38,7 @@ public class EventController {
 
     private final EventService eventService;
 
-    @GetMapping
+    @GetMapping(path = "/all")
     public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.findAllEvent());
     }
