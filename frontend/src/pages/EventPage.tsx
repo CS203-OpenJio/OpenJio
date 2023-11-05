@@ -51,7 +51,7 @@ export default function EventPage() {
       <div className="h-[35px]"></div>
       <div className=" m-4">
         <div className="" key={event?.id}>
-          <div className="flex flex-row justify-normal font-ibm-plex-mono w-[80%] m-auto mt-24">
+          <div className="flex flex-row justify-normal items-start font-ibm-plex-mono w-[80%] m-auto mt-24">
             <img
               src={event?.image}
               className="rounded-3xl mx-auto object-contain w-[600px] mr-16"
