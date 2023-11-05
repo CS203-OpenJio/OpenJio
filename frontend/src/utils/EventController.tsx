@@ -2,7 +2,7 @@
 import JWT from "./JWT";
 
 const getAllEvents = async () => {
-	const response = await JWT.get(`/api/v1/events`);
+	const response = await JWT.get(`/api/v1/events/all`);
 
 	return response.data;
 };
@@ -15,7 +15,7 @@ const getEvent = async (eventId: string | null) => {
 };
 
 const registerEvent = async (eventId: string | null) => {
-	await JWT.post("/api/v1/register-event", {
+	await JWT.post("/api/v1/register-events", {
 		eventId: eventId,
 	}).catch(
 		(err) => {

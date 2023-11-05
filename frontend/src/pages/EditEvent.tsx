@@ -577,9 +577,9 @@ const FormSchema = z.object({
 
 const languages = [
     { label: "Normal Queue", value: "FCFS", desc: "First Come First Serve" },
-    { label: "Random Selection", value: "Random", desc: "Participants are randomly chosen" },
-    { label: "Weighted Queue Selection", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
-    { label: "Weighted Random Selection", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
+    { label: "Random", value: "Random", desc: "Participants are randomly chosen" },
+    { label: "Priority Queue", value: "Score", desc: "Participants are chosen from a queue, but weighted by their event attendance rate" },
+    { label: "Weighted Random", value: "Weighted Random", desc: "Participants are chosen randomly, participants with a history of successfully attending events have a higher chance of being chosen" },
 ] as const
 const minScoreFilter = [
     { label: "Normal", value: 0, desc: "All are allowed to register" },
