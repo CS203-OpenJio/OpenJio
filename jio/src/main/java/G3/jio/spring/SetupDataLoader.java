@@ -14,6 +14,7 @@ import G3.jio.entities.Event;
 import G3.jio.entities.EventRegistration;
 import G3.jio.entities.Organiser;
 import G3.jio.entities.Role;
+import G3.jio.entities.Status;
 import G3.jio.entities.Student;
 import G3.jio.repositories.EventRegistrationRepository;
 import G3.jio.repositories.EventRepository;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private boolean alreadySetup = false;
@@ -84,7 +86,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         // Actual
         createEventIfNotFound(".Hack Social Night", LocalDateTime.of(2023, 10, 1, 7, 0),
                 LocalDateTime.of(2023, 10, 1, 19, 0), "SCIS1 B1 Alcove",
-                "/socialnight.jpg", 3, "FCFS",
+                "/socialnight.jpg", 1, "FCFS",
                 "Hi All! It is with great pleasure that we invite you to .Hack’s inaugural Social Night 2023! Social Night will serve as a networking platform for you to gain insightful knowledge through the distinguished speakers from companies such as Credit Suisse. You will also get the chance to interact with the speakers and other .Hack members during the event itself. .Hack hopes to provide you with the best experiences, to better prepare you for the technology industry in the workforce. As such, we sincerely hope that you will consider attending Social Night 2023 with us!",
                 true, 0);
 
@@ -131,9 +133,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createCompletedEventRegistrationIfNotFound(6L, 3L, true);
         createCompletedEventRegistrationIfNotFound(6L, 4L, true);
 
+        // sign up to new event
+        createEventRegistrationIfNotFound(2L, 5L, true);
+        createEventRegistrationIfNotFound(3L, 5L, true);
+        createEventRegistrationIfNotFound(4L, 5L, true);
+        createEventRegistrationIfNotFound(5L, 5L, true);
+        createEventRegistrationIfNotFound(6L, 5L, true);
+
         alreadySetup = true;
     }
 
+    @Transactional
     public Student createStudentIfNotFound(String name, String email, String password, Role role) {
 
         Student student = studentRepository.findByEmail(email).map(s -> {
@@ -152,6 +162,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         return student;
     }
 
+    @Transactional
     public void createEventRegistrationIfNotFound(Long studentId, Long eventId, boolean present) {
 
         if(eventRegistrationRepository.existsByStudentIdAndEventId(studentId, eventId)) {
@@ -170,6 +181,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         eventRegistrationRepository.saveAndFlush(er);
     }
 
+    @Transactional
     public void createCompletedEventRegistrationIfNotFound(Long studentId, Long eventId, boolean present) {
 
         if(eventRegistrationRepository.existsByStudentIdAndEventId(studentId, eventId)) {
@@ -182,6 +194,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         er.setPresentForEvent(present);
         er.setCompleted(true);
         er.setTimeCompleted(LocalDateTime.now());
+        er.setStatus(Status.ACCEPTED);
 
         studentRepository.findById(studentId).get().addEventRegistration(er);
 
@@ -190,6 +203,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         eventRegistrationRepository.saveAndFlush(er);
     }
 
+    @Transactional
     public Organiser createOrganiserIfNotFound(String name, String email, String password, Role role) {
 
         Organiser organiser = organiserRepository.findByEmail(email).map(s -> {
@@ -208,6 +222,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         return organiser;
     }
 
+    @Transactional
     public Event createEventIfNotFound(String name, LocalDateTime startDateTime, LocalDateTime endDateTime,
             String venue, String image, int capacity, String algo, String description,
             boolean isVisible, int minScore) {
@@ -233,6 +248,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         return event;
     }
 
+    @Transactional
     public Event createCompletedEventIfNotFound(String name, LocalDateTime startDateTime, LocalDateTime endDateTime,
             String venue, String image, int capacity, String algo, String description, int minScore) {
 
