@@ -18,7 +18,6 @@ public class EventDTO {
     private Long organiserId;
     private Long eventId;
     private String venue;
-    MultipartFile imageFile;
     // private String image;
     private String algo;
     private String description;

@@ -11,6 +11,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import G3.jio.DTO.EventDTO;
 import G3.jio.DTO.QueryDTO;
@@ -40,12 +41,8 @@ public class EventService {
 
     // get event by id
     public Event getEvent(Long eventId) {
-        Optional<Event> o = eventRepository.findById(eventId);
-        if (!o.isPresent()) {
-            throw new EventNotFoundException();
-        }
-        Event event = o.get();
-        return event;
+
+        return eventRepository.findById(eventId).orElseThrow(EventNotFoundException::new);
     }
 
     // get by name
@@ -86,7 +83,7 @@ public class EventService {
     // }
 
     // update event
-    public Event updateEvent(Long eventId, EventDTO eventDTO) {
+    public Event updateEvent(Long eventId, EventDTO eventDTO, MultipartFile imageFile) {
 
         Event event = getEvent(eventId);
 
@@ -123,8 +120,8 @@ public class EventService {
         }
 
         // settle image
-        if (eventDTO.getImageFile() != null) {
-            event.setImage(storageServiceAWS.uploadFile(eventDTO.getImageFile()));
+        if (imageFile != null) {
+            event.setImage(storageServiceAWS.uploadFile(imageFile));
         }
 
         eventRepository.saveAndFlush(event);
@@ -133,37 +130,27 @@ public class EventService {
 
     // delete by id
     public void deleteEvent(Long eventId) {
-        if (!eventRepository.existsById(eventId)) {
-            throw new EventNotFoundException();
-        }
 
-        Event event = eventRepository.getReferenceById(eventId);
+        Event event = getEvent(eventId);
         
-        Organiser organiser = event.getOrganiser();
-        if (organiser == null) {
+
+        if (event.getOrganiser() == null) {
             throw new UserNotFoundException("Organiser does not exist!");
         }
-        organiser.getEvents().remove(event);
+        event.getOrganiser().getEvents().remove(event);
+
+        if (event.getImage() != null) {
+            
+            // Split the string by "/"
+            String[] parts = event.getImage().split("/");
+            
+            // Get the last part (filename) from the array
+            String filename = parts[parts.length - 1];
+            storageServiceAWS.deleteFile(filename);
+        }
+
         eventRepository.deleteById(eventId);
     }
-
-    // private Event eventMapToEntity(EventDTO eventDTO) {
-    // ModelMapper mapper = new ModelMapper();
-
-    // Event event = mapper.map(eventDTO, Event.class);
-
-    // // settle datetime
-    // DateTimeFormatter formatter =
-    // DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    // LocalDateTime startDateTime =
-    // LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
-    // LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(),
-    // formatter);
-    // event.setStartDateTime(startDateTime);
-    // event.setEndDateTime(endDateTime);
-
-    // return event;
-    // }
 
     public List<Student> getStudentByEventIdandEventRegistrationStatus(QueryDTO queryDTO) {
 
@@ -179,5 +166,9 @@ public class EventService {
         }
 
         return students;
+    }
+
+    public boolean existsById(Long id) {
+        return eventRepository.existsById(id);
     }
 }

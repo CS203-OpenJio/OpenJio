@@ -21,7 +21,7 @@ import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
 
-public class UserDetailsServiceTest {
+class CustomUserDetailsServiceTest {
 
     @Mock
     OrganiserRepository organiserRepository;
@@ -30,7 +30,7 @@ public class UserDetailsServiceTest {
     StudentRepository studentRepository;
 
     @InjectMocks
-    UserDetailsService userDetailsService;
+    CustomUserDetailsService customUserDetailsService;
 
     Student student;
 
@@ -58,7 +58,7 @@ public class UserDetailsServiceTest {
         when(organiserRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
 
         // Act
-        UserDetails user = userDetailsService.loadUserByUsername(student.getEmail());
+        UserDetails user = customUserDetailsService.loadUserByUsername(student.getEmail());
         UserDetails expectedUser = User.withUsername(student.getEmail()).password(student.getPassword())
                 .authorities("USER")
                 .build();
@@ -76,7 +76,7 @@ public class UserDetailsServiceTest {
         when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
 
         // Act
-        UserDetails user = userDetailsService.loadUserByUsername(organiser.getEmail());
+        UserDetails user = customUserDetailsService.loadUserByUsername(organiser.getEmail());
         UserDetails expectedUser = User.withUsername(organiser.getEmail()).password(organiser.getPassword())
                 .authorities("USER")
                 .build();
@@ -96,7 +96,7 @@ public class UserDetailsServiceTest {
 
         // Act
         try {
-            UserDetails user = userDetailsService.loadUserByUsername(student.getEmail());
+            UserDetails user = customUserDetailsService.loadUserByUsername(student.getEmail());
         } catch (UserNotFoundException e) {
             exceptionMsg = e.getMessage();
         }
@@ -116,7 +116,7 @@ public class UserDetailsServiceTest {
 
         // Act
         try {
-            UserDetails user = userDetailsService.loadUserByUsername(organiser.getEmail());
+            UserDetails user = customUserDetailsService.loadUserByUsername(organiser.getEmail());
         } catch (UserNotFoundException e) {
             exceptionMsg = e.getMessage();
         }

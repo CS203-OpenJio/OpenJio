@@ -18,6 +18,7 @@ import G3.jio.entities.Role;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.FailedRegistrationException;
 import G3.jio.exceptions.InvalidUserTypeException;
+import G3.jio.exceptions.NotExistException;
 import G3.jio.exceptions.UserNotFoundException;
 import G3.jio.repositories.OrganiserRepository;
 import G3.jio.repositories.StudentRepository;
@@ -149,10 +150,10 @@ public class AuthService {
         String email = userDetails.getUsername();
 
         if (studentRepository.existsByEmail(email)) {
-            return studentRepository.findByEmail(email).get();
+            return studentRepository.findByEmail(email).orElseThrow();
 
         } else if (organiserRepository.existsByEmail(email)){
-            return organiserRepository.findByEmail(email).get();
+            return organiserRepository.findByEmail(email).orElseThrow();
 
         } else {
             throw new UserNotFoundException("No Such User");

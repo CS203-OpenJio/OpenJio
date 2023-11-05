@@ -288,8 +288,8 @@ class EventServiceTest {
         events.add(event);
         organiser.setEvents(events);
 
-        when(eventRepository.existsById(any(Long.class))).thenReturn(true);
-        when(eventRepository.getReferenceById(any(Long.class))).thenReturn(event);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
+        // when(eventRepository.getReferenceById(any(Long.class))).thenReturn(event);
 
         // Act
         eventService.deleteEvent(event.getId());
@@ -331,8 +331,7 @@ class EventServiceTest {
         List<Event> events = new ArrayList<>();
         events.add(event);
 
-        when(eventRepository.existsById(any(Long.class))).thenReturn(true);
-        when(eventRepository.getReferenceById(any(Long.class))).thenReturn(event);
+        when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
 
         try {
             // Act
@@ -428,7 +427,7 @@ class EventServiceTest {
         when(eventRepository.findById(any(Long.class))).thenReturn(Optional.of(event));
 
         // Act
-        eventService.updateEvent(event.getId(), eventDTO);
+        eventService.updateEvent(event.getId(), eventDTO, null);
 
         // Assert
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -455,7 +454,7 @@ class EventServiceTest {
         // Act
         String exceptionMsg = "";
         try {
-            eventService.updateEvent(event.getId(), new EventDTO());
+            eventService.updateEvent(event.getId(), new EventDTO(), null);
         } catch (InvalidUserTypeException e) {
             exceptionMsg = e.getMessage();
         }
@@ -491,7 +490,7 @@ class EventServiceTest {
         // Act
         String exceptionMsg = "";
         try {
-            eventService.updateEvent(event.getId(), eventDTO);
+            eventService.updateEvent(event.getId(), eventDTO, null);
         } catch (InvalidUserTypeException e) {
             exceptionMsg = e.getMessage();
         }

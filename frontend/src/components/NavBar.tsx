@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
     name: "Profile",
     path: "/profilepage",
     icon: <AccountCircleIcon />,
-    authorizedRoles: ["ADMIN", "STUDENT", "ORGANISER"],
+    authorizedRoles: ["ADMIN", "STUDENT"],
   },
   {
     name: "Create Event",
@@ -59,6 +59,7 @@ function NavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [userType, setUserType] = useState("");
+  const [name, setName] = useState("loading...");
   const open = Boolean(anchorEl);
 
   // handleClick for logout
@@ -95,10 +96,11 @@ function NavBar() {
 
     window.addEventListener("scroll", handleScroll);
     const userType = localStorage.getItem("userType") || "";
+    const name = localStorage.getItem("name") || "";
     setUserType(userType);
-    console.log(userType);
+    setName(name);
     // if unauthorized, redirect to login page
-    if (userType === "") {
+    if (userType === "" || name === "") {
       navigate("/unauthorized");
     }
     return () => {
@@ -135,7 +137,7 @@ function NavBar() {
       <div className="flex p-4 flex-row items-center justify-between cursor-default">
         <div className="flex flex-row items-center">
           <Avatar className="w-10 h-10 mr-3" />
-          <Typography>{userType}</Typography>
+          <Typography>{name}</Typography>
         </div>
         <div className="hover:bg-slate-200 rounded-lg" onClick={handleClose}>
           <CloseIcon className="cursor-pointer p-1" />
@@ -189,8 +191,8 @@ function NavBar() {
           <Button onClick={toggleDrawer("right", true)}>{
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
               {/* displays userType for testing purposes */}
-              <Typography sx={{ minWidth: 100 }}>{userType}</Typography>
-              <Avatar className="w-10 h-10" />
+              <Typography sx={{ minWidth: 100 }}>{name}</Typography>
+              <Avatar className="w-10 h-10 ml-2" />
             </Box>}
           </Button>
           <Drawer

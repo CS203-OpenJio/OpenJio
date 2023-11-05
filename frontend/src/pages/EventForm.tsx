@@ -35,8 +35,8 @@ import {
   CommandItem,
 } from "../components/ui/command"
 import { Switch } from "../components/ui/switch"
-import { Slider } from "../components/ui/slider";
-import { createEvent } from "../utils/EventRegistrationController";
+import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import { createEvent } from "../utils/EventController";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 
@@ -68,7 +68,7 @@ export default function EventForm() {
   const [image, setImage] = useState(null);
   const [algo, setAlgo] = useState("");
   const [visible, setVisible] = useState(false);
-  const [minScore, setMinScore] = useState(0);
+  const [minScore, setMinScore] = useState(1);
 
   // default values for form
   const form1 = useForm<z.infer<typeof FormSchema1>>({
@@ -362,8 +362,12 @@ export default function EventForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                    <FormControl>
-                      <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                    <FormControl data-color-mode="light">
+                      <MDEditor
+                        height={400}
+                        value={field.value} // Use field.value from the form library
+                        onChange={(value) => field.onChange(value)} // Update the form library value
+                      />
                     </FormControl>
                     <FormMessage className="font-ibm-plex-mono" />
                   </FormItem>
@@ -469,7 +473,7 @@ export default function EventForm() {
                   </FormItem>
                 )}
               />
-                            <FormField
+              <FormField
                 control={form3.control}
                 name="minScore"
                 render={({ field }) => (
@@ -525,7 +529,7 @@ export default function EventForm() {
                       </PopoverContent>
                     </Popover>
                     <FormDescription>
-                      Choose the type or users able to participate in your event.
+                      Choose the type of users able to participate in your event.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -629,8 +633,10 @@ const languages = [
 ] as const
 
 const minScoreFilter = [
-  { label: "Normal", value: 0, desc: "All are allowed to register" },
+  { label: "Normal", value: 1, desc: "All are allowed to register" },
   { label: "Low", value: 30, desc: "Users highly unlikely to attend are not allowed to register" },
-  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register"},
+  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register" },
 ] as const
+
+
 

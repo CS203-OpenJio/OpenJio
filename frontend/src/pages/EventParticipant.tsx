@@ -109,8 +109,9 @@ const EventParticipant = () => {
                     setParticipants(eventParticipants);
                     handleChange({} as React.MouseEvent<HTMLElement>, 'ACCEPTED');
                 });
-            } catch (error) {
-                toast.error("Error allocating slots.");
+            } catch (error:any) {
+                console.log(error)
+                toast.error(error.message);
             }
 
         }

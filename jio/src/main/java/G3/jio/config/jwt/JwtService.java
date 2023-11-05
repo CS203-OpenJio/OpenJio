@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "17b0ffae12b68e4b1f49ba21986c711bf7ce8c0b959d66da1b70c2566ededb0c";
+    private static final String KEY = "17b0ffae12b68e4b1f49ba21986c711bf7ce8c0b959d66da1b70c2566ededb0c";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -73,7 +73,7 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

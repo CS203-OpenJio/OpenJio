@@ -18,22 +18,42 @@ const handleChangeEvent = async (id: string, event: {}) => {
         throw new Error("Nothing to Update!");
     }
     try {
+        let formData = new FormData();
         // make API call
-        const response = await JWT.put(`/api/v1/events/id/${id}`, event);
+        if ("image" in event && event["image"] !== null) {
+            let image = event["image"] as Blob;
+            delete event["image"];
+            formData.append("imageFile", image);
+        } else if ("image" in event) {
+            delete event["image"];
+        }
+        formData.append("event", JSON.stringify(event));
+        const response = await JWT.put(`/api/v1/events/id/${id}`, formData);
         // if response is successful, return data
         if (response.status === 200) {
-            console.log(JSON.stringify(event));
-            toast(JSON.stringify(event));
             toast.success('Event details updated successfully!');
         } else {
             throw new Error("Error updating event details.");
-        } 
+        }
     } catch (error) {
-        toast(JSON.stringify(event));
-        console.log(error);
         throw new Error("Error updating event details.");
     }
 };
 
+const deleteEvent = async (id: string) => {
+    try {
+        const response = await JWT.delete(`/api/v1/events/id/${id}`)
+        if (response.status === 200) {
+            toast.success('Event deleted successfully');
+        } else {
+            throw new Error("Error deleting event.");
+        }
+    } catch (error: any) {
+        throw new Error("Error connecting to server.");
+    }
 
-export { getEvents, handleChangeEvent };
+
+}
+
+
+export { getEvents, handleChangeEvent, deleteEvent };

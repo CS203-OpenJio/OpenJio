@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function TicketPurchased() {
   const location = useLocation()
-  const {TID} =location.state;
 
   return (
     <div>
@@ -216,9 +215,6 @@ export default function TicketPurchased() {
         <div className="flex flex-col items-center gap-2">
           <div className="text-black text-4xl font-medium font-ibm-plex-mono leading-9">
             Thanks for signing up with OpenJio!
-          </div>
-          <div className="text-black text-3xl font-medium font-ibm-plex-mono leading-9">
-            Transaction ID:{TID}
           </div>
           <Link to="/centralhub">
             <button className="mt-5 bg-white hover:translate hover:bg-black hover:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow text-4xl font-ibm-plex-mono cursor-pointer transform active:scale-75 transition-transform">
