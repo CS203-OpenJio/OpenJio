@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBarLite from "../components/HomeScreen/NavBarLite";
+import JWT from "../utils/JWT"; // Assuming JWT is a module for handling JWT-based API interactions
 
 const ResetPassword: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -9,38 +10,25 @@ const ResetPassword: FunctionComponent = () => {
   const [resetToken, setResetToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const handleResetPassword = async () => {
     if (newPassword === confirmPassword) {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/forgot-password/', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Basic ' + btoa('admin@admin.com:admin'),
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            resetPasswordToken: resetToken,
-            newPassword: newPassword,
-          }),
+        // Replace the fetch call with JWT.post
+        const response = await JWT.post('/api/v1/forgot-password/', {
+          email: email,
+          resetPasswordToken: resetToken,
+          newPassword: newPassword,
         });
-  
-        let data;
-        if (response.headers.get('content-type')?.includes('application/json')) {
-          data = await response.json();
-        } else {
-          data = await response.text();
-        }
-  
-        if (response.ok) {
+
+        if (response.status === 200) {
           alert('Password reset successfully!');
           navigate('/login');
         } else {
-          alert(data.message || data || 'Error resetting password.');
+          throw new Error(response.data.message || "An error occurred while resetting the password.");
         }
-      } catch (error) {
-        console.error("Error fetching or parsing data:", error);
-        alert("An error occurred while resetting the password. Please try again.");
+      } catch (err: any) {
+        alert(err.response?.data?.message || "Error resetting password.");
       }
     } else {
       alert('Passwords do not match.');
