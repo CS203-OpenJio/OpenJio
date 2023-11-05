@@ -19,7 +19,7 @@ const registerEvent = async (eventId: string | null) => {
 		eventId: eventId,
 	}).catch(
 		(err) => {
-			throw new Error("Error: " + err.response.data.message);
+			throw new Error("Error: " + err.response.data.details);
 		}
 	);
 }

@@ -26,6 +26,7 @@ export default function EventPage() {
   const eventId = searchParams.get("id");
   const [userType, setUser] = useState({} as any);
 
+
   useEffect(() => {
     // Make the Axios GET request when the component mounts
     const userType = localStorage.getItem("userType") || "";
@@ -68,9 +69,7 @@ export default function EventPage() {
               <div className="flex flex-row justify-end mt-8">
                 {userType == "STUDENT" && <RegisterButton id={event?.id} />}
               </div>
-
             </div>
-
           </div>
         </div>
       </div>
@@ -79,14 +78,13 @@ export default function EventPage() {
   function RegisterButton({ id }: { id: string }) {
     const navigate = useNavigate();
     async function handleClick() {
-      registerEvent(id).catch(
-        (err) => {
-          toast.error(err.message);
-          return;
-        }
-      );
-      toast.success("Successfully registered for event!");
-      navigate("/purchased");
+      try {
+        await registerEvent(id);
+        toast.success("Successfully registered for event!");
+        navigate("/purchased");
+      } catch (err:any) {
+        toast.error(err.message);
+      }
     }
 
     return (
