@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { getEvents, handleChangeEvent } from "../utils/EditEventController";
+import { getEvents, handleChangeEvent, deleteEvent } from "../utils/EditEventController";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ import {
 } from "../components/ui/popover"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
-import { addDays, format, set } from "date-fns"
+import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "../lib/utils"
@@ -31,8 +31,8 @@ import { Calendar } from "../components/ui/calendar"
 import { Textarea } from "../components/ui/textarea";
 import { Command, CommandGroup, CommandItem } from "../components/ui/command";
 import { Switch } from "../components/ui/switch";
-import { Slider } from "../components/ui/slider";
 import { Tooltip } from "@mui/material";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
 
 const EditEventPage: React.FC = () => {
     const navigate = useNavigate();
@@ -110,7 +110,7 @@ const EditEventPage: React.FC = () => {
         }
 
         Object.keys(updatedData).forEach((key: string) => {
-            if(key === "image") {
+            if (key === "image") {
                 hasUpdates = true;
                 updatedFields[key] = updatedData[key];
             } else if (updatedData[key] != eventData[key]) {
@@ -445,7 +445,7 @@ const EditEventPage: React.FC = () => {
                             )}
                         />
                         <div className="flex flex-row justify-between w-[100%]">
-                            <div></div>
+                            <DeleteButton id={eventId} />
                             <Button type="submit" className="hover:cursor-pointer">Confirm Changes</Button>
                         </div>
                     </form>
@@ -453,6 +453,47 @@ const EditEventPage: React.FC = () => {
             </div>
         </div>
     );
+    function DeleteButton({ id }: { id: any }) {
+        const navigate = useNavigate();
+        async function handleClick() {
+            try {
+                await deleteEvent(id);
+                navigate("/createdevents");
+            } catch (err: any) {
+                toast.error(err.message);
+            }
+        }
+
+        return (
+            <div>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="destructive" className="hover:cursor-pointer">Delete Event</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle className="font-ibm-plex-mono tracking-wide">
+                                Delete Event?
+                            </DialogTitle>
+                        </DialogHeader>
+                        <DialogDescription className="font-ibm-plex-mono">
+                            This action cannot be undone. This will permanently delete the event
+                            and remove it's data from our servers.
+                        </DialogDescription>
+                        <DialogFooter>
+                            <Button
+                                variant="destructive"
+                                onClick={handleClick}
+                                className="hover:cursor-pointer font-ibm-plex-mono"
+                            >
+                                Confirm
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        );
+    }
 };
 
 const FormSchema = z.object({

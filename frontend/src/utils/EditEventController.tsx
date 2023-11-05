@@ -21,16 +21,13 @@ const handleChangeEvent = async (id: string, event: {}) => {
         let formData = new FormData();
         // make API call
         if ("image" in event && event["image"] !== null) {
-            console.log("image in body")
             let image = event["image"] as Blob;
             delete event["image"];
             formData.append("imageFile", image);
-            console.log(image)
         } else if ("image" in event) {
             delete event["image"];
         }
         formData.append("event", JSON.stringify(event));
-        console.log(JSON.stringify(event));
         const response = await JWT.put(`/api/v1/events/id/${id}`, formData);
         // if response is successful, return data
         if (response.status === 200) {
@@ -43,5 +40,20 @@ const handleChangeEvent = async (id: string, event: {}) => {
     }
 };
 
+const deleteEvent = async (id: string) => {
+    try {
+        const response = await JWT.delete(`/api/v1/events/id/${id}`)
+        if (response.status === 200) {
+            toast.success('Event deleted successfully');
+        } else {
+            throw new Error("Error deleting event.");
+        }
+    } catch (error: any) {
+        throw new Error("Error connecting to server.");
+    }
 
-export { getEvents, handleChangeEvent };
+
+}
+
+
+export { getEvents, handleChangeEvent, deleteEvent };
