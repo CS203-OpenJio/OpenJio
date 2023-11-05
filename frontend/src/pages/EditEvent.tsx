@@ -33,6 +33,7 @@ import { Command, CommandGroup, CommandItem } from "../components/ui/command";
 import { Switch } from "../components/ui/switch";
 import { Tooltip } from "@mui/material";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import MDEditor from "@uiw/react-md-editor";
 
 const EditEventPage: React.FC = () => {
     const navigate = useNavigate();
@@ -355,8 +356,12 @@ const EditEventPage: React.FC = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                                    <FormControl data-color-mode="light">
+                                        <MDEditor
+                                            height={400}
+                                            value={field.value} // Use field.value from the form library
+                                            onChange={(value) => field.onChange(value)} // Update the form library value
+                                        />
                                     </FormControl>
                                     <FormMessage className="font-ibm-plex-mono" />
                                 </FormItem>

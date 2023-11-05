@@ -35,7 +35,7 @@ import {
   CommandItem,
 } from "../components/ui/command"
 import { Switch } from "../components/ui/switch"
-import { Slider } from "../components/ui/slider";
+import MDEditor, { selectWord } from "@uiw/react-md-editor";
 import { createEvent } from "../utils/EventController";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
@@ -362,8 +362,12 @@ export default function EventForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-ibm-plex-mono">Event Description</FormLabel>
-                    <FormControl>
-                      <Textarea className="bg-white h-96 w-5/6" placeholder="Type your description here." {...field} />
+                    <FormControl data-color-mode="light">
+                      <MDEditor
+                        height={400}
+                        value={field.value} // Use field.value from the form library
+                        onChange={(value) => field.onChange(value)} // Update the form library value
+                      />
                     </FormControl>
                     <FormMessage className="font-ibm-plex-mono" />
                   </FormItem>
@@ -469,7 +473,7 @@ export default function EventForm() {
                   </FormItem>
                 )}
               />
-                            <FormField
+              <FormField
                 control={form3.control}
                 name="minScore"
                 render={({ field }) => (
@@ -631,7 +635,7 @@ const languages = [
 const minScoreFilter = [
   { label: "Normal", value: 1, desc: "All are allowed to register" },
   { label: "Low", value: 30, desc: "Users highly unlikely to attend are not allowed to register" },
-  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register"},
+  { label: "High", value: 70, desc: "Only users highly likely to attend are allowed to register" },
 ] as const
 
 

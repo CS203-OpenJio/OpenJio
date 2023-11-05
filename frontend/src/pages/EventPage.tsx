@@ -14,6 +14,7 @@ import {
 import { Button } from "../components/ui/button";
 import { getEvent, registerEvent } from "../utils/EventController";
 import { toast } from "react-toastify";
+import MDEditor from "@uiw/react-md-editor";
 
 
 export default function EventPage() {
@@ -63,9 +64,10 @@ export default function EventPage() {
               <div className="ml-8">Venue: {event?.venue}</div>
               <div className="ml-8">Event Capacity: {event?.capacity}</div>
               <div className="font-light -mb-8 mx-8 text-xl mt-12">Description</div>
-              <p className="flex grow text-lg font-mono font-light bg-white border border-solid border-black rounded-lg p-3 mt-8 tracking-tight mx-8">
-                {event?.description}
-              </p>
+              <div data-color-mode="light" className="mx-8 mt-12 border border-black border-solid p-3">
+                <MDEditor.Markdown
+                  source={event.description} />
+              </div>
               <div className="flex flex-row justify-end mt-8">
                 {userType == "STUDENT" && <RegisterButton id={event?.id} />}
               </div>
@@ -82,7 +84,7 @@ export default function EventPage() {
         await registerEvent(id);
         toast.success("Successfully registered for event!");
         navigate("/purchased");
-      } catch (err:any) {
+      } catch (err: any) {
         toast.error(err.message);
       }
     }
