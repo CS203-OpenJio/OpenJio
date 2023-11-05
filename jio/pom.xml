@@ -146,8 +146,8 @@
 				<version>3.0.0-M5</version>
 				<configuration>
 					<excludes>
-						<exclude>**/*StudentControllerTest.java</exclude>
-						<exclude>**/*OrganiserControllerTest.java</exclude>
+						<!-- <exclude>**/*StudentControllerTest.java</exclude>
+						<exclude>**/*OrganiserControllerTest.java</exclude> -->
 					</excludes>
 				</configuration>
 			</plugin>
@@ -178,7 +178,7 @@
 						<exclude>**/G3/jio/exceptions/**</exclude> <!-- Exclude exceptions -->
 						<exclude>**/G3/jio/repositories/**</exclude> <!-- Exclude repositories -->
 						<exclude>**/G3/jio/spring/**</exclude> <!-- Exclude spring -->
-						<exclude>**/G3/jio/entities/**</exclude> <!-- Exclude entities -->
+						<exclude>**/G3/jio/entities/**</exclude> Exclude entities
 					</excludes>
 				</configuration>
 			</plugin>
