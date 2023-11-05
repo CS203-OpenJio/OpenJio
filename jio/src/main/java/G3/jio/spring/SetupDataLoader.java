@@ -207,11 +207,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         // sign up to new event
         for (int i = 0; i < NO_SETS; i++) {
-            createEventRegistrationIfNotFound(2L + 5*i, 5L, true);
-            createEventRegistrationIfNotFound(3L + 5*i, 5L, true);
-            createEventRegistrationIfNotFound(4L + 5*i, 5L, true);
-            createEventRegistrationIfNotFound(5L + 5*i, 5L, true);
-            createEventRegistrationIfNotFound(6L + 5*i, 5L, true);
+
+            for (int k = 0; k < 4; k++) {
+                createEventRegistrationIfNotFound(2L + 5*i, 5L + k, true);
+                createEventRegistrationIfNotFound(3L + 5*i, 5L + k, true);
+                createEventRegistrationIfNotFound(4L + 5*i, 5L + k, true);
+                createEventRegistrationIfNotFound(5L + 5*i, 5L + k, true);
+                createEventRegistrationIfNotFound(6L + 5*i, 5L + k, true);
+            }
         }
 
         alreadySetup = true;
