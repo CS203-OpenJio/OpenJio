@@ -88,7 +88,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          cd frontend
+          cd jio
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d5r5w0o4
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
