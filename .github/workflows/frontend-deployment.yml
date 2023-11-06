@@ -45,24 +45,6 @@ jobs:
           docker push $ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: Install jq
-        run: sudo apt-get install jq
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definitions/deployFrontend-v2-revision9.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Register new task definition
-        id: register-task-def
-        run: |
-          NEW_TASK_DEF_JSON=$(aws ecs register-task-definition --cli-input-json file://task-definitions/deployFrontend-v2-revision9.json)
-          NEW_TASK_DEF_ARN=$(echo $NEW_TASK_DEF_JSON | jq -r '.taskDefinition.taskDefinitionArn')
-          echo "NEW_TASK_DEF_ARN=$NEW_TASK_DEF_ARN" >> $GITHUB_ENV
-          echo "::set-output name=task_definition_arn::$NEW_TASK_DEF_ARN"
 
       - name: Deploy to Amazon ECS
         run: |
