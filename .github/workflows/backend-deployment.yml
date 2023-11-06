@@ -43,7 +43,7 @@ jobs:
           INTEGRATION_DATABASE: ${{ env.INTEGRATION_DATABASE }}
         run: |
           cd jio
-          docker-compose -f docker-compose.yml up -d ${{ env.INTEGRATION_DATABASE }}
+          docker-compose -f docker-compose.yml up -d db
           # Wait for the database to be ready
           until docker-compose -f docker-compose.yml exec db mysqladmin ping -h "db" --silent; do
             echo 'Waiting for the database service...'
