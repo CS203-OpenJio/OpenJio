@@ -55,7 +55,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: openjio-frontend
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ env.image }}
 
       - name: Deploy to Amazon ECS
         run: |
