@@ -51,6 +51,13 @@ jobs:
           done
           echo 'Database service is up and running!'
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
       - name: Run unit and integration tests on Spring Boot application 
       # environment variables will be configured to run the Test DB
         env:
