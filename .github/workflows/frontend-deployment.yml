@@ -59,4 +59,4 @@ jobs:
 
       - name: Deploy to Amazon ECS
         run: |
-          aws ecs update-service --cluster my-cluster --service my-service --task-definition ${{ steps.task-def.outputs.taskdefinition }}
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --task-definition ${{ steps.task-def.outputs.taskdefinition }}
