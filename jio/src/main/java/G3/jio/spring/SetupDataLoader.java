@@ -233,8 +233,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
             student.setRole(role);
-            student.setMatricNo("87654321");
-            student.setPhone("12345678");
+            student.setMatricNo((Double.toString(Math.random() * 1 + Math.random() * 10 + Math.random() * 100 + Math.random() * 1000 + Math.random() * 10000 + Math.random() * 100000 + Math.random() * 1000000 + Math.random() * 10000000)).replace(".", "").substring(0, 8));
+            student.setPhone(Integer.toString((int) Math.round(8.2 +Math.random())) + Double.toString(Math.random() * 1 + Math.random() * 10 + Math.random() * 100 + Math.random() * 1000 + Math.random() * 10000 + Math.random() * 100000 + Math.random() * 1000000 + Math.random() * 10000000).replace(".", "").substring(0, 7));
         }
 
         student = studentRepository.saveAndFlush(student);
