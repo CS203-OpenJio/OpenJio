@@ -1,6 +1,8 @@
 package G3.jio.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -162,6 +164,46 @@ public class AlgoServiceTest {
         assertEquals(student4.getSmuCreditScore()/total * 100, count4/10, 5 );
         assertEquals(student5.getSmuCreditScore()/total * 100, count5/10, 5 );
     }
+
+    @Test
+    void allocateSlotsForEventScore_Success() {
+        
+        // arrange
+        createFakeEventRegistration(6L, student1, event, true);
+        createFakeEventRegistration(7L, student1, event, false);
+        createFakeEventRegistration(8L, student1, event, false);
+        createFakeEventRegistration(9L, student1, event, false);
+        createFakeEventRegistration(10L, student1, event, false);
+
+        createFakeEventRegistration(11L, student2, event, true);
+        createFakeEventRegistration(12L, student2, event, true);
+        createFakeEventRegistration(13L, student2, event, false);
+        createFakeEventRegistration(14L, student2, event, false);
+        createFakeEventRegistration(15L, student2, event, false);
+
+        createFakeEventRegistration(16L, student3, event, true);
+        createFakeEventRegistration(17L, student3, event, true);
+        createFakeEventRegistration(18L, student3, event, true);
+        createFakeEventRegistration(19L, student3, event, false);
+        createFakeEventRegistration(20L, student3, event, false);
+
+        createFakeEventRegistration(21L, student4, event, true);
+        createFakeEventRegistration(22L, student4, event, true);
+        createFakeEventRegistration(23L, student4, event, true);
+        createFakeEventRegistration(24L, student4, event, true);
+        createFakeEventRegistration(25L, student4, event, false);
+
+        // act
+        event.setCapacity(3);
+        List<EventRegistration> result = algoService.allocateSlotsForEventScore(event);
+
+        // assert
+        assertEquals(eventRegistration5, result.get(0));
+        assertEquals(eventRegistration4, result.get(1));
+        assertTrue(result.get(0).getStudentScore() > result.get(1).getStudentScore());
+        assertTrue(result.get(1).getStudentScore() > result.get(2).getStudentScore());
+        assertTrue(result.get(0).getStudentScore() > result.get(2).getStudentScore());
+    } 
 
         
 
