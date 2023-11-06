@@ -53,7 +53,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: deployFrontend-v2.json:latest
           container-name: openjio-frontend
           image: ${{ steps.build-image.outputs.image }}
 
