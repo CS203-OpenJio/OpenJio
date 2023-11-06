@@ -111,8 +111,6 @@ const ChangeProfile: FunctionComponent = () => {
                             </>
                         )}
                         <div className="flex flex-row items-center mt-12">
-                            <div>Student Score:</div>
-                            <Progress value={score} className="w-[40%]" />
                         </div>
                     </div>
                 </div>
