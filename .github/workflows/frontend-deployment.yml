@@ -38,7 +38,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR and update task definition
         id: build-image
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -47,5 +47,16 @@ jobs:
           aws ecr-public get-login-password --region us-east-1  | docker login --username AWS --password-stdin public.ecr.aws/d5r5w0o4
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REPOSITORY:$IMAGE_TAG"
-          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+          echo "IMAGE=$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: openjio-frontend
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy to Amazon ECS
+        run: |
+          aws ecs update-service --cluster my-cluster --service my-service --task-definition ${{ steps.task-def.outputs.taskdefinition }}
