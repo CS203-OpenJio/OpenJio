@@ -39,6 +39,58 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final EventRegistrationRepository eventRegistrationRepository;
+    String[] commonNames = {
+        "Tan Ah Kow",
+        "Lim Mei Ling",
+        "Wong Wei Jie",
+        "Koh Li Hua",
+        "Teo Beng Chuan",
+        "Ng Bee Hoon",
+        "Goh Ming Yu",
+        "Chua Siok Leng",
+        "Lee Seng Keat",
+        "Ong Mei Fang",
+        "Lau Chun Meng",
+        "Chan Mei Chin",
+        "Neo Ah Seng",
+        "Chen Mei Lin",
+        "Ho Kok Leong",
+        "Soh Li Min",
+        "Yeo Wei Ming",
+        "Tan Li Ting",
+        "Loh Ah Beng",
+        "Chong Siew Lian",
+        "Pang Chee Seng",
+        "Kaur Hardeep",
+        "Chew Ah Chong",
+        "Fong Siew Hui",
+        "Tham Jun Wei",
+        "Tay Hui Min",
+        "Heng Wei Xiong",
+        "Seow Siew Leng",
+        "Kang Ah Hock",
+        "Soh May Yee",
+        "Nair Rajesh",
+        "Tang Wei Ling",
+        "Tay Ah Chuan",
+        "Chen Wei Jia",
+        "Soh Ah Koon",
+        "Leong Li Wei",
+        "Ooi Siew Peng",
+        "Wu Wei Qi",
+        "Lau Mei Keng",
+        "Sng Ah Seng",
+        "Ng Mei Xuan",
+        "Lai Hock Seng",
+        "Tang Mei Yan",
+        "Ong Siew Leng",
+        "Chen Zhi Wei",
+        "Tan Mei Hui",
+        "Teo Ah Kiat",
+        "Heng Li Mei",
+        "Ng Kok Weng",
+        "Chong Siew Hoon"
+    };
 
     String hackString = "# Embark on a Journey to Tech Excellence with .Hack's DHCP Extravaganza\r\n" + //
             "\r\n" + //
@@ -125,9 +177,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createOrganiserIfNotFound("organiser", "org@org.com", "organiser", Role.ORGANISER);
 
         for (int i = 1; i <= NO_SETS * 5; i++) {
-            String name = "student" + Integer.toString(i);
-            String email = name + "@student.com";
-            createStudentIfNotFound(name, email, "student", Role.STUDENT);
+            String email = commonNames[i].replaceAll(" ",".").toLowerCase() + "@student.com";
+            createStudentIfNotFound(commonNames[i], email, "student", Role.STUDENT);
         }
 
         // == create events
@@ -233,8 +284,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
             student.setRole(role);
-            student.setMatricNo((Double.toString(Math.random() * 1 + Math.random() * 10 + Math.random() * 100 + Math.random() * 1000 + Math.random() * 10000 + Math.random() * 100000 + Math.random() * 1000000 + Math.random() * 10000000)).replace(".", "").substring(0, 8));
-            student.setPhone(Integer.toString((int) Math.round(8.2 +Math.random())) + Double.toString(Math.random() * 1 + Math.random() * 10 + Math.random() * 100 + Math.random() * 1000 + Math.random() * 10000 + Math.random() * 100000 + Math.random() * 1000000 + Math.random() * 10000000).replace(".", "").substring(0, 7));
+            student.setMatricNo((Double.toString(Math.random() * 10)).replace(".", "").substring(0, 8));
+            student.setPhone(Integer.toString((int) Math.round(8.2 +Math.random())) + Double.toString(Math.random() * 10).replace(".", "").substring(0, 7));
         }
 
         student = studentRepository.saveAndFlush(student);
