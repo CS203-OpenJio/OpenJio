@@ -14,15 +14,14 @@ const EventBox: React.FC = () => {
 
 
   return (
-    <div className="bg-white border border-1 round border-black flex flex-column justify-center items-center">
+    <div className="bg-white border border-1 round border-black flex justify-start items-left overflow-scroll">
       {events.map((event: any) => (
         event.visible && <EventPost
           key={event?.id}
           eventNumber={event?.id}
           imgPath={event?.image}
           title={event?.name}
-          date={event?.startDate}
-          time="5.00pm - 6.30pm"
+          date={new Date(event?.startDateTime).toDateString()}
         />
       ))}
       {/* <EventPost title="" date="" time="" />
