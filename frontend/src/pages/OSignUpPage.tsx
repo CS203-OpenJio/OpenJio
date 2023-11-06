@@ -225,7 +225,7 @@ const SignUpPage: FunctionComponent = () => {
                                             <input
                                                 placeholder="Enter your password"
                                                 className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
-                                                type="text"
+                                                type="password"
                                                 value={password}
                                                 onChange={(e) => {
                                                     setPassword(e.target.value);
