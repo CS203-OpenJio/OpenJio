@@ -38,7 +38,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR and update task definition
         id: build-image
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -47,5 +47,14 @@ jobs:
           aws ecr-public get-login-password --region us-east-1  | docker login --username AWS --password-stdin public.ecr.aws/d5r5w0o4
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REPOSITORY:$IMAGE_TAG"
-          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+          echo "IMAGE=$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          TASK_DEF_TEMPLATE='task-definition.json' 
+          NEW_IMAGE="public.ecr.aws/d5r5w0o4/$ECR_REPOSITORY:$IMAGE_TAG" # Replace with your actual ECR URL
+          sed -i "s|<IMAGE_NAME>|$NEW_IMAGE|g" $TASK_DEF_TEMPLATE
+          NEW_TASK_DEF=$(aws ecs register-task-definition --cli-input-json file://$TASK_DEF_TEMPLATE)
+          NEW_TASK_DEF_ARN=$(echo $NEW_TASK_DEF | jq -r '.taskDefinition.taskDefinitionArn')
+          echo "TASK_DEFINITION_ARN=$NEW_TASK_DEF_ARN" >> $GITHUB_ENV
+
+      - name: Deploy to Amazon ECS
+        run: |
+          aws ecs update-service --cluster my-cluster --service my-service --task-definition ${{ steps.task-def.outputs.taskdefinition }}
