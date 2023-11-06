@@ -229,18 +229,16 @@ const SignUpPage: FunctionComponent = () => {
                                             Password
                                         </div>
                                         <div className="w-[90%] rounded-md flex items-center px-3 border-[1px] border-solid border-black">
-                                            <input
-                                                placeholder="Enter your password"
-                                                className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
-                                                type="text"
-                                                value={password}
-                                                onChange={(e) => {
-                                                    setPassword(e.target.value);
-                                                    validatePassword(
-                                                        e.target.value
-                                                    );
-                                                }}
-                                            />
+                                        <input
+        placeholder="Enter your password"
+        className="flex-1 bg-transparent border-none outline-none text-sm font-ibm-plex-mono"
+        type="password"  // Change this line
+        value={password}
+        onChange={(e) => {
+            setPassword(e.target.value);
+            validatePassword(e.target.value);
+        }}
+    />
                                         </div>
                                     </div>
                                     {/* Adjusted the container to flex column and added spacing between children elements */}
