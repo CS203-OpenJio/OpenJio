@@ -67,8 +67,7 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
           cd jio
-          echo "Running Spring Boot..."
-          ./mvnw test
+          mvn test
 
       - name: Shutdown MySQL service
         if: always()
