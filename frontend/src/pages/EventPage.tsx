@@ -57,7 +57,7 @@ export default function EventPage() {
               className="rounded-3xl mx-auto object-contain w-[600px] mr-16"
             ></img>
             <div className="flex flex-col flex-grow bg-white font-normal text-4xl p-3 border border-solid border-black rounded-lg mx-auto mt-8">
-              <h2 className="text-28xl font-ibm-plex-mono mx-auto">{event?.name}</h2>
+              <center className="font-bold font-ibm-plex-mono">{event?.name}</center>
               <div className="ml-8 mt-8">
                 Date: {new Date(event?.startDateTime).toLocaleDateString()} to {new Date(event?.endDateTime).toLocaleDateString()}
               </div>
