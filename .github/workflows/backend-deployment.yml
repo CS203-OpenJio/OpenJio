@@ -44,17 +44,17 @@ jobs:
         run: |
           cd jio
           docker-compose -f docker-compose.yml up -d db
-          # Wait for the database to be ready
-          until docker-compose -f docker-compose.yml exec db mysqladmin ping -h "db" --silent; do
-            echo 'Waiting for the database service...'
-            sleep 1
+          echo 'Waiting for the database service to be fully ready...'
+          while ! docker-compose -f docker-compose.yml ps | grep 'db' | grep 'healthy'; do
+            sleep 10
+            echo 'Waiting for the database to become healthy...'
           done
           echo 'Database service is up and running!'
 
       - name: Run Spring Boot application
       # environment variables will be configured to run the Test DB
         env:
-          DATABASE_NAME: openjio1
+          DATABASE_NAME: ${{ env.INTEGRATION_DATABASE }}
           DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
           DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -81,35 +81,23 @@ jobs:
           cd jio
           docker-compose -f docker-compose.yml down
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Build, tag, and push image to Amazon ECR
-        id: build-and-push
+        id: build-image
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          cd frontend
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d5r5w0o4
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definitions/deployBackend-v2-revision22
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-and-push.outputs.image }}
-
-      - name: Deploy to Amazon ECS
-        run: |
-          NEW_TASK_DEF_JSON=$(aws ecs register-task-definition --cli-input-json file://task-definitions/deployBackend-v2-revision22.json)
-          NEW_TASK_DEF_ARN=$(echo $NEW_TASK_DEF_JSON | jq -r '.taskDefinition.taskDefinitionArn')
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --task-definition $NEW_TASK_DEF_ARN
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 # This workflow creates the backend Docker image and push it to AWS ECR. It will then deploy a task definition
 # to ECS to run the backend container. 
