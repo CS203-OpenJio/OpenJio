@@ -48,12 +48,14 @@ jobs:
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
           echo "IMAGE=$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
-          TASK_DEF_TEMPLATE='task-definition.json' 
-          NEW_IMAGE="public.ecr.aws/d5r5w0o4/$ECR_REPOSITORY:$IMAGE_TAG" # Replace with your actual ECR URL
-          sed -i "s|<IMAGE_NAME>|$NEW_IMAGE|g" $TASK_DEF_TEMPLATE
-          NEW_TASK_DEF=$(aws ecs register-task-definition --cli-input-json file://$TASK_DEF_TEMPLATE)
-          NEW_TASK_DEF_ARN=$(echo $NEW_TASK_DEF | jq -r '.taskDefinition.taskDefinitionArn')
-          echo "TASK_DEFINITION_ARN=$NEW_TASK_DEF_ARN" >> $GITHUB_ENV
+          
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: openjio-frontend
+          image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy to Amazon ECS
         run: |
