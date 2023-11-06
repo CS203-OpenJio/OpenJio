@@ -1,0 +1,87 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:760321635295:task-definition/deployFrontend-v2:9",
+    "containerDefinitions": [
+        {
+            "name": "openjio-frontend",
+            "image": "public.ecr.aws/d5r5w0o4/openjio-frontend-v2:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "openjio-frontend-3006-tcp",
+                    "containerPort": 3006,
+                    "hostPort": 3006,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "REACT_APP_BASE_URL",
+                    "value": "http://openjio-loadbalancer-backend-824860381.ap-southeast-1.elb.amazonaws.com"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/deployFrontend-v2",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            }
+        }
+    ],
+    "family": "deployFrontend-v2",
+    "taskRoleArn": "arn:aws:iam::760321635295:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::760321635295:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 9,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "ARM64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2023-11-02T15:35:10.688Z",
+    "registeredBy": "arn:aws:iam::760321635295:root",
+    "tags": []
+}
