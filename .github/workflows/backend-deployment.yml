@@ -11,7 +11,7 @@ env:
   ECS_SERVICE: backendService
   ECS_CLUSTER: openjio
   CONTAINER_NAME: openjio-backend
-  TEST_DB: openjio1
+  INTEGRATION_DATABASE: openjio1
 
 permissions:
   contents: read
@@ -38,9 +38,12 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Start MySQL instance
+        env:
+          INTEGRATION_ROOT_PASSWORD: ${{ secrets.INTEGRATION_ROOT_PASSWORD }}
+          INTEGRATION_DATABASE: ${{ env.INTEGRATION_DATABASE }}
         run: |
           cd jio
-          docker-compose -f docker-compose.yml up -d ${{ env.TEST_DB }}
+          docker-compose -f docker-compose.yml up -d ${{ env.INTEGRATION_DATABASE }}
           # Wait for the database to be ready
           until docker-compose -f docker-compose.yml exec db mysqladmin ping -h "db" --silent; do
             echo 'Waiting for the database service...'
@@ -57,6 +60,7 @@ jobs:
       - name: Shutdown MySQL service
         if: always()
         run: |
+          cd jio
           docker-compose -f docker-compose.yml down
 
       - name: Login to Amazon ECR
