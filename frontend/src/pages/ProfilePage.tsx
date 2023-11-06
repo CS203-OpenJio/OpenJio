@@ -3,13 +3,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { FunctionComponent, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { getStudentByEmail, handleChangeDetails } from "../utils/ProfileController";
+import { Progress } from "../components/ui/progress"
 
 const ChangeProfile: FunctionComponent = () => {
     const [dob, setDob] = useState("");
     const [matricNo, setMatricNo] = useState("");
     const [phone, setPhone] = useState("");
     const [studentId, setStudentId] = useState("");
+    const [score, setScore] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
+
 
 
 
@@ -19,11 +22,13 @@ const ChangeProfile: FunctionComponent = () => {
             try {
                 // make API call
                 const response = await getStudentByEmail();
+                console.log(response)
                 // set state
                 setDob(response.dob);
                 setMatricNo(response.matricNo);
                 setPhone(response.phone);
                 setStudentId(response.id);
+                setScore(response.smuCreditScore);
             } catch (error) {
                 console.error("Error handling the response:", error);
                 alert('Error fetching profile details.');
@@ -56,7 +61,7 @@ const ChangeProfile: FunctionComponent = () => {
         <div className="h-screen bg-floralwhite text-darkslateblue font-ibm-plex-mono">
             <NavBar />
             <div className="flex justify-center items-center h-full">
-                <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md border-4 border-darkslateblue shadow-2xl">
+                <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md border-4 border-darkslateblue">
                     <h2 className="text-2xl mb-6 text-center text-darkslateblue font-semibold">
                         {isEditing ? "Change Profile Details" : "Profile Details"}
                     </h2>
@@ -103,6 +108,12 @@ const ChangeProfile: FunctionComponent = () => {
                             </button>
                         </>
                     )}
+                    <div className="flex flex-row items-center mt-12">
+                        <div>
+                        Student Score:
+                            </div>
+                    <Progress value={score} className="w-[40%]" />
+                    </div>
                 </div>
             </div>
         </div>
