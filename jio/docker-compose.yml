@@ -8,6 +8,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${INTEGRATION_ROOT_PASSWORD}
       MYSQL_DATABASE: ${INTEGRATION_DATABASE}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - my-db-data:/var/lib/mysql
     ports:
