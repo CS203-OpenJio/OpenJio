@@ -37,7 +37,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Start MySQL instance and SpringBoot instance
+      - name: Start MySQL instance
         env:
           INTEGRATION_ROOT_PASSWORD: ${{ secrets.INTEGRATION_ROOT_PASSWORD }}
           INTEGRATION_DATABASE: ${{ env.INTEGRATION_DATABASE }}
@@ -51,7 +51,7 @@ jobs:
           done
           echo 'Database service is up and running!'
 
-      - name: Run Spring Boot application
+      - name: Run unit and integration tests on Spring Boot application 
       # environment variables will be configured to run the Test DB
         env:
           DATABASE_NAME: ${{ env.INTEGRATION_DATABASE }}
@@ -61,19 +61,7 @@ jobs:
         run: |
           cd jio
           echo "Running Spring Boot..."
-          ./mvnw spring-boot:run &
-
-      - name: Run integration and unit tests with MySQL instance
-      # environment variables will be configured to run the Test DB
-        env:
-          DATABASE_NAME: openjio1
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        run: |
-          cd jio
-          echo "Running integration and unit tests..."
-          ./mvn clean install
+          ./mvnw test
 
       - name: Shutdown MySQL service
         if: always()
