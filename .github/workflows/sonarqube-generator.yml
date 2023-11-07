@@ -1,4 +1,4 @@
-name: SonarCloud
+name: Generate Sonarqube report
 on:
   push:
     branches:
@@ -34,4 +34,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=CS203-OpenJio_OpenJio
+        run: |
+          cd jio
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=CS203-OpenJio_OpenJio
