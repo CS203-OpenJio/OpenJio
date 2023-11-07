@@ -35,11 +35,19 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
   
-      - name: Build and analyze
+      - name: Build and scan
+        # Wait for SonarQube to be ready before scanning
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           cd jio
           docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+          echo "Waiting for SonarQube to start..."
+          until $(curl --output /dev/null --silent --head --fail http://localhost:9000/api/system/health); do
+              printf '.'
+              sleep 5
+          done
+          echo "SonarQube is up and running!"
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=OpenJio -Dsonar.projectName='OpenJio'
+
