@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0
+    # env_file:
+    #   - src/main/resources/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${INTEGRATION_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${INTEGRATION_DATABASE}
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    networks:
+      - sonarnet
+    volumes:
+      - my-db-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3307:3306"
+      # make sure that your port connection in mysql is 3307
+
+  sonarqube:
+    image: sonarqube:6.7.1
+    env_file:
+      - src/main/resources/.env
+    environment:
+      SONAR_JDBC_URL: jdbc:mysql://db:3306/${INTEGRATION_DATABASE}
+      SONAR_JDBC_USERNAME: root
+      SONAR_JDBC_PASSWORD: ${INTEGRATION_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+    networks:
+      - sonarnet
+
+networks:
+  sonarnet:
+
+volumes:
+  my-db-data:
+    local:
