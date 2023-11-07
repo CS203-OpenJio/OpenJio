@@ -20,28 +20,19 @@ This repository contains the source code for the OpenJio web application. OpenJi
 
 ## Database Entity-Related Diagram
 
-<img width="295" alt="Screenshot 2023-09-30 at 6 05 05 PM" src="https://github.com/whatron/OpenJio/assets/110993317/4bcd26da-90e8-43c7-9ba6-b4f424290ee7">
+<img width="295" alt="Database Entity-Related Diagram" src="frontend/public/openjio-ER-diagram.jpg">
 
-## Getting Started
+## Workflow Diagram
 
-To set up the application locally, follow these steps:
+This includes our CI/CD workflow and AWS architecture diagram.
 
-1. Clone the repository: `git clone https://github.com/whatron/OpenJio`
-
-2. Install the necessary dependencies for the frontend by running:
-   `npm install`
-
-3. Start the frontend application using:
-   `npm start`
-
-4. Start the backend application using:
-   `mvn spring-boot:run`
-
-5. Access the application in your web browser at `http://localhost:8080`.
+<img width="700" alt="OpenJio Workflow Diagram" src="frontend/public/workflow-diagram.png">
 
 ## Documentation
 
-For detailed documentation on the API endpoints and usage, refer to the API documentation by accessing this url `https://docs.google.com/document/d/1eeJ0TZTl-MzYSANJ1iyN6hLkrPT4yIeG_9rS9Ssncpw/edit?usp=sharing`.
+For detailed documentation on the API endpoints and usage, refer to our Swagger API documentation linked below.
+
+http://openjio-loadbalancer-backend-824860381.ap-southeast-1.elb.amazonaws.com/swagger-ui/index.html#/
 
 ## Contributors
 
