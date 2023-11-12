@@ -76,7 +76,9 @@ As our repository contains both our frontend and backend code, please ensure tha
 
 1. Make a copy of the `sample-backend.env` file in the root of the project directory and rename it as `.env`.
 2. Place this file under `/jio/src/main/resources`.
-3. Fill in the needed variables which have `[]` as shown in the screenshot below.
+3. Uncomment lines 6-7 in the `/jio/docker-compose.yml` file. This is so that the Docker Compose file recognises that you are now importing the environment variables from the `.env` file you inserted.
+<img width="300" alt="OpenJio docker compose file" src="frontend/public/dockercompose.png">
+4. Fill in the needed variables which have `[]` as shown in the screenshot below.
 
 - You will need to create an outlook account or use an existing outlook account
 - AWS access key, secret key and S3 bucket name have to be created and filled in
