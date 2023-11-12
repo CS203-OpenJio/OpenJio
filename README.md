@@ -70,14 +70,13 @@ As our repository contains both our frontend and backend code, please ensure tha
 2. Place this file under `/frontend`.
 3. Edit the `REACT_APP_BASE_URL` variable to `localhost:8080` or whichever port you are running your backend application on.
 
-<img width="300" alt="OpenJio frontend .env" src="frontend/public/frontendenv.png">
+<img width="275" alt="OpenJio frontend .env" src="frontend/public/frontendenv.png">
 
 ## Configuring Backend Environment Variables 
 
 1. Make a copy of the `sample-backend.env` file in the root of the project directory and rename it as `.env`.
 2. Place this file under `/jio/src/main/resources`.
 3. Uncomment lines 6-7 in the `/jio/docker-compose.yml` file. This is so that the Docker Compose file recognises that you are now importing the environment variables from the `.env` file you inserted.
-<img width="300" alt="OpenJio docker compose file" src="frontend/public/dockercompose.png">
 4. Fill in the needed variables which have `[]` as shown in the screenshot below.
 
 - You will need to create an outlook account or use an existing outlook account
@@ -85,7 +84,8 @@ As our repository contains both our frontend and backend code, please ensure tha
 - The database username and password can be configured based on your local mySQL database instance
 - The integration test database password can be any password you wish to set
 
-<img width="300" alt="OpenJio backend .env" src="frontend/public/backendenv.png">
+<img width="300" alt="OpenJio docker compose file" src="frontend/public/dockercompose.png">
+<img width="400" alt="OpenJio backend .env" src="frontend/public/backendenv.png">
 
 ## Frontend Installation
 To start, make a copy of the repository with the `git clone` command or download the repository by clicking, `Code -> Download Zip` on the Github Repository Page.
@@ -107,7 +107,7 @@ npm start
 Nice! You should be able to view our frontend application on http://localhost:3006
 
 ## Backend Installation
-To start, ensure  it is recommended to open our repository on a second window so as to separate the frontend and backend application. Next, you will need to `cd` into the backend directory. Open up your terminal and run the following command:
+To start, it is recommended to open our repository on a second window to separate the frontend and backend application. Next, you will need to `cd` into the backend directory. Open up your terminal and run the following command:
 ```bash
 # change directory into backend
 cd jio
