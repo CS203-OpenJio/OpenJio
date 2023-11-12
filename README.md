@@ -126,6 +126,30 @@ Once you ensure you are in the correct directory (/jio) and configured the envir
 
 Great! Our backend application is now running on http://localhost:8080. You should be able to navigate our application as intended!
 
+## Running our second Database used for testing (optional)
+
+This database. 
+
+Ensure your Spring Boot application has stopped running first and that you have Docker installed in your computer. Next, run the following commands.
+```bash
+# change directory into backend if you haven't
+cd jio
+# run our docker compose mySQL database instance
+docker compose up
+```
+Open up a second terminal and run the following commands:
+```bash
+# change directory into backend if you haven't
+cd jio
+# run our unit and integration tests
+./mvnw test
+```
+To stop the database instance once you're done:
+```bash
+# stop running the instance
+docker compose down
+```
+
 ## Additional things to note
 
 Do take note that this project uses the following ports on your localhost:
