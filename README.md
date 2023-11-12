@@ -4,33 +4,30 @@ This repository contains the source code for the OpenJio web application. OpenJi
 
 ## Features
 
-1. **Central Hub to Navigate and Discover New Events**
+- **Central Hub to Navigate and Discover New Events:** A vibrant digital marketplace where users can effortlessly explore a diverse array of events.
 
-A vibrant digital marketplace where users can effortlessly explore a diverse array of events.
 
-2. **Student Score System**
+- **Student Score System:** Each student has their own score which is calculated behind the scenes based off their event attendance rates.
 
-Each student has their own score which is calculated behind the scenes based off their event attendance rates.
 
-3. **Customised Queue System with 4 Unique Algorithms**
+- **Customised Queue System with 4 Unique Algorithms:** Simplify the event registration process with our intuitive user interface. Most importantly, we incorporated a queue system depending on the type of event and have implemented 4 different queuing algorithms.
 
-Simplify the event registration process with our intuitive user interface. Most importantly, we incorporated a queue system depending on the type of event and have implemented 4 different queuing algorithms.
 
-4. **Event Creation for University Clubs and Societies**
+- **Event Creation for University Clubs and Societies:** Organisers can easily set up event details. They can also specify registration requirements, capacity limits, their queuing algorithm of choice and a filter to accept students based off their student score.
 
-Organisers can easily set up event details. They can also specify registration requirements, capacity limits, their queuing algorithm of choice and a filter to accept students based off their student score.
 
-5. **Generated Student Schedule for Signed Up Events**
+- **Generated Student Schedule for Signed Up Events:** An event schedule table is generated to indicate students' rejected, pending and accepted events.
 
-An event schedule table is generated to indicate students' rejected, pending and accepted events.
+
+- **JWT Authentication and Password Reset:** Upon login, our application provides you with a JWT token which is used to secure our API endpoints. We also have an email service to send you a token to reset your password. All these are implemented just to provide our users with a safe and secure application, so you can enhance your campus experience with ease!
 
 ## Technologies Used
 
-- **Frontend:** React (JavaScript + TypeScript) and styled with Tailwind CSS, shadcn & MUI libraries
+**Frontend:** React (JavaScript + TypeScript) and styled with Tailwind CSS, shadcn & MUI libraries
 
-- **Backend:** Spring Boot
+**Backend:** Spring Boot
 
-- **Database:** MySQL
+**Database:** MySQL
 
 ## Deployment Tools
 
@@ -47,7 +44,7 @@ An event schedule table is generated to indicate students' rejected, pending and
 
 ## Database Entity-Related Diagram
 
-<img width="295" alt="Database Entity-Related Diagram" src="frontend/public/openjio-ER-diagram.jpg">
+<img width="375" alt="Database Entity-Related Diagram" src="frontend/public/openjio-ER-diagram.jpg">
 
 ## Workflow Diagram
 
@@ -57,9 +54,7 @@ This diagram consists of our CI/CD workflow and AWS architecture.
 
 ## Documentation
 
-For detailed documentation on the API endpoints and usage, refer to our Swagger API documentation linked below.
-
-http://openjio-loadbalancer-backend-824860381.ap-southeast-1.elb.amazonaws.com/swagger-ui/index.html#/
+For documentation on the API endpoints and usage, refer to our Swagger API documentation.
 
 ## Contributors
 
