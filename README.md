@@ -126,7 +126,7 @@ Once you ensure you are in the correct directory (/jio) and configured the envir
 
 Great! Our backend application is now running on http://localhost:8080. You should be able to navigate our application as intended!
 
-## Running our second Database used for testing (optional)
+## Running our unit and integration tests (optional)
 
 This database. 
 
