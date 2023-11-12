@@ -31,6 +31,8 @@ This repository contains the source code for the OpenJio web application. OpenJi
 
 **Database:** MySQL
 
+<p align="left"> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> <a href="https://spring.io/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="40" height="40"/> </a> <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/> </a> <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> </a> </p>
+
 ## Deployment and CI/CD
 
 **Continuous Integration:**
@@ -44,25 +46,23 @@ This repository contains the source code for the OpenJio web application. OpenJi
 - Docker
 - AWS services
 
-## Database Entity-Related Diagram
+<p align="left"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/> </a> <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/> </a> <a href="https://postman.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a> </p>
+
+# Database Entity-Related Diagram
 
 <img width="375" alt="Database Entity-Related Diagram" src="frontend/public/openjio-ER-diagram.jpg">
 
-## Workflow Diagram
+# Workflow Diagram
 
 This diagram consists of our CI/CD workflow and AWS architecture.
 
 <img width="700" alt="OpenJio Workflow Diagram" src="frontend/public/workflow-diagram.png">
 
-## Documentation
-
-For documentation on the API endpoints and usage, refer to our Swagger API documentation.
-
 # Running our Application
 
 As our repository contains both our frontend and backend code, please ensure that you run both applications separately (ideally on different windows).
 
-## Configuring Frontend and Backend Environment Variables
+## Configuring Backend Environment Variables
 
 This section covers how to configure your environment files properly to ensure a smooth installation.
 
@@ -77,6 +77,8 @@ This section covers how to configure your environment files properly to ensure a
 3. Edit the renamed `.env` file's MAIL_USERNAME variable to your new email address, and MAIL_PASSWORD variable to the password for your email account.
 
 <img width="300" alt="OpenJio Workflow Diagram" src="frontend/public/">
+
+## Configuring Frontend Environment Variables 
 
 ## Frontend Installation
 To start, make a copy of the repository with the `git clone` command or download the repository by clicking, `Code -> Download Zip` on the Github Repository Page.
@@ -110,7 +112,7 @@ Once you ensure you are in the correct directory (/jio) and configured the envir
 ```
 Great! Our backend application is now running on localhost:8080. You should be able to navigate our application as intended!
 
-## Additional things to note for installation
+## Additional things to note
 
 Do also take note that this project uses the following ports on your localhost:
 - `:3006` 
@@ -122,6 +124,16 @@ This means if you have other web/system apps running on them, you might need to 
 
 For any installation-related questions, you may direct them to @Shinkeishi on GitHub.
 
-## Contributors
+# Documentation
+
+For documentation on the API endpoints and usage, refer to our Swagger API documentation.
+
+# Contributors
 
 Done by Ashley, Ron, Pramit, Ignatius, Darius and Justin
+
+Frontend Team: Ron (Lead), Ashley, Pramit
+Backend Team: Darius (Lead), Justin, Ignatius
+DevOps: Ashley
+Project Manager: Pramit
+Scrum Master: Ron
