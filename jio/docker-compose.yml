@@ -3,8 +3,8 @@ version: '3'
 services:
   db:
     image: mysql:8.0
-    env_file:
-      - src/main/resources/.env
+    # env_file:
+    #   - src/main/resources/.env
     environment:
       MYSQL_ROOT_PASSWORD: ${INTEGRATION_ROOT_PASSWORD}
       MYSQL_DATABASE: ${INTEGRATION_DATABASE}
