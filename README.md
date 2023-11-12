@@ -6,18 +6,13 @@ This repository contains the source code for the OpenJio web application. OpenJi
 
 - **Central Hub to Navigate and Discover New Events:** A vibrant digital marketplace where users can effortlessly explore a diverse array of events.
 
-
 - **Student Score System:** Each student has their own score which is calculated behind the scenes based off their event attendance rates.
-
 
 - **Customised Queue System with 4 Unique Algorithms:** Simplify the event registration process with our intuitive user interface. Most importantly, we incorporated a queue system depending on the type of event and have implemented 4 different queuing algorithms.
 
-
 - **Event Creation for University Clubs and Societies:** Organisers can easily set up event details. They can also specify registration requirements, capacity limits, their queuing algorithm of choice and a filter to accept students based off their student score.
 
-
 - **Generated Student Schedule for Signed Up Events:** An event schedule table is generated to indicate students' rejected, pending and accepted events.
-
 
 - **JWT Authentication and Password Reset:** Upon login, our application provides you with a JWT token which is used to secure our API endpoints. We also have an email service to send you a token to reset your password. All these are implemented just to provide our users with a safe and secure application, so you can enhance your campus experience with ease!
 
@@ -72,7 +67,7 @@ As our repository contains both our frontend and backend code, please ensure tha
 
 <img width="275" alt="OpenJio frontend .env" src="frontend/public/frontendenv.png">
 
-## Configuring Backend Environment Variables 
+## Configuring Backend Environment Variables
 
 1. Make a copy of the `sample-backend.env` file in the root of the project directory and rename it as `.env`.
 2. Place this file under `/jio/src/main/resources`.
@@ -80,7 +75,7 @@ As our repository contains both our frontend and backend code, please ensure tha
 4. Fill in the needed variables which have `[]` as shown in the screenshot below.
 
 - You will need to create an outlook account or use an existing outlook account
-- AWS access key, secret key and S3 bucket name have to be created and filled in
+- AWS access key, secret key, region and S3 bucket name have to be created and filled in
 - The database username and password can be configured based on your local mySQL database instance
 - The integration test database password can be any password you wish to set
 
@@ -88,44 +83,57 @@ As our repository contains both our frontend and backend code, please ensure tha
 <img width="400" alt="OpenJio backend .env" src="frontend/public/backendenv.png">
 
 ## Frontend Installation
+
 To start, make a copy of the repository with the `git clone` command or download the repository by clicking, `Code -> Download Zip` on the Github Repository Page.
+
 ```bash
 git clone https://github.com/CS203-OpenJio/OpenJio
 ```
+
 After cloning the project, you will need to `cd` into the frontend directory. Open up your terminal and run the following command:
+
 ```bash
 # change directory into frontend
 cd frontend
 ```
+
 Once you ensure you are in the correct directory (/frontend) and configured the environment variables, run the following commands to start our application:
+
 ```bash
 # install our npm libraries
 npm install
 # run our frontend application on port 3006
 npm start
 ```
+
 Nice! You should be able to view our frontend application on http://localhost:3006
 
 ## Backend Installation
+
 To start, it is recommended to open our repository on a second window to separate the frontend and backend application. Next, you will need to `cd` into the backend directory. Open up your terminal and run the following command:
+
 ```bash
 # change directory into backend
 cd jio
 ```
+
 Once you ensure you are in the correct directory (/jio) and configured the environment variables, run the following command:
+
 ```bash
 # run our backend application on port 8080
 ./mvnw spring-boot:run
 ```
+
 Great! Our backend application is now running on localhost:8080. You should be able to navigate our application as intended!
 
 ## Additional things to note
 
 Do take note that this project uses the following ports on your localhost:
-- `:3006` 
+
+- `:3006`
 - `:3306`
 - `:3307` (our Integration Test database)
-- `:8080` 
+- `:8080`
 
 This means if you have other web/system apps running on them, you might need to stop the apps running on the respective ports.
 
