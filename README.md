@@ -124,7 +124,7 @@ Once you ensure you are in the correct directory (/jio) and configured the envir
 ./mvnw spring-boot:run
 ```
 
-Great! Our backend application is now running on localhost:8080. You should be able to navigate our application as intended!
+Great! Our backend application is now running on http://localhost:8080. You should be able to navigate our application as intended!
 
 ## Additional things to note
 
@@ -132,7 +132,7 @@ Do take note that this project uses the following ports on your localhost:
 
 - `:3006`
 - `:3306`
-- `:3307` (our Integration Test database)
+- `:3307` (our integration test database)
 - `:8080`
 
 This means if you have other web/system apps running on them, you might need to stop the apps running on the respective ports.
