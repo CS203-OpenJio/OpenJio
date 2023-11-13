@@ -113,7 +113,6 @@ public class StudentControllerTest {
         jwtToken = responseBody.getToken();
 
         // check that the jwtToken is not null
-        System.out.println(jwtToken);
         assertNotNull(jwtToken);
     }
 

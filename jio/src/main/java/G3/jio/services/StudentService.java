@@ -60,11 +60,6 @@ public class StudentService {
         return studentRepository.findAllByName(name);
     }
 
-    // // save a student
-    // public Student addStudent(Student newStudent) {
-    // return studentRepository.save(newStudent);
-    // }
-
     // update student
     public Student updateStudent(Long id, StudentDTO studentDTO) {
         Optional<Student> o = studentRepository.findById(id);
@@ -90,7 +85,6 @@ public class StudentService {
     }
 
     // get events by student email
-    // TODO
     public List<Event> getEventByStudentEmail(String email) {
 
         Student student = getStudentByEmail(email);
@@ -110,8 +104,6 @@ public class StudentService {
 
         List<EventRegistration> registrations = student.getRegistrations();
         List<CustomResponseDTO> events = new ArrayList<>();
-
-        System.out.println("---------------------");
 
         for (EventRegistration registeredEvent : registrations) {
 

@@ -54,32 +54,6 @@ public class EventService {
         return events;
     }
 
-    // // save a event
-    // public Event addEvent(EventDTO eventDTO) {
-
-    // System.out.println(eventDTO.getName());
-    // Event event = eventMapToEntity(eventDTO);
-    // return eventRepository.save(event);
-    // }
-
-    // private Event eventMapToEntity(EventDTO eventDTO) {
-    // ModelMapper mapper = new ModelMapper();
-
-    // Event event = mapper.map(eventDTO, Event.class);
-
-    // // settle datetime
-    // DateTimeFormatter formatter =
-    // DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    // LocalDateTime startDateTime =
-    // LocalDateTime.parse(eventDTO.getStartDateTime(), formatter);
-    // LocalDateTime endDateTime = LocalDateTime.parse(eventDTO.getEndDateTime(),
-    // formatter);
-    // event.setStartDateTime(startDateTime);
-    // event.setEndDateTime(endDateTime);
-
-    // return event;
-    // }
-
     // update event
     public Event updateEvent(Long eventId, EventDTO eventDTO, MultipartFile imageFile) {
 

@@ -1,7 +1,5 @@
 package G3.jio.DTO;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +16,6 @@ public class EventDTO {
     private Long organiserId;
     private Long eventId;
     private String venue;
-    // private String image;
     private String algo;
     private String description;
 

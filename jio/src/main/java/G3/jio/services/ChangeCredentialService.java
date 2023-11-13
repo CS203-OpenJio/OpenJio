@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChangeCredentialService {
 
-    final private StudentRepository studentRepository;
-    final private OrganiserRepository organiserRepository;
-    final private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StudentRepository studentRepository;
+    private final OrganiserRepository organiserRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ResponseEntity<String> replacePassword(String email, String newPassword, Character userType) {
         if (userType == 'S') {
@@ -45,46 +45,4 @@ public class ChangeCredentialService {
         organiserRepository.saveAndFlush(organiser);
         return new ResponseEntity<>("Successfully changed password", HttpStatus.OK);
     }
-
-    // ******* WILL NOT ALLOW CHANGE OF EMAIL ********
-    // public void validateNewEmail(String newEmail, Character userType) {
-
-    // if (!userType.equals('S') && !userType.equals('O')) {
-    // throw new IllegalArgumentException("Invalid user type");
-    // } else if ((userType.equals('O') &&
-    // organiserRepository.existsByEmail(newEmail))
-    // || userType.equals('S') && studentRepository.existsByEmail(newEmail)) {
-    // throw new AlreadyExistsException("Username");
-    // }
-
-    // }
-
-    // public ResponseEntity<String> replaceUsername(String oldUsername, String
-    // newUsername, Character userType) {
-    // if (userType == 'C') {
-    // Student Student = StudentRepository.findByUsername(oldUsername)
-    // .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_ERROR));
-    // return replaceStudentUsername(Student, newUsername);
-    // } else {
-    // Organiser Organiser = OrganiserRepository.findByUsername(oldUsername)
-    // .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_ERROR));
-    // return replaceOrganiserUsername(Organiser, newUsername);
-    // }
-    // }
-
-    // public ResponseEntity<String> replaceStudentUsername(Student student, String
-    // newUsername) {
-    // Student.setUsername(newUsername);
-    // StudentRepository.saveAndFlush(Student);
-    // return new ResponseEntity<>("Successfully changed username to " +
-    // newUsername, HttpStatus.OK);
-    // }
-
-    // public ResponseEntity<String> replaceOrganiserUsername(Organiser organiser,
-    // String newUsername) {
-    // Organiser.setUsername(newUsername);
-    // OrganiserRepository.saveAndFlush(organiser);
-    // return new ResponseEntity<>("Successfully changed username to " +
-    // newUsername, HttpStatus.OK);
-    // }
 }

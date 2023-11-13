@@ -79,7 +79,7 @@ public class EventRegistration {
     @JsonIgnore
     public double getEventScore() {
         int signUps = event.getRegistrations().size();
-        double score = signUps / event.getCapacity();
+        double score = (double) signUps / event.getCapacity();
         double minEventScore = 0.3;
         double maxEventScore = 3.0;
         return Math.min(Math.max(minEventScore, score), maxEventScore);

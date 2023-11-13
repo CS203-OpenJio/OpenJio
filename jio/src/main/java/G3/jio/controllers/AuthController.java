@@ -1,9 +1,7 @@
 package G3.jio.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +12,11 @@ import G3.jio.DTO.LoginDTO;
 import G3.jio.DTO.RegistrationDTO;
 import G3.jio.entities.AuthenticationResponse;
 import G3.jio.services.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -33,7 +30,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Incorrect Username or Password")
     })
 
-    @Operation(summary = "Logins user")
+    @Operation(summary = "Logs user in")
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
 

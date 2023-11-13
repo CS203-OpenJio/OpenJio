@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,28 +26,27 @@ import G3.jio.entities.Event;
 import G3.jio.entities.Student;
 import G3.jio.exceptions.EventNotFoundException;
 import G3.jio.services.EventService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import io.swagger.v3.oas.annotations.Operation;
-
 @RestController
 @Controller
-@RequestMapping(path = "api/v1/events")
+@RequestMapping(path = "api/v1")
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
 
     @Operation(summary = "Get all events")
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/events")
     public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.findAllEvent());
     }
 
     // get event by name using %20 in blankspaces
-    @Operation(summary = "Get event by name using %20 in blankspaces")
-    @GetMapping(path = "/name/{name}")
+    @Operation(summary = "Get events by name using %20 in blankspaces")
+    @GetMapping(path = "events?name={name}")
     public ResponseEntity<List<Event>> getEventsbyName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
         List<Event> event = eventService.getEventByName(name);
@@ -58,22 +56,15 @@ public class EventController {
     }
 
     @Operation(summary = "Get event by id")
-    @GetMapping(path = "/id/{id}")
+    @GetMapping(path = "/events/{eventId}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 
         return ResponseEntity.ok(eventService.getEvent(id));
     }
 
-    // // Post event
-    // @ResponseStatus(HttpStatus.CREATED)
-    // @PostMapping
-    // public Event addEvent(@RequestBody EventDTO eventDTO) {
-    // return eventService.addEvent(eventDTO);
-    // }
-
     // update event
     @Operation(summary = "Update event, find by id")
-    @PutMapping(path = "/id/{id}")
+    @PutMapping(path = "/events/{eventId}")
     public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
         if (!eventService.existsById(id)) {
@@ -88,7 +79,7 @@ public class EventController {
 
     // delete event
     @Operation(summary = "Delete event, find by id")
-    @DeleteMapping(path = "/id/{id}")
+    @DeleteMapping(path = "/events/{eventId}")
     public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
         try {
             eventService.deleteEvent(id);
@@ -101,42 +92,8 @@ public class EventController {
 
     // get students signed up for events based on eventId and status
     @Operation(summary = "Get students signed up for events based on eventId and status")
-    @PostMapping(path = "/registrations")
+    @PostMapping(path = "/events/registrations")
     public ResponseEntity<List<Student>> getStudentByEventIdandEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(eventService.getStudentByEventIdandEventRegistrationStatus(queryDTO));
     }
-
-    // //uploads image and assigns it to events based on eventId, any previous image
-    // is deleted
-    // @PostMapping("/upload/{id}")
-    // public ResponseEntity<?>
-    // uploadImageToFIleSystem(@RequestParam("image")MultipartFile file,
-    // @PathVariable Long id) throws IOException {
-    // Long uploadImage = storageService.uploadImageToFileSystem(file);
-    // Event event = eventService.getEvent(id);
-    // if (event.getImage() != null){
-
-    // storageService.deleteImage(event.getImage());
-    // }
-    // event = eventService.updateEventId(id, uploadImage);
-
-    // // if (event == null)
-    // // throw new EventNotFoundException(id);
-
-    // return ResponseEntity.status(HttpStatus.OK)
-    // .body(uploadImage);
-    // }
-
-    // //downloads image based on eventId
-    // @GetMapping("/download/{id}")
-    // public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable Long id)
-    // throws IOException {
-    // Event event = eventService.getEvent(id);
-    // Long imageId =event.getImage();
-    // byte[] imageData=storageService.downloadImageFromFileSystembyId(imageId);
-    // return ResponseEntity.status(HttpStatus.OK)
-    // .contentType(MediaType.valueOf("image/png"))
-    // .body(imageData);
-
-    // }
 }

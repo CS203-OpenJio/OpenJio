@@ -112,7 +112,6 @@ public class OrganiserControllerTest {
         jwtToken = responseBody.getToken();
 
         // check that the jwtToken is not null
-        System.out.println(jwtToken);
         assertNotNull(jwtToken);
     }
 
