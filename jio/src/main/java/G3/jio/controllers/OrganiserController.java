@@ -57,7 +57,9 @@ public class OrganiserController {
     // post event
     @Operation(summary = "Create event")
     @PostMapping(path = "/organisers/events")
-    public ResponseEntity<Event> postEvent(@RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
+    public ResponseEntity<Event> postEvent(@RequestParam("event") String event,
+            @RequestParam(required = false) MultipartFile imageFile)
+            throws JsonMappingException, JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         EventDTO eventDTO = mapper.readValue(event, EventDTO.class);
@@ -73,7 +75,7 @@ public class OrganiserController {
     }
 
     // view events based on organiser email
-    @Operation(summary = "View events based on organiser email")
+    @Operation(summary = "Get events based on organiser email")
     @PostMapping(path = "/organisers/email/events")
     public ResponseEntity<List<Event>> getEventsByOrganiserEmail(@RequestBody QueryDTO queryDTO) {
         return ResponseEntity.ok(organiserService.getEventsByOrganiserEmail(queryDTO.getEmail()));
@@ -87,7 +89,7 @@ public class OrganiserController {
     }
 
     // set event to 'completed'
-    @Operation(summary = "Set event to complete, find event by eventId")
+    @Operation(summary = "Set event to complete")
     @PutMapping(path = "/organisers/events/completion")
     public ResponseEntity<String> completeEvent(@RequestBody QueryDTO queryDTO) {
         organiserService.completeEvent(queryDTO);

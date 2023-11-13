@@ -31,7 +31,7 @@ public class StudentController {
     private final StudentService studentService;
 
     // get student given their id
-    @Operation (summary = "Get student given their id")
+    @Operation(summary = "Get student given their id")
     @GetMapping(path = "/students/{studentId}")
     public ResponseEntity<Student> getStudentById(@PathVariable("id") Long id) {
         Student student = studentService.getStudent(id);
@@ -43,7 +43,7 @@ public class StudentController {
     }
 
     // get student given their email
-    @Operation (summary = "Get student given their email")
+    @Operation(summary = "Get student given their email")
     @PostMapping(path = "/students/email")
     public ResponseEntity<Student> getStudentByEmail(@RequestBody QueryDTO queryDTO) {
 
@@ -51,22 +51,23 @@ public class StudentController {
     }
 
     // get events registered for by student email and status
-    @Operation (summary = "Get events registered for by student email and event registration status")
+    @Operation(summary = "Get events registered by student given their email and event registration status")
     @PostMapping(path = "/students/email/events")
-    public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(@RequestBody QueryDTO queryDTO) {
+    public ResponseEntity<List<CustomResponseDTO>> getEventByStudentEmailAndEventRegistrationStatus(
+            @RequestBody QueryDTO queryDTO) {
 
         return ResponseEntity.ok(studentService.getEventByStudentEmailAndEventRegistrationStatus(queryDTO));
     }
 
     // get all students
-     @Operation (summary = "Get all students")
+    @Operation(summary = "Get all students")
     @GetMapping(path = "/students")
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     // get all students with name
-    @Operation (summary = "Get all students with name")
+    @Operation(summary = "Get students given their name")
     @GetMapping(path = "/students?name={name}")
     public ResponseEntity<List<Student>> getStudentsByName(@PathVariable String name) {
         name = name.replaceAll("%20", " ");
@@ -74,7 +75,7 @@ public class StudentController {
     }
 
     // delete student
-    @Operation (summary = "Delete student by Id")
+    @Operation(summary = "Delete student by Id")
     @DeleteMapping(path = "/students/{studentId}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
@@ -82,7 +83,7 @@ public class StudentController {
     }
 
     // update student with the id
-    @Operation (summary = "Update student by Id")
+    @Operation(summary = "Update student by Id")
     @PutMapping(path = "/students/{studentId}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
         return ResponseEntity.ok(studentService.updateStudent(id, studentDTO));
