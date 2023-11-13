@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 const getEvents = async (id: string) => {
     try {
-        const response = await JWT.get(`/api/v1/events/id/${id}`);
+        const response = await JWT.get(`/api/v1/events/${id}`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -28,7 +28,7 @@ const handleChangeEvent = async (id: string, event: {}) => {
             delete event["image"];
         }
         formData.append("event", JSON.stringify(event));
-        const response = await JWT.put(`/api/v1/events/id/${id}`, formData);
+        const response = await JWT.put(`/api/v1/events/${id}`, formData);
         // if response is successful, return data
         if (response.status === 200) {
             toast.success('Event details updated successfully!');
@@ -42,7 +42,7 @@ const handleChangeEvent = async (id: string, event: {}) => {
 
 const deleteEvent = async (id: string) => {
     try {
-        const response = await JWT.delete(`/api/v1/events/id/${id}`)
+        const response = await JWT.delete(`/api/v1/events/${id}`)
         if (response.status === 200) {
             toast.success('Event deleted successfully');
         } else {

@@ -34,7 +34,7 @@ const getParticipants = async (id: string) => {
 const allocateSlots = async (id: string, algo:string | null) => {
     console.log(id)
     try {
-        await JWT.post(`/api/v1/organisers/events/allocation`, {eventId: id, algo: algo}); 
+        await JWT.put(`/api/v1/organisers/events/allocation`, {eventId: id, algo: algo}); 
     } catch (error:any) {
         console.log(error);
         if (error.response.data.details) {
@@ -57,7 +57,7 @@ const getStatusParticipants = async (id: string, status:string) => {
 
 const closeEvent = async (id: string) => {
     try {
-        await JWT.post(`/api/v1/organisers/events/complete`, {eventId: id});
+        await JWT.put(`/api/v1/organisers/events/complete`, {eventId: id});
     } catch (error) {
         console.log(error);
         throw new Error("Error closing event.");

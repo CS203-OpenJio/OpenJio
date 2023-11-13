@@ -2,20 +2,20 @@
 import JWT from "./JWT";
 
 const getAllEvents = async () => {
-	const response = await JWT.get(`/api/v1/events/all`);
+	const response = await JWT.get(`/api/v1/events`);
 
 	return response.data;
 };
 
 const getEvent = async (eventId: string | null) => {
-	const response = await JWT.get(`/api/v1/events/id/${eventId}`)
+	const response = await JWT.get(`/api/v1/events/${eventId}`)
 
 	console.log(response.data);
 	return response.data;
 };
 
 const registerEvent = async (eventId: string | null) => {
-	await JWT.post("/api/v1/register-events", {
+	await JWT.post("/api/v1/registrations", {
 		eventId: eventId,
 	}).catch(
 		(err) => {
@@ -53,7 +53,7 @@ const createEvent = async (body: {}) => {
 				formData.append("event", JSON.stringify(body));
 				console.log(image)
 				console.log(JSON.stringify(body))
-				await JWT.post("/api/v1/organisers/create-event", formData).catch(
+				await JWT.post("/api/v1/organisers/events", formData).catch(
 					(err) => {
 						throw err;
 					}

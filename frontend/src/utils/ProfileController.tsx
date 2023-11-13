@@ -31,7 +31,7 @@ const handleChangeDetails = async (studentId:String, matricNo:String, phone:Stri
     }
     try {
         // make API call
-        const response = await JWT.put(`/api/v1/students/id/${studentId}`, {
+        const response = await JWT.put(`/api/v1/students/${studentId}`, {
             matricNo: matricNo,
             phone: phone,
             dob: dob,
