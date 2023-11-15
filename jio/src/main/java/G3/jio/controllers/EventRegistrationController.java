@@ -53,8 +53,8 @@ public class EventRegistrationController {
     // delete
     @Operation(summary = "Delete registration by Id")
     @DeleteMapping(path = "/registrations/{registrationId}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
-        eventRegistrationService.deleteEventRegistration(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long registrationId) {
+        eventRegistrationService.deleteEventRegistration(registrationId);
 
         return ResponseEntity.ok("Registration deleted");
     }

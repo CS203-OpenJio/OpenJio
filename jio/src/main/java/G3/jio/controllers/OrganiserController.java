@@ -69,7 +69,7 @@ public class OrganiserController {
     // delete
     @Operation(summary = "Delete organiser by organiserId")
     @DeleteMapping(path = "/organisers/{organiserId}")
-    public ResponseEntity<String> deleteOrganiserById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteOrganiserById(@PathVariable("organiserId") Long id) {
         organiserService.deleteOrganiser(id);
         return ResponseEntity.ok("Organiser deleted");
     }

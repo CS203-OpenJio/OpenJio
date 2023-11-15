@@ -33,7 +33,7 @@ public class StudentController {
     // get student given their id
     @Operation(summary = "Get student given their id")
     @GetMapping(path = "/students/{studentId}")
-    public ResponseEntity<Student> getStudentById(@PathVariable("id") Long id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable("studentId") Long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
             throw new UserNotFoundException(" " + id);
@@ -77,15 +77,15 @@ public class StudentController {
     // delete student
     @Operation(summary = "Delete student by Id")
     @DeleteMapping(path = "/students/{studentId}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
+    public ResponseEntity<String> deleteStudent(@PathVariable Long studentId) {
+        studentService.deleteStudent(studentId);
         return ResponseEntity.ok("Student deleted");
     }
 
     // update student with the id
     @Operation(summary = "Update student by Id")
     @PutMapping(path = "/students/{studentId}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
-        return ResponseEntity.ok(studentService.updateStudent(id, studentDTO));
+    public ResponseEntity<Student> updateStudent(@PathVariable Long studentId, @RequestBody StudentDTO studentDTO) {
+        return ResponseEntity.ok(studentService.updateStudent(studentId, studentDTO));
     }
 }

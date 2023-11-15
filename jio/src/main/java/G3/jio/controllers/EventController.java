@@ -57,34 +57,34 @@ public class EventController {
 
     @Operation(summary = "Get event by id")
     @GetMapping(path = "/events/{eventId}")
-    public ResponseEntity<Event> getEvent(@PathVariable Long id) {
+    public ResponseEntity<Event> getEvent(@PathVariable Long eventId) {
 
-        return ResponseEntity.ok(eventService.getEvent(id));
+        return ResponseEntity.ok(eventService.getEvent(eventId));
     }
 
     // update event
     @Operation(summary = "Update event, find by id")
     @PutMapping(path = "/events/{eventId}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
+    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @Valid @RequestParam("event") String event,  @RequestParam(required = false) MultipartFile imageFile) throws JsonMappingException, JsonProcessingException {
 
-        if (!eventService.existsById(id)) {
+        if (!eventService.existsById(eventId)) {
             throw new EventNotFoundException();
         }
 
         ObjectMapper mapper = new ObjectMapper();
         EventDTO eventDTO = mapper.readValue(event, EventDTO.class);
 
-        return ResponseEntity.ok(eventService.updateEvent(id, eventDTO, imageFile));
+        return ResponseEntity.ok(eventService.updateEvent(eventId, eventDTO, imageFile));
     }
 
     // delete event
     @Operation(summary = "Delete event, find by id")
     @DeleteMapping(path = "/events/{eventId}")
-    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
         try {
-            eventService.deleteEvent(id);
+            eventService.deleteEvent(eventId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EventNotFoundException(id);
+            throw new EventNotFoundException(eventId);
         }
 
         return ResponseEntity.ok("Event deleted");
